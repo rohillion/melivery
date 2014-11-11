@@ -1,0 +1,68 @@
+/*Home v1.0--*/
+body{
+    padding-top: 56px;
+}
+
+.content-header{
+    background-color: #fff;
+    border-bottom: 1px solid #eaecf1;
+    margin-bottom: 35px;
+    padding: 10px 0 20px;
+}
+
+.navbar-brand {
+    padding: 14px 15px 5px;
+}
+
+.navbar-nav>li>a {
+    line-height: 26px;
+    font-weight: bold;
+    color: #e8ecf4;
+    font-size: 16px;
+}
+
+.navbar-nav>li>a:hover {
+    line-height: 26px;
+    font-weight: bold;
+    color: #fff;
+    font-size: 16px;
+}
+
+#hello-wrapper{
+    background: #cc3333; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover,  #cc3333 0%, #660000 100%); /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#cc3333), color-stop(100%,#660000)); /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover,  #cc3333 0%,#660000 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover,  #cc3333 0%,#660000 100%); /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover,  #cc3333 0%,#660000 100%); /* IE10+ */
+    background: radial-gradient(ellipse at center,  #cc3333 0%,#660000 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc3333', endColorstr='#660000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    overflow: hidden;
+    -webkit-transition: all 500ms ease-in-out;
+    -moz-transition: all 500ms ease-in-out;
+    -o-transition: all 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
+    -webkit-transform: translateY(-100%);
+    -moz-transform: translateY(-100%);
+    -ms-transform: translateY(-100%);
+    -o-transform: translateY(-100%);
+    transform: translateY(-100%);
+}
+
+#hello-wrapper.show{
+    -webkit-transform: translateY(0%);
+    -moz-transform: translateY(0%);
+    -ms-transform: translateY(0%);
+    -o-transform: translateY(0%);
+    transform: translateY(0%);
+}
+
+.pac-container {
+    z-index: 1031;
+}
