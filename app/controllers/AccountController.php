@@ -24,7 +24,6 @@ class AccountController extends BaseController {
     }
 
     public function login() {
-var_dump(App::environment());exit;
         return View::make("account.login");
     }
 
