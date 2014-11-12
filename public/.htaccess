@@ -39,7 +39,7 @@
 # "access plus 1 week".
 # ----------------------------------------------------------------------
  
-<IfModule mod_expires.c>
+#<IfModule mod_expires.c>
   ExpiresActive on
  
 # Perhaps better to whitelist expires rules? Perhaps.
@@ -86,8 +86,8 @@
   ExpiresByType text/css                  "access plus 1 year"
   ExpiresByType application/javascript    "access plus 1 year"
   
-  <IfModule mod_headers.c>
+  #<IfModule mod_headers.c>
     Header append Cache-Control "public, no-transform"
-  </IfModule>
+  #</IfModule>
  
-</IfModule>
+#</IfModule>
