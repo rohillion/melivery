@@ -39,7 +39,7 @@
 # "access plus 1 week".
 # ----------------------------------------------------------------------
  
-#<IfModule mod_expires.c>
+<IfModule mod_expires.c>
   ExpiresActive on
  
 # Perhaps better to whitelist expires rules? Perhaps.
@@ -86,8 +86,48 @@
   ExpiresByType text/css                  "access plus 1 year"
   ExpiresByType application/javascript    "access plus 1 year"
   
-  #<IfModule mod_headers.c>
+  <IfModule mod_headers.c>
     Header append Cache-Control "public, no-transform"
-  #</IfModule>
+  </IfModule>
  
-#</IfModule>
+</IfModule>
+
+AddType application/javascript         js jsonp
+AddType application/json               json
+ 
+# Audio
+AddType audio/ogg                      oga ogg
+AddType audio/mp4                      m4a f4a f4b
+ 
+# Video
+AddType video/ogg                      ogv
+AddType video/mp4                      mp4 m4v f4v f4p
+AddType video/webm                     webm
+AddType video/x-flv                    flv
+ 
+# SVG
+#   Required for svg webfonts on iPad
+#   twitter.com/FontSquirrel/status/14855840545
+AddType     image/svg+xml              svg svgz
+AddEncoding gzip                       svgz
+ 
+# Webfonts
+AddType application/vnd.ms-fontobject  eot
+AddType application/x-font-ttf         ttf ttc
+AddType font/opentype                  otf
+AddType application/x-font-woff        woff
+ 
+# Assorted types
+AddType image/x-icon                        ico
+AddType image/webp                          webp
+AddType text/cache-manifest                 appcache manifest
+AddType text/x-component                    htc
+AddType application/xml                     rss atom xml rdf
+AddType application/x-chrome-extension      crx
+AddType application/x-opera-extension       oex
+AddType application/x-xpinstall             xpi
+AddType application/octet-stream            safariextz
+AddType application/x-web-app-manifest+json webapp
+AddType text/x-vcard                        vcf
+AddType application/x-shockwave-flash       swf
+AddType text/vtt                            vtt
