@@ -85,5 +85,9 @@
 # CSS and JavaScript
   ExpiresByType text/css                  "access plus 1 year"
   ExpiresByType application/javascript    "access plus 1 year"
+  
+  <IfModule mod_headers.c>
+    Header append Cache-Control "public, no-transform"
+  </IfModule>
  
 </IfModule>
