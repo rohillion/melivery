@@ -24,6 +24,8 @@ class CacheDecorator extends AbstractCityDecorator {
 
         if( $this->cache->has($key) )
         {
+            echo '<pre>', var_dump('entra'), '</pre>';
+            exit;
             return $this->cache->get($key);
         }
 
