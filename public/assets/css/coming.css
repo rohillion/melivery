@@ -8,8 +8,10 @@
     font-family: 'Fontin-Italic';
     src: url('../fonts/Fontin-Italic.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }
-
-#hello-wrapper{
+body,html{
+    height: 100%;
+}
+body{
     background: #cc3333; /* Old browsers */
     background: -moz-radial-gradient(center, ellipse cover,  #cc3333 0%, #660000 100%); /* FF3.6+ */
     background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#cc3333), color-stop(100%,#660000)); /* Chrome,Safari4+ */
@@ -18,13 +20,6 @@
     background: -ms-radial-gradient(center, ellipse cover,  #cc3333 0%,#660000 100%); /* IE10+ */
     background: radial-gradient(ellipse at center,  #cc3333 0%,#660000 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc3333', endColorstr='#660000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    z-index: 1030;
-    overflow: hidden;
 }
 
 .pac-container {
