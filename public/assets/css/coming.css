@@ -1,0 +1,140 @@
+/*Home v1.0--*/
+
+@font-face {
+    font-family: 'Fontin-Regular';
+    src: url('../fonts/Fontin-Regular.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+@font-face {
+    font-family: 'Fontin-Italic';
+    src: url('../fonts/Fontin-Italic.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+
+#hello-wrapper{
+    background: #cc3333; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover,  #cc3333 0%, #660000 100%); /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#cc3333), color-stop(100%,#660000)); /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover,  #cc3333 0%,#660000 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover,  #cc3333 0%,#660000 100%); /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover,  #cc3333 0%,#660000 100%); /* IE10+ */
+    background: radial-gradient(ellipse at center,  #cc3333 0%,#660000 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc3333', endColorstr='#660000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    overflow: hidden;
+}
+
+.pac-container {
+    z-index: 1031;
+}
+
+/*****************************/
+/*        FORM LARGE         */
+/*****************************/
+
+.form-large{
+    font-size: 40px;
+}
+
+.form-large .control-label{
+    padding: 20px;
+    line-height: normal;
+    text-align: left;
+}
+
+.form-large input[type=text], .form-large  button, .form-large  select{
+    font-size: 40px;
+    height: auto;
+    line-height: normal;
+}
+
+.form-large input[type=text], .form-large  button{
+    padding: 20px;
+}
+
+.form-large  select{
+    padding: 19px;
+    padding-right: 0;
+}
+
+.form-large input[type=text].input-sm, .form-large  button.btn-sm, .form-large  select.input-sm{
+    font-size: 25px;
+}
+
+.form-large input[type=text].input-md, .form-large  button.btn-md, .form-large  select.input-md{
+    font-size: 30px;
+}
+
+.form-large input[type=text], .form-large  select{
+    display: block;
+    margin: 0;
+    border: none;
+    border-bottom: 2px solid rgba(0,0,0,0.2);
+    background-color: transparent;
+    color: #000;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    border-radius: 0;
+}
+
+.form-large .input-group .input-group-addon{
+    font-size: 40px;
+    font-weight: bold;
+    padding: 20px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    border-radius: 50px;
+}
+
+.form-large .input-group button{
+    border: none;
+}
+/***** form large *****/
+
+.content-header-fixed{
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1029;
+}
+
+.container-with-padding-top{
+    padding-top: 122px;
+}
+
+.btn.btn-link{
+    box-shadow:inherit;
+}
+
+.bottombar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color:#fff;
+    font-size: 13px;
+}
+
+#hello-wrapper .btn-link, #hello-wrapper .btn-link:hover, #hello-wrapper .btn-link:focus, #hello-wrapper .btn-link:active{
+    color: #fff;
+}
+
+.coming-soon-label{
+    font-size: 28px;
+    font-family: 'Fontin-Italic';
+    color: #6f0505;
+}
+
+.melivery-logo{
+    font-size: 72px;
+    font-family: 'Fontin-Regular';
+    color: #fff;
+    text-shadow: 0px 1px 3px #333;
+}
+
+.flags img{
+    padding: 10px;
+}
