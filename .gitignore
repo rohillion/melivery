@@ -6,4 +6,5 @@ composer.lock
 .DS_Store
 Thumbs.db
 /nbproject
+/app/storage/cache/asset-pipeline
 /vendor

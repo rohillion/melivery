@@ -24,12 +24,10 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
-
-	'local' => array('Rodri-PC','NCPAR496784'),
-	//'production' => array('Rodri-PC'),
-
-));
+$env = $app->detectEnvironment(function()
+{
+    return getenv('APP_ENV') ?: 'production';
+});
 
 /*
 |--------------------------------------------------------------------------
