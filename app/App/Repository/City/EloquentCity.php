@@ -8,7 +8,7 @@ class EloquentCity extends RepositoryAbstract implements CityInterface {
 
     public function byCountryCode($countryCode) {
         return $this->entity->where('country_code', $countryCode)
-                        ->take(10)
+                        //->take(10)
                         ->get();
     }
 
