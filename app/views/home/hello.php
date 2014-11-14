@@ -25,11 +25,36 @@
                         </div>
 
                         <div class="col-xs-5">
-                            <select id="city" style="border:none;height: 90px;font-size: 30px;" class="form-control">
-                                <?php foreach($cities as $city){?>
-                                <option id="<?php echo $city->geonameid ?>" value="<?php echo $city->asciiname ?>"><?php echo $city->name ?></option>
-                                <?php }?>
-                            </select>
+
+
+                            <div id="city-select" class="pull-right">
+
+                                <div href="#" id="city-mask" class="filter-mask popover-trigger">
+
+                                    <div class="mask pull-left">Ciudad</div>
+
+                                    <div class="caret-wrapp pull-left">
+                                        <span class="caret"></span>
+                                    </div>
+
+                                    <div id="city-list" class="popover-wrapper">
+                                        <ul class="list-group organized-list">
+
+                                            <span role="presentation" class="dropdown-header">Seleccione ciudad</span>
+
+                                            <?php foreach ($cities as $city) { ?>
+                                                <li class="list-group-item">
+                                                    <a id="<?php echo $city->geonameid ?>" data-value="<?php echo $city->asciiname ?>" class="city-item" href="#"><?php echo $city->name ?></a>
+                                                </li>
+                                            <?php } ?>
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         </div>
 
                     </div>

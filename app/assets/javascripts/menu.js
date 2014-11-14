@@ -3,58 +3,9 @@ var menu = {
         this.popover();
         this.productConfig();
         this.checkRules();
+        main.popover();
     },
     popover: function() {
-
-        var popoverOld = false;
-
-        $(document).on('click', 'body', function(e) {
-
-            if ($('.popover').has(e.target).length === 0) {
-
-                var popoverNew = $(e.target).closest('.popover-trigger');
-
-                if ($(popoverNew).length === 0) {
-
-                    $(popoverOld).popover('hide');
-                    popoverOld = false;
-                } else {
-
-                    if (!popoverOld) {
-
-                        popoverNew.popover('show');
-                        popoverOld = popoverNew;
-
-                    } else {
-
-                        if ($(popoverOld).is(popoverNew)) {
-
-                            $(popoverOld).one('hidden.bs.popover', function() {
-
-                                popoverOld = false;
-                            });
-
-                            $(popoverOld).popover('hide');
-
-                        } else {
-
-                            $(popoverOld).one('hidden.bs.popover', function() {
-
-                                $(popoverNew).one('shown.bs.popover', function() {
-                                    popoverOld = popoverNew;
-                                });
-
-                                $(popoverNew).popover('show');
-                            });
-
-                            $(popoverOld).popover('hide');
-                        }
-                    }
-                }
-
-            }
-
-        });
 
         $('body').on('hidden.bs.popover', function() {
             $('.popover:not(.in)').hide().detach();

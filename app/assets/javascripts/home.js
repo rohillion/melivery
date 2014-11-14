@@ -1,8 +1,15 @@
 var home = {
     init: function() {
-
+        main.popover();
         //google.maps.event.addDomListener(window, 'load', this.geoPosition());
         google.maps.event.addDomListener(window, 'load', this.codeAddress());
+
+        $("#city-mask").popover({
+            html: true,
+            content: $('#city-list').html(),
+            placement: 'bottom',
+            trigger: 'manual'
+        });
     },
     geoPosition: function() {//AUTOCOMPLETE
 
@@ -33,7 +40,7 @@ var home = {
         $('#search_food').on('click', function() {
             console.log(country.val());
             //geocoder.geocode({'address': address.val(), 'region': 'AR', 'componentRestrictions': {'locality': 'capital federal'}}, function(results, status) {
-            geocoder.geocode({'address': address.val(), 'componentRestrictions': {'locality': city.val(),'country': country.val()}}, function(results, status) {
+            geocoder.geocode({'address': address.val(), 'componentRestrictions': {'locality': city.val(), 'country': country.val()}}, function(results, status) {
 
                 if (status == google.maps.GeocoderStatus.OK) {
 
