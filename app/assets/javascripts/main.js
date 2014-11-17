@@ -188,7 +188,6 @@ var main = {
         window.setTimeout(instance, 100);
 
     },
-<<<<<<< HEAD
     substringMatcher: function(strs) {
 
         return function findMatches(q, cb) {
@@ -212,8 +211,7 @@ var main = {
 
             cb(matches);
         };
-
-=======
+    },
     popover: function() {
         var popoverOld = false;
 
@@ -264,6 +262,6 @@ var main = {
             }
 
         });
->>>>>>> origin/master
+
     }
 }

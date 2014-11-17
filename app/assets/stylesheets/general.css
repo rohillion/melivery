@@ -362,7 +362,7 @@
     background-color: #e6e6e6!important;
 }
 
-<<<<<<< HEAD
+
 /* TYPEAHEAD */
 .typeahead,
 .tt-query,
@@ -436,7 +436,7 @@
   max-height: 150px;
   overflow-y: auto;
 }
-=======
+
 /* -- FILTER PANEL -- */
 .filter {
     top: 50px;
@@ -573,4 +573,3 @@
 }
 
 /* -- filter panel -- */
->>>>>>> origin/master
