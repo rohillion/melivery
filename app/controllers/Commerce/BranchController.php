@@ -1,20 +1,16 @@
 <?php
 
 use App\Service\Form\Branch\BranchForm;
+use App\Repository\City\CityInterface;
 
 class BranchController extends BaseController {
 
     protected $branch;
+    protected $city;
 
-    public function __construct(BranchForm $branch) {
+    public function __construct(BranchForm $branch, CityInterface $city) {
         $this->branch = $branch;
-    }
-
-    public function index() {
-
-        $data['branches'] = $this->branch->allByCommerceId(Auth::user()->id_commerce);
-
-        return View::make("commerce.main", $data);
+        $this->city = $city;
     }
 
     /**
@@ -22,8 +18,10 @@ class BranchController extends BaseController {
      * POST /branch/branch
      */
     public function create() {
+        
+        $data['cities'] = $this->city->byCountryCode(Session::get('location')['country'])->toJson();
 
-        return View::make("commerce.branch.create");
+        return View::make("commerce.branch.create",$data);
     }
 
     /**

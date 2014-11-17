@@ -8,9 +8,14 @@ var commerce = {
         this.orderEntry();
         this.orderChronometer();
         this.orderTimer();
-        //this.typeahead();
-        $('#switch-view').on('click',function(){
-            $('.tab-content').find('.tab-pane').toggleClass('col-lg-3 visible-lg-block');
+        this.citiTypeahead(cities);
+        /*$('#switch-view').on('click', function() {
+         $('.tab-content').find('.tab-pane').toggleClass('col-lg-3 visible-lg-block');
+         });*/
+        $('#delivery').on('change', function() {
+            if ($(this).is(':checked')) {
+                commerce.getDeliveryArea($('#coord').val(), 1);
+            }
         });
     },
     openHours: function() {
@@ -133,16 +138,10 @@ var commerce = {
     },
     getDeliveryMapPreview: function(LatLng) {
 
-        if (document.getElementById('branchCoord').value.length > 0) {
+        var path = typeof LatLng != 'undefined' ? "&path=color%3ared|weight:1|fillcolor%3awhite|" + LatLng[0].lat + "," + LatLng[0].lng + "|" + LatLng[1].lat + "," + LatLng[1].lng + "|" + LatLng[2].lat + "," + LatLng[2].lng + "|" + LatLng[3].lat + "," + LatLng[3].lng + "|" + LatLng[0].lat + "," + LatLng[0].lng : "";
 
-            var path = typeof LatLng != 'undefined' ? "&path=color%3ared|weight:1|fillcolor%3awhite|" + LatLng[0].lat + "," + LatLng[0].lng + "|" + LatLng[1].lat + "," + LatLng[1].lng + "|" + LatLng[2].lat + "," + LatLng[2].lng + "|" + LatLng[3].lat + "," + LatLng[3].lng + "|" + LatLng[0].lat + "," + LatLng[0].lng : "";
-
-            var url = "http://maps.googleapis.com/maps/api/staticmap?center=" + document.getElementById('branchCoord').value + "&markers=color:red%7C" + document.getElementById('branchCoord').value + "&zoom=15&size=454x376&maptype=ROADMAP&sensor=false" + path;
-            document.getElementById('mapBranchDelivery').src = url;
-        } else {
-
-            alert('Por favor ingrese la dirección de la sucursal.');
-        }
+        var url = "http://maps.googleapis.com/maps/api/staticmap?center=" + document.getElementById('coord').value + "&markers=color:red%7C" + document.getElementById('coord').value + "&zoom=14&size=454x376&maptype=ROADMAP&sensor=false" + path;
+        document.getElementById('mapBranchDelivery').src = url;
 
     },
     getDeliveryArea: function(LatLng, radio) {
@@ -269,52 +268,110 @@ var commerce = {
         //console.log(main.setTimer(entry, order_date, order_time));
         //order.timers[order_id] = main.setTimer(entry, order_date, order_time);
     },
-    typeahead: function() {
+    citiTypeahead: function(cities) {
 
-        var substringMatcher = function(strs) {
-            return function findMatches(q, cb) {
-                var matches, substrRegex;
+        // constructs the suggestion engine
+        var cities = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('asciiname'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: $.map(cities, function(city) {
+                return {id: city.geonameid, name: city.name, asciiname: city.asciiname};
+            })
+        });
 
-                // an array that will be populated with substring matches
-                matches = [];
-
-                // regex used to determine if a string contains the substring `q`
-                substrRegex = new RegExp(q, 'i');
-
-                // iterate through the pool of strings and for any string that
-                // contains the substring `q`, add it to the `matches` array
-                $.each(strs, function(i, str) {
-                    if (substrRegex.test(str)) {
-                        // the typeahead jQuery plugin expects suggestions to a
-                        // JavaScript object, refer to typeahead docs for more info
-                        matches.push({value: str});
-                    }
-                });
-
-                cb(matches);
-            };
-        };
-
-        var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-            'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-            'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-            'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-            'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-            'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-            'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-            'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-            'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-        ];
+        // kicks off the loading/processing of `local` and `prefetch`
+        cities.initialize();
 
         $('.typeahead').typeahead({
             hint: true,
             highlight: true,
-            minLength: 0
+            minLength: 2
         },
         {
-            name: 'states',
-            displayKey: 'value',
-            source: substringMatcher(states)
+            name: 'cities',
+            displayKey: 'name',
+            source: cities.ttAdapter()
+
+        }).on('typeahead:selected', function(evt, city) {
+
+            commerce.searchBranchLocation(city);
+        });
+    },
+    /*******************************************************************************
+     * searchBranchLocation(city)
+     * Lets us retrieve the coordinates from a branch with the address and the city.
+     *******************************************************************************/
+    searchBranchLocation: function(city) {
+
+        geocoding.codeAddress($('#branchAddress').val(), city.asciiname, function(status, res) {
+
+            if (status === google.maps.GeocoderStatus.OK) {
+
+                if (res.length < 2) {
+
+                    /*******************************************************************************
+                     * If not match street address position show modal to get position from the map.
+                     * Otherway, set coordinates.
+                     *******************************************************************************/
+
+                    if (res[0].types[0] !== 'street_address') {
+
+                        $('#map-modal').one('shown.bs.modal', function(e) {
+
+                            geocoding.setMap($('#map-canvas')[0], res[0].geometry.location);
+                        });
+
+                        $('#map-modal').modal('show');
+
+                    } else {
+
+                        $('#coord').val(res[0].geometry.location.toUrlValue());
+                    }
+                } else {
+
+                    /***************************************************
+                     * Get first route position from array
+                     ***************************************************/
+                    var route = false;
+                    var i = 1;
+
+                    while (i < res.length) {
+
+                        if (res[i].types[0] === 'route') {
+
+                            $('#map-modal').one('shown.bs.modal', function(e) {
+
+                                geocoding.setMap($('#map-canvas')[0], res[i].geometry.location);
+                            });
+
+                            $('#map-modal').modal('show');
+
+                            route = true;
+                            break;
+                        }
+
+                        i++;
+                    }
+
+                    /***************************************************
+                     * If no route position show first coincidence.
+                     ***************************************************/
+                    if (!route) {
+
+                        $('#map-modal').one('shown.bs.modal', function(e) {
+
+                            geocoding.setMap($('#map-canvas')[0], res[0].geometry.location);
+                        });
+
+                        $('#map-modal').modal('show');
+                    }
+                }
+
+            } else {
+
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+
         });
     }
 }
