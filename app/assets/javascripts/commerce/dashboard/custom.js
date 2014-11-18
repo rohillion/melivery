@@ -1,0 +1,5 @@
+var custom = {
+    init: function() {
+        
+    }
+}

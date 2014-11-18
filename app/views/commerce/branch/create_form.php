@@ -1,15 +1,13 @@
 <div class="form-group">
-    <label for="branchAddress" class="col-xs-4 control-label">Direcci&oacute;n</label>
+    <label for="address" class="col-xs-4 control-label">Direcci&oacute;n</label>
 
-    <div class="col-xs-4">
-        <input name="address" type="text" class="form-control" id="branchAddress" placeholder="Calle y altura" value="<?php echo Input::old('address') ? Input::old('address') : ''; ?>">
+    <div class="col-xs-8">
+        <input data-toggle="modal" data-target="#address-modal" name="address" type="text" class="form-control" id="address" placeholder="Direcci&oacute;n de la sucursal" value="<?php echo Input::old('address') ? Input::old('address') : ''; ?>">
     </div>
     
-    <div class="col-xs-4 scrollable-dropdown-menu">
-        <input name="city" type="text" class="form-control typeahead" id="city" placeholder="Ciudad" value="<?php echo Input::old('city') ? Input::old('city') : ''; ?>">
-    </div>
-    
-    <input name="position" id="coord" type="hidden" value="<?php echo Input::old('address') ? Input::old('position') : ''; ?>">
+    <input name="position" id="position" type="hidden" value="<?php echo Input::old('position') ? Input::old('position') : ''; ?>">
+    <input name="street" id="street" type="hidden" value="<?php echo Input::old('street') ? Input::old('street') : ''; ?>">
+    <input name="city" id="city" type="hidden" value="<?php echo Input::old('city') ? Input::old('city') : ''; ?>">
     
 </div>
 

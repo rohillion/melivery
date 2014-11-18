@@ -64,56 +64,53 @@
         </section><!-- /.content -->
 
         <!-- Modal -->
-        <div id="map-modal" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="address-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
+
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Indique su posici&oacute;n exacta</h4>
+                        <h4 class="modal-title" id="addressModalLabel">Direcci&oacute;n de la sucursal</h4>
                     </div>
+
                     <div class="modal-body">
+
+                        <div class="form-group form-large clearfix row">
+
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" id="branchAddress" placeholder="Calle y altura" value="<?php echo Input::old('street') ? Input::old('street') : ''; ?>">
+                            </div>
+
+                            <div class="col-xs-5 scrollable-dropdown-menu">
+                                <input type="text" class="form-control typeahead" id="branchCity" placeholder="Ciudad" value="<?php echo Input::old('city') ? Input::old('city') : ''; ?>">
+                            </div>
+                            
+                            <div class="col-xs-2">
+                                <button class="btn btn-primary btn-block" title="Buscar" onclick="custom.searchBranchLocation($('#branchAddress').val(),$('#branchCity').val())"><i class="fa fa-search"></i></button>
+                            </div>
+
+                        </div>
+
                         <div id="map-canvas" style="min-height: 315px;"></div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Aplicar</button>
+                        <button type="button" class="btn btn-primary" onclick="custom.completeAddress()">Aplicar</button>
                     </div>
+
                 </div>
             </div>
         </div>
 
         <!-- Google Maps -->
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-
-        <!-- geocoding -->
-        <script src="/assets/geocoding.js" type="text/javascript"></script>
-
+        
         <script type="text/javascript">
-            /*var input = document.getElementById('branchAddress');
-             
-             var autocomplete = new google.maps.places.Autocomplete(input);
-             
-             function geoCode() {
-             google.maps.event.addListener(autocomplete, 'place_changed', function() {
-             
-             var place = autocomplete.getPlace();
-             
-             if (!place.geometry) {
-             return;
-             }
-             
-             document.getElementById('branchCoord').value = place.geometry.location.toUrlValue();
-             commerce.getDeliveryArea($('#branchCoord').val(), $('#radio').val());
-             
-             });
-             }
-             google.maps.event.addDomListener(window, 'load', geoCode());*/
-
             var cities = <?php echo $cities ?>;
         </script>
-
-
+        
         <?php echo View::make('footer'); ?>
-
+        
     </body>
 </html>

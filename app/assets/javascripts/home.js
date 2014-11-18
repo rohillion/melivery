@@ -1,11 +1,9 @@
 var home = {
     init: function() {
-<<<<<<< HEAD
 
-=======
         main.popover();
         //google.maps.event.addDomListener(window, 'load', this.geoPosition());
->>>>>>> origin/master
+
         google.maps.event.addDomListener(window, 'load', this.codeAddress());
 
         $("#city-mask").popover({

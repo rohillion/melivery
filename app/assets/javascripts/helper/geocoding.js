@@ -1,4 +1,5 @@
 var geocoding = {
+    position : false,
     init: function() {
 
     },
@@ -8,8 +9,15 @@ var geocoding = {
         var country = $('#country');
 
         geocoder.geocode({'address': address, 'componentRestrictions': {'locality': city, 'country': country.val()}}, function(res, status) {
+            
+            if (status === google.maps.GeocoderStatus.OK) {
+                
+                callback(res);
+            } else {
 
-            callback(status,res);
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+
         });
 
     },
@@ -30,7 +38,7 @@ var geocoding = {
         });
 
         google.maps.event.addListener(marker, "mouseup", function(event) {
-            $('#coord').val(event.latLng.toUrlValue());
+            geocoding.position = event.latLng;
         });
     }
 };

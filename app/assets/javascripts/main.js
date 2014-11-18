@@ -1,6 +1,16 @@
 var main = {
     init: function() {
         //this.getChannel();
+        this.onSuccess();
+    },
+    onSuccess: function() {
+        var msg = $('#success-msg');
+
+        if (msg.val()) {
+            main.notify({
+                message: msg.val()
+            });
+        }
     },
     sendForm: function(target, formData, callback) {
         $.ajax({

@@ -11,7 +11,6 @@
 // The available directives right now are require, require_directory, and require_tree
 //
 //= require jquery-2.1.1.min.js
-//= require jquery-ui-1.10.3.min.js
 //= require bootstrap.min.js
 //= require plugins/modernizr/modernizr.custom.js
 //= require plugins/notify/classie.js

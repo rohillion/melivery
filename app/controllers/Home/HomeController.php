@@ -20,12 +20,9 @@ class HomeController extends BaseController {
     }
 
     public function index() {
-        
-<<<<<<< HEAD
-        $data['cities'] = $this->city->byCountryCode('ar');
-=======
+
         $data['cities'] = $this->city->byCountryCode(Session::get('location')['country']);
->>>>>>> origin/master
+
         
         $data['categories'] = $this->category->all();
 
