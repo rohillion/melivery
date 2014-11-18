@@ -1,8 +1,11 @@
 /* Branch Custom.JS */
 var custom = {
     init: function() {
+
         this.openHours();
         this.cityTypeahead(cities);
+        this.adressModal();
+
         $('#delivery').on('change', function() {
             if ($(this).is(':checked')) {
                 commerce.getDeliveryArea($('#coord').val(), 1);
@@ -135,11 +138,13 @@ var custom = {
         });
     },
     /*******************************************************************************
-     * searchBranchLocation(city)
+     * searchBranchLocation(address, city)
      * Lets us retrieve the coordinates from a branch with the address and the city.
      *******************************************************************************/
     searchBranchLocation: function(address, city) {
-        
+
+        $('#found,#not-found').hide();
+
         geocoding.codeAddress(address, city, function(res) {
 
             if (res.length < 2) {
@@ -150,21 +155,61 @@ var custom = {
                  *******************************************************************************/
 
                 if (res[0].types[0] !== 'street_address') {
-                    
-                    geocoding.setMap($('#map-canvas')[0], res[0].geometry.location);
 
-                    /*$('#map-modal').one('shown.bs.modal', function(e) {
-                     
-                     geocoding.setMap($('#map-canvas')[0], res[0].geometry.location);
-                     });*/
+                    var mapOptions = {
+                        zoom: 15,
+                        center: res[0].geometry.location
+                    };
 
-                    //$('#map-modal').modal('show');
+                    $('#not-found').show();
+
+                    geocoding.setMap($('#map-canvas')[0], mapOptions, function(map) {
+
+                        var markerOpts = {
+                            draggable: true,
+                            position: res[0].geometry.location,
+                            map: map,
+                            title: "Dirección"
+                        };
+
+                        geocoding.setMaker(markerOpts, function(marker) {
+
+                            google.maps.event.addListener(marker, "mouseup", function(event) {
+
+                                geocoding.position = event.latLng;
+                            });
+
+                        });
+
+                    });
 
                 } else {
 
-                    $('#position').val(res[0].geometry.location.toUrlValue());
+                    $('#found').show();
+
+                    geocoding.position = res[0].geometry.location;
+
+                    var mapOptions = {
+                        zoom: 15,
+                        center: res[0].geometry.location
+                    };
+
+                    geocoding.setMap($('#map-canvas')[0], mapOptions, function(map) {
+
+                        var markerOpts = {
+                            position: res[0].geometry.location,
+                            map: map,
+                            title: "Dirección"
+                        };
+
+                        geocoding.setMaker(markerOpts);
+
+                    });
+
                 }
             } else {
+
+                $('#not-found').show();
 
                 /***************************************************
                  * Get first route position from array
@@ -176,7 +221,29 @@ var custom = {
 
                     if (res[i].types[0] === 'route') {
 
-                        geocoding.setMap($('#map-canvas')[0], res[i].geometry.location);
+                        var mapOptions = {
+                            zoom: 15,
+                            center: res[i].geometry.location
+                        };
+
+                        geocoding.setMap($('#map-canvas')[0], mapOptions, function(map) {
+
+                            var markerOpts = {
+                                position: res[i].geometry.location,
+                                map: map,
+                                title: "Dirección"
+                            };
+
+                            geocoding.setMaker(markerOpts, function(marker) {
+
+                                google.maps.event.addListener(marker, "mouseup", function(event) {
+
+                                    geocoding.position = event.latLng;
+                                });
+
+                            });
+
+                        });
 
                         route = true;
                         break;
@@ -190,7 +257,29 @@ var custom = {
                  ***************************************************/
                 if (!route) {
 
-                    geocoding.setMap($('#map-canvas')[0], res[0].geometry.location);
+                    var mapOptions = {
+                        zoom: 15,
+                        center: res[0].geometry.location
+                    };
+
+                    geocoding.setMap($('#map-canvas')[0], mapOptions, function(map) {
+
+                        var markerOpts = {
+                            position: res[0].geometry.location,
+                            map: map,
+                            title: "Dirección"
+                        };
+
+                        geocoding.setMaker(markerOpts, function(marker) {
+
+                            google.maps.event.addListener(marker, "mouseup", function(event) {
+
+                                geocoding.position = event.latLng;
+                            });
+
+                        });
+
+                    });
                 }
             }
 
@@ -200,15 +289,35 @@ var custom = {
 
         if (geocoding.position) {
 
+            $('#address').val($('#branchAddress').val() + ', ' + $('#branchCity').val());
+
             $('#position').val(geocoding.position.toUrlValue());
             $('#street').val($('#branchAddress').val());
             $('#city').val($('#branchCity').val());
-            
+
             $('#address-modal').modal('hide');
+
         } else {
 
             alert('Por favor indique en el mapa la posición en donde se encuentra la sucursal.');
         }
 
+    },
+    adressModal: function() {
+        
+        $('#address-modal').on('shown.bs.modal', function() {
+            
+            $(this).find('input:text')[0].focus();
+        });
+        
+        $('#address-modal').on('hidden.bs.modal', function() {
+            
+            $('#found,#not-found').hide();
+            $('#map-canvas').empty();
+            $('#branchAddress').val('');
+            $('#branchCity').val('');
+            geocoding.position = false;
+
+        });
     }
 }

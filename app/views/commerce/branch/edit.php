@@ -55,12 +55,16 @@
 
 
                                 <div class="form-group">
-                                    <label for="branchAddress" class="col-lg-4 control-label">Direcci&oacute;n</label>
+                                    <label for="address" class="col-xs-4 control-label">Direcci&oacute;n</label>
 
-                                    <div class="col-lg-8">
-                                        <input name="address" type="text" class="form-control" id="branchAddress" placeholder="Direcci&oacute;n de la sucursal" value="<?php echo Input::old('address') ? Input::old('address') : ( isset($branch->address) ? $branch->address : '' ); ?>">
-                                        <input name="position" id="branchCoord" type="hidden" value="<?php echo $branch->position; ?>">
+                                    <div class="col-xs-8">
+                                        <input data-toggle="modal" data-target="#address-modal" name="address" type="text" class="form-control" id="address" placeholder="Direcci&oacute;n de la sucursal" value="<?php echo Input::old('address') ? Input::old('address') : ( isset($branch->address) && isset($branch->city) ? $branch->address .', '.$branch->city : '' ); ?>">
                                     </div>
+
+                                    <input name="position" id="position" type="hidden" value="<?php echo Input::old('position') ? Input::old('position') : ( isset($branch->position) ? $branch->position : '' ); ?>">
+                                    <input name="street" id="street" type="hidden" value="<?php echo Input::old('street') ? Input::old('street') : ( isset($branch->street) ? $branch->street : '' ); ?>">
+                                    <input name="city" id="city" type="hidden" value="<?php echo Input::old('city') ? Input::old('city') : ( isset($branch->city) ? $branch->city : '' ); ?>">
+
                                 </div>
 
                                 <div class="form-group">
@@ -230,31 +234,6 @@
                                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                                 <input type="hidden" name="_method" value="PUT">
 
-                                <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
-                                <script type="text/javascript">
-                                                    var input = document.getElementById('branchAddress');
-
-                                                    var autocomplete = new google.maps.places.Autocomplete(input);
-
-                                                    function geoCode() {
-                                                        google.maps.event.addListener(autocomplete, 'place_changed', function() {
-
-                                                            var place = autocomplete.getPlace();
-                                                            /*console.log(place.geometry.location.lat());
-                                                             console.log(place.geometry.location.lng());
-                                                             console.log(place.geometry.location.toUrlValue());*/
-                                                            if (!place.geometry) {
-                                                                return;
-                                                            }
-
-                                                            document.getElementById('branchCoord').value = place.geometry.location.toUrlValue();
-                                                            //commerce.getDeliveryMapPreview();
-
-                                                        });
-                                                    }
-                                                    google.maps.event.addDomListener(window, 'load', geoCode());
-                                </script>
-
                             </form>
 
                         </div>
@@ -270,6 +249,56 @@
             </div><!-- /.row (main row) -->
 
         </section><!-- /.content -->
+
+        <!-- Modal -->
+        <div id="address-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="addressModalLabel">Direcci&oacute;n de la sucursal</h4>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="form-group form-large clearfix row">
+
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" id="branchAddress" placeholder="Calle y altura">
+                            </div>
+
+                            <div class="col-xs-5 scrollable-dropdown-menu">
+                                <input type="text" class="form-control typeahead" id="branchCity" placeholder="Ciudad">
+                            </div>
+
+                            <div class="col-xs-2">
+                                <button class="btn btn-primary btn-block" title="Buscar" onclick="custom.searchBranchLocation($('#branchAddress').val(), $('#branchCity').val())"><i class="fa fa-search"></i></button>
+                            </div>
+
+                        </div>
+
+                        <p id="not-found" class="bg-warning">No hemos podido encontrar la ubicaci&oacute;n exacta de la direcci&oacute;n que has ingresado. <br> Por favor, arrastra el indicador hasta donde se encuntra la sucursal.</p>
+                        <p id="found" class="bg-success">Hemos encontrado la ubicaci&oacute;n de la sucursal. Para continuar, presiona el boton "aplicar".</p>
+
+                        <div id="map-canvas" style="min-height: 315px;"></div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="custom.completeAddress()">Aplicar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Maps -->
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+        <script type="text/javascript">
+                            var cities = <?php echo $cities ?>;
+        </script>
 
         <?php echo View::make('footer'); ?>
 

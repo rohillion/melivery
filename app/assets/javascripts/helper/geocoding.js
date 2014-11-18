@@ -1,5 +1,5 @@
 var geocoding = {
-    position : false,
+    position: false,
     init: function() {
 
     },
@@ -9,9 +9,9 @@ var geocoding = {
         var country = $('#country');
 
         geocoder.geocode({'address': address, 'componentRestrictions': {'locality': city, 'country': country.val()}}, function(res, status) {
-            
+
             if (status === google.maps.GeocoderStatus.OK) {
-                
+
                 callback(res);
             } else {
 
@@ -21,24 +21,19 @@ var geocoding = {
         });
 
     },
-    setMap: function(element, locationObj) {
+    setMap: function(element, mapOptions, callback) {
 
-        var mapOptions = {
-            zoom: 15,
-            center: locationObj
-        };
+        var map = new google.maps.Map(element, mapOptions);
 
-        map = new google.maps.Map(element, mapOptions);
-
-        var marker = new google.maps.Marker({
-            draggable: true,
-            position: locationObj,
-            map: map,
-            title: "Hello World!"
-        });
-
-        google.maps.event.addListener(marker, "mouseup", function(event) {
-            geocoding.position = event.latLng;
-        });
+        if (typeof callback === 'function')
+            callback(map);
+    },
+    setMaker : function(markerOpts, callback){
+        
+        var marker = new google.maps.Marker(markerOpts);
+        
+        if (typeof callback === 'function')
+            callback(marker);
+        
     }
 };

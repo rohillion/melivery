@@ -60,7 +60,7 @@ class BranchController extends BaseController {
      */
     public function update($id) {
         
-        $input = Input::only('address','email','position','delivery','pickup','radio','delivery_area','phone','dealer','days');
+        $input = Input::only('street','city','email','position','delivery','pickup','radio','delivery_area','phone','dealer','days');
         
         if ($this->branch->update($id, $input)) {
             // Success!
