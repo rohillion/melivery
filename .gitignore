@@ -7,4 +7,3 @@ composer.lock
 Thumbs.db
 /nbproject
 /app/storage/cache/asset-pipeline
-/vendor
