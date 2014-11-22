@@ -86,13 +86,13 @@
                             </div>
                             
                             <div class="col-xs-2">
-                                <button class="btn btn-primary btn-block" title="Buscar" onclick="custom.searchBranchLocation($('#branchAddress').val(),$('#branchCity').val())"><i class="fa fa-search"></i></button>
+                                <button id="searchBranchLocation" class="btn btn-primary btn-block" title="Buscar"><i class="fa fa-search"></i></button>
                             </div>
 
                         </div>
                         
                         <p id="not-found" class="bg-warning">No hemos podido encontrar la ubicaci&oacute;n exacta de la direcci&oacute;n que has ingresado. <br> Por favor, arrastra el indicador hasta donde se encuntra la sucursal.</p>
-                        <p id="found" class="bg-success">Hemos encontrado la ubicaci&oacute;n de la sucursal. Para continuar, presiona el boton "aplicar".</p>
+                        <p id="found" class="bg-success">Hemos encontrado la ubicaci&oacute;n de la sucursal. En caso de no ser la correcta por favor, arrastra el indicador hasta la posici&oacute;n adecuada.</p>
 
                         <div id="map-canvas" style="min-height: 315px;background-color: rgb(229, 227, 223);"></div>
                     </div>

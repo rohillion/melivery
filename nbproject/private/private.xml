@@ -2,6 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/commerce/branch/custom.js</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/branch/create_form.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/branch/create.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/assets/stylesheets/commerce/custom.css</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/Branch/BranchForm.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/controllers/ajax/CityController.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/Branch/BranchValidator.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Repository/Branch/EloquentBranch.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/controllers/Commerce/BranchController.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/helper/geocoding.js</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/branch/edit.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/models/Branch.php</file>
+        </group>
     </open-files>
 </project-private>

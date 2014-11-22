@@ -55,6 +55,7 @@ class BranchForm extends AbstractForm {
                 $user = \Auth::user();
 
                 $input['commerce_id'] = $user->id_commerce;
+                $input['city_id'] = $input['city'];
 
                 if (!$this->valid($input)) {
                     return false;
@@ -70,7 +71,6 @@ class BranchForm extends AbstractForm {
                 //Start transaction
                 \DB::beginTransaction();
                 
-
                 // Branch creation
                 $branch = $this->branch->create($input);
 
@@ -160,6 +160,7 @@ class BranchForm extends AbstractForm {
         {
 
                 $input['commerce_id'] = \Auth::user()->id_commerce;
+                $input['city_id'] = $input['city'];
 
                 if (!$this->valid($input, $id)) {
                     return false;
@@ -179,6 +180,7 @@ class BranchForm extends AbstractForm {
                 unset($input['phone']);
                 unset($input['dealer']);
                 unset($input['days']);
+                unset($input['city']);
 
                 //Start transaction
                 \DB::beginTransaction();

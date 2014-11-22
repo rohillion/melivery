@@ -14,7 +14,7 @@ class BranchValidator extends LaravelValidator implements ValidableInterface {
      */
     protected $rules = array(
         'street' => 'required|max:255',
-        'city' => 'required|max:255',
+        'city_id' => 'required|numeric',
         'email' => 'required|email',
         'position' => 'required|max:255',
         'delivery' => 'required_without:pickup',

@@ -58,7 +58,7 @@
                                     <label for="address" class="col-xs-4 control-label">Direcci&oacute;n</label>
 
                                     <div class="col-xs-8">
-                                        <input data-toggle="modal" data-target="#address-modal" name="address" type="text" class="form-control" id="address" placeholder="Direcci&oacute;n de la sucursal" value="<?php echo Input::old('address') ? Input::old('address') : ( isset($branch->address) && isset($branch->city) ? $branch->address .', '.$branch->city : '' ); ?>">
+                                        <input data-toggle="modal" data-target="#address-modal" name="address" type="text" class="form-control" id="address" placeholder="Direcci&oacute;n de la sucursal" value="<?php echo Input::old('address') ? Input::old('address') : ( isset($branch->street) && isset($branch->city_id) ? $branch->street .', '.$branch->city->name : '' ); ?>">
                                     </div>
 
                                     <input name="position" id="position" type="hidden" value="<?php echo Input::old('position') ? Input::old('position') : ( isset($branch->position) ? $branch->position : '' ); ?>">

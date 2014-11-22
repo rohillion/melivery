@@ -21,6 +21,7 @@ use OrderStatus;
 use OrderProduct;
 use Country;
 use City;
+use State;
 
 use App\Repository\User\EloquentUser;
 use App\Repository\Category\EloquentCategory;
@@ -42,6 +43,8 @@ use App\Repository\OrderProduct\EloquentOrderProduct;
 use App\Repository\Country\EloquentCountry;
 use App\Repository\City\EloquentCity;
 use App\Repository\City\CacheDecorator;
+use App\Repository\State\EloquentState;
+use App\Repository\State\StateCacheDecorator;
 
 use App\Service\Cache\LaravelCache;
 use Illuminate\Support\ServiceProvider;
@@ -117,6 +120,7 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->orderproduct($app);
         $this->country($app);
         $this->city($app);
+        $this->state($app);
     }
 
     private function product($app) {
@@ -241,11 +245,6 @@ class RepositoryServiceProvider extends ServiceProvider {
 
     private function city($app) {
         $app->bind('App\Repository\City\CityInterface', function($app) {
-            /*$city = new EloquentCity(
-                    new City
-            );
-
-            return $city;*/
 
             $city = new EloquentCity(
                     new City
@@ -253,6 +252,19 @@ class RepositoryServiceProvider extends ServiceProvider {
 
             return new CacheDecorator(
                     $city, new LaravelCache($app['cache'], 'city')
+            );
+        });
+    }
+    
+    private function state($app) {
+        $app->bind('App\Repository\State\StateInterface', function($app) {
+
+            $state = new EloquentState(
+                    new State
+            );
+
+            return new StateCacheDecorator(
+                    $state, new LaravelCache($app['cache'], 'state')
             );
         });
     }

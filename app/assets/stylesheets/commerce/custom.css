@@ -118,6 +118,15 @@ body{
     text-align: center;
 }
 
+.tt-empty-message{
+    font-size: 0.5em;
+    text-align: center;
+}
+
+.gmnoprint img{
+    max-width: inherit!important;
+}
+
 /***** branch *****/
 
 /*****************************/

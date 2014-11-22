@@ -24,6 +24,13 @@ class City extends Eloquent {
     }
     
     /**
+     * Country relationship
+     */
+    public function state() {
+        return $this->belongsTo('State','admin1_code','admin1_code');
+    }
+    
+    /**
      * Branch relationship
      */
     public function branches() {

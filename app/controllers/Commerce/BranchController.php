@@ -49,7 +49,9 @@ class BranchController extends BaseController {
      */
     public function edit($branch_id) {
         
-        $data['branch'] = $this->branch->find($branch_id,['*'],['openingHours','phones','dealers']);
+        $data['branch'] = $this->branch->find($branch_id,['*'],['openingHours','phones','dealers','city']);
+        
+        $data['cities'] = $this->city->byCountryCode(Session::get('location')['country'])->toJson();
 
         return View::make("commerce.branch.edit", $data);
     }
