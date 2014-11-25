@@ -63,7 +63,7 @@
 
                                     <input name="position" id="position" type="hidden" value="<?php echo Input::old('position') ? Input::old('position') : ( isset($branch->position) ? $branch->position : '' ); ?>">
                                     <input name="street" id="street" type="hidden" value="<?php echo Input::old('street') ? Input::old('street') : ( isset($branch->street) ? $branch->street : '' ); ?>">
-                                    <input name="city" id="city" type="hidden" value="<?php echo Input::old('city') ? Input::old('city') : ( isset($branch->city) ? $branch->city : '' ); ?>">
+                                    <input name="city" id="city" type="hidden" value="<?php echo Input::old('city') ? Input::old('city') : ( isset($branch->city_id) ? $branch->city_id : '' ); ?>">
 
                                 </div>
 
@@ -271,17 +271,17 @@
                             <div class="col-xs-5 scrollable-dropdown-menu">
                                 <input type="text" class="form-control typeahead" id="branchCity" placeholder="Ciudad">
                             </div>
-
+                            
                             <div class="col-xs-2">
-                                <button class="btn btn-primary btn-block" title="Buscar" onclick="custom.searchBranchLocation($('#branchAddress').val(), $('#branchCity').val())"><i class="fa fa-search"></i></button>
+                                <button id="searchBranchLocation" class="btn btn-primary btn-block" title="Buscar"><i class="fa fa-search"></i></button>
                             </div>
 
                         </div>
-
+                        
                         <p id="not-found" class="bg-warning">No hemos podido encontrar la ubicaci&oacute;n exacta de la direcci&oacute;n que has ingresado. <br> Por favor, arrastra el indicador hasta donde se encuntra la sucursal.</p>
-                        <p id="found" class="bg-success">Hemos encontrado la ubicaci&oacute;n de la sucursal. Para continuar, presiona el boton "aplicar".</p>
+                        <p id="found" class="bg-success">Hemos encontrado la ubicaci&oacute;n de la sucursal. En caso de no ser la correcta por favor, arrastra el indicador hasta la posici&oacute;n adecuada.</p>
 
-                        <div id="map-canvas" style="min-height: 315px;"></div>
+                        <div id="map-canvas" style="min-height: 315px;background-color: rgb(229, 227, 223);"></div>
                     </div>
 
                     <div class="modal-footer">
@@ -295,10 +295,6 @@
 
         <!-- Google Maps -->
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-
-        <script type="text/javascript">
-                            var cities = <?php echo $cities ?>;
-        </script>
 
         <?php echo View::make('footer'); ?>
 

@@ -16,6 +16,14 @@ abstract class AbstractCityDecorator implements CityInterface {
     {
         return $this->nextCity->byCountryCode($id);
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function byCountryCodeByCityName($countryCode, $query)
+    {
+        return $this->nextCity->byCountryCodeByCityName($countryCode, $query);
+    }
 
     /**
      * {@inheritdoc}

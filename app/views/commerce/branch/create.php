@@ -108,11 +108,7 @@
 
         <!-- Google Maps -->
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-        
-        <script type="text/javascript">
-            var cities = <?php echo $cities ?>;
-        </script>
-        
+
         <?php echo View::make('footer'); ?>
         
     </body>

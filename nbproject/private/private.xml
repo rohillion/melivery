@@ -6,15 +6,14 @@
             <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/commerce/branch/custom.js</file>
             <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/branch/create_form.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/branch/create.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/assets/stylesheets/commerce/custom.css</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/Branch/BranchForm.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/controllers/ajax/CityController.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/Branch/BranchValidator.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/App/Repository/Branch/EloquentBranch.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/routes.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Repository/City/CacheDecorator.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/controllers/ajax/AjaxCityController.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Repository/City/AbstractCityDecorator.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/controllers/Commerce/BranchController.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/helper/geocoding.js</file>
             <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/branch/edit.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/models/Branch.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Repository/City/EloquentCity.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Repository/RepositoryServiceProvider.php</file>
         </group>
     </open-files>
 </project-private>

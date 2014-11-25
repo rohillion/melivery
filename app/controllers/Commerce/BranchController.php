@@ -19,9 +19,9 @@ class BranchController extends BaseController {
      */
     public function create() {
         
-        $data['cities'] = $this->city->byCountryCode(Session::get('location')['country'])->toJson();
+        //$data['cities'] = $this->city->byCountryCode(Session::get('location')['country'])->toJson();
 
-        return View::make("commerce.branch.create",$data);
+        return View::make("commerce.branch.create");
     }
 
     /**

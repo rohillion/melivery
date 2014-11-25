@@ -8,12 +8,29 @@ class EloquentCity extends RepositoryAbstract implements CityInterface {
 
     public function byCountryCode($countryCode) {
         return $this->entity
-                ->select('geonameid','name','asciiname','admin1_code')
-                ->with(array('state'=>function($query){
-                    $query->addSelect(array('id','state_name','state_asciiname','admin1_code'));
-                }))
+                        ->select('geonameid', 'name', 'asciiname', 'admin1_code')
+                        ->with(array('state' => function($query) {
+                        $query->addSelect(array('id', 'state_name', 'state_asciiname', 'admin1_code'));
+                    }))
+                        ->where('country_code', $countryCode)
+                        ->get();
+    }
+
+    public function byCountryCodeByCityName($countryCode, $q) {
+        $cities = $this->entity
+                ->select('geonameid', 'name', 'asciiname', 'admin1_code', 'country_id')
                 ->where('country_code', $countryCode)
+                ->where(function($query) use($q) {
+                    $query->where('name', 'LIKE','%'.$q.'%');
+                    $query->orWhere('asciiname', 'LIKE', '%'.$q.'%');
+                })
                 ->get();
+                
+        foreach ($cities as $city) {
+            $city->state = $city->state()->where('country_id', $city->country_id)->first();
+        }
+        
+        return $cities;
     }
 
     public function byCountryId($countryId) {

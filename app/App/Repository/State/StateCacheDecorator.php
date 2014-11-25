@@ -2,7 +2,7 @@
 
 use App\Service\Cache\CacheInterface;
 
-class CacheDecorator extends AbstractCityDecorator {
+class StateCacheDecorator extends AbstractCityDecorator {
 
     protected $cache;
 

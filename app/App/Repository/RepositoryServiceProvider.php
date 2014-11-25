@@ -249,6 +249,8 @@ class RepositoryServiceProvider extends ServiceProvider {
             $city = new EloquentCity(
                     new City
             );
+            
+            return $city;
 
             return new CacheDecorator(
                     $city, new LaravelCache($app['cache'], 'city')

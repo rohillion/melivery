@@ -3,7 +3,7 @@ var custom = {
     init: function() {
 
         this.openHours();
-        this.cityTypeahead(cities);
+        this.cityTypeahead();
         this.adressModal();
         this.searchBranchLocation();
 
@@ -120,15 +120,24 @@ var custom = {
         $('#delivery_area').val(coords[0].lat + ' ' + coords[0].lng + ',' + coords[1].lat + ' ' + coords[1].lng + ',' + coords[2].lat + ' ' + coords[2].lng + ',' + coords[3].lat + ' ' + coords[3].lng + ',' + coords[0].lat + ' ' + coords[0].lng);
         custom.getDeliveryMapPreview(coords);
     },
-    cityTypeahead: function(cities) {
+    cityTypeahead: function() {
+
 
         // constructs the suggestion engine
         var cities = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('asciiname'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: $.map(cities, function(city) {
-                return {id: city.geonameid, name: city.name, asciiname: city.asciiname, state_name: city.state.state_name, state_asciiname: city.state.state_asciiname};
-            }),
+
+            remote: {
+                url: '../city/find?query=%QUERY',
+                filter: function(cities) {
+                    // Map the remote source JSON array to a JavaScript array
+                    return $.map(cities.cities, function(city) {
+                        console.log(city);
+                        return {id: city.geonameid, name: city.name, asciiname: city.asciiname, state_name: city.state.state_name, state_asciiname: city.state.state_asciiname};
+                    });
+                }
+            },
             limit: 30
         });
 
@@ -138,7 +147,7 @@ var custom = {
         $('.typeahead').typeahead({
             hint: true,
             highlight: true,
-            minLength: 0
+            minLength: 3
         },
         {
             name: 'cities',
@@ -154,7 +163,6 @@ var custom = {
             }
 
         }).on('typeahead:selected', function(event, obj) {
-            geocoding.street = $('#branchAddress').val();
             geocoding.cityId = obj.id;
             geocoding.city = obj.asciiname;
             geocoding.state = obj.state_asciiname;
@@ -267,7 +275,7 @@ var custom = {
 
         } else {
 
-            main.notify({message:'Por favor indique en el mapa la posición en donde se encuentra la sucursal.'});
+            main.notify({message: 'Por favor indique en el mapa la posición en donde se encuentra la sucursal.'});
         }
 
     },
@@ -294,15 +302,18 @@ var custom = {
     },
     searchBranchLocation: function() {
         $('#searchBranchLocation').on('click', function() {
-            if ($('#branchAddress').val().length === 0) {
 
-                main.notify({message:'Por favor, ingrese la calle y la altura.'});
+            geocoding.street = $('#branchAddress').val();
+
+            if (geocoding.street.length === 0) {
+
+                main.notify({message: 'Por favor, ingrese la calle y la altura.'});
             } else if (!geocoding.city) {
 
-                main.notify({message:'Por favor, ingrese la ciudad y seleccionela desde la lista.'});
+                main.notify({message: 'Por favor, ingrese la ciudad y seleccionela desde la lista.'});
                 $('#branchCity').focus();
             } else {
-                
+
                 custom.searchLocation(geocoding.street, geocoding.city, geocoding.state);
             }
 

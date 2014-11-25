@@ -33,6 +33,28 @@ class CacheDecorator extends AbstractCityDecorator {
 
         return $city;
     }
+    
+    /**
+     * Attempt to retrieve from cache
+     * by ID
+     * {@inheritdoc}
+     */
+    public function byCountryCodeByCityName($country_code, $query)
+    {
+        
+        $key = md5('id.'.$country_code);
+
+        if( $this->cache->has($key) )
+        {
+            return $this->cache->get($key);
+        }
+
+        $city = $this->nextCity->byCountryCodeByCityName($country_code, $query);
+
+        $this->cache->put($key, $city, 5);
+
+        return $city;
+    }
 
     /**
      * Attempt to retrieve from cache

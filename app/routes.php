@@ -191,6 +191,10 @@ Route::group(array('domain' => 'commerce.melivery'.$tld, "before" => "auth|verif
         "uses" => "OrderController@report"
     ]);
     
+    Route::get("/city/find/", [
+        "uses" => "AjaxCityController@find"
+    ]);
+    
 });
 
 //CUSTOMER -------------------------------------------------------------
