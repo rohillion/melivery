@@ -4,11 +4,11 @@
     <div class="col-xs-8">
         <input data-toggle="modal" data-target="#address-modal" name="address" type="text" class="form-control" id="address" placeholder="Direcci&oacute;n de la sucursal" value="<?php echo Input::old('address') ? Input::old('address') : ''; ?>">
     </div>
-    
+
     <input name="position" id="position" type="hidden" value="<?php echo Input::old('position') ? Input::old('position') : ''; ?>">
     <input name="street" id="street" type="hidden" value="<?php echo Input::old('street') ? Input::old('street') : ''; ?>">
     <input name="city" id="city" type="hidden" value="<?php echo Input::old('city') ? Input::old('city') : ''; ?>">
-    
+
 </div>
 
 <div class="form-group">
@@ -108,9 +108,23 @@
                     <h3 class="box-title">Repartidores:</h3>
                 </div>
 
-                <div class="row col-xs-12">
-                    <input name="dealer[<?php echo 'dealer'.rand(111,999) ?>]" type="text" class="form-control" placeholder="Repartidor (Ej. Juan)" value="<?php echo Input::old('dealer.'.rand(111,999)) ? Input::old('dealer.'.rand(111,999)) : ''; ?>">
-                </div>
+                <?php if (Input::old('dealer')) { ?>
+
+                    <?php for ($i = 0; $i < Input::old('dealer'); $i++) { ?>
+
+                        <div class="row col-xs-12">
+                            <input name="dealer[<?php echo $i; ?>]" type="text" class="form-control" placeholder="Repartidor (Ej. Juan)" value="<?php echo Input::old('dealer.' . $i) ? Input::old('dealer.' . $i) : ''; ?>">
+                        </div>
+
+                    <?php } ?>
+
+                <?php } else { ?>
+
+                    <div class="row col-xs-12">
+                        <input name="dealer[]" type="text" class="form-control" placeholder="Repartidor (Ej. Juan)">
+                    </div>
+
+                <?php } ?>
 
             </div>
 
@@ -129,11 +143,11 @@
                         <input type="text" class="form-control input-sm" disabled value="<?php echo Lang::get('common.day.long.' . $dayIndex) ?>"/>
                     </div>
 
-                    <div class="col-xs-6 range-control hour-range from-label <?php echo Input::old('days.'.$dayIndex.'.open') ? '' : 'invisible'; ?>">
+                    <div class="col-xs-6 range-control hour-range from-label <?php echo Input::old('days.' . $dayIndex . '.open') ? '' : 'invisible'; ?>">
                         <div class="col-xs-6">
                             <div class="timepicker">
                                 <div class="bootstrap-timepicker">
-                                    <input name="days[<?php echo $dayIndex; ?>][from]" type="text" class="form-control input-sm from-range" value="<?php echo Input::old('days.'.$dayIndex.'.from') ? Input::old('days.'.$dayIndex.'.from') : '08:00' ; ?>"/>
+                                    <input name="days[<?php echo $dayIndex; ?>][from]" type="text" class="form-control input-sm from-range" value="<?php echo Input::old('days.' . $dayIndex . '.from') ? Input::old('days.' . $dayIndex . '.from') : '08:00'; ?>"/>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +155,7 @@
                         <div class="col-xs-6">
                             <div class="timepicker">
                                 <div class="bootstrap-timepicker">
-                                    <input name="days[<?php echo $dayIndex; ?>][to]" type="text" class="form-control input-sm to-range" value="<?php echo Input::old('days.'.$dayIndex.'.to') ? Input::old('days.'.$dayIndex.'.to') : '18:00' ; ?>"/>
+                                    <input name="days[<?php echo $dayIndex; ?>][to]" type="text" class="form-control input-sm to-range" value="<?php echo Input::old('days.' . $dayIndex . '.to') ? Input::old('days.' . $dayIndex . '.to') : '18:00'; ?>"/>
                                 </div>
                             </div>
                         </div>
@@ -152,7 +166,7 @@
                     </div>
 
                     <div style="padding-top: 15px;" class="pull-right">
-                        <input <?php echo Input::old('days.'.$dayIndex.'.open') ? 'checked' : ''; ?> class="enable hidden-checkbox day-status" type="checkbox" id="day-<?php echo $dayIndex; ?>" name="days[<?php echo $dayIndex; ?>][open]" value="1">
+                        <input <?php echo Input::old('days.' . $dayIndex . '.open') ? 'checked' : ''; ?> class="enable hidden-checkbox day-status" type="checkbox" id="day-<?php echo $dayIndex; ?>" name="days[<?php echo $dayIndex; ?>][open]" value="1">
                         <label lang="<?php echo App::getLocale(); ?>" for="day-<?php echo $dayIndex; ?>" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
                     </div>
 
