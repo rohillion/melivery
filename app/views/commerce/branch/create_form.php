@@ -129,11 +129,11 @@
                         <input type="text" class="form-control input-sm" disabled value="<?php echo Lang::get('common.day.long.' . $dayIndex) ?>"/>
                     </div>
 
-                    <div class="col-xs-6 range-control hour-range from-label invisible">
+                    <div class="col-xs-6 range-control hour-range from-label <?php echo Input::old('days.'.$dayIndex.'.open') ? '' : 'invisible'; ?>">
                         <div class="col-xs-6">
                             <div class="timepicker">
                                 <div class="bootstrap-timepicker">
-                                    <input name="days[<?php echo $dayIndex; ?>][from]" type="text" class="form-control input-sm from-range" value="08:00"/>
+                                    <input name="days[<?php echo $dayIndex; ?>][from]" type="text" class="form-control input-sm from-range" value="<?php echo Input::old('days.'.$dayIndex.'.from') ? Input::old('days.'.$dayIndex.'.from') : '08:00' ; ?>"/>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +141,7 @@
                         <div class="col-xs-6">
                             <div class="timepicker">
                                 <div class="bootstrap-timepicker">
-                                    <input name="days[<?php echo $dayIndex; ?>][to]" type="text" class="form-control input-sm to-range" value="18:00"/>
+                                    <input name="days[<?php echo $dayIndex; ?>][to]" type="text" class="form-control input-sm to-range" value="<?php echo Input::old('days.'.$dayIndex.'.to') ? Input::old('days.'.$dayIndex.'.to') : '18:00' ; ?>"/>
                                 </div>
                             </div>
                         </div>
@@ -152,7 +152,7 @@
                     </div>
 
                     <div style="padding-top: 15px;" class="pull-right">
-                        <input class="enable hidden-checkbox day-status" type="checkbox" id="day-<?php echo $dayIndex; ?>" name="days[<?php echo $dayIndex; ?>][open]" value="1">
+                        <input <?php echo Input::old('days.'.$dayIndex.'.open') ? 'checked' : ''; ?> class="enable hidden-checkbox day-status" type="checkbox" id="day-<?php echo $dayIndex; ?>" name="days[<?php echo $dayIndex; ?>][open]" value="1">
                         <label lang="<?php echo App::getLocale(); ?>" for="day-<?php echo $dayIndex; ?>" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
                     </div>
 
