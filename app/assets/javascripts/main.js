@@ -56,7 +56,7 @@ var main = {
             type: res.status, // notice, warning, error or success
 
             // time to remove notification if user don't do it
-            ttl: 3500,
+            ttl: res.time? res.time : 3500,
             // callbacks
             onClose: function() {
                 if (typeof callback == 'function')

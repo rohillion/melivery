@@ -42,7 +42,7 @@ class OrderController extends BaseController {
             Session::put('user.branch_id', $branch);
         } else {
 
-            Session::put('user.branch_id', $data['user']->branches[1]->id); //TODO. cambiar a 0
+            Session::put('user.branch_id', $data['user']->branches[0]->id);//TODO si no hay sucursales cargadas no se puede ingresar al panel de ordenes.
         }
 
         $data['orders'] = $this->order->allByBranchId(Session::get('user.branch_id'));

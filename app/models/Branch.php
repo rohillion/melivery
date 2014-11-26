@@ -14,7 +14,7 @@ class Branch extends Eloquent {
      * 
      * @var array 
      */
-    protected $fillable = array('street', 'city', 'email', 'delivery', 'pickup', 'position', 'area', 'active', 'commerce_id');
+    protected $fillable = array('street', 'city_id', 'email', 'delivery', 'pickup', 'position', 'area', 'active', 'commerce_id');
 
     /**
      * User relationship

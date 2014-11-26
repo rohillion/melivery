@@ -15,7 +15,7 @@
                     <!--<label for="commerceName" class="col-lg-4 control-label">Nombre</label>-->
                     <select class="form-control">
                         <?php foreach ($user->branches as $branch) { ?>
-                            <option <?php echo $branch->id == Session::get('user.branch_id') ? 'selected' : '' ?>><?php echo explode(',', $branch->address)[0]; ?></option>
+                            <option <?php echo $branch->id == Session::get('user.branch_id') ? 'selected' : '' ?>><?php echo $branch->street ?></option>
                         <?php } ?>
                     </select>
                     <form method="post"></form>

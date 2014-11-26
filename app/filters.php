@@ -12,9 +12,17 @@
  */
 
 App::before(function($request) {
-    //if (!Session::get('location')){
-        return CommonEvents::setLocation();
-    //}
+    
+    $host = CommonEvents::get_tld()[0]; //melivery.com.xx
+    // Setup domain configuration
+    Config::set('app.url', 'http://' . $host);
+    Config::set('app.domain', $host); // An additional configuration apart from app.url
+    Config::set('session.domain', '.' . $host); // Make sure that sessions will work on the domain
+
+    if (!Session::get('location')) {
+
+        CommonEvents::setLocation();
+    }
 });
 
 

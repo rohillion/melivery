@@ -75,22 +75,15 @@ Class CommonEvents {
 
     static function setLocation() {
 
-        $domainTLD = CommonEvents::get_tld();
+        $domainTLD = self::get_tld();
 
-        $host = $domainTLD[0]; //melivery.com.xx
-
-        $tld = explode('.', substr($domainTLD[1], 1));
-
-        // Setup domain configuration
-        Config::set('app.url', 'http://' . $host);
-        Config::set('app.domain', $host); // An additional configuration apart from app.url
-        Config::set('session.domain', '.' . $host); // Make sure that sessions will work on the domain
+        $tld = explode('.', substr($domainTLD[1], 1)); //.com.xx
 
         if (!Session::get('location')) {
             Session::put('location', ['country' => end($tld), 'tld' => $domainTLD[1]]);
         }
-
-        return NULL;
+        
+        return true;
     }
 
 }

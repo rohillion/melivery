@@ -1,25 +1,11 @@
 /* Branch Custom.JS */
 var custom = {
     init: function() {
-
         this.openHours();
         this.cityTypeahead();
         this.adressModal();
         this.searchBranchLocation();
-
-        $('#delivery').on('change', function() {
-            if ($(this).is(':checked')) {
-                commerce.getDeliveryArea($('#coord').val(), 1);
-            }
-        });
-
-        $('#branchCity').on('focus', function() {
-            if ($(this).val().length > 0) {
-                var e = jQuery.Event("keydown");
-                e.keyCode = 40;
-                $(this).trigger(e);
-            }
-        });
+        this.deliveryArea();
     },
     toggleClock: function() {
         var wrappers = $('.business-hours-control');
@@ -77,7 +63,7 @@ var custom = {
 
         var path = typeof LatLng != 'undefined' ? "&path=color%3ared|weight:1|fillcolor%3awhite|" + LatLng[0].lat + "," + LatLng[0].lng + "|" + LatLng[1].lat + "," + LatLng[1].lng + "|" + LatLng[2].lat + "," + LatLng[2].lng + "|" + LatLng[3].lat + "," + LatLng[3].lng + "|" + LatLng[0].lat + "," + LatLng[0].lng : "";
 
-        var url = "http://maps.googleapis.com/maps/api/staticmap?center=" + document.getElementById('position').value + "&markers=color:red%7C" + document.getElementById('position').value + "&zoom=14&size=454x376&maptype=ROADMAP&sensor=false" + path;
+        var url = "http://maps.googleapis.com/maps/api/staticmap?center=" + document.getElementById('position').value + "&markers=color:red%7C" + document.getElementById('position').value + "&zoom=14&size=687x569&maptype=ROADMAP&sensor=false" + path;
         document.getElementById('mapBranchDelivery').src = url;
 
     },
@@ -127,13 +113,11 @@ var custom = {
         var cities = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('asciiname'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-
             remote: {
                 url: '../city/find?query=%QUERY',
                 filter: function(cities) {
                     // Map the remote source JSON array to a JavaScript array
                     return $.map(cities.cities, function(city) {
-                        console.log(city);
                         return {id: city.geonameid, name: city.name, asciiname: city.asciiname, state_name: city.state.state_name, state_asciiname: city.state.state_asciiname};
                     });
                 }
@@ -281,6 +265,16 @@ var custom = {
     },
     adressModal: function() {
 
+        $('#branchCity').on('focus', function() {
+
+            if ($(this).val().length > 0) {
+                var e = jQuery.Event("keydown");
+                e.keyCode = 40;
+                $(this).trigger(e);
+            }
+
+        });
+
         $('#address-modal').on('shown.bs.modal', function() {
 
             $(this).find('input:text')[0].focus();
@@ -317,6 +311,43 @@ var custom = {
                 custom.searchLocation(geocoding.street, geocoding.city, geocoding.state);
             }
 
+        });
+    },
+    deliveryArea: function() {
+        
+        var notifyOpts = {
+            'message': 'Para poder establecer un radio de entrega primero debe ingresar la dirección de la sucursal',
+            'status': 'notice',
+            'time': '10000'
+        };
+        
+        var position = $('#position');
+        var radio = $('#radio');
+
+        $('#delivery').on('change', function() {
+
+            if ($(this).is(':checked')) {
+
+                if (position.val().length == 0) {
+
+                    main.notify(notifyOpts);
+
+                    return false;
+                }
+
+                custom.getDeliveryArea(position.val(), 1);
+            }
+        });
+
+        radio.on('change', function() {
+
+            if (position.val().length == 0) {
+
+                main.notify(notifyOpts);
+                return false;
+            }
+
+            custom.getDeliveryArea(position.val(), radio.val());
         });
     }
 }
