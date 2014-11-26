@@ -173,7 +173,7 @@
                                             <?php foreach ($branch->dealers as $dealer) { ?>
 
                                                 <div class="row col-xs-12">
-                                                    <input name="dealer[<?php echo $dealer->id ?>]" type="text" class="form-control" placeholder="Nombre repartidor <?php echo $i ?>" value="<?php echo Input::old('dealer.' . $dealer->id) ? Input::old('dealer.' . $dealer->id) : $dealer->dealer_name; ?>">
+                                                    <input name="dealer[edit][<?php echo $dealer->id ?>]" type="text" class="form-control" placeholder="Nombre repartidor <?php echo $i ?>" value="<?php echo Input::old('dealer.edit.' . $dealer->id) ? Input::old('dealer.edit.' . $dealer->id) : $dealer->dealer_name; ?>">
                                                 </div>
 
                                                 <?php $i++; ?>

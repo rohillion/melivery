@@ -113,7 +113,7 @@
                     <?php for ($i = 0; $i < Input::old('dealer'); $i++) { ?>
 
                         <div class="row col-xs-12">
-                            <input name="dealer[<?php echo $i; ?>]" type="text" class="form-control" placeholder="Repartidor (Ej. Juan)" value="<?php echo Input::old('dealer.' . $i) ? Input::old('dealer.' . $i) : ''; ?>">
+                            <input name="dealer[new][<?php echo $i; ?>]" type="text" class="form-control" placeholder="Repartidor <?php echo $i+1?>" value="<?php echo Input::old('dealer.new.' . $i) ? Input::old('dealer.new.' . $i) : ''; ?>">
                         </div>
 
                     <?php } ?>
@@ -121,7 +121,7 @@
                 <?php } else { ?>
 
                     <div class="row col-xs-12">
-                        <input name="dealer[]" type="text" class="form-control" placeholder="Repartidor (Ej. Juan)">
+                        <input name="dealer[new][]" type="text" class="form-control" placeholder="Repartidor (Ej. Juan)">
                     </div>
 
                 <?php } ?>

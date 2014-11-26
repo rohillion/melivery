@@ -13,4 +13,12 @@ class EloquentBranch extends RepositoryAbstract implements BranchInterface {
                         ->get();
     }
 
+    public function findByCommerceId($branchId, $commerceId) {
+
+        return $this->entity
+                        ->with('openingHours', 'phones', 'dealers', 'city')
+                        ->where('commerce_id', $commerceId)
+                        ->find($branchId);
+    }
+
 }

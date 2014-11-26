@@ -6,6 +6,7 @@ var custom = {
         this.adressModal();
         this.searchBranchLocation();
         this.deliveryArea();
+        this.dealers();
     },
     toggleClock: function() {
         var wrappers = $('.business-hours-control');
@@ -349,5 +350,14 @@ var custom = {
 
             custom.getDeliveryArea(position.val(), radio.val());
         });
+    },
+    dealers : function(){
+        
+        $('#add-dealer').on('click',function(){
+            
+            
+            
+        });
+        
     }
 }

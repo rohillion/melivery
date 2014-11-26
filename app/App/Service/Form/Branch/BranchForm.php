@@ -44,278 +44,346 @@ class BranchForm extends AbstractForm {
         return $this->branch->all($columns, $with);
     }
 
-        /**
-         * Create an new branch
-         *
-         * @return boolean
-         */
-        public function save(array $input)
-        {
-            
-                $user = \Auth::user();
+    /**
+     * Create an new branch
+     *
+     * @return boolean
+     */
+    public function save(array $input) {
 
-                $input['commerce_id'] = $user->id_commerce;
-                $input['city_id'] = $input['city'];
+        $user = \Auth::user();
 
-                if (!$this->valid($input)) {
-                    return false;
-                }
-                
+        $input['commerce_id'] = $user->id_commerce;
+        $input['city_id'] = $input['city'];
 
-                if (isset($input['delivery']))
-                {
-                        $input['delivery'] = $input['radio'];
-                        $input['area'] = $input['delivery_area'];
-                }
-
-                //Start transaction
-                \DB::beginTransaction();
-                
-                // Branch creation
-                $branch = $this->branch->create($input);
-
-                if ( !$branch ) {
-                    return false;
-                }
-
-                // Branch static map position Google API
-                $this->staticMap($input, $branch);
-                
-                // Branch Opening Hours--------
-                $branchOpening = $this->branchOpening->save($branch, $input['days']);
-                
-
-                if (!$branchOpening)
-                {
-                        \DB::rollback();
-                        $this->validator->errors = $this->branchOpening->errors();
-                        return false;
-                }
-
-
-                // Branch Phone Numbers--------
-                $branchPhone = $this->branchPhone->save($branch, $input['phone']);
-                
-
-                if (!$branchPhone)
-                {
-                        \DB::rollback();
-                        $this->validator->errors = $this->branchPhone->errors();
-                        return false;
-                }
-                
-                // Branch Dealers --------
-                if (isset($input['delivery'])) {
-
-                    $branchDealer = $this->branchDealer->save($branch, $input['dealer']);
-
-                    if (!$branchDealer)
-                    {
-                            \DB::rollback();
-                            $this->validator->errors = $this->branchDealer->errors();
-                            return false;
-                    }
-                }
-                
-                $this->syncBranchUsers($branch, $user);
-                $this->syncBranchProducts($branch, $user);
-
-                \DB::commit();
-                // End transaction
-
-                return $branch;
+        if (!$this->valid($input)) {
+            return false;
         }
-        
-        public function syncBranchUsers($branch, $user){
-            
-            return $branch->users()->save($user);
+
+
+        if (isset($input['delivery'])) {
+            $input['delivery'] = $input['radio'];
+            $input['area'] = $input['delivery_area'];
         }
-        
-        public function syncBranchProducts($branch, $user)
-        {
 
-            $products = $this->product->allByCommerceId($user->id_commerce);
+        //Start transaction
+        \DB::beginTransaction();
 
-            if (!$products->isEmpty()) {
+        // Branch creation
+        $branch = $this->branch->create($input);
 
-                $productBranch = array();
+        if (!$branch) {
+            return false;
+        }
 
-                foreach ($products as $product) {
+        // Branch static map position Google API
+        $this->staticMap($input, $branch);
 
-                    $productBranch[] = $product->id;
-                }
+        // Branch Opening Hours--------
+        $branchOpening = $this->branchOpening->save($branch, $input['days']);
 
-                $branch->products()->sync($productBranch);
+
+        if (!$branchOpening) {
+            \DB::rollback();
+            $this->validator->errors = $this->branchOpening->errors();
+            return false;
+        }
+
+
+        // Branch Phone Numbers--------
+        $branchPhone = $this->branchPhone->save($branch, $input['phone']);
+
+
+        if (!$branchPhone) {
+            \DB::rollback();
+            $this->validator->errors = $this->branchPhone->errors();
+            return false;
+        }
+
+        // Branch Dealers --------
+        if (isset($input['delivery'])) {
+
+            $branchDealer = $this->syncBranchDealers($branch, $input['dealer']);
+
+            if (!$branchDealer) {
+                \DB::rollback();
+                $this->validator->errors = $this->branchDealer->errors();
+                return false;
             }
-            
-            return $branch;
         }
+
+        $this->syncBranchUsers($branch, $user);
+        $this->syncBranchProducts($branch, $user);
+
+        \DB::commit();
+        // End transaction
+
+        return $branch;
+    }
 
     /**
-         * Update an existing branch
-         *
-         * @return boolean
+     * Update an existing branch
+     *
+     * @return boolean
+     */
+    public function update($id, array $input) {
+
+        $commerceId = \Auth::user()->id_commerce;
+
+        //validate Branch by Commerce ID.
+        if (is_null($this->branch->findByCommerceId($id, $commerceId))) {
+            $this->validator->errors = 'No hemos podido encontrar esa sucursal.';
+            return false;
+        }
+
+        $input['commerce_id'] = $commerceId;
+        $input['city_id'] = $input['city'];
+
+        if (!$this->valid($input, $id)) {
+            return false;
+        }
+
+        if (isset($input['delivery'])) {
+            $input['delivery'] = $input['radio'];
+            $input['area'] = $input['delivery_area'];
+        }
+
+        $phone = $input['phone'];
+        $dealer = $input['dealer'];
+        $days = $input['days'];
+
+        unset($input['radio']);
+        unset($input['delivery_area']);
+        unset($input['phone']);
+        unset($input['dealer']);
+        unset($input['days']);
+        unset($input['city']);
+
+        //Start transaction
+        \DB::beginTransaction();
+
+        // Branch edit
+        $branch = $this->branch->edit($id, $input);
+
+        if (!$branch) {
+            return false;
+        }
+
+        // Branch static map position Google API
+        $this->staticMap($input, $branch);
+
+        // Branch Opening Hours--------
+
+        $branchOpening = $this->branchOpening->save($branch, $days);
+
+
+        if (!$branchOpening) {
+            \DB::rollback();
+            $this->validator->errors = $this->branchOpening->errors();
+            return false;
+        }
+
+
+        // Branch Phone Numbers--------
+        $branchPhone = $this->branchPhone->save($branch, $phone);
+
+
+        if (!$branchPhone) {
+            \DB::rollback();
+            $this->validator->errors = $this->branchPhone->errors();
+            return false;
+        }
+
+        // Branch Dealers --------
+        if (isset($input['delivery'])) {
+
+            $branchDealer = $this->syncBranchDealers($branch, $dealer);
+
+            if (!$branchDealer) {
+                \DB::rollback();
+                $this->validator->errors = $this->branchDealer->errors();
+                return false;
+            }
+        }
+
+
+        \DB::commit();
+        // End transaction
+
+        return $branch;
+    }
+
+    /**
+     * Update an existing branch
+     *
+     * @return boolean
+     */
+    public function delete($id) {
+
+        $commerceId = \Auth::user()->id_commerce;
+
+        //validate Branch by Commerce ID.
+        if (is_null($this->branch->findByCommerceId($id, $commerceId))) {
+            $this->validator->errors = 'No hemos podido encontrar esa sucursal.';
+            return false;
+        }
+
+        if ($this->branch->destroy($id)) {
+
+            $directoryPhotoPath = public_path() . '/upload/branch_image/';
+
+            $Filesystem = new Filesystem();
+            $Filesystem->deleteDirectory($directoryPhotoPath . $id);
+        }
+    }
+
+    /**
+     * Create an new branch
+     *
+     * @return boolean
+     */
+    public function changeStatus($id, array $input) {
+
+        return $this->branch->edit($id, $input);
+    }
+
+    /**
+     * Create an new branch
+     *
+     * @return boolean
+     */
+    public function find($idBranch, $columns = array('*'), $entities = array()) {
+
+        return $this->branch->find($idBranch, $columns, $entities);
+    }
+
+    /**
+     * Create an new branch
+     *
+     * @return boolean
+     */
+    public function allByCommerceId($branchId) {
+
+        return $this->branch->allByCommerceId($branchId);
+    }
+
+    public function syncBranchUsers($branch, $user) {
+
+        return $branch->users()->save($user);
+    }
+
+    public function syncBranchProducts($branch, $user) {
+
+        $products = $this->product->allByCommerceId($user->id_commerce);
+
+        if (!$products->isEmpty()) {
+
+            $productBranch = array();
+
+            foreach ($products as $product) {
+
+                $productBranch[] = $product->id;
+            }
+
+            $branch->products()->sync($productBranch);
+        }
+
+        return $branch;
+    }
+
+    public function syncBranchDealers($branch, $dealers) {
+
+        $branch = $this->branch->find($branch->id, ['*'], ['dealers']);
+
+        /*
+         * check if there are dealers to remove and proceed if needed, if not, we update them.
          */
-        public function update($id, array $input)
-        {
+        foreach ($branch->dealers as $branchDealer) {
 
-                $input['commerce_id'] = \Auth::user()->id_commerce;
-                $input['city_id'] = $input['city'];
+            $delete = true;
 
-                if (!$this->valid($input, $id)) {
-                    return false;
-                }
+            if (isset($dealers['edit'])) {
 
-                if (isset($input['delivery'])) {
-                    $input['delivery'] = $input['radio'];
-                    $input['area'] = $input['delivery_area'];
-                }
-                
-                $phone = $input['phone'];
-                $dealer = $input['dealer'];
-                $days = $input['days'];
+                foreach ($dealers['edit'] as $dealerId => $dealerName) {
 
-                unset($input['radio']);
-                unset($input['delivery_area']);
-                unset($input['phone']);
-                unset($input['dealer']);
-                unset($input['days']);
-                unset($input['city']);
-
-                //Start transaction
-                \DB::beginTransaction();
-                
-                // Branch edit
-                $branch = $this->branch->edit($id, $input);
-                
-                if ( !$branch ) {
-                    return false;
-                }
-
-                // Branch static map position Google API
-                $this->staticMap($input, $branch);
-
-                // Branch Opening Hours--------
-                
-                $branchOpening = $this->branchOpening->save($branch, $days);
-                
-
-                if (!$branchOpening)
-                {
-                        \DB::rollback();
-                        $this->validator->errors = $this->branchOpening->errors();
-                        return false;
-                }
-
-
-                // Branch Phone Numbers--------
-                $branchPhone = $this->branchPhone->save($branch, $phone);
-
-
-                if (!$branchPhone)
-                {
-                        \DB::rollback();
-                        $this->validator->errors =  $this->branchPhone->errors();
-                        return false;
-                }
-                
-                // Branch Dealers --------
-                if (isset($input['delivery'])) {
-
-                    $branchDealer = $this->branchDealer->save($branch, $dealer);
-
-                    if (!$branchDealer)
-                    {
-                            \DB::rollback();
-                            $this->validator->errors = $this->branchDealer->errors();
-                            return false;
+                    if ($branchDealer->id == $dealerId) {
+                        $delete = false;
+                        break;
                     }
                 }
+            }
 
+            if ($delete) { //delete
+                if (!$this->branchDealer->delete($branchDealer->id))
+                    return false;
+            } else { //update
+                $input = array(
+                    'branch_id' => $branch->id,
+                    'dealer_name' => $dealerName
+                );
 
-                \DB::commit();
-                // End transaction
-
-                return $branch;
+                if (!$this->branchDealer->update($branchDealer->id, $input))
+                    return false;
+            }
         }
 
-        /**
-         * Update an existing branch
-         *
-         * @return boolean
+        /*
+         * add new dealers
          */
-        public function delete($id) {
+        if (isset($dealers['new'])) {
 
-                if ($this->branch->destroy($id)) {
+            foreach ($dealers['new'] as $dealerId => $dealerName) {
 
-                    $directoryPhotoPath = public_path() . '/upload/branch_image/';
+                $input = array(
+                    'branch_id' => $branch->id,
+                    'dealer_name' => $dealerName
+                );
 
-                    $Filesystem = new Filesystem();
-                    $Filesystem->deleteDirectory($directoryPhotoPath . $id);
-                }
+                if (!$this->branchDealer->save($branch, $input))
+                    return false;
+            }
         }
 
-        /**
-         * Create an new branch
-         *
-         * @return boolean
-         */
-        public function changeStatus($id, array $input) {
 
-                return $this->branch->edit($id, $input);
+        return true;
+    }
+
+    private function staticMap($input, $branch) {
+
+        $Filesystem = new Filesystem();
+
+        $small = 'http://maps.googleapis.com/maps/api/staticmap?center=' . $branch->position . '&markers=color:red|' . $branch->position . '&zoom=15&size=245x245&maptype=ROADMAP&sensor=false';
+        $directoryPhotoPath = public_path() . '/upload/branch_image/';
+
+        $branchPhotoPath = $directoryPhotoPath . $branch->id;
+
+        if (!$Filesystem->exists($branchPhotoPath)) {
+
+            $Filesystem->makeDirectory($branchPhotoPath, 0777);
         }
 
-        /**
-         * Create an new branch
-         *
-         * @return boolean
-         */
-        public function find($idBranch, $columns = array('*'), $entities = array()) {
+        $smallName = $branch->id . '.png';
 
-                return $this->branch->find($idBranch, $columns, $entities);
+        $Filesystem->copy($small, $branchPhotoPath . '/' . $smallName);
+
+        if (isset($input['delivery'])) {
+
+            $big = 'http://maps.googleapis.com/maps/api/staticmap?center=' . $branch->position . '&markers=color:red|' . $branch->position . '&zoom=15&size=454x376&maptype=ROADMAP&sensor=false&path=color:red|weight:1|fillcolor:white|' . str_replace(' ', ',', str_replace(',', '|', $branch->area));
+            $bigName = $branch->id . '_area.png';
+            $Filesystem->copy($big, $branchPhotoPath . '/' . $bigName);
+        } else {
+
+            $bigName = $branch->id . '_area.png';
+            if ($Filesystem->exists($branchPhotoPath . '/' . $bigName))
+                $Filesystem->delete($branchPhotoPath . '/' . $bigName);
         }
 
-        /**
-         * Create an new branch
-         *
-         * @return boolean
-         */
-        public function allByCommerceId($branchId) {
+        return true;
+    }
 
-                return $this->branch->allByCommerceId($branchId);
-        }
+    public function findByCommerceId($branchId, $commerceId) {
 
-        private function staticMap($input, $branch) {
-
-                $Filesystem = new Filesystem();
-
-                $small = 'http://maps.googleapis.com/maps/api/staticmap?center=' . $branch->position . '&markers=color:red|' . $branch->position . '&zoom=15&size=245x245&maptype=ROADMAP&sensor=false';
-                $directoryPhotoPath = public_path() . '/upload/branch_image/';
-
-                $branchPhotoPath = $directoryPhotoPath . $branch->id;
-
-                if (!$Filesystem->exists($branchPhotoPath)) {
-
-                    $Filesystem->makeDirectory($branchPhotoPath, 0777);
-                }
-
-                $smallName = $branch->id . '.png';
-
-                $Filesystem->copy($small, $branchPhotoPath . '/' . $smallName);
-
-                if (isset($input['delivery'])) {
-
-                    $big = 'http://maps.googleapis.com/maps/api/staticmap?center=' . $branch->position . '&markers=color:red|' . $branch->position . '&zoom=15&size=454x376&maptype=ROADMAP&sensor=false&path=color:red|weight:1|fillcolor:white|' . str_replace(' ', ',', str_replace(',', '|', $branch->area));
-                    $bigName = $branch->id . '_area.png';
-                    $Filesystem->copy($big, $branchPhotoPath . '/' . $bigName);
-                } else {
-
-                    $bigName = $branch->id . '_area.png';
-                    if ($Filesystem->exists($branchPhotoPath . '/' . $bigName))
-                        $Filesystem->delete($branchPhotoPath . '/' . $bigName);
-                }
-
-                return true;
-        }
+        return $this->branch->findByCommerceId($branchId, $commerceId);
+    }
 
 }

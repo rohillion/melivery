@@ -5,6 +5,13 @@ namespace App\Repository\BranchDealer;
 use App\Repository\RepositoryAbstract;
 
 class EloquentBranchDealer extends RepositoryAbstract implements BranchDealerInterface {
+    
+    public function findByBranchId($dealerId, $branchId){
+        
+        return $this->entity
+                ->where('branch_id', $branchId)
+                ->find($dealerId);
+    }
 
     public function findWithReadyOrders($dealer_id) {
 

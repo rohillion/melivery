@@ -32,39 +32,15 @@ class BranchDealerForm extends AbstractForm {
      *
      * @return boolean
      */
-    public function save($branch, array $dealers) {
+    public function save($input) {
 
-        if (count($dealers) < 1) {
-            $this->validator->errors = new MessageBag(['dealer' => 'Debe haber al menos un repartidor si la sucursal admite delivery']);
+        $this->validator->rules['dealer_name'] = "required|alpha_spaces|unique:branch_dealer,dealer_name,NULL,id,branch_id," . $input['branch_id'];
+
+        if (!$this->valid($input)) {
             return false;
         }
 
-        foreach ($dealers as $dealer_id => $dealer_name) {
-
-            $input = array(
-                'branch_id' => $branch->id,
-                'dealer_name' => $dealer_name
-            );
-
-            $branchDealer = $this->branchDealer->find($dealer_id);
-
-            if (!is_null($branchDealer)) {
-
-                if (!$this->update($branchDealer->id, $input))
-                    return false;
-            } else {
-
-                $this->validator->rules['dealer_name'] = "required|alpha_spaces|unique:branch_dealer,dealer_name,NULL,id,branch_id," . $input['branch_id'];
-
-                if (!$this->valid($input)) {
-                    return false;
-                }
-
-                $this->branchDealer->create($input);
-            }
-        }
-
-        return true;
+        return $this->branchDealer->create($input);
     }
 
     public function findWithReadyOrders($id) {
@@ -141,6 +117,23 @@ class BranchDealerForm extends AbstractForm {
         }
 
         return $dealer;
+    }
+
+    public function findByBranchId($dealerId, $branchId) {
+
+        return $this->branchDealer->findByBranchId($dealerId, $branchId);
+    }
+
+    public function delete($dealerId) {
+
+        $dealer = $this->branchDealer->findWithReadyOrders($dealerId);
+
+        if (!is_null($dealer)) {
+            $this->validator->errors = new MessageBag(['dealer' => 'El repartidor ' . $dealer->dealer_name . ' no puede ser eliminado debido a que tiene asignados uno o mas pedidos pendientes de entrega. Por favor finalice su cuenta abierta para luego poder eliminarlo.']);
+            return false;
+        }
+
+        return $this->branchDealer->delete($dealerId);
     }
 
 }
