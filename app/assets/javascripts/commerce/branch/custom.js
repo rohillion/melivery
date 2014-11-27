@@ -7,6 +7,7 @@ var custom = {
         this.searchBranchLocation();
         this.deliveryArea();
         this.dealers();
+        
     },
     toggleClock: function() {
         var wrappers = $('.business-hours-control');
