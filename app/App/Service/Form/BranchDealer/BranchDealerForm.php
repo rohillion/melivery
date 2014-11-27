@@ -128,12 +128,12 @@ class BranchDealerForm extends AbstractForm {
 
         $dealer = $this->branchDealer->findWithReadyOrders($dealerId);
 
-        if (!is_null($dealer)) {
+        if (!$dealer->orders->isEmpty()) {
             $this->validator->errors = new MessageBag(['dealer' => 'El repartidor ' . $dealer->dealer_name . ' no puede ser eliminado debido a que tiene asignados uno o mas pedidos pendientes de entrega. Por favor finalice su cuenta abierta para luego poder eliminarlo.']);
             return false;
         }
 
-        return $this->branchDealer->delete($dealerId);
+        return $this->branchDealer->destroy($dealerId);
     }
 
 }

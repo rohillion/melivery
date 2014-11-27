@@ -3,6 +3,7 @@ var custom = {
         this.orderEntry();
         this.orderChronometer();
         this.orderTimer();
+        this.togglePendingPanel();
         /*$('#switch-view').on('click', function() {
          $('.tab-content').find('.tab-pane').toggleClass('col-lg-3 visible-lg-block');
          });*/
@@ -90,5 +91,11 @@ var custom = {
             });
         }
 
+    },
+    togglePendingPanel : function(){
+        
+        $('#order-pending').on('click', function(){
+            $(this).toggleClass('shown');
+        });
     }
 }

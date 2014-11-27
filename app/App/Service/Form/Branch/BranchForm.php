@@ -339,7 +339,7 @@ class BranchForm extends AbstractForm {
                     'dealer_name' => $dealerName
                 );
 
-                if (!$this->branchDealer->save($branch, $input))
+                if (!$this->branchDealer->save($input))
                     return false;
             }
         }

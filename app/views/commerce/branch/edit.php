@@ -93,7 +93,7 @@
                                     <label for="branchPickup" class="col-lg-4 control-label">Retira por sucursal</label>
 
                                     <div style="padding: 20px;line-height: 0;" class="col-lg-8">
-                                        <input <?php echo $branch->pickup ? 'checked' : ''; ?> class="enable hidden-checkbox" type="checkbox" id="pickup" name="pickup" value="1">
+                                        <input <?php echo Input::old('pickup') || $branch->pickup ? 'checked' : ''; ?> class="enable hidden-checkbox" type="checkbox" id="pickup" name="pickup" value="1">
                                         <label lang="es" for="pickup" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
                                     </div>
                                 </div>
@@ -103,7 +103,7 @@
 
                                     <div style="padding: 20px;line-height: 0;" class="col-lg-8">
 
-                                        <input <?php echo $branch->delivery ? 'checked' : ''; ?> class="enable hidden-checkbox" type="checkbox" id="delivery" name="delivery">
+                                        <input <?php echo Input::old('delivery') || $branch->delivery ? 'checked' : ''; ?> class="enable hidden-checkbox" type="checkbox" id="delivery" name="delivery">
                                         <label lang="es" for="delivery" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
 
                                         <span class="clearfix"></span>
@@ -124,8 +124,8 @@
                                             <?php } ?>
 
                                             <div class="slider irs-with-grid">
-                                                <input name="radio" onchange="commerce.getDeliveryArea($('#branchCoord').val(), this.value)" type="range" min="1" max="10" step="1" value="<?php echo $branch->delivery; ?>"/>
-                                                <input name="delivery_area" type="hidden" id="delivery_area" value="<?php echo $branch->area; ?>"/>
+                                                <input name="radio" type="range" min="1" max="10" step="1" value="<?php echo Input::old('radio') ? Input::old('radio') : $branch->delivery ; ?>"/>
+                                                <input name="delivery_area" type="hidden" id="delivery_area" value="<?php echo Input::old('delivery_area') ? Input::old('delivery_area') : $branch->area; ?>"/>
                                                 <span class="irs-grid">
 
                                                     <span class="irs-grid-pol" style="left: 2.5%;"></span>
@@ -167,7 +167,7 @@
 
                                             <!-- dealer field model -->
                                             <div id="dealer-model" class="row col-xs-12 invisible">
-                                                <input name="dealer[new][]" type="text" class="form-control" placeholder="Nombre del repartidor">
+                                                <input type="text" class="form-control" placeholder="Nombre del repartidor">
                                                 <a class="remove-dealer" href="#" title="Remover repartidor"><i class="fa fa-remove"></i></a>
                                             </div>
 
@@ -188,7 +188,7 @@
 
                                         </div>
 
-                                        <div style="margin-top: 20px;" class="row col-xs-12 form-medium text-center">
+                                        <div style="margin-top: 20px;" class="row col-xs-12 form-medium">
                                             <button type="button" id="add-dealer" class="btn btn-flat btn-success"><i class="fa fa-plus"></i> Agregar repartidor</button>
                                         </div>
 

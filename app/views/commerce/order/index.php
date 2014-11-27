@@ -50,19 +50,19 @@
 
 
                     <section class="order-panel">
-                        
-                        <!--<button id="switch-view" class="btn btn-default btn-flat btn-sm"><i class="fa fa-toggle-on"></i></button>-->
-                        
+
+<!--<button id="switch-view" class="btn btn-default btn-flat btn-sm"><i class="fa fa-toggle-on"></i></button>-->
+
                         <div class="tabs tabs-style-iconbox">
 
                             <nav class="box box-solid" style="margin-bottom: 20px;">
                                 <ul>
-                                    <li class="active">
+                                    <!--<li class="active">
                                         <a href="#order-pending" class="fa fa-exclamation fa-2x" role="tab" data-toggle="tab">
                                             <h4>Pendientes</h4>
                                         </a>
-                                    </li>
-                                    <li>
+                                    </li>-->
+                                    <li class="active">
                                         <a href="#order-progress" class="fa fa-gears fa-2x" role="tab" data-toggle="tab">
                                             <h4>En Marcha</h4>
                                         </a>
@@ -82,9 +82,8 @@
 
                             <?php if (!is_null($orders)) { ?>
 
-                                <div class="row tab-content">
-
-                                    <section class="col-xs-12 col-lg-3 visible-lg-block tab-pane active" id="order-pending">
+                                <div class="row">
+                                    <section class="col-xs-12 col-xs-offset-0 col-sm-offset-2 col-sm-7 shown" id="order-pending">
 
                                         <?php if (!is_null($orders['pending'])) { ?>
 
@@ -92,13 +91,16 @@
 
                                         <?php } else { ?>
 
-                                            <div class="well well-sm text-center">No hay pedidos pendientes.</div>
+                                            <div class="text-center">No hay pedidos pendientes.</div>
 
                                         <?php } ?>
 
                                     </section>
+                                </div>
 
-                                    <section class="col-xs-12 col-lg-3 visible-lg-block tab-pane" id="order-progress">
+                                <div class="row tab-content">
+
+                                    <section class="col-xs-12 col-lg-4 visible-lg-block tab-pane active" id="order-progress">
 
                                         <?php if (!is_null($orders['progress'])) { ?>
 
@@ -112,7 +114,7 @@
 
                                     </section>
 
-                                    <section class="col-xs-12 col-lg-3 visible-lg-block tab-pane" id="order-ready">
+                                    <section class="col-xs-12 col-lg-4 visible-lg-block tab-pane" id="order-ready">
 
                                         <?php if (!is_null($orders['ready'])) { ?>
 
@@ -139,7 +141,7 @@
 
                                     </section>
 
-                                    <section class="col-xs-12 col-lg-3 visible-lg-block tab-pane" id="order-done">
+                                    <section class="col-xs-12 col-lg-4 visible-lg-block tab-pane" id="order-done">
 
                                         <?php if (!is_null($orders['done'])) { ?>
 

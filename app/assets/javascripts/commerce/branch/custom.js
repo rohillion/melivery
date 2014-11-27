@@ -377,7 +377,7 @@ var custom = {
         $('#add-dealer').on('click', function() {
             newDealer = dealer.clone()[0];
             dealerList.append(newDealer);
-            $(newDealer).removeClass('invisible').addClass('dealer');
+            $(newDealer).removeClass('invisible').addClass('dealer').find('input').attr('name','dealer[new][]');
         });
 
         var parent;
