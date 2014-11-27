@@ -14,14 +14,7 @@ var geocoding = {
 
         geocoder.geocode({'address': address, 'componentRestrictions': {'locality': city, 'country': country.val(), 'administrativeArea': state}}, function(res, status) {
 
-            if (status === google.maps.GeocoderStatus.OK) {
-
-                callback(res);
-            } else {
-
-                alert('Geocode was not successful for the following reason: ' + status);
-            }
-
+            callback(res, status);
         });
 
     },

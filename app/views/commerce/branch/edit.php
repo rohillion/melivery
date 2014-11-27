@@ -58,7 +58,7 @@
                                     <label for="address" class="col-xs-4 control-label">Direcci&oacute;n</label>
 
                                     <div class="col-xs-8">
-                                        <input data-toggle="modal" data-target="#address-modal" name="address" type="text" class="form-control" id="address" placeholder="Direcci&oacute;n de la sucursal" value="<?php echo Input::old('address') ? Input::old('address') : ( isset($branch->street) && isset($branch->city_id) ? $branch->street .', '.$branch->city->name : '' ); ?>">
+                                        <input data-toggle="modal" data-target="#address-modal" name="address" type="text" class="form-control" id="address" placeholder="Direcci&oacute;n de la sucursal" value="<?php echo Input::old('address') ? Input::old('address') : ( isset($branch->street) && isset($branch->city_id) ? $branch->street . ', ' . $branch->city->name : '' ); ?>">
                                     </div>
 
                                     <input name="position" id="position" type="hidden" value="<?php echo Input::old('position') ? Input::old('position') : ( isset($branch->position) ? $branch->position : '' ); ?>">
@@ -163,7 +163,13 @@
 
                                         </div>
 
-                                        <div class="">
+                                        <div id="dealer-list">
+
+                                            <!-- dealer field model -->
+                                            <div id="dealer-model" class="row col-xs-12 invisible">
+                                                <input name="dealer[new][]" type="text" class="form-control" placeholder="Nombre del repartidor">
+                                                <a class="remove-dealer" href="#" title="Remover repartidor"><i class="fa fa-remove"></i></a>
+                                            </div>
 
                                             <div class="box-header">
                                                 <h3 class="box-title">Repartidores:</h3>
@@ -172,13 +178,18 @@
                                             <?php $i = 1; ?>
                                             <?php foreach ($branch->dealers as $dealer) { ?>
 
-                                                <div class="row col-xs-12">
+                                                <div class="row col-xs-12 dealer">
                                                     <input name="dealer[edit][<?php echo $dealer->id ?>]" type="text" class="form-control" placeholder="Nombre repartidor <?php echo $i ?>" value="<?php echo Input::old('dealer.edit.' . $dealer->id) ? Input::old('dealer.edit.' . $dealer->id) : $dealer->dealer_name; ?>">
+                                                    <a class="remove-dealer" href="#" title="Remover repartidor"><i class="fa fa-remove"></i></a>
                                                 </div>
 
                                                 <?php $i++; ?>
                                             <?php } ?>
 
+                                        </div>
+
+                                        <div style="margin-top: 20px;" class="row col-xs-12 form-medium text-center">
+                                            <button type="button" id="add-dealer" class="btn btn-flat btn-success"><i class="fa fa-plus"></i> Agregar repartidor</button>
                                         </div>
 
                                     </div>
@@ -271,13 +282,13 @@
                             <div class="col-xs-5 scrollable-dropdown-menu">
                                 <input type="text" class="form-control typeahead" id="branchCity" placeholder="Ciudad">
                             </div>
-                            
+
                             <div class="col-xs-2">
                                 <button id="searchBranchLocation" class="btn btn-primary btn-block" title="Buscar"><i class="fa fa-search"></i></button>
                             </div>
 
                         </div>
-                        
+
                         <p id="not-found" class="bg-warning">No hemos podido encontrar la ubicaci&oacute;n exacta de la direcci&oacute;n que has ingresado. <br> Por favor, arrastra el indicador hasta donde se encuntra la sucursal.</p>
                         <p id="found" class="bg-success">Hemos encontrado la ubicaci&oacute;n de la sucursal. En caso de no ser la correcta por favor, arrastra el indicador hasta la posici&oacute;n adecuada.</p>
 

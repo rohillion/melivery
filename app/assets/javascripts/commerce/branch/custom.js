@@ -7,7 +7,7 @@ var custom = {
         this.searchBranchLocation();
         this.deliveryArea();
         this.dealers();
-        
+
     },
     toggleClock: function() {
         var wrappers = $('.business-hours-control');
@@ -162,7 +162,7 @@ var custom = {
 
         $('#found,#not-found').hide();
 
-        geocoding.codeAddress(address, city, state, function(res) {
+        geocoding.codeAddress(address, city, state, function(res, status) {
 
             var mapOptions = {
                 zoom: 17,
@@ -178,72 +178,87 @@ var custom = {
                 title: "Dirección"
             };
 
-            if (res.length < 2) {
+            if (status === google.maps.GeocoderStatus.OK) {
 
-                /*******************************************************************************
-                 * If not match street address show map to get position from it.
-                 * Otherway, set coordinates.
-                 *******************************************************************************/
+                if (res.length < 2) {
 
-                if (res[0].types[0] !== 'street_address') {
+                    /*******************************************************************************
+                     * If not match street address show map to get position from it.
+                     * Otherway, set coordinates.
+                     *******************************************************************************/
 
-                    $('#not-found').show();
+                    if (res[0].types[0] !== 'street_address') {
+
+                        $('#not-found').show();
+
+                    } else {
+
+                        $('#found').show();
+                    }
+
+                    geocoding.position = res[0].geometry.location;
 
                 } else {
 
-                    $('#found').show();
-                }
+                    $('#not-found').show();
 
-                geocoding.position = res[0].geometry.location;
+                    /***************************************************
+                     * Get first route position from array
+                     ***************************************************/
+                    var route = false;
+                    var i = 1;
 
-            } else {
+                    while (i < res.length) {
 
-                $('#not-found').show();
+                        if (res[i].types[0] === 'route') {
 
-                /***************************************************
-                 * Get first route position from array
-                 ***************************************************/
-                var route = false;
-                var i = 1;
+                            geocoding.position = res[i].geometry.location;
 
-                while (i < res.length) {
+                            route = true;
+                            break;
+                        }
 
-                    if (res[i].types[0] === 'route') {
-
-                        geocoding.position = res[i].geometry.location;
-
-                        route = true;
-                        break;
+                        i++;
                     }
 
-                    i++;
+                    /***************************************************
+                     * If no route position show first coincidence.
+                     ***************************************************/
+                    if (!route) {
+
+                        geocoding.position = res[0].geometry.location;
+                    }
                 }
 
-                /***************************************************
-                 * If no route position show first coincidence.
-                 ***************************************************/
-                if (!route) {
+                mapOptions.center = markerOpts.position = geocoding.position;
 
-                    geocoding.position = res[0].geometry.location;
-                }
-            }
+                geocoding.setMap($('#map-canvas')[0], mapOptions, function(map) {
 
-            mapOptions.center = markerOpts.position = geocoding.position;
+                    markerOpts.map = map;
 
-            geocoding.setMap($('#map-canvas')[0], mapOptions, function(map) {
+                    geocoding.setMaker(markerOpts, function(marker) {
 
-                markerOpts.map = map;
+                        google.maps.event.addListener(marker, "mouseup", function(event) {
 
-                geocoding.setMaker(markerOpts, function(marker) {
+                            geocoding.position = event.latLng;
+                        });
 
-                    google.maps.event.addListener(marker, "mouseup", function(event) {
-
-                        geocoding.position = event.latLng;
                     });
 
                 });
 
-            });
+            } else if (status === google.maps.GeocoderStatus.ZERO_RESULTS) {
+
+                main.notify({
+                    'message': 'No hemos podido encontrar la ubicacion de la sucursal. Por favor, verifique que este correctamente escrito el nombre de la calle.',
+                    'time': 10000,
+                    'status': 'error'
+                });
+
+            } else {
+
+                alert('Error: ' + status);
+            }
 
         });
     },
@@ -316,13 +331,13 @@ var custom = {
         });
     },
     deliveryArea: function() {
-        
+
         var notifyOpts = {
             'message': 'Para poder establecer un radio de entrega primero debe ingresar la dirección de la sucursal',
             'status': 'notice',
             'time': '10000'
         };
-        
+
         var position = $('#position');
         var radio = $('#radio');
 
@@ -352,13 +367,30 @@ var custom = {
             custom.getDeliveryArea(position.val(), radio.val());
         });
     },
-    dealers : function(){
-        
-        $('#add-dealer').on('click',function(){
-            
-            
-            
+    dealers: function() {
+
+        var newDealer;
+        var dealer = $('#dealer-model');
+        var dealerList = $('#dealer-list');
+
+
+        $('#add-dealer').on('click', function() {
+            newDealer = dealer.clone()[0];
+            dealerList.append(newDealer);
+            $(newDealer).removeClass('invisible').addClass('dealer');
         });
-        
+
+        var parent;
+
+        $(document).on('click', '.remove-dealer', function() {
+
+            parent = $(this).parent();
+
+            if (dealerList.find('.dealer').length > 1)
+                parent.remove();
+
+            return false;
+        });
+
     }
 }

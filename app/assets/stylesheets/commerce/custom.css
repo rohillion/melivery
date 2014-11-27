@@ -127,6 +127,21 @@ body{
     max-width: inherit!important;
 }
 
+.remove-dealer{
+    top: 32%;
+    position: absolute;
+    display: block;
+    right: 20px;
+    display: block;
+    color: #000;
+    opacity: 0.5;
+}
+
+.remove-dealer:hover{
+    opacity: 1;
+    color: #000;
+}
+
 /***** branch *****/
 
 /*****************************/
@@ -352,7 +367,7 @@ body{
         -o-filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
         filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));	
     }
-    
+
     .box-footer .reject-button {
         margin-top:10px;
     }
@@ -360,11 +375,11 @@ body{
 }
 
 @media(min-width:768px){
-    
+
     .box-footer .reject-button {
         float:right;
     }
-    
+
 }
 
 

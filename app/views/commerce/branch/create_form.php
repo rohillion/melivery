@@ -102,8 +102,14 @@
 
             </div>
 
-            <div class="">
+            <div id="dealer-list">
 
+                <!-- dealer field model -->
+                <div id="dealer-model" class="row col-xs-12 invisible">
+                    <input name="dealer[new][]" type="text" class="form-control" placeholder="Nombre del repartidor">
+                    <a class="remove-dealer" href="#" title="Remover repartidor"><i class="fa fa-remove"></i></a>
+                </div>
+                
                 <div class="box-header">
                     <h3 class="box-title">Repartidores:</h3>
                 </div>
@@ -112,20 +118,26 @@
 
                     <?php for ($i = 0; $i < Input::old('dealer'); $i++) { ?>
 
-                        <div class="row col-xs-12">
-                            <input name="dealer[new][<?php echo $i; ?>]" type="text" class="form-control" placeholder="Repartidor <?php echo $i+1?>" value="<?php echo Input::old('dealer.new.' . $i) ? Input::old('dealer.new.' . $i) : ''; ?>">
+                        <div class="row col-xs-12 dealer">
+                            <input name="dealer[new][<?php echo $i; ?>]" type="text" class="form-control" placeholder="Repartidor <?php echo $i + 1 ?>" value="<?php echo Input::old('dealer.new.' . $i) ? Input::old('dealer.new.' . $i) : ''; ?>">
+                            <a class="remove-dealer" href="#" title="Remover repartidor"><i class="fa fa-remove"></i></a>
                         </div>
 
                     <?php } ?>
 
                 <?php } else { ?>
 
-                    <div class="row col-xs-12">
+                    <div class="row col-xs-12 dealer">
                         <input name="dealer[new][]" type="text" class="form-control" placeholder="Repartidor (Ej. Juan)">
+                        <a class="remove-dealer" href="#" title="Remover repartidor"><i class="fa fa-remove"></i></a>
                     </div>
 
                 <?php } ?>
 
+            </div>
+
+            <div style="margin-top: 20px;" class="row col-xs-12 form-medium text-center">
+                <button type="button" id="add-dealer" class="btn btn-flat btn-success"><i class="fa fa-plus"></i> Agregar repartidor</button>
             </div>
 
         </div>
