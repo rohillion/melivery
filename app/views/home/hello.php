@@ -17,7 +17,7 @@
 
                 <div class="input-group col-lg-offset-2 col-lg-8">
 
-                    <div style="background-color: white;overflow: hidden;" class="row">
+                    <div style="background-color: white;" class="row">
 
                         <div class="col-xs-7">
                             <input style="border:none;" name="address" type="text" class="form-control address" placeholder="(Ej. C&oacute;rdoba 1055)">
@@ -44,7 +44,7 @@
 
                                             <?php foreach ($cities as $city) { ?>
                                                 <li class="list-group-item">
-                                                    <a id="<?php echo $city->geonameid ?>" data-value="<?php echo $city->asciiname ?>" class="city-item" href="#"><?php echo $city->name ?></a>
+                                                    <a style="font-size:15px;" id="<?php echo $city->geonameid ?>" data-value="<?php echo $city->asciiname ?>" class="city-item" href="#"><?php echo $city->name . ' - '. $city->state->state_name ?></a>
                                                 </li>
                                             <?php } ?>
 

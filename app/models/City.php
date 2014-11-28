@@ -34,7 +34,7 @@ class City extends Eloquent {
      * Branch relationship
      */
     public function branches() {
-        return $this->hasMany('Branch', 'city_id');
+        return $this->hasMany('Branch', 'city_id','geonameid');
     }
 
 }

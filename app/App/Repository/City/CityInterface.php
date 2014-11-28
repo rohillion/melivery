@@ -6,6 +6,8 @@ interface CityInterface {
 
     public function byCountryCode($countryCode);
     
+    public function allByCountryCodeInUse($countryCode);
+    
     public function byCountryCodeByCityName($countryCode, $query);
 
     public function byCountryId($countryId);
