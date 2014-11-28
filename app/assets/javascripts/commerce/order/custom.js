@@ -94,7 +94,7 @@ var custom = {
     },
     togglePendingPanel : function(){
         
-        $('#order-pending').on('click', function(){
+        $('#order-pending-fixed').on('click', function(){
             $(this).toggleClass('shown');
         });
     }

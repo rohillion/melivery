@@ -82,22 +82,6 @@
 
                             <?php if (!is_null($orders)) { ?>
 
-                                <div class="row">
-                                    <section class="col-xs-12 col-xs-offset-0 col-sm-offset-2 col-sm-7 shown" id="order-pending">
-
-                                        <?php if (!is_null($orders['pending'])) { ?>
-
-                                            <?php include 'pending.php'; ?>
-
-                                        <?php } else { ?>
-
-                                            <div class="text-center">No hay pedidos pendientes.</div>
-
-                                        <?php } ?>
-
-                                    </section>
-                                </div>
-
                                 <div class="row tab-content">
 
                                     <section class="col-xs-12 col-lg-4 visible-lg-block tab-pane active" id="order-progress">
@@ -155,6 +139,22 @@
 
                                     </section>
 
+                                </div>
+
+                                <div id="order-pending-fixed" class="shown">
+                                    <section class="col-xs-12 col-sm-offset-2 col-sm-8 col-lg-offset-3 col-lg-6 shown" id="order-pending">
+
+                                        <?php if (!is_null($orders['pending'])) { ?>
+
+                                            <?php include 'pending.php'; ?>
+
+                                        <?php } else { ?>
+
+                                            <div class="text-center">No hay pedidos pendientes.</div>
+
+                                        <?php } ?>
+
+                                    </section>
                                 </div>
 
                             <?php } else { ?>
