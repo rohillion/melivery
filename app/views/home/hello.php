@@ -17,7 +17,7 @@
 
                 <div class="input-group col-lg-offset-2 col-lg-8">
 
-                    <div style="background-color: white;" class="row">
+                    <div style="background-color: white;border-top-left-radius: 3px; border-bottom-left-radius: 3px;" class="row">
 
                         <div class="col-xs-7">
                             <input style="border:none;" name="address" type="text" class="form-control address" placeholder="(Ej. C&oacute;rdoba 1055)">
@@ -27,7 +27,7 @@
                         <div class="col-xs-5">
 
 
-                            <div id="city-select" class="pull-right">
+                            <div style="padding:24px;" id="city-select" class="pull-right">
 
                                 <div href="#" id="city-mask" class="filter-mask popover-trigger">
 
@@ -60,7 +60,7 @@
                     </div>
 
                     <span class="input-group-btn">
-                        <button id="search_food" style="border:none;" class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                        <button id="search_food" class="btn btn-default btn-flat" type="button"><i class="fa fa-search"></i></button>
                     </span>
                 </div>
 

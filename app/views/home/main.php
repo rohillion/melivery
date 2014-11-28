@@ -46,19 +46,8 @@
 
         <!-- Dependecies -->
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-        <script src="/assets/application.js" type="text/javascript"></script>
 
-        <!-- Custom -->
-        <script src="/assets/home.js" type="text/javascript"></script>
-        <script src="/assets/hello.js" type="text/javascript"></script>
-
-        <script type="text/javascript">
-            $(document).ready(function() {
-                main.init();
-                home.init();
-                hello.init();
-            });
-        </script>
+        <?php echo View::make('footer'); ?>
 
     </body>
 </html>
