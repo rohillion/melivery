@@ -327,6 +327,6 @@ Route::get("/", [
 ]);
 
 Route::get("/position", [
-    "uses" => "PositionController@store"
+    "uses" => "AjaxPositionController@store"
 ]);
 

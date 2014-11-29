@@ -124,7 +124,7 @@
                                             <?php } ?>
 
                                             <div class="slider irs-with-grid">
-                                                <input name="radio" type="range" min="1" max="10" step="1" value="<?php echo Input::old('radio') ? Input::old('radio') : $branch->delivery ; ?>"/>
+                                                <input id="radio" name="radio" type="range" min="1" max="10" step="1" value="<?php echo Input::old('radio') ? Input::old('radio') : $branch->delivery ; ?>"/>
                                                 <input name="delivery_area" type="hidden" id="delivery_area" value="<?php echo Input::old('delivery_area') ? Input::old('delivery_area') : $branch->area; ?>"/>
                                                 <span class="irs-grid">
 

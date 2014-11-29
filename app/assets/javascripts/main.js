@@ -13,6 +13,7 @@ var main = {
         }
     },
     sendForm: function(target, formData, callback) {
+        console.log(formData);
         $.ajax({
             url: target + "?" + formData,
             dataType: "json"
@@ -272,6 +273,14 @@ var main = {
             }
 
         });
-
+        
+         $(document).on('click', '.popover-item', function(){
+            
+            var item = $(this);
+            item.closest('.select-mask').find('.mask').text(item.attr('data-label'));
+            $(popoverOld).popover('hide');
+            popoverOld = false;
+            return false;
+        });
     }
 }

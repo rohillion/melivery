@@ -141,6 +141,37 @@ class PreorderForm {
     public function add($productForm) {
 
         $product = $this->product->findWhereBranchId($productForm['id'], $productForm['branch']);
+        
+        /* TODO. Logica de tiempos de entrega de sucursales y asignacion de comandas.
+         * 
+         * if($product->branch->count>1){
+         * 
+         *      foreach($product->branch as $branch){
+         *          
+         *          if(existeEnComanda($branch->id)){
+         * 
+         *              $guardado = true;
+         *              Guardar producto en la comanda para la sucursal $branch->id
+         *              break;
+         * 
+         *          }else{
+         * 
+         *              $minutos[$branch->id] = preguntamos en cuantos minutos promedio entrega la sucursal $branch->id
+         *          }
+         *      }
+         * }
+         * 
+         * if(!$guardado){
+         *      $menorTiempo = false;
+         *      foreach($minutos as $minutosSucursal){
+         *          if($menorTiempo){
+         *              $menorTiempo = $menorTiempo <= $minutosSucursal ? $menorTiempo : $minutosSucursal;
+         *          }else{
+         *              $menorTiempo = $minutosSucursal;
+         *          }
+         *      }
+         * }
+         */
 
         if (!is_null($product)) {
             \Session::push('orders.' . $productForm['branch'], [

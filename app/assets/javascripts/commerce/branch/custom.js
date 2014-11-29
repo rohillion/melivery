@@ -154,114 +154,6 @@ var custom = {
             geocoding.state = obj.state_asciiname;
         });
     },
-    /*******************************************************************************
-     * searchLocation(address, city)
-     * Lets us retrieve the coordinates from a branch with the address and the city.
-     *******************************************************************************/
-    searchLocation: function(address, city, state) {
-
-        $('#found,#not-found').hide();
-
-        geocoding.codeAddress(address, city, state, function(res, status) {
-
-            var mapOptions = {
-                zoom: 17,
-                zoomControl: true,
-                zoomControlOptions: {
-                    style: google.maps.ZoomControlStyle.SMALL
-                },
-                mapTypeId: google.maps.MapTypeId.HYBRID
-            };
-
-            var markerOpts = {
-                draggable: true,
-                title: "Dirección"
-            };
-
-            if (status === google.maps.GeocoderStatus.OK) {
-
-                if (res.length < 2) {
-
-                    /*******************************************************************************
-                     * If not match street address show map to get position from it.
-                     * Otherway, set coordinates.
-                     *******************************************************************************/
-
-                    if (res[0].types[0] !== 'street_address') {
-
-                        $('#not-found').show();
-
-                    } else {
-
-                        $('#found').show();
-                    }
-
-                    geocoding.position = res[0].geometry.location;
-
-                } else {
-
-                    $('#not-found').show();
-
-                    /***************************************************
-                     * Get first route position from array
-                     ***************************************************/
-                    var route = false;
-                    var i = 1;
-
-                    while (i < res.length) {
-
-                        if (res[i].types[0] === 'route') {
-
-                            geocoding.position = res[i].geometry.location;
-
-                            route = true;
-                            break;
-                        }
-
-                        i++;
-                    }
-
-                    /***************************************************
-                     * If no route position show first coincidence.
-                     ***************************************************/
-                    if (!route) {
-
-                        geocoding.position = res[0].geometry.location;
-                    }
-                }
-
-                mapOptions.center = markerOpts.position = geocoding.position;
-
-                geocoding.setMap($('#map-canvas')[0], mapOptions, function(map) {
-
-                    markerOpts.map = map;
-
-                    geocoding.setMaker(markerOpts, function(marker) {
-
-                        google.maps.event.addListener(marker, "mouseup", function(event) {
-
-                            geocoding.position = event.latLng;
-                        });
-
-                    });
-
-                });
-
-            } else if (status === google.maps.GeocoderStatus.ZERO_RESULTS) {
-
-                main.notify({
-                    'message': 'No hemos podido encontrar la ubicacion de la sucursal. Por favor, verifique que este correctamente escrito el nombre de la calle.',
-                    'time': 10000,
-                    'status': 'error'
-                });
-
-            } else {
-
-                alert('Error: ' + status);
-            }
-
-        });
-    },
     completeAddress: function() {
 
         if (geocoding.position) {
@@ -311,6 +203,41 @@ var custom = {
 
         });
     },
+    /*******************************************************************************
+     * searchLocation(address, city)
+     * Lets us retrieve the coordinates from a branch with the address and the city.
+     *******************************************************************************/
+    searchLocation: function(address, city, state) {
+        
+        $('#found,#not-found').hide();
+
+        geocoding.searchLocation(address, city, state, function(mapOptions, markerOpts) {
+            
+            if(geocoding.found){
+                
+                $('#found').show();
+            }else{
+                
+                $('#not-found').show();
+            }
+
+            geocoding.setMap($('#map-canvas')[0], mapOptions, function(map) {
+
+                markerOpts.map = map;
+
+                geocoding.setMaker(markerOpts, function(marker) {
+
+                    google.maps.event.addListener(marker, "mouseup", function(event) {
+
+                        geocoding.position = event.latLng;
+                    });
+
+                });
+
+            });
+
+        });
+    },
     searchBranchLocation: function() {
         $('#searchBranchLocation').on('click', function() {
 
@@ -357,7 +284,7 @@ var custom = {
         });
 
         radio.on('change', function() {
-
+            
             if (position.val().length == 0) {
 
                 main.notify(notifyOpts);
@@ -377,7 +304,7 @@ var custom = {
         $('#add-dealer').on('click', function() {
             newDealer = dealer.clone()[0];
             dealerList.append(newDealer);
-            $(newDealer).removeClass('invisible').addClass('dealer').find('input').attr('name','dealer[new][]');
+            $(newDealer).removeClass('invisible').addClass('dealer').find('input').attr('name', 'dealer[new][]');
         });
 
         var parent;

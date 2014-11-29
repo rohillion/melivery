@@ -20,14 +20,13 @@
                     <div style="background-color: white;border-top-left-radius: 3px; border-bottom-left-radius: 3px;" class="row">
 
                         <div class="col-xs-7">
-                            <input style="border:none;" name="address" type="text" class="form-control address" placeholder="(Ej. C&oacute;rdoba 1055)">
-                            <input class="position" name="position" type="hidden">
+                            <input id="address" style="border:none;" name="address" type="text" class="form-control address" placeholder="(Ej. C&oacute;rdoba 1055)">
                         </div>
 
                         <div class="col-xs-5">
 
 
-                            <div style="padding:24px;" id="city-select" class="pull-right">
+                            <div style="padding:24px;" id="city-select" class="pull-right select-mask">
 
                                 <div href="#" id="city-mask" class="filter-mask popover-trigger">
 
@@ -44,12 +43,15 @@
 
                                             <?php foreach ($cities as $city) { ?>
                                                 <li class="list-group-item">
-                                                    <a style="font-size:15px;" id="<?php echo $city->geonameid ?>" data-value="<?php echo $city->asciiname ?>" class="city-item" href="#"><?php echo $city->name . ' - '. $city->state->state_name ?></a>
+                                                    <a style="font-size:15px;" id="<?php echo $city->geonameid ?>" class="city-item popover-item" data-asciiname="<?php echo $city->asciiname ?>" data-state="<?php echo $city->state->state_name ?>" data-label="<?php echo $city->name ?>" href="#"><?php echo $city->name . ' - ' . $city->state->state_name ?></a>
                                                 </li>
                                             <?php } ?>
 
                                         </ul>
                                     </div>
+
+                                    <input class="city" id="city" type="hidden">
+                                    <input class="state" id="state" type="hidden">
 
                                 </div>
 

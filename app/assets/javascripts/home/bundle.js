@@ -1,4 +1,3 @@
 /* Home bundle */
-//= require home.js
-//= require hello.js
+//= require helper/geocoding.js
 //= require home/custom.js

@@ -3620,3 +3620,590 @@ Stack trace:
 #18 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
 #19 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
 #20 {main} [] []
+[2014-11-29 12:39:40] local.ERROR: exception 'ReflectionException' with message 'Class AjaxPositionController does not exist' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Container\Container.php:504
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Container\Container.php(504): ReflectionClass->__construct('AjaxPositionCon...')
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Container\Container.php(428): Illuminate\Container\Container->build('AjaxPositionCon...', Array)
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(462): Illuminate\Container\Container->make('AjaxPositionCon...', Array)
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(78): Illuminate\Foundation\Application->make('AjaxPositionCon...')
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(51): Illuminate\Routing\ControllerDispatcher->makeController('AjaxPositionCon...')
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'AjaxPositionCon...', 'store')
+#6 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}()
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#10 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#11 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#12 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#13 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#14 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#15 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#17 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#18 {main} [] []
+[2014-11-29 12:41:40] local.ERROR: exception 'ReflectionException' with message 'Class AjaxPositionController does not exist' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Container\Container.php:504
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Container\Container.php(504): ReflectionClass->__construct('AjaxPositionCon...')
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Container\Container.php(428): Illuminate\Container\Container->build('AjaxPositionCon...', Array)
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(462): Illuminate\Container\Container->make('AjaxPositionCon...', Array)
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(78): Illuminate\Foundation\Application->make('AjaxPositionCon...')
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(51): Illuminate\Routing\ControllerDispatcher->makeController('AjaxPositionCon...')
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'AjaxPositionCon...', 'store')
+#6 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}()
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#10 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#11 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#12 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#13 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#14 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#15 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#17 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#18 {main} [] []
+[2014-11-29 12:41:53] local.ERROR: exception 'ReflectionException' with message 'Class AjaxPositionController does not exist' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Container\Container.php:504
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Container\Container.php(504): ReflectionClass->__construct('AjaxPositionCon...')
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Container\Container.php(428): Illuminate\Container\Container->build('AjaxPositionCon...', Array)
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(462): Illuminate\Container\Container->make('AjaxPositionCon...', Array)
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(78): Illuminate\Foundation\Application->make('AjaxPositionCon...')
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(51): Illuminate\Routing\ControllerDispatcher->makeController('AjaxPositionCon...')
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'AjaxPositionCon...', 'store')
+#6 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}()
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#10 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#11 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#12 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#13 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#14 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#15 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#17 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#18 {main} [] []
+[2014-11-29 12:51:57] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Call to undefined method Illuminate\Cookie\CookieJar::all()' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Support\Facades\Facade.php:205
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 14:33:58] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Call to undefined method Illuminate\Database\Query\JoinClause::select()' in C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php:28
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 14:34:56] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Call to undefined method Illuminate\Database\Query\JoinClause::join()' in C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php:28
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 14:40:17] local.ERROR: exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(
+                                        SELECT product_id, COUNT(product_id) ' at line 2' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php:299
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(299): PDO->prepare('select count(*)...')
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(617): Illuminate\Database\Connection->Illuminate\Database\{closure}(Object(Illuminate\Database\MySqlConnection), 'select count(*)...', Array)
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(581): Illuminate\Database\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(304): Illuminate\Database\Connection->run('select count(*)...', Array, Object(Closure))
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1359): Illuminate\Database\Connection->select('select count(*)...', Array)
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1349): Illuminate\Database\Query\Builder->runSelect()
+#6 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1336): Illuminate\Database\Query\Builder->getFresh(Array)
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1771): Illuminate\Database\Query\Builder->get(Array)
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1709): Illuminate\Database\Query\Builder->aggregate('count', Array)
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1626): Illuminate\Database\Query\Builder->count()
+#10 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(274): Illuminate\Database\Query\Builder->getPaginationCount()
+#11 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(246): Illuminate\Database\Eloquent\Builder->ungroupedPaginate(Object(Illuminate\Pagination\Factory), 10, Array)
+#12 C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php(57): Illuminate\Database\Eloquent\Builder->paginate(10)
+#13 C:\xampp\htdocs\melivery\app\App\Service\Form\Menu\MenuForm.php(39): App\Repository\Product\EloquentProduct->allByPosition('-34.597752 -58....', Array, 10)
+#14 C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php(58): App\Service\Form\Menu\MenuForm->products('-34.597752 -58....', 'delivery', Array, 10)
+#15 [internal function]: MenuController->index('empanadas')
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#17 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#18 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(MenuController), Object(Illuminate\Routing\Route), 'index')
+#19 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'MenuController', 'index')
+#20 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}('empanadas')
+#21 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#22 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#24 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#25 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#26 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#27 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#28 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#29 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#30 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#31 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#32 {main}
+
+Next exception 'Illuminate\Database\QueryException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(
+                                        SELECT product_id, COUNT(product_id) ' at line 2 (SQL: select count(*) as aggregate from `product` inner join branch_product ON (
+                                    SELECT tbl1.active_branch FROM branch_product as tbl1 (
+                                        SELECT product_id, COUNT(product_id) as active_branch 
+                                        FROM branch_product GROUP BY product_id
+                                ) as tbl2 ON (tbl1.product_id = tbl2.product_id) on `product`.`id` = `branch_product`.`product_id` inner join `branch` on `branch_product`.`branch_id` = `branch`.`id` where `product`.`active` = 1 and (SELECT 
+                                    inDeliveryArea (
+                                      POINTFROMTEXT(
+                                        'POINT(-34.597752 -58.380037)'
+                                      ),
+                                      POLYFROMTEXT(
+                                        CONCAT('POLYGON((', branch.area ,'))')
+                                      )
+                                    ) = 1) and `id_category` = 11)' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php:625
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(581): Illuminate\Database\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(304): Illuminate\Database\Connection->run('select count(*)...', Array, Object(Closure))
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1359): Illuminate\Database\Connection->select('select count(*)...', Array)
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1349): Illuminate\Database\Query\Builder->runSelect()
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1336): Illuminate\Database\Query\Builder->getFresh(Array)
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1771): Illuminate\Database\Query\Builder->get(Array)
+#6 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1709): Illuminate\Database\Query\Builder->aggregate('count', Array)
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1626): Illuminate\Database\Query\Builder->count()
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(274): Illuminate\Database\Query\Builder->getPaginationCount()
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(246): Illuminate\Database\Eloquent\Builder->ungroupedPaginate(Object(Illuminate\Pagination\Factory), 10, Array)
+#10 C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php(57): Illuminate\Database\Eloquent\Builder->paginate(10)
+#11 C:\xampp\htdocs\melivery\app\App\Service\Form\Menu\MenuForm.php(39): App\Repository\Product\EloquentProduct->allByPosition('-34.597752 -58....', Array, 10)
+#12 C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php(58): App\Service\Form\Menu\MenuForm->products('-34.597752 -58....', 'delivery', Array, 10)
+#13 [internal function]: MenuController->index('empanadas')
+#14 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#15 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(MenuController), Object(Illuminate\Routing\Route), 'index')
+#17 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'MenuController', 'index')
+#18 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}('empanadas')
+#19 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#20 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#21 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#22 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#24 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#25 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#26 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#27 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#28 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#29 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#30 {main} [] []
+[2014-11-29 14:41:31] local.ERROR: exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on `product`.`id` = `branch_product`.`product_id` inner join `branch` on `branch' at line 5' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php:299
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(299): PDO->prepare('select count(*)...')
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(617): Illuminate\Database\Connection->Illuminate\Database\{closure}(Object(Illuminate\Database\MySqlConnection), 'select count(*)...', Array)
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(581): Illuminate\Database\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(304): Illuminate\Database\Connection->run('select count(*)...', Array, Object(Closure))
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1359): Illuminate\Database\Connection->select('select count(*)...', Array)
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1349): Illuminate\Database\Query\Builder->runSelect()
+#6 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1336): Illuminate\Database\Query\Builder->getFresh(Array)
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1771): Illuminate\Database\Query\Builder->get(Array)
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1709): Illuminate\Database\Query\Builder->aggregate('count', Array)
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1626): Illuminate\Database\Query\Builder->count()
+#10 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(274): Illuminate\Database\Query\Builder->getPaginationCount()
+#11 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(246): Illuminate\Database\Eloquent\Builder->ungroupedPaginate(Object(Illuminate\Pagination\Factory), 10, Array)
+#12 C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php(57): Illuminate\Database\Eloquent\Builder->paginate(10)
+#13 C:\xampp\htdocs\melivery\app\App\Service\Form\Menu\MenuForm.php(39): App\Repository\Product\EloquentProduct->allByPosition('-34.597752 -58....', Array, 10)
+#14 C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php(58): App\Service\Form\Menu\MenuForm->products('-34.597752 -58....', 'delivery', Array, 10)
+#15 [internal function]: MenuController->index('empanadas')
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#17 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#18 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(MenuController), Object(Illuminate\Routing\Route), 'index')
+#19 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'MenuController', 'index')
+#20 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}('empanadas')
+#21 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#22 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#24 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#25 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#26 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#27 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#28 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#29 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#30 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#31 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#32 {main}
+
+Next exception 'Illuminate\Database\QueryException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on `product`.`id` = `branch_product`.`product_id` inner join `branch` on `branch' at line 5 (SQL: select count(*) as aggregate from `product` inner join branch_product ON (
+                                    SELECT tbl1.active_branch FROM branch_product as tbl1 JOIN(
+                                        SELECT product_id, COUNT(product_id) as active_branch 
+                                        FROM branch_product GROUP BY product_id
+                                ) as tbl2 ON (tbl1.product_id = tbl2.product_id) on `product`.`id` = `branch_product`.`product_id` inner join `branch` on `branch_product`.`branch_id` = `branch`.`id` where `product`.`active` = 1 and (SELECT 
+                                    inDeliveryArea (
+                                      POINTFROMTEXT(
+                                        'POINT(-34.597752 -58.380037)'
+                                      ),
+                                      POLYFROMTEXT(
+                                        CONCAT('POLYGON((', branch.area ,'))')
+                                      )
+                                    ) = 1) and `id_category` = 11)' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php:625
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(581): Illuminate\Database\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(304): Illuminate\Database\Connection->run('select count(*)...', Array, Object(Closure))
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1359): Illuminate\Database\Connection->select('select count(*)...', Array)
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1349): Illuminate\Database\Query\Builder->runSelect()
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1336): Illuminate\Database\Query\Builder->getFresh(Array)
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1771): Illuminate\Database\Query\Builder->get(Array)
+#6 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1709): Illuminate\Database\Query\Builder->aggregate('count', Array)
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1626): Illuminate\Database\Query\Builder->count()
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(274): Illuminate\Database\Query\Builder->getPaginationCount()
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(246): Illuminate\Database\Eloquent\Builder->ungroupedPaginate(Object(Illuminate\Pagination\Factory), 10, Array)
+#10 C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php(57): Illuminate\Database\Eloquent\Builder->paginate(10)
+#11 C:\xampp\htdocs\melivery\app\App\Service\Form\Menu\MenuForm.php(39): App\Repository\Product\EloquentProduct->allByPosition('-34.597752 -58....', Array, 10)
+#12 C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php(58): App\Service\Form\Menu\MenuForm->products('-34.597752 -58....', 'delivery', Array, 10)
+#13 [internal function]: MenuController->index('empanadas')
+#14 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#15 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(MenuController), Object(Illuminate\Routing\Route), 'index')
+#17 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'MenuController', 'index')
+#18 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}('empanadas')
+#19 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#20 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#21 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#22 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#24 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#25 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#26 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#27 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#28 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#29 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#30 {main} [] []
+[2014-11-29 14:59:43] local.ERROR: exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'branch_product.branch_id' in 'on clause'' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php:299
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(299): PDO->prepare('select count(*)...')
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(617): Illuminate\Database\Connection->Illuminate\Database\{closure}(Object(Illuminate\Database\MySqlConnection), 'select count(*)...', Array)
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(581): Illuminate\Database\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(304): Illuminate\Database\Connection->run('select count(*)...', Array, Object(Closure))
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1359): Illuminate\Database\Connection->select('select count(*)...', Array)
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1349): Illuminate\Database\Query\Builder->runSelect()
+#6 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1336): Illuminate\Database\Query\Builder->getFresh(Array)
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1771): Illuminate\Database\Query\Builder->get(Array)
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1709): Illuminate\Database\Query\Builder->aggregate('count', Array)
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1626): Illuminate\Database\Query\Builder->count()
+#10 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(274): Illuminate\Database\Query\Builder->getPaginationCount()
+#11 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(246): Illuminate\Database\Eloquent\Builder->ungroupedPaginate(Object(Illuminate\Pagination\Factory), 10, Array)
+#12 C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php(62): Illuminate\Database\Eloquent\Builder->paginate(10)
+#13 C:\xampp\htdocs\melivery\app\App\Service\Form\Menu\MenuForm.php(39): App\Repository\Product\EloquentProduct->allByPosition('-34.597752 -58....', Array, 10)
+#14 C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php(58): App\Service\Form\Menu\MenuForm->products('-34.597752 -58....', 'delivery', Array, 10)
+#15 [internal function]: MenuController->index('empanadas')
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#17 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#18 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(MenuController), Object(Illuminate\Routing\Route), 'index')
+#19 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'MenuController', 'index')
+#20 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}('empanadas')
+#21 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#22 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#24 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#25 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#26 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#27 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#28 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#29 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#30 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#31 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#32 {main}
+
+Next exception 'Illuminate\Database\QueryException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'branch_product.branch_id' in 'on clause' (SQL: select count(*) as aggregate from `product` inner join (
+                                    SELECT tbl2.product_id , tbl2.active_branch 
+                                        FROM branch_product as tbl1 
+                                    JOIN(
+                                        SELECT product_id, COUNT(product_id) as active_branch 
+                                            FROM branch_product 
+                                        GROUP BY product_id 
+                                        ) as tbl2 
+                                    ON (tbl1.product_id = tbl2.product_id)
+                                 ) as branch_product on `product`.`id` = `branch_product`.`product_id` inner join `branch` on `branch_product`.`branch_id` = `branch`.`id` where `product`.`active` = 1 and (SELECT 
+                                    inDeliveryArea (
+                                      POINTFROMTEXT(
+                                        'POINT(-34.597752 -58.380037)'
+                                      ),
+                                      POLYFROMTEXT(
+                                        CONCAT('POLYGON((', branch.area ,'))')
+                                      )
+                                    ) = 1) and `id_category` = 11)' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php:625
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(581): Illuminate\Database\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(304): Illuminate\Database\Connection->run('select count(*)...', Array, Object(Closure))
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1359): Illuminate\Database\Connection->select('select count(*)...', Array)
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1349): Illuminate\Database\Query\Builder->runSelect()
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1336): Illuminate\Database\Query\Builder->getFresh(Array)
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1771): Illuminate\Database\Query\Builder->get(Array)
+#6 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1709): Illuminate\Database\Query\Builder->aggregate('count', Array)
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1626): Illuminate\Database\Query\Builder->count()
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(274): Illuminate\Database\Query\Builder->getPaginationCount()
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(246): Illuminate\Database\Eloquent\Builder->ungroupedPaginate(Object(Illuminate\Pagination\Factory), 10, Array)
+#10 C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php(62): Illuminate\Database\Eloquent\Builder->paginate(10)
+#11 C:\xampp\htdocs\melivery\app\App\Service\Form\Menu\MenuForm.php(39): App\Repository\Product\EloquentProduct->allByPosition('-34.597752 -58....', Array, 10)
+#12 C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php(58): App\Service\Form\Menu\MenuForm->products('-34.597752 -58....', 'delivery', Array, 10)
+#13 [internal function]: MenuController->index('empanadas')
+#14 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#15 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(MenuController), Object(Illuminate\Routing\Route), 'index')
+#17 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'MenuController', 'index')
+#18 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}('empanadas')
+#19 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#20 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#21 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#22 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#24 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#25 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#26 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#27 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#28 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#29 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#30 {main} [] []
+[2014-11-29 15:01:32] local.ERROR: exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'branch_product.branch_id' in 'on clause'' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php:299
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(299): PDO->prepare('select count(*)...')
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(617): Illuminate\Database\Connection->Illuminate\Database\{closure}(Object(Illuminate\Database\MySqlConnection), 'select count(*)...', Array)
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(581): Illuminate\Database\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(304): Illuminate\Database\Connection->run('select count(*)...', Array, Object(Closure))
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1359): Illuminate\Database\Connection->select('select count(*)...', Array)
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1349): Illuminate\Database\Query\Builder->runSelect()
+#6 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1336): Illuminate\Database\Query\Builder->getFresh(Array)
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1771): Illuminate\Database\Query\Builder->get(Array)
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1709): Illuminate\Database\Query\Builder->aggregate('count', Array)
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1626): Illuminate\Database\Query\Builder->count()
+#10 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(274): Illuminate\Database\Query\Builder->getPaginationCount()
+#11 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(246): Illuminate\Database\Eloquent\Builder->ungroupedPaginate(Object(Illuminate\Pagination\Factory), 10, Array)
+#12 C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php(62): Illuminate\Database\Eloquent\Builder->paginate(10)
+#13 C:\xampp\htdocs\melivery\app\App\Service\Form\Menu\MenuForm.php(39): App\Repository\Product\EloquentProduct->allByPosition('-34.597752 -58....', Array, 10)
+#14 C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php(58): App\Service\Form\Menu\MenuForm->products('-34.597752 -58....', 'delivery', Array, 10)
+#15 [internal function]: MenuController->index('empanadas')
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#17 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#18 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(MenuController), Object(Illuminate\Routing\Route), 'index')
+#19 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'MenuController', 'index')
+#20 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}('empanadas')
+#21 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#22 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#24 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#25 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#26 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#27 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#28 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#29 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#30 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#31 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#32 {main}
+
+Next exception 'Illuminate\Database\QueryException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'branch_product.branch_id' in 'on clause' (SQL: select count(*) as aggregate from `product` inner join (
+                                    SELECT tbl2.product_id , tbl2.active_branch 
+                                        FROM branch_product as tbl1 
+                                    JOIN(
+                                        SELECT product_id, COUNT(product_id) as active_branch 
+                                            FROM branch_product 
+                                        GROUP BY product_id 
+                                        ) as tbl2 
+                                    ON (tbl1.product_id = tbl2.product_id)
+                                 ) as branch_product on `product`.`id` = `branch_product`.`product_id` inner join `branch` on `branch_product`.`branch_id` = `branch`.`id` where `product`.`active` = 1 and (SELECT 
+                                    inDeliveryArea (
+                                      POINTFROMTEXT(
+                                        'POINT(-34.597752 -58.380037)'
+                                      ),
+                                      POLYFROMTEXT(
+                                        CONCAT('POLYGON((', branch.area ,'))')
+                                      )
+                                    ) = 1) and `id_category` = 11)' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php:625
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(581): Illuminate\Database\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(304): Illuminate\Database\Connection->run('select count(*)...', Array, Object(Closure))
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1359): Illuminate\Database\Connection->select('select count(*)...', Array)
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1349): Illuminate\Database\Query\Builder->runSelect()
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1336): Illuminate\Database\Query\Builder->getFresh(Array)
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1771): Illuminate\Database\Query\Builder->get(Array)
+#6 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1709): Illuminate\Database\Query\Builder->aggregate('count', Array)
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1626): Illuminate\Database\Query\Builder->count()
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(274): Illuminate\Database\Query\Builder->getPaginationCount()
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(246): Illuminate\Database\Eloquent\Builder->ungroupedPaginate(Object(Illuminate\Pagination\Factory), 10, Array)
+#10 C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php(62): Illuminate\Database\Eloquent\Builder->paginate(10)
+#11 C:\xampp\htdocs\melivery\app\App\Service\Form\Menu\MenuForm.php(39): App\Repository\Product\EloquentProduct->allByPosition('-34.597752 -58....', Array, 10)
+#12 C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php(58): App\Service\Form\Menu\MenuForm->products('-34.597752 -58....', 'delivery', Array, 10)
+#13 [internal function]: MenuController->index('empanadas')
+#14 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#15 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(MenuController), Object(Illuminate\Routing\Route), 'index')
+#17 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'MenuController', 'index')
+#18 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}('empanadas')
+#19 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#20 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#21 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#22 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#24 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#25 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#26 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#27 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#28 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#29 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#30 {main} [] []
+[2014-11-29 15:02:02] local.ERROR: exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tbl2.branch_id' in 'field list'' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php:299
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(299): PDO->prepare('select count(*)...')
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(617): Illuminate\Database\Connection->Illuminate\Database\{closure}(Object(Illuminate\Database\MySqlConnection), 'select count(*)...', Array)
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(581): Illuminate\Database\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(304): Illuminate\Database\Connection->run('select count(*)...', Array, Object(Closure))
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1359): Illuminate\Database\Connection->select('select count(*)...', Array)
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1349): Illuminate\Database\Query\Builder->runSelect()
+#6 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1336): Illuminate\Database\Query\Builder->getFresh(Array)
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1771): Illuminate\Database\Query\Builder->get(Array)
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1709): Illuminate\Database\Query\Builder->aggregate('count', Array)
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1626): Illuminate\Database\Query\Builder->count()
+#10 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(274): Illuminate\Database\Query\Builder->getPaginationCount()
+#11 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(246): Illuminate\Database\Eloquent\Builder->ungroupedPaginate(Object(Illuminate\Pagination\Factory), 10, Array)
+#12 C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php(62): Illuminate\Database\Eloquent\Builder->paginate(10)
+#13 C:\xampp\htdocs\melivery\app\App\Service\Form\Menu\MenuForm.php(39): App\Repository\Product\EloquentProduct->allByPosition('-34.597752 -58....', Array, 10)
+#14 C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php(58): App\Service\Form\Menu\MenuForm->products('-34.597752 -58....', 'delivery', Array, 10)
+#15 [internal function]: MenuController->index('empanadas')
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#17 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#18 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(MenuController), Object(Illuminate\Routing\Route), 'index')
+#19 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'MenuController', 'index')
+#20 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}('empanadas')
+#21 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#22 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#24 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#25 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#26 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#27 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#28 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#29 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#30 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#31 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#32 {main}
+
+Next exception 'Illuminate\Database\QueryException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tbl2.branch_id' in 'field list' (SQL: select count(*) as aggregate from `product` inner join (
+                                    SELECT tbl2.product_id , tbl2.active_branch , tbl2.branch_id
+                                        FROM branch_product as tbl1 
+                                    JOIN(
+                                        SELECT product_id, COUNT(product_id) as active_branch 
+                                            FROM branch_product 
+                                        GROUP BY product_id 
+                                        ) as tbl2 
+                                    ON (tbl1.product_id = tbl2.product_id)
+                                 ) as branch_product on `product`.`id` = `branch_product`.`product_id` inner join `branch` on `branch_product`.`branch_id` = `branch`.`id` where `product`.`active` = 1 and (SELECT 
+                                    inDeliveryArea (
+                                      POINTFROMTEXT(
+                                        'POINT(-34.597752 -58.380037)'
+                                      ),
+                                      POLYFROMTEXT(
+                                        CONCAT('POLYGON((', branch.area ,'))')
+                                      )
+                                    ) = 1) and `id_category` = 11)' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php:625
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(581): Illuminate\Database\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(304): Illuminate\Database\Connection->run('select count(*)...', Array, Object(Closure))
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1359): Illuminate\Database\Connection->select('select count(*)...', Array)
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1349): Illuminate\Database\Query\Builder->runSelect()
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1336): Illuminate\Database\Query\Builder->getFresh(Array)
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1771): Illuminate\Database\Query\Builder->get(Array)
+#6 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1709): Illuminate\Database\Query\Builder->aggregate('count', Array)
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1626): Illuminate\Database\Query\Builder->count()
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(274): Illuminate\Database\Query\Builder->getPaginationCount()
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(246): Illuminate\Database\Eloquent\Builder->ungroupedPaginate(Object(Illuminate\Pagination\Factory), 10, Array)
+#10 C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php(62): Illuminate\Database\Eloquent\Builder->paginate(10)
+#11 C:\xampp\htdocs\melivery\app\App\Service\Form\Menu\MenuForm.php(39): App\Repository\Product\EloquentProduct->allByPosition('-34.597752 -58....', Array, 10)
+#12 C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php(58): App\Service\Form\Menu\MenuForm->products('-34.597752 -58....', 'delivery', Array, 10)
+#13 [internal function]: MenuController->index('empanadas')
+#14 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#15 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(MenuController), Object(Illuminate\Routing\Route), 'index')
+#17 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'MenuController', 'index')
+#18 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}('empanadas')
+#19 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#20 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#21 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#22 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#24 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#25 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#26 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#27 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#28 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#29 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#30 {main} [] []
+[2014-11-29 15:03:28] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Call to undefined function getQueryLog()' in C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php:61
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2014-11-29 15:27:02] local.ERROR: exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tbl2.branch_id' in 'on clause'' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php:299
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(299): PDO->prepare('select count(*)...')
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(617): Illuminate\Database\Connection->Illuminate\Database\{closure}(Object(Illuminate\Database\MySqlConnection), 'select count(*)...', Array)
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(581): Illuminate\Database\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(304): Illuminate\Database\Connection->run('select count(*)...', Array, Object(Closure))
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1359): Illuminate\Database\Connection->select('select count(*)...', Array)
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1349): Illuminate\Database\Query\Builder->runSelect()
+#6 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1336): Illuminate\Database\Query\Builder->getFresh(Array)
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1771): Illuminate\Database\Query\Builder->get(Array)
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1709): Illuminate\Database\Query\Builder->aggregate('count', Array)
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1626): Illuminate\Database\Query\Builder->count()
+#10 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(274): Illuminate\Database\Query\Builder->getPaginationCount()
+#11 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(246): Illuminate\Database\Eloquent\Builder->ungroupedPaginate(Object(Illuminate\Pagination\Factory), 10, Array)
+#12 C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php(62): Illuminate\Database\Eloquent\Builder->paginate(10)
+#13 C:\xampp\htdocs\melivery\app\App\Service\Form\Menu\MenuForm.php(39): App\Repository\Product\EloquentProduct->allByPosition('-34.597752 -58....', Array, 10)
+#14 C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php(58): App\Service\Form\Menu\MenuForm->products('-34.597752 -58....', 'delivery', Array, 10)
+#15 [internal function]: MenuController->index('pizzas')
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#17 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#18 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(MenuController), Object(Illuminate\Routing\Route), 'index')
+#19 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'MenuController', 'index')
+#20 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}('pizzas')
+#21 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#22 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#24 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#25 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#26 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#27 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#28 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#29 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#30 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#31 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#32 {main}
+
+Next exception 'Illuminate\Database\QueryException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tbl2.branch_id' in 'on clause' (SQL: select count(*) as aggregate from `product` inner join (
+                                    SELECT tbl2.product_id , tbl2.active_branch , tbl1.branch_id
+                                        FROM branch_product as tbl1 
+                                    JOIN(
+                                        SELECT product_id, COUNT(product_id) as active_branch 
+                                            FROM branch_product 
+                                        GROUP BY product_id 
+                                        ) as tbl2 
+                                    ON (tbl1.product_id = tbl2.product_id AND tbl1.branch_id = tbl2.branch_id)
+                                 ) as branch_product on `product`.`id` = `branch_product`.`product_id` inner join `branch` on `branch_product`.`branch_id` = `branch`.`id` where `product`.`active` = 1 and (SELECT 
+                                    inDeliveryArea (
+                                      POINTFROMTEXT(
+                                        'POINT(-34.597752 -58.380037)'
+                                      ),
+                                      POLYFROMTEXT(
+                                        CONCAT('POLYGON((', branch.area ,'))')
+                                      )
+                                    ) = 1) and `id_category` = 10)' in C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php:625
+Stack trace:
+#0 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(581): Illuminate\Database\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
+#1 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Connection.php(304): Illuminate\Database\Connection->run('select count(*)...', Array, Object(Closure))
+#2 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1359): Illuminate\Database\Connection->select('select count(*)...', Array)
+#3 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1349): Illuminate\Database\Query\Builder->runSelect()
+#4 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1336): Illuminate\Database\Query\Builder->getFresh(Array)
+#5 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1771): Illuminate\Database\Query\Builder->get(Array)
+#6 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1709): Illuminate\Database\Query\Builder->aggregate('count', Array)
+#7 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php(1626): Illuminate\Database\Query\Builder->count()
+#8 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(274): Illuminate\Database\Query\Builder->getPaginationCount()
+#9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php(246): Illuminate\Database\Eloquent\Builder->ungroupedPaginate(Object(Illuminate\Pagination\Factory), 10, Array)
+#10 C:\xampp\htdocs\melivery\app\App\Repository\Product\EloquentProduct.php(62): Illuminate\Database\Eloquent\Builder->paginate(10)
+#11 C:\xampp\htdocs\melivery\app\App\Service\Form\Menu\MenuForm.php(39): App\Repository\Product\EloquentProduct->allByPosition('-34.597752 -58....', Array, 10)
+#12 C:\xampp\htdocs\melivery\app\controllers\Menu\MenuController.php(58): App\Service\Form\Menu\MenuForm->products('-34.597752 -58....', 'delivery', Array, 10)
+#13 [internal function]: MenuController->index('pizzas')
+#14 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Controller.php(231): call_user_func_array(Array, Array)
+#15 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(93): Illuminate\Routing\Controller->callAction('index', Array)
+#16 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php(62): Illuminate\Routing\ControllerDispatcher->call(Object(MenuController), Object(Illuminate\Routing\Route), 'index')
+#17 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(962): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'MenuController', 'index')
+#18 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}('pizzas')
+#19 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Route.php(109): call_user_func_array(Object(Closure), Array)
+#20 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(1028): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
+#21 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Routing\Router.php(996): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#22 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(775): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#23 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(745): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#24 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Session\Middleware.php(72): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#25 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Queue.php(47): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#26 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Cookie\Guard.php(51): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#27 C:\xampp\htdocs\melivery\vendor\stack\builder\src\Stack\StackedHttpKernel.php(23): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#28 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#29 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
+#30 {main} [] []

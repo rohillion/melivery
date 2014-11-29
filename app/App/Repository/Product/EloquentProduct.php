@@ -21,8 +21,23 @@ class EloquentProduct extends RepositoryAbstract implements ProductInterface {
     public function allByPosition($position, array $filters, $items) {
 
         $query = $this->entity
-                ->select('product.*', 'branch.id as branch_id')
-                ->join('branch_product', 'product.id', '=', 'branch_product.product_id')
+                ->select('product.*', 'branch.id as branch_id', 'branch_product.active_branch')
+                //->join('branch_product', 'product.id', '=', 'branch_product.product_id')
+                ->join(\DB::raw(
+                                '(
+                                    SELECT tbl2.product_id , tbl2.active_branch , tbl1.branch_id
+                                        FROM branch_product as tbl1 
+                                    JOIN(
+                                        SELECT product_id, COUNT(product_id) as active_branch 
+                                            FROM branch_product 
+                                        GROUP BY product_id 
+                                        ) as tbl2 
+                                    ON (tbl1.product_id = tbl2.product_id)
+                                 ) as branch_product'
+                        ), function($join) {
+
+                    $join->on('product.id', '=', 'branch_product.product_id');
+                })
                 ->join('branch', 'branch_product.branch_id', '=', 'branch.id')
                 ->where('product.active', '=', 1)
                 ->where(function($sql) use($position) {
@@ -44,6 +59,7 @@ class EloquentProduct extends RepositoryAbstract implements ProductInterface {
                         ->with('subcategories')
                         ->with('tags')
                         ->with('attributes.attribute_types')
+                        ->groupBy('product.id')
                         ->paginate($items)
         ;
     }
