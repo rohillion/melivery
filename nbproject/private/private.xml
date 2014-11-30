@@ -3,17 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/home/custom.js</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/commerce/branch/custom.js</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/views/home/main.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/menu.js</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/main.js</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/controllers/Menu/MenuController.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/App/Repository/Product/EloquentProduct.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/views/home/hello.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/Preorder/PreorderForm.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/controllers/Menu/PreorderController.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/helper/geocoding.js</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/assets/stylesheets/commerce/custom.css</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/ready.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/ready_orig.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/index.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/progress.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/controllers/Commerce/OrderController.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/menu/main.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/progress_orig.php</file>
         </group>
     </open-files>
 </project-private>

@@ -1,84 +1,80 @@
 <?php foreach ($orders['progress'] as $order) { ?>
 
-    <!-- general form elements -->
     <div class="progress-order box box-solid">
 
-        <div class="col-xs-12 box-header">
-            <h1 style="display: inherit;float: none;" class="clearfix box-title">
+        <div class="box-header">
+            <h3 class="col-xs-12 box-title">
 
-                <div class="row">
-                    <span class="col-lg-12">
-                        <i class="fa fa-user"></i> <?php echo $order['user']['name']; ?>
-                    </span>
+                <i class="fa fa-user"></i> <?php echo $order['user']['name']; ?>
 
-                    <span class="col-lg-12">
-                        <i class="fa fa-home"></i> <?php echo explode(',', $order['user']['customer']['address'])[0] ?> <?php echo explode(',', $order['user']['customer']['address'])[1] ?>
-                    </span>
-
-                    <span class="col-lg-12">
-                        <i class="fa fa-phone"></i> <?php echo $order['user']['customer']['phone'] ?>
-                    </span>
-
-                    <span class="col-lg-12" title="Hora de entrada y tiempo restante">
-                        <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['updated_at'])); ?> - <span class="remaining-time"></span>
-                    </span>
+                <span class="pull-right" title="Hora de entrada - tiempo estimado de entrega">
+                    <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['updated_at'])); ?> - <span class="remaining-time"></span>
                     <input type="hidden" value="<?php echo date("Y-m-d H:i:s", strtotime($order['updated_at']) + (60 * $order['estimated'])); ?>" class="order-progress-time"/>
-                </div>
-
-            </h1>
+                </span>
+            </h3>
         </div>
-
 
         <div class="box-body">
 
-            <div style="padding-top:10px;" class="col-xs-12">
+            <div class="commerce-order">
 
-                <div style="margin-bottom:0;" class="well well-sm">
-                    <div style="margin-bottom:0;" class="list-group">
+                <div class="commerce-order-products">
 
-                        <?php foreach ($order['order_products'] as $orderProduct) { ?>
+                    <table class="table table-condensed">
+                        <tbody class="order-body">
 
-                            <a href="#" class="list-group-item">
-                                <h4 class="list-group-item-heading"><?php echo $orderProduct['product']['tags']['tag_name']; ?> $<?php echo $orderProduct['product']['price']; ?></h4>
-                                <p class="list-group-item-text">
+                            <?php foreach ($order['order_products'] as $orderProduct) { ?>
 
-                                    <?php if (!empty($orderProduct['attributes_order_product'])) { ?>
+                                <tr>
+                                    <td><?php echo $orderProduct['product']['tags']['tag_name'] . ' - ' . $orderProduct['product']['tags']['subcategories']['subcategory_name']; ?></td>
+                                    <td class="text-right"> x <?php echo $orderProduct['product_qty'] ?></td>
+                                </tr>
 
-                                        <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
+                                <?php if (!empty($orderProduct['attributes_order_product'])) { ?>
+                                    <tr>
+                                        <td>
+                                            <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
 
-                                            <span class="label label-info"><?php echo $attributeOrderProduct['attributes']['attribute_name']; ?></span>
+                                                <span style="font-size: 11px; margin-right: 2px;" class="label label-info">
+                                                    <?php echo $attributeOrderProduct['attributes']['attribute_name']; ?>
+                                                </span>
 
-                                        <?php } ?>
+                                            <?php } ?>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                <?php } ?>
 
-                                    <?php } ?>
+                            <?php } ?>
 
-                                </p>
-                            </a>
+                        </tbody>
+                    </table>
 
-                        <?php } ?>
-                    </div>
                 </div>
 
             </div>
 
-            <span class="clearfix"></span>
         </div>
 
         <div class="box-footer">
 
-            <div class="col-xs-4 col-lg-12">
-                <button type="submit" class="btn btn-success btn-flat btn-block btn-lg" data-toggle="modal" data-target="#dealer-modal">Este pedido esta listo</button>
+            <div class="pull-right">
+                <button type="submit" class="btn btn-warning btn-block" data-toggle="modal" data-target="#dealer-modal">
+                    <strong>Listo</strong>
+                </button>
             </div>
 
-            <div class="reject-button col-xs-4 col-lg-12">
-                <button form="reject" type="button" class="btn btn-default btn-flat btn-lg btn-block" data-toggle="modal" data-target="#reject-motive-<?php echo $order['id'] ?>">No realizable</button>
+            <div style="margin-right:8px;" class="pull-right">
+                <button form="reject" type="button" class="btn btn-default btn-flat btn-block" data-toggle="modal" data-target="#reject-motive-<?php echo $order['id'] ?>">Cancelar</button>
             </div>
 
             <span class="clearfix"></span>
 
         </div>
 
-        <!-- Modal -->
+    </div><!-- /.box -->
+    
+    <!-- Reject Modal -->
         <div class="modal fade" id="reject-motive-<?php echo $order['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="reject-motiveLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -91,7 +87,7 @@
                                     <option value="2">No es posible cocinar el/los producto/s.</option>
                                     <option value="3">El delivery no llega al domicilio.</option>
                                     <option value="4">No se puede entregar el pedido (Falta de personal).</option>
-                                    <option value="5">Sin suministros (luz,agua,gaz).</option>
+                                    <option value="5">Sin suministros (luz,agua,gas).</option>
                                     <option value="6">Otros.</option>
                                 </select>
                             </div>
@@ -100,62 +96,60 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Si es posible realizar este pedido</button>
-                        <button type="submit" class="btn btn-primary" form="reject-form-<?php echo $order['id'] ?>">Cancelar el pedido y notificar el comensal</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" form="reject-form-<?php echo $order['id'] ?>">Aceptar</button>
                     </div>
                 </div>
             </div>
         </div>
 
-    </div><!-- /.box -->
+    <!-- Continue Modal -->
+    <div class="modal fade" id="dealer-modal" tabindex="-1" role="dialog" aria-labelledby="dealer-motiveLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form method="post" id="dealer-form" class="form-large" action="<?php echo URL::action('OrderController@changeStatus', $order['id']) ?>">
+                        <div class="form-group">
 
-<?php } ?>
+                            <label style="padding-bottom:0;" for="branchPickup" class="control-label">Responsable de esta entrega:</label>
 
-<!-- Modal -->
-<div class="modal fade" id="dealer-modal" tabindex="-1" role="dialog" aria-labelledby="dealer-motiveLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-body">
-                <form method="post" id="dealer-form" class="form-large" action="<?php echo URL::action('OrderController@changeStatus', $order['id']) ?>">
-                    <div class="form-group">
+                            <div class="list-group radio-toolbar">
 
-                        <label style="padding-bottom:0;" for="branchPickup" class="control-label">Responsable de esta entrega:</label>
+                                <?php if (!is_null($dealers)) { ?>
 
-                        <div class="list-group radio-toolbar">
+                                    <?php foreach ($dealers as $dealer) { ?>
 
-                            <?php if (!is_null($dealers)) { ?>
+                                        <?php if (!$dealer->dispatched) { ?>
 
-                                <?php foreach ($dealers as $dealer) { ?>
+                                            <input type="radio" id="dealer<?php echo $dealer->id ?>" name="dealer" value="<?php echo $dealer->id ?>">
+                                            <label class="list-group-item" for="dealer<?php echo $dealer->id ?>"><?php echo $dealer->dealer_name ?></label>
 
-                                    <?php if (!$dealer->dispatched) { ?>
+                                        <?php } else { ?>
 
-                                        <input type="radio" id="dealer<?php echo $dealer->id ?>" name="dealer" value="<?php echo $dealer->id ?>">
-                                        <label class="list-group-item" for="dealer<?php echo $dealer->id ?>"><?php echo $dealer->dealer_name ?></label>
+                                            <label class="disabled list-group-item"><?php echo $dealer->dealer_name ?><span style="line-height: 150%;" class="label label-warning pull-right"><i class="fa fa-truck fa-flip-horizontal"></i> En reparto</span></label>
 
-                                    <?php } else { ?>
-
-                                        <label class="disabled list-group-item"><?php echo $dealer->dealer_name ?><span style="line-height: 150%;" class="label label-warning pull-right"><i class="fa fa-truck fa-flip-horizontal"></i> En reparto</span></label>
-
+                                        <?php } ?>
                                     <?php } ?>
+
                                 <?php } ?>
 
-                            <?php } ?>
+                                <input type="radio" id="barra" name="dealer" value="0">
+                                <label class="list-group-item" for="barra">Se retira por barra</label>
 
-                            <input type="radio" id="barra" name="dealer" value="0">
-                            <label class="list-group-item" for="barra">Se retira por barra</label>
+                            </div>
 
                         </div>
 
-                    </div>
-
-                    <input type="hidden" name="status" value="3">
-                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar, el pedido no esta listo a&uacute;n</button>
-                <button type="submit" class="btn btn-primary" form="dealer-form">Asignar responsable</button>
+                        <input type="hidden" name="status" value="3">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar, el pedido no esta listo a&uacute;n</button>
+                    <button type="submit" class="btn btn-primary" form="dealer-form">Asignar responsable</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+<?php } ?>

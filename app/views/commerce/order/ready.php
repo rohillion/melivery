@@ -32,82 +32,77 @@
                     <div style="background: #f1f1f1;" class="panel-body">
 
                         <?php foreach ($readyOrders as $order) { ?>
-                            <!-- general form elements -->
+
                             <div class="box box-solid">
 
-                                <div class="col-xs-12 box-header">
-                                    <h1 style="display: inherit;float: none;" class="clearfix box-title">
+                                <div class="box-header">
+                                    <h3 class="col-xs-12 box-title">
 
-                                        <div class="row">
-                                            <span class="col-lg-12">
-                                                <i class="fa fa-user"></i> <?php echo $order['user']['name']; ?>
-                                            </span>
+                                        <i class="fa fa-user"></i> <?php echo $order['user']['name']; ?>
 
-                                            <span class="col-lg-12">
-                                                <i class="fa fa-home"></i> <?php echo explode(',', $order['user']['customer']['address'])[0] ?> <?php echo explode(',', $order['user']['customer']['address'])[1] ?>
-                                            </span>
-
-                                            <span class="col-lg-12">
-                                                <i class="fa fa-phone"></i> <?php echo $order['user']['customer']['phone'] ?>
-                                            </span>
-
-                                            <span class="col-lg-12" title="Hora de entrada y tiempo restante">
-                                                <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['updated_at'])); ?> - <span class="remaining-time"></span>
-                                            </span>
+                                        <span class="pull-right" title="Hora de entrada - tiempo estimado de entrega">
+                                            <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['updated_at'])); ?> - <span class="remaining-time"></span>
                                             <input type="hidden" value="<?php echo date("Y-m-d H:i:s", strtotime($order['updated_at']) + (60 * $order['estimated'])); ?>" class="order-progress-time"/>
-
-                                        </div>
-
-                                    </h1>
+                                        </span>
+                                    </h3>
                                 </div>
 
                                 <div class="box-body">
 
-                                    <div style="padding-top:10px;" class="col-xs-12">
+                                    <div class="commerce-order">
 
-                                        <div style="margin-bottom:0;" class="well well-sm">
-                                            <div style="margin-bottom:0;" class="list-group">
+                                        <div class="commerce-order-products">
 
-                                                <?php foreach ($order['order_products'] as $orderProduct) { ?>
+                                            <table class="table table-condensed">
+                                                <tbody class="order-body">
 
-                                                    <a href="#" class="list-group-item">
-                                                        <h4 class="list-group-item-heading"><?php echo $orderProduct['product']['tags']['tag_name']; ?> $<?php echo $orderProduct['product']['price']; ?></h4>
-                                                        <p class="list-group-item-text">
+                                                    <?php foreach ($order['order_products'] as $orderProduct) { ?>
 
-                                                            <?php if (!empty($orderProduct['attributes_order_product'])) { ?>
+                                                        <tr class="order-product-name">
+                                                            <td><?php echo $orderProduct['product']['tags']['tag_name'] . ' - ' . $orderProduct['product']['tags']['subcategories']['subcategory_name']; ?></td>
+                                                            <td class="text-right"> x <?php echo $orderProduct['product_qty'] ?></td>
+                                                        </tr>
 
-                                                                <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
+                                                        <?php if (!empty($orderProduct['attributes_order_product'])) { ?>
+                                                            <tr class="order-product-attributes">
+                                                                <td>
+                                                                    <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
 
-                                                                    <span class="label label-info"><?php echo $attributeOrderProduct['attributes']['attribute_name']; ?></span>
+                                                                        <span class="label label-info">
+                                                                            <?php echo $attributeOrderProduct['attributes']['attribute_name']; ?>
+                                                                        </span>
 
-                                                                <?php } ?>
+                                                                    <?php } ?>
+                                                                </td>
+                                                                <td></td>
+                                                            </tr>
+                                                        <?php } ?>
 
-                                                            <?php } ?>
+                                                    <?php } ?>
 
-                                                        </p>
-                                                    </a>
+                                                </tbody>
+                                            </table>
 
-                                                <?php } ?>
-                                            </div>
                                         </div>
 
                                     </div>
 
-                                    <span class="clearfix"></span>
                                 </div>
 
                                 <?php if ($dealers[$dealer]->dispatched) { ?>
 
                                     <div class="box-footer">
 
-                                        <div class="col-xs-4 col-lg-12 radio-toolbar">
+                                        <span class="clearfix"></span>
+
+                                        <div class="pull-right radio-toolbar">
                                             <input type="radio" id="done<?php echo $order['id'] ?>" name="orders[<?php echo $order['id'] ?>]" value="1">
-                                            <label class="btn btn-default btn-flat btn-block btn-lg" for="done<?php echo $order['id'] ?>"><i class="fa fa-check"></i> Entregado</label>
+                                            <label class="btn btn-default btn-flat btn-block" for="done<?php echo $order['id'] ?>"><i class="fa fa-check"></i> Entregado</label>
                                         </div>
 
-                                        <div class="reject-button col-xs-4 col-lg-12 radio-toolbar">
+                                        <div class="pull-right radio-toolbar">
                                             <input type="radio" id="notdone<?php echo $order['id'] ?>" name="orders[<?php echo $order['id'] ?>]" value="0">
-                                            <label class="btn btn-default btn-flat btn-lg btn-block" for="notdone<?php echo $order['id'] ?>"><i class="fa fa-close"></i> No entregado</label>
+                                            <label class="btn btn-default btn-flat btn-block" for="notdone<?php echo $order['id'] ?>"><i class="fa fa-close"></i> No entregado</label>
                                         </div>
 
                                         <span class="clearfix"></span>
@@ -115,7 +110,6 @@
                                     </div>
 
                                 <?php } ?>
-
 
                             </div><!-- /.box -->
 

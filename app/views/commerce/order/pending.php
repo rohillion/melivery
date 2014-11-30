@@ -124,7 +124,7 @@
                                 <option value="2">No es posible cocinar el/los producto/s.</option>
                                 <option value="3">El delivery no llega al domicilio.</option>
                                 <option value="4">No se puede entregar el pedido (Falta de personal).</option>
-                                <option value="5">Sin suministros (luz,agua,gaz).</option>
+                                <option value="5">Sin suministros (luz,agua,gas).</option>
                                 <option value="6">Otros.</option>
                             </select>
                         </div>

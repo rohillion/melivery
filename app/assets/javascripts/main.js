@@ -13,7 +13,7 @@ var main = {
         }
     },
     sendForm: function(target, formData, callback) {
-        console.log(formData);
+
         $.ajax({
             url: target + "?" + formData,
             dataType: "json"

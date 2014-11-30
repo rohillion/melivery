@@ -141,7 +141,7 @@
 
                                 </div>
 
-                                <div id="order-pending-fixed" class="shown">
+                                <div id="order-pending-fixed" class="">
                                     <section class="col-xs-12 col-sm-offset-2 col-sm-8 col-lg-offset-3 col-lg-6 shown" id="order-pending">
 
                                         <?php if (!is_null($orders['pending'])) { ?>
