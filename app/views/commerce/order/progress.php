@@ -7,9 +7,9 @@
 
                 <i class="fa fa-user"></i> <?php echo $order['user']['name']; ?>
 
-                <span class="pull-right" title="Hora de entrada - tiempo estimado de entrega">
+                <span class="order-progress-time pull-right" title="Hora de entrada - tiempo estimado de entrega">
                     <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['updated_at'])); ?> - <span class="remaining-time"></span>
-                    <input type="hidden" value="<?php echo date("Y-m-d H:i:s", strtotime($order['updated_at']) + (60 * $order['estimated'])); ?>" class="order-progress-time"/>
+                    <input type="hidden" value="<?php echo date("Y-m-d H:i:s", strtotime($order['updated_at']) + (60 * $order['estimated'])); ?>"/>
                 </span>
             </h3>
         </div>
@@ -20,35 +20,36 @@
 
                 <div class="commerce-order-products">
 
-                    <table class="table table-condensed">
-                        <tbody class="order-body">
+                    <ul class="order-body list-group">
 
-                            <?php foreach ($order['order_products'] as $orderProduct) { ?>
+                        <?php foreach ($order['order_products'] as $orderProduct) { ?>
 
-                                <tr>
-                                    <td><?php echo $orderProduct['product']['tags']['tag_name'] . ' - ' . $orderProduct['product']['tags']['subcategories']['subcategory_name']; ?></td>
-                                    <td class="text-right"> x <?php echo $orderProduct['product_qty'] ?></td>
-                                </tr>
+                            <li class="order-item list-group-item">
+
+                                <div class="order-item-head">
+                                    <p class="pull-left"><?php echo $orderProduct['product']['tags']['tag_name']?></p>
+                                    <span class="badge pull-right">x <?php echo $orderProduct['product_qty'] ?></span>
+                                </div>
 
                                 <?php if (!empty($orderProduct['attributes_order_product'])) { ?>
-                                    <tr>
-                                        <td>
-                                            <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
 
-                                                <span style="font-size: 11px; margin-right: 2px;" class="label label-info">
-                                                    <?php echo $attributeOrderProduct['attributes']['attribute_name']; ?>
-                                                </span>
+                                    <div class="order-item-attributes">
+                                        <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
 
-                                            <?php } ?>
-                                        </td>
-                                        <td></td>
-                                    </tr>
+                                            <span style="font-size: 11px; margin-right: 2px;" class="label label-info">
+                                                <?php echo $attributeOrderProduct['attributes']['attribute_name']; ?>
+                                            </span>
+
+                                        <?php } ?>
+                                    </div>
+
                                 <?php } ?>
 
-                            <?php } ?>
+                            </li>
 
-                        </tbody>
-                    </table>
+                        <?php } ?>
+
+                    </ul>
 
                 </div>
 
@@ -73,35 +74,35 @@
         </div>
 
     </div><!-- /.box -->
-    
+
     <!-- Reject Modal -->
-        <div class="modal fade" id="reject-motive-<?php echo $order['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="reject-motiveLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form method="post" id="reject-form-<?php echo $order['id'] ?>" class="form-large" action="<?php echo URL::action('OrderController@changeStatus', $order['id']) ?>">
-                            <div class="form-group">
-                                <label style="padding-bottom:0;" for="branchPickup" class="col-xs-4 control-label">Motivo:</label>
-                                <select name="motive" class="form-control">
-                                    <option value="1">Ya cerramos.</option>
-                                    <option value="2">No es posible cocinar el/los producto/s.</option>
-                                    <option value="3">El delivery no llega al domicilio.</option>
-                                    <option value="4">No se puede entregar el pedido (Falta de personal).</option>
-                                    <option value="5">Sin suministros (luz,agua,gas).</option>
-                                    <option value="6">Otros.</option>
-                                </select>
-                            </div>
-                            <input type="hidden" name="status" value="5">
-                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" form="reject-form-<?php echo $order['id'] ?>">Aceptar</button>
-                    </div>
+    <div class="modal fade" id="reject-motive-<?php echo $order['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="reject-motiveLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form method="post" id="reject-form-<?php echo $order['id'] ?>" class="form-large" action="<?php echo URL::action('OrderController@changeStatus', $order['id']) ?>">
+                        <div class="form-group">
+                            <label style="padding-bottom:0;" for="branchPickup" class="col-xs-4 control-label">Motivo:</label>
+                            <select name="motive" class="form-control">
+                                <option value="1">Ya cerramos.</option>
+                                <option value="2">No es posible cocinar el/los producto/s.</option>
+                                <option value="3">El delivery no llega al domicilio.</option>
+                                <option value="4">No se puede entregar el pedido (Falta de personal).</option>
+                                <option value="5">Sin suministros (luz,agua,gas).</option>
+                                <option value="6">Otros.</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="status" value="5">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" form="reject-form-<?php echo $order['id'] ?>">Aceptar</button>
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- Continue Modal -->
     <div class="modal fade" id="dealer-modal" tabindex="-1" role="dialog" aria-labelledby="dealer-motiveLabel" aria-hidden="true">

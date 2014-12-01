@@ -39,19 +39,18 @@ var custom = {
     },
     orderTimer: function() {
 
-        var progressOrder = $('.progress-order');
-
+        var progressTimer = $('.order-progress-time');
         var orderDateTime, orderDate, orderTime;
 
-        for (var i = 0; i < progressOrder.length; i++) {
+        for (var i = 0; i < progressTimer.length; i++) {
 
-            orderDateTime = $(progressOrder[i]).find('.order-progress-time').val().split(" ");
+            orderDateTime = $(progressTimer[i]).find('input').val().split(" ");
             orderDate = orderDateTime[0].split("-");
             orderTime = orderDateTime[1].split(":");
 
             main.calculateRemainingTime(orderDate, orderTime, function(remainingDate, targetDate) {
 
-                var clock = $(progressOrder[i]).find('.remaining-time');
+                var clock = $(progressTimer[i]).find('.remaining-time');
 
                 if (targetDate.getTime() > new Date().getTime() && (remainingDate.getMinutes() > 0 || remainingDate.getSeconds() > 0)) {
 

@@ -3,84 +3,76 @@
     <!-- general form elements -->
     <div class="entry-order box box-solid">
 
-        <div class="col-xs-12 box-header">
-            <h1 style="display: inherit;float: none;" class="clearfix box-title">
+        <div class="box-header">
+            <h3 class="col-xs-12 box-title">
 
-                <div class="row">
-                    <span class="col-lg-12">
-                        <i class="fa fa-user"></i> <?php echo $order['user']['name']; ?>
-                    </span>
+                <i class="fa fa-user"></i> <?php echo $order['user']['name']; ?>
 
-                    <span class="col-lg-12">
-                        <i class="fa fa-home"></i> <?php echo explode(',', $order['user']['customer']['address'])[0] ?> <?php echo explode(',', $order['user']['customer']['address'])[1] ?>
-                    </span>
-
-                    <span class="col-lg-12">
-                        <i class="fa fa-phone"></i> <?php echo $order['user']['customer']['phone'] ?>
-                    </span>
-
-                    <span class="col-lg-12" title="Hora de entrada y tiempo transcurrido">
-                        <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['created_at'])); ?> - <span class="elapsed-time"></span>
-                    </span>
-                    <input type="hidden" value="<?php echo date("Y-m-d H:i:s", strtotime($order['created_at'])); ?>" class="order-entry-time"/>
-                </div>
-
-            </h1>
+                <span class="pull-right" title="Hora de entrada y tiempo transcurrido">
+                    <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['created_at'])); ?> - <span class="elapsed-time"></span>
+                </span>
+                <input type="hidden" value="<?php echo date("Y-m-d H:i:s", strtotime($order['created_at'])); ?>" class="order-entry-time"/>
+            </h3>
         </div>
 
         <div class="box-body">
 
-            <div style="padding-top:10px;" class="col-xs-12">
+            <div class="commerce-order">
 
-                <div style="margin-bottom:0;" class="well well-sm">
+                <div class="commerce-order-products">
 
-                    <div style="margin-bottom:0;" class="list-group">
+                    <ul class="order-body list-group">
 
                         <?php foreach ($order['order_products'] as $orderProduct) { ?>
 
-                            <a href="#" class="list-group-item">
-                                <h4 class="list-group-item-heading"><?php echo $orderProduct['product']['tags']['tag_name']; ?> $<?php echo $orderProduct['product']['price']; ?></h4>
-                                <p class="list-group-item-text">
+                            <li class="order-item list-group-item">
 
-                                    <?php if (!empty($orderProduct['attributes_order_product'])) { ?>
+                                <div class="order-item-head">
+                                    <p class="pull-left"><?php echo $orderProduct['product']['tags']['tag_name'] ?></p>
+                                    <span class="badge pull-right">x <?php echo $orderProduct['product_qty'] ?></span>
+                                </div>
 
+                                <?php if (!empty($orderProduct['attributes_order_product'])) { ?>
+
+                                    <div class="order-item-attributes">
                                         <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
 
-                                            <span class="label label-info"><?php echo $attributeOrderProduct['attributes']['attribute_name']; ?></span>
+                                            <span style="font-size: 11px; margin-right: 2px;" class="label label-info">
+                                                <?php echo $attributeOrderProduct['attributes']['attribute_name']; ?>
+                                            </span>
 
                                         <?php } ?>
+                                    </div>
 
-                                    <?php } ?>
+                                <?php } ?>
 
-                                </p>
-                            </a>
+                            </li>
 
                         <?php } ?>
 
-                    </div>
+                    </ul>
 
                 </div>
 
             </div>
 
-            <span class="clearfix"></span>
         </div>
 
         <div class="box-footer">
 
-            <div class="col-xs-4 col-lg-12">
+            <div class="">
                 <div class="btn-group btn-group-justified">
 
                     <div class="btn-group">
-                        <button form="estimated-20" type="submit" class="btn btn-success btn-flat btn-lg">20m</button>
+                        <button form="estimated-20" type="submit" class="btn btn-success">20m</button>
                     </div>
 
                     <div class="btn-group">
-                        <button form="estimated-30" type="submit" class="btn btn-success btn-flat btn-lg">30m</button>
+                        <button form="estimated-30" type="submit" class="btn btn-success">30m</button>
                     </div>
 
                     <div class="btn-group">
-                        <button form="estimated-40" type="submit" class="btn btn-success btn-flat btn-lg">40m</button>
+                        <button form="estimated-40" type="submit" class="btn btn-success">40m</button>
                     </div>
 
                 </div>
@@ -101,8 +93,8 @@
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             </form>
 
-            <div class="reject-button col-xs-4 col-lg-12">
-                <button form="reject" type="button" class="btn btn-default btn-flat btn-lg btn-block" data-toggle="modal" data-target="#reject-motive-<?php echo $order['id'] ?>">No realizable</button>
+            <div class="reject-button">
+                <button form="reject" type="button" class="btn btn-default btn-flat btn-block" data-toggle="modal" data-target="#reject-motive-<?php echo $order['id'] ?>">No realizable</button>
             </div>
 
             <span class="clearfix"></span>

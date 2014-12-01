@@ -40,9 +40,9 @@
 
                                         <i class="fa fa-user"></i> <?php echo $order['user']['name']; ?>
 
-                                        <span class="pull-right" title="Hora de entrada - tiempo estimado de entrega">
+                                        <span class="order-progress-time pull-right" title="Hora de entrada - tiempo estimado de entrega">
                                             <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['updated_at'])); ?> - <span class="remaining-time"></span>
-                                            <input type="hidden" value="<?php echo date("Y-m-d H:i:s", strtotime($order['updated_at']) + (60 * $order['estimated'])); ?>" class="order-progress-time"/>
+                                            <input type="hidden" value="<?php echo date("Y-m-d H:i:s", strtotime($order['updated_at']) + (60 * $order['estimated'])); ?>"/>
                                         </span>
                                     </h3>
                                 </div>
@@ -53,35 +53,36 @@
 
                                         <div class="commerce-order-products">
 
-                                            <table class="table table-condensed">
-                                                <tbody class="order-body">
+                                            <ul class="order-body list-group">
 
-                                                    <?php foreach ($order['order_products'] as $orderProduct) { ?>
+                                                <?php foreach ($order['order_products'] as $orderProduct) { ?>
 
-                                                        <tr class="order-product-name">
-                                                            <td><?php echo $orderProduct['product']['tags']['tag_name'] . ' - ' . $orderProduct['product']['tags']['subcategories']['subcategory_name']; ?></td>
-                                                            <td class="text-right"> x <?php echo $orderProduct['product_qty'] ?></td>
-                                                        </tr>
+                                                    <li class="order-item list-group-item">
+
+                                                        <div class="order-item-head">
+                                                            <p class="pull-left"><?php echo $orderProduct['product']['tags']['tag_name'] ?></p>
+                                                            <span class="badge pull-right">x <?php echo $orderProduct['product_qty'] ?></span>
+                                                        </div>
 
                                                         <?php if (!empty($orderProduct['attributes_order_product'])) { ?>
-                                                            <tr class="order-product-attributes">
-                                                                <td>
-                                                                    <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
 
-                                                                        <span class="label label-info">
-                                                                            <?php echo $attributeOrderProduct['attributes']['attribute_name']; ?>
-                                                                        </span>
+                                                            <div class="order-item-attributes">
+                                                                <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
 
-                                                                    <?php } ?>
-                                                                </td>
-                                                                <td></td>
-                                                            </tr>
+                                                                    <span style="font-size: 11px; margin-right: 2px;" class="label label-info">
+                                                                        <?php echo $attributeOrderProduct['attributes']['attribute_name']; ?>
+                                                                    </span>
+
+                                                                <?php } ?>
+                                                            </div>
+
                                                         <?php } ?>
 
-                                                    <?php } ?>
+                                                    </li>
 
-                                                </tbody>
-                                            </table>
+                                                <?php } ?>
+
+                                            </ul>
 
                                         </div>
 
