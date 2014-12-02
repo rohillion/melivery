@@ -31,13 +31,14 @@
                 <form id="orders<?php echo $dealers[$dealer]->id; ?>"  method="post" action="<?php echo URL::action('OrderController@report', $dealers[$dealer]->id) ?>" > 
                     <div style="background: #f1f1f1;" class="panel-body">
 
+                        <?php $dealerTotal = NULL ?>
+
                         <?php foreach ($readyOrders as $order) { ?>
 
                             <div class="box box-solid">
 
                                 <div class="box-header">
                                     <h3 class="col-xs-12 box-title">
-
                                         <i class="fa fa-user"></i> <?php echo $order['user']['name']; ?>
 
                                         <span class="order-progress-time pull-right" title="Hora de entrada - tiempo estimado de entrega">
@@ -55,13 +56,17 @@
 
                                             <ul class="order-body list-group">
 
+                                                <?php $orderTotal = NULL ?>
+
                                                 <?php foreach ($order['order_products'] as $orderProduct) { ?>
+
+                                                    <?php $productTotal = $orderProduct['product']['price'] * $orderProduct['product_qty'] ?>
 
                                                     <li class="order-item list-group-item">
 
                                                         <div class="order-item-head">
                                                             <p class="pull-left"><?php echo $orderProduct['product']['tags']['tag_name'] ?></p>
-                                                            <span class="badge pull-right">x <?php echo $orderProduct['product_qty'] ?></span>
+                                                            <span class="badge pull-right">$<?php echo $orderProduct['product']['price'] ?> x <?php echo $orderProduct['product_qty'] ?> = $<?php echo $productTotal; ?></span>
                                                         </div>
 
                                                         <?php if (!empty($orderProduct['attributes_order_product'])) { ?>
@@ -80,6 +85,8 @@
 
                                                     </li>
 
+                                                    <?php $orderTotal += $productTotal; ?>
+
                                                 <?php } ?>
 
                                             </ul>
@@ -94,16 +101,34 @@
 
                                     <div class="box-footer">
 
-                                        <span class="clearfix"></span>
-
-                                        <div class="pull-right radio-toolbar">
-                                            <input type="radio" id="done<?php echo $order['id'] ?>" name="orders[<?php echo $order['id'] ?>]" value="1">
-                                            <label class="btn btn-default btn-flat btn-block" for="done<?php echo $order['id'] ?>"><i class="fa fa-check"></i> Entregado</label>
+                                        <div>
+                                            <p style="margin:0;">Total <span class="badge bg-red pull-right">$<?php echo $orderTotal; ?></span></p>
                                         </div>
 
-                                        <div class="pull-right radio-toolbar">
+                                        <span class="clearfix"></span>
+
+                                    </div>
+
+                                    <div class="box-footer">
+
+                                        <div class="btn-group radio-toolbar" role="group">
                                             <input type="radio" id="notdone<?php echo $order['id'] ?>" name="orders[<?php echo $order['id'] ?>]" value="0">
-                                            <label class="btn btn-default btn-flat btn-block" for="notdone<?php echo $order['id'] ?>"><i class="fa fa-close"></i> No entregado</label>
+                                            <label class="btn btn-default btn-flat" for="notdone<?php echo $order['id'] ?>">No entregado</label>
+
+                                            <input type="radio" id="done<?php echo $order['id'] ?>" name="orders[<?php echo $order['id'] ?>]" value="1">
+                                            <label class="btn btn-default btn-flat" for="done<?php echo $order['id'] ?>">Entregado</label>
+                                        </div>
+
+                                        <span class="clearfix"></span>
+
+                                    </div>
+
+                                <?php } else { ?>
+
+                                    <div class="box-footer">
+
+                                        <div>
+                                            <p style="margin:0;">Total <span class="badge bg-red pull-right">$<?php echo $orderTotal; ?></span></p>
                                         </div>
 
                                         <span class="clearfix"></span>
@@ -111,14 +136,21 @@
                                     </div>
 
                                 <?php } ?>
-
                             </div><!-- /.box -->
+
+                            <?php $dealerTotal = $dealerTotal + $orderTotal; ?>
 
                         <?php } ?>
 
+                        <div class="total-dealer-account box box-solid">
+                            <p class="box-body">Total de <?php echo $dealer; ?> <span class="badge bg-red pull-right">$<?php echo $dealerTotal; ?></span></p>
+                        </div>
+
                     </div><!-- /.panel-body -->
+
                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                 </form>
+
             </div><!-- /.panel-collapse -->
 
         </div><!-- /.panel-default -->

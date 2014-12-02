@@ -19,6 +19,15 @@ switch ($name) {
 
         break;
 }
+
+if(!CommonEvents::isSubdomain() && Request::segment(1)){
+    
+    $dir = NULL;
+}else{
+    
+    $dir = Request::segment(1) ? '/'.Request::segment(1) : $assetDir ;
+}
+    
 ?>
 
 
@@ -26,7 +35,7 @@ switch ($name) {
 <script src="/assets/application.js" type="text/javascript"></script>
 
 <!-- commerce -->
-<script src="/assets/<?php echo $name ?><?php echo Request::segment(1) ? '/'.Request::segment(1) : $assetDir ?>/bundle.js" type="text/javascript"></script>
+<script src="/assets/<?php echo $name ?><?php echo $dir;?>/bundle.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {

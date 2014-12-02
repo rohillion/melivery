@@ -901,6 +901,7 @@ return array(
     'Jeremeamia\\SuperClosure\\SerializableClosure' => $vendorDir . '/jeremeamia/SuperClosure/src/Jeremeamia/SuperClosure/SerializableClosure.php',
     'Jeremeamia\\SuperClosure\\Visitor\\ClosureFinderVisitor' => $vendorDir . '/jeremeamia/SuperClosure/src/Jeremeamia/SuperClosure/Visitor/ClosureFinderVisitor.php',
     'Jeremeamia\\SuperClosure\\Visitor\\MagicConstantVisitor' => $vendorDir . '/jeremeamia/SuperClosure/src/Jeremeamia/SuperClosure/Visitor/MagicConstantVisitor.php',
+    'LandingController' => $baseDir . '/app/controllers/landing/LandingController.php',
     'Math_BigInteger' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Math/BigInteger.php',
     'MenuController' => $baseDir . '/app/controllers/Menu/MenuController.php',
     'Monolog\\ErrorHandler' => $vendorDir . '/monolog/monolog/src/Monolog/ErrorHandler.php',

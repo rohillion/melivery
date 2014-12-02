@@ -1,0 +1,93 @@
+/*Landing v1.0--*/
+body{
+    padding-top: 56px;
+}
+
+.content-header{
+    background-color: #fff;
+    border-bottom: 1px solid #eaecf1;
+    margin-bottom: 35px;
+    padding: 10px 0 20px;
+}
+
+.navbar-brand {
+    padding: 14px 15px 5px;
+}
+
+.navbar-nav>li>a {
+    line-height: 26px;
+    font-weight: bold;
+    color: #e8ecf4;
+    font-size: 16px;
+}
+
+.navbar-nav>li>a:hover {
+    line-height: 26px;
+    font-weight: bold;
+    color: #fff;
+    font-size: 16px;
+}
+
+body {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    font-size: 120%;
+    line-height: 1.625;
+    font-family: 'Whitney SSm A', 'Whitney SSm B', Helvetica Neue, Helvetica, Arial, sans-serif;
+    -webkit-perspective: 1px;
+    -moz-perspective: 1px;
+    -ms-perspective: 1px;
+    -o-perspective: 1px;
+    perspective: 1px;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d; 
+}
+
+body * {
+    -webkit-perspective: 1px;
+    -moz-perspective: 1px;
+    -ms-perspective: 1px;
+    -o-perspective: 1px;
+    perspective: 1px;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.page {
+    padding: 20px 20%;
+    position: relative;
+    top: 60%;
+    background-color: white; 
+}
+
+.masthead {
+    position: absolute;
+    top: -20%;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    padding-top: 20%;
+    background: url(/assets/clock.png) no-repeat 50% 50%;
+    background-size: cover;
+    -webkit-transform: translateZ(-0.9px) scale(1.9);
+    -moz-transform: translateZ(-0.9px) scale(1.9);
+    -ms-transform: translateZ(-0.9px) scale(1.9);
+    -o-transform: translateZ(-0.9px) scale(1.9);
+    transform: translateZ(-0.9px) scale(1.9);
+    z-index: -900;
+    text-align: center; 
+}
+
+.logo {
+    width: 100%;
+    max-width: 300px;
+    z-index: 0; 
+}
+
+/*# sourceMappingURL=style.min.css.map */

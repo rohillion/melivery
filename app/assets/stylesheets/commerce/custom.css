@@ -433,7 +433,7 @@ body{
 #order-pending-fixed{
     z-index: 1000;
     transition: all 500ms ease-in-out 0s;
-    transform: translateY(90%);
+    transform: translateY(99%);
     overflow: hidden;
     position: fixed;
     bottom: 0;
@@ -446,10 +446,10 @@ body{
 #order-pending{
     padding-top: 15px;
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-    background-color: #999;
+    background-color: #fff;
     min-height: 200px;
     transition: all 500ms ease-in-out 0s;
-    max-height: 100%;
+    height: 100%;
     overflow: auto;
 }
 
@@ -497,6 +497,19 @@ body{
 .order-body .order-product-attributes .label-info{
     font-size: 11px;
     margin-right: 2px;
+}
+
+.box span.badge{
+    margin-top:4px;
+}
+
+#order-ready .box:last-of-type{
+    margin:0px;
+}
+
+.commerce-order .badge {
+    color: #000;
+    background-color: inherit;
 }
 /***** orders *****/
 

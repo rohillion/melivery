@@ -10,7 +10,6 @@
   | and give it the Closure to execute when that URI is requested.
   |
  */
-
 $tld = CommonEvents::get_tld()[1];
 
 /*Route::group(array('domain' => 'admin.melivery'.$tld, "before" => "auth|admin"), function() {
@@ -326,7 +325,13 @@ Route::get("/", [
     "uses" => "HomeController@index"
 ]);
 
+//AJAX -------------------------------------------------------------
 Route::get("/position", [
     "uses" => "AjaxPositionController@store"
 ]);
 
+//COMMERCE LANDING -------------------------------------------------
+Route::get("/{commerce}", [
+    "as" => "landing",
+    "uses" => "LandingController@index"
+]);

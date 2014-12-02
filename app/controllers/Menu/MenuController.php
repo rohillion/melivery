@@ -61,20 +61,4 @@ class MenuController extends BaseController {
         return View::make('menu.main', $data);
     }
 
-    public function write_order() {
-
-        $productForm = Input::get('product');
-        
-        $res = $this->menu->takeOrder($productForm);
-        
-        return Redirect::to(Request::server('HTTP_REFERER'));
-    }
-
-    public function erase_order($product_id = NULL) {
-        
-        $res = $this->menu->eraseOrder($product_id);
-        
-        return Redirect::to(Request::server('HTTP_REFERER'));
-    }
-
 }

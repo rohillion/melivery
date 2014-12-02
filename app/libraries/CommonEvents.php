@@ -82,8 +82,30 @@ Class CommonEvents {
         if (!Session::get('location')) {
             Session::put('location', ['country' => end($tld), 'tld' => $domainTLD[1]]);
         }
-        
+
         return true;
+    }
+
+    static function isSubdomain() {
+
+        $dots = explode('.', Request::root());
+
+        if (count($dots) > 3)
+            return true;
+        
+        if (count($dots) == 3 && !self::isCountry())
+            return true;
+
+        return false;
+    }
+
+    static function isCountry() {
+
+        $domainTLD = self::get_tld();
+
+        $tld = explode('.', substr($domainTLD[1], 1)); //.com.xx
+
+        return count($tld) > 1 ? true : false;
     }
 
 }

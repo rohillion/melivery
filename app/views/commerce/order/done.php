@@ -59,8 +59,8 @@
 
         <div class="box-footer">
 
-            <div class="col-xs-2">
-                <a href="#" class="btn btn-primary btn-flat btn-lg">Historial de este pedido</a>
+            <div class="pull-right">
+                <a href="#" class="btn btn-primary">Historial de este pedido</a>
             </div>
 
             <span class="clearfix"></span>
