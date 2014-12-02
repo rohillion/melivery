@@ -2,9 +2,9 @@
 
     <?php foreach ($orders['ready']['dealer'] as $dealer => $readyOrders) { ?>
 
-        <div class="panel panel-default">
+        <div>
 
-            <div class="panel-heading clearfix" role="tab" id="<?php echo $dealer; ?>">
+            <div class="panel-heading clearfix row" role="tab" id="<?php echo $dealer; ?>">
 
                 <h2 style="margin-top: 0; margin-bottom: 0;" class="pull-left">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $dealer; ?>" aria-expanded="true" aria-controls="collapse<?php echo $dealer; ?>">
@@ -29,7 +29,8 @@
 
             <div id="collapse<?php echo $dealer; ?>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<?php echo $dealer; ?>">
                 <form id="orders<?php echo $dealers[$dealer]->id; ?>"  method="post" action="<?php echo URL::action('OrderController@report', $dealers[$dealer]->id) ?>" > 
-                    <div style="background: #f1f1f1;" class="panel-body">
+                    <!--<div class="panel-body">-->
+                    <div>
 
                         <?php $dealerTotal = NULL ?>
 
@@ -74,7 +75,7 @@
                                                             <div class="order-item-attributes">
                                                                 <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
 
-                                                                    <span style="font-size: 11px; margin-right: 2px;" class="label label-info">
+                                                                    <span class="label">
                                                                         <?php echo $attributeOrderProduct['attributes']['attribute_name']; ?>
                                                                     </span>
 

@@ -51,11 +51,11 @@
 
                     <section class="order-panel">
 
-<!--<button id="switch-view" class="btn btn-default btn-flat btn-sm"><i class="fa fa-toggle-on"></i></button>-->
+                        <button id="switch-view" class="btn btn-default btn-flat btn-sm visible-lg"><i class="fa fa-bars"></i></button>
 
                         <div class="tabs tabs-style-iconbox">
 
-                            <nav class="box box-solid" style="margin-bottom: 20px;">
+                            <nav class="box box-solid gridon" style="margin-bottom: 20px;">
                                 <ul>
                                     <!--<li class="active">
                                         <a href="#order-pending" class="fa fa-exclamation fa-2x" role="tab" data-toggle="tab">

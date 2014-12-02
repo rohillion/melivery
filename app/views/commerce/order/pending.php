@@ -37,7 +37,7 @@
                                     <div class="order-item-attributes">
                                         <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
 
-                                            <span style="font-size: 11px; margin-right: 2px;" class="label label-info">
+                                            <span class="label">
                                                 <?php echo $attributeOrderProduct['attributes']['attribute_name']; ?>
                                             </span>
 

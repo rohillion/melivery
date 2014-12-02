@@ -36,7 +36,7 @@
                                     <div class="order-item-attributes">
                                         <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
 
-                                            <span style="font-size: 11px; margin-right: 2px;" class="label label-info">
+                                            <span class="label">
                                                 <?php echo $attributeOrderProduct['attributes']['attribute_name']; ?>
                                             </span>
 
@@ -60,7 +60,7 @@
         <div class="box-footer">
 
             <div class="pull-right">
-                <a href="#" class="btn btn-primary">Historial de este pedido</a>
+                <a href="#" class="btn btn-link">Historial de este pedido</a>
             </div>
 
             <span class="clearfix"></span>

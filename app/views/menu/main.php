@@ -361,7 +361,7 @@
                 </div>
 
                 <!-- right column -->
-                <div class="col-md-9">
+                <div class="col-xs-9">
 
                     <!-- Main row -->
                     <div class="row">

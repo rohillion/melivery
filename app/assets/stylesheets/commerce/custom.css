@@ -148,6 +148,10 @@ body{
 /*         ORDERS            */
 /*****************************/
 
+#switch-view{
+    font-size: 14px;
+}
+
 .tabs {
     position: relative;
     overflow: hidden;
@@ -340,16 +344,16 @@ body{
 
 @media(min-width:1200px){
 
-    .tabs-style-iconbox nav ul li {
+    .tabs-style-iconbox nav.gridon ul li {
         z-index: 100;
     }
 
-    .tabs-style-iconbox nav ul li a {
+    .tabs-style-iconbox nav.gridon ul li a {
         background: #fff;
         box-shadow: -1px 0 0 #fff;
     }
 
-    .tabs-style-iconbox nav ul li a::after {
+    .tabs-style-iconbox nav.gridon ul li a::after {
         position: absolute;
         top: 100%;
         left: 50%;
@@ -494,9 +498,11 @@ body{
     padding:0px 5px 10px 5px;
 }
 
-.order-body .order-product-attributes .label-info{
-    font-size: 11px;
-    margin-right: 2px;
+.order-body .order-item-attributes .label{
+    font-weight: bold;
+    font-size: 13px;
+    color: #5bc0de;
+    font-style: italic;
 }
 
 .box span.badge{
