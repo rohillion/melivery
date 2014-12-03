@@ -4,61 +4,22 @@
     border-bottom: 0px solid transparent;
 }
 
-body{
+body {
     padding-top: 0;
 }
-
-.parallax {
-    perspective: 1px;
-    height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-.parallax-layer {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-.parallax-layer-base {
-    transform: translateZ(0);
-}
-.parallax-layer-back {
-    transform: translateZ(-1px) scale(2);
-}
-.parallax-group{
-    top: -30%;
-    position: relative;
-    height: 40%;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-}
-
 .page {
     position: relative;
     background-color: #f9f9f9;
 }
-
 .cover-container {
-    height: 100%;
-}
-
-.logo {
-    width: 100%;
-    max-width: 300px;
-    z-index: 0; 
-}
-
-/*.cover-container{
-    background: url(http://p1.pichost.me/i/66/1910819.jpg) no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
+    height: 40vh;
     background-size: cover;
-    height: 100%;
-    background-color: #060;
-    color: #fff;
-    text-align: center;
-    text-shadow: 0 1px 3px rgba(0,0,0,.5);
-}*/
+}
+
+.content-header.affix {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1029;
+    top: 54px;
+}
