@@ -7,14 +7,16 @@
 
         <?php if (!is_null($commerce)) { ?>
 
-            <div class="cover-container parallax-group" style="background-image: url('http://wallfon.com/walls/others/delicious-food.jpg');"></div>
+            <div class="parallax-group">
+                <div class="cover-container" style="background-image: url('http://wallfon.com/walls/others/delicious-food.jpg');"></div>
+            </div>
 
             <!-- Main content -->
             <section class="page">
 
-                <div class="content-header" data-spy="affix" data-offset-top="255" data-offset-bottom="0">
+                <div id="content-header" class="content-header">
                     <div class="container">
-                        <div style="font-size: 28px;" id="filter-container" class="row">
+                        <div style="font-size: 28px;" id="filter-container">
                             Hola! <?php echo $commerce->commerce_name; ?>
                         </div>
                     </div>
@@ -27,14 +29,11 @@
 
                         <!-- left column -->
                         <div class="col-md-3">
-                            <div class="sidebar-nav affix-top" role="navigation" data-spy="affix" data-offset-top="255">
+                            <div id="order-paper" class="sidebar-nav" role="navigation">
 
-                                <div id="order-paper" class="box box-solid">
-                                    <div class="box-header">
-                                        <h3 class="box-title">Mi pedido</h3>
-                                    </div>
-                                    <?php //if (!is_null($orders)) { TODO remover?>
-                                    <?php if (0) { ?>
+                                <div class="box box-solid">
+
+                                    <?php if (!is_null($orders)) { ?>
 
                                         <div class="box-header">
                                             <h3 class="box-title">Mi pedido</h3>
@@ -42,16 +41,16 @@
 
                                         <div class="order-body">
 
-                                            <?php foreach ($orders as $branchId => $commerce) { ?>
+                                            <?php foreach ($orders as $branchId => $commerceOrder) { ?>
 
                                                 <div class="commerce-order">
 
-                                                    <div class="commerce-panel">
+                                                    <div class="commerce-info">
                                                         <div class="pull-left image">
                                                             <img src="assets/avatar3.png" class="img-circle" alt="User Image">
                                                         </div>
                                                         <div class="pull-left info">
-                                                            <p><?php echo $commerce['commerce_name']; ?></p>
+                                                            <p><?php echo $commerceOrder['commerce_name']; ?></p>
                                                         </div>
                                                     </div>
 
@@ -70,7 +69,7 @@
                                                                 <?php $i = 1; ?>
                                                                 <?php $total = NULL ?>
 
-                                                                <?php foreach ($commerce['products'] as $productIndex => $product) { ?>
+                                                                <?php foreach ($commerceOrder['products'] as $productIndex => $product) { ?>
 
                                                                     <?php $productTotal = $product->price * $product->qty ?>
 
@@ -188,12 +187,6 @@
 
                                         <div class="box-footer">
 
-                                                                                                                                                            <!--<form method="post" action="<?php //echo URL::route('menu.preorder.store');                   ?>">
-                                                                                                                                                                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                                                                                                                                                                <button type="submit" class="btn btn-warning btn-block">
-                                                                                                                                                                    <strong>Ordenar</strong>
-                                                                                                                                                                </button>
-                                                                                                                                                            </form>-->
                                             <a class="btn btn-warning btn-block" href="<?php echo URL::route('menu.preorder.confirm'); ?>"><strong>Ordenar</strong></a>
 
                                         </div>
@@ -205,7 +198,7 @@
                         </div>
 
                         <!-- right column -->
-                        <div class="col-xs-9">
+                        <div id="product-container" class="col-xs-9">
 
                             <!-- Main row -->
                             <div class="row">
@@ -253,7 +246,7 @@
                                                         <form method="post" action="<?php echo URL::route('menu.preorder.add') ?>">
 
                                                             <input name="product[id]" type="hidden" value="<?php echo $product->id ?>" />
-                                                            <input name="product[branch]" type="hidden" value="<?php echo $product->branch_id ?>" />
+                                                            <input name="product[branch]" type="hidden" value="<?php echo $commerce->branches[0]->id ?>" />
                                                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
                                                             <div class="row pull-left col-lg-8">

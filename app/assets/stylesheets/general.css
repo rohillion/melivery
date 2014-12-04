@@ -607,3 +607,51 @@ body{
 }
 
 /* -- filter panel -- */
+
+/* -- PRODUCT LIST & ORDER PAPER -- */
+
+.product-card .commerce-info, #order-paper .commerce-info {
+    padding: 10px;
+}
+.product-card .commerce-info:before, #order-paper .commerce-info:before,
+.product-card .commerce-info:after, #order-paper .commerce-info:after {
+    display: table;
+    content: " ";
+}
+.product-card .commerce-info:after, #order-paper .commerce-info:after {
+    clear: both;
+}
+.product-card .commerce-info > .image > img, #order-paper .commerce-info > .image > img {
+    width: 45px;
+    height: 45px;
+    border: 1px solid #dfdfdf;
+}
+.product-card .commerce-info > .info, #order-paper .commerce-info > .info {
+    font-weight: 600;
+    padding: 5px 5px 5px 15px;
+    font-size: 14px;
+    line-height: 1;
+}
+.product-card .commerce-info > .info > p, #order-paper .commerce-info > .info > p {
+    margin-bottom: 9px;
+}
+.product-card .commerce-info > .info > span, #order-paper .commerce-info > .info > span {
+    text-decoration: none;
+    padding-right: 5px;
+    margin-top: 3px;
+    font-size: 11px;
+    font-weight: normal;
+}
+.product-card .commerce-info > .info > a > .fa, #order-paper .commerce-info > .info > a > .fa,
+.product-card .commerce-info > .info > a > .ion, #order-paper .commerce-info > .info > a > .ion,
+.product-card .commerce-info > .info > a > .glyphicon, #order-paper .commerce-info > .info > a > .glyphicon {
+    margin-right: 3px;
+}
+
+.product-card .product-title{
+    width:80%;
+}
+
+#order-paper .config-panel-layout{
+    display: none;
+}

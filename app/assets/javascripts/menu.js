@@ -4,6 +4,7 @@ var menu = {
         this.productConfig();
         this.checkRules();
         main.popover();
+
     },
     popover: function() {
 
@@ -69,11 +70,11 @@ var menu = {
 
             var trigger = $(this);
             var popover = $('.popover');
-            
+
             if (popover.length > 1) {
 
                 $('body').one('hidden.bs.popover', function() {
-                    
+
                     popover = $('.popover');
                     var configPanel = popover.find('.config-panel');
                     var configPanelLayout = trigger.next().find('.config-panel');

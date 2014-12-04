@@ -23,3 +23,16 @@ body {
     z-index: 1029;
     top: 54px;
 }
+
+.content-header.affix + .container #product-container {
+    padding-top: 117px;
+}
+
+#order-paper.affix {
+    top: 171px;
+}
+
+.navbar-fixed-top{
+    -webkit-transition: background-color 600ms linear;
+    transition: background-color 600ms linear;
+}

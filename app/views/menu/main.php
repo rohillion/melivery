@@ -202,7 +202,7 @@
 
                                         <div class="commerce-order">
 
-                                            <div class="commerce-panel">
+                                            <div class="commerce-info">
                                                 <div class="pull-left image">
                                                     <img src="assets/avatar3.png" class="img-circle" alt="User Image">
                                                 </div>
@@ -345,12 +345,6 @@
 
                                 <div class="box-footer">
 
-                                        <!--<form method="post" action="<?php //echo URL::route('menu.preorder.store');    ?>">
-                                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                                            <button type="submit" class="btn btn-warning btn-block">
-                                                <strong>Ordenar</strong>
-                                            </button>
-                                        </form>-->
                                     <a class="btn btn-warning btn-block" href="<?php echo URL::route('menu.preorder.confirm'); ?>"><strong>Ordenar</strong></a>
 
                                 </div>
@@ -379,12 +373,12 @@
                                 ?>
 
                                 <!-- left column -->
-                                <div class="col-md-4">
+                                <div class="product-card col-xs-4">
 
                                     <!-- general form elements -->
                                     <div id="p<?php echo $product->id ?>" class="box box-solid">
 
-                                        <div class="commerce-panel">
+                                        <div class="commerce-info">
                                             <div class="pull-left image">
                                                 <img src="assets/avatar3.png" class="img-circle" alt="User Image">
                                             </div>

@@ -19,7 +19,7 @@ class LandingController extends BaseController {
             'commerce' => $this->commerce->findByName($commerceName),
             'orders' => $this->preorder->all(Session::get('orders'))
         );
-        //die('<pre>' . var_dump($data['commerce']->branches[0]->products) . '</pre>');
+
         return View::make('landing.main', $data);
     }
 

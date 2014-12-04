@@ -2,20 +2,37 @@
 var custom = {
     init: function() {
         this.parallax();
-        //this.affixAction();
+        this.affixTopBar();
     },
-    affixAction: function() {
+    affixTopBar: function() {
+
+        $('#content-header').affix({
+            offset: {
+                top: function() {
+                    return $('.parallax-group').height() - 54;
+                }
+            }
+        });
+
+        $('#order-paper').affix({
+            offset: {
+                top: function() {
+                    return $('.parallax-group').height() - 54;
+                }
+            }
+        });
         
-        $('.navbar-affix').on('affix.bs.affix', function() {
-            $(this).addClass('width-space').find('.nav').addClass('col-md-offset-1');
-            $('#groupsHolder').addClass('top-space');
-        }).on('affix-top.bs.affix', function() {
-            $(this).removeClass('width-space').find('.nav').removeClass('col-md-offset-1');
-            $('#groupsHolder').removeClass('top-space');
+        $('#content-header').on('affixed.bs.affix',function(){
+            
+            $('body').addClass('skin-red').removeClass('skin-landing');
+            
+        }).on('affixed-top.bs.affix',function(){
+            
+            $('body').addClass('skin-landing').removeClass('skin-red');
         });
     },
-    parallax : function(){
-        
+    parallax: function() {
+
         $('.cover-container').parallax("50%", -0.5);
     }
 }
