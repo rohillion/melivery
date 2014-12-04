@@ -381,9 +381,9 @@ class BranchForm extends AbstractForm {
         return true;
     }
 
-    public function findByCommerceId($branchId, $commerceId) {
+    public function findByCommerceId($branchId, $commerceId, $entities = array()) {
 
-        return $this->branch->findByCommerceId($branchId, $commerceId);
+        return $this->branch->findByCommerceId($branchId, $commerceId, $entities);
     }
 
 }

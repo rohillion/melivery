@@ -36,22 +36,24 @@ abstract class RepositoryAbstract implements RepositoryInterface {
 
     public function all($columns = array('*'), $entities = array()) {
 
-        if (!empty($entities)) {
+        /*if (!empty($entities)) {
 
             return $this->withEntities($entities)->get();
         } else {
             return $this->entity->all($columns);
-        }
+        }*/
+        return $this->withEntities($entities)->get();
     }
 
     public function find($id, $columns = array('*'), $entities = array()) {
 
-        if (!empty($entities)) {
+        /*if (!empty($entities)) {
 
             return $this->withEntities($entities)->find($id, $columns);
         } else {
             return $this->entity->find($id, $columns);
-        }
+        }*/
+        return $this->withEntities($entities)->find($id, $columns);
     }
 
     public function destroy($id) {
@@ -62,9 +64,12 @@ abstract class RepositoryAbstract implements RepositoryInterface {
         return $this->entity->sync($ids);
     }
 
-    private function withEntities(array $entities) {
-
-        return $this->entity->with($entities);
+    protected function withEntities(array $entities) {
+        
+        if (!empty($entities))
+            return $this->entity->with($entities);
+        
+        return $this->entity;
     }
 
 }

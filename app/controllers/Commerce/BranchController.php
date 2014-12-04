@@ -47,7 +47,7 @@ class BranchController extends BaseController {
      */
     public function edit($branch_id) {
         
-        $branch = $this->branch->findByCommerceId($branch_id, Session::get('user.id_commerce'));
+        $branch = $this->branch->findByCommerceId($branch_id, Session::get('user.id_commerce'), ['openingHours', 'phones', 'dealers', 'city']);
         
         if(is_null($branch))
             App::abort(403, 'Unauthorized action.');
