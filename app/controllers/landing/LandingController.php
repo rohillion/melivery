@@ -29,18 +29,21 @@ class LandingController extends BaseController {
             if (!$branches->isEmpty()) {
 
                 if (!$branchId)
-                    $branches = $branches[0]->id;
+                    $branchId = $branches[0]->id;
 
-                $commerce->setRelations([
-                    'branches' => $this->branch->findByCommerceId($branchId, $commerce->id, ['products.categories.subcategories', 'products.tags'])
-                ]);
+                $branch = $this->branch->findByCommerceId($branchId, $commerce->id, ['products.categories.subcategories', 'products.tags']);
+
+                if (!$branch)
+                    return Redirect::to('/'.$commerce->commerce_url);
+                    
+                $commerce->setRelations(['branch' => $branch]);
+
+                $data['branches'] = $branches;
             }
         }
 
-        $data = array(
-            'commerce' => $commerce,
-            'orders' => $this->preorder->all(Session::get('orders'))
-        );
+        $data['commerce'] = $commerce;
+        $data['orders'] = $this->preorder->all(Session::get('orders'));
 
         return View::make('landing.main', $data);
     }

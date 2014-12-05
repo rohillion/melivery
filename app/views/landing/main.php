@@ -16,8 +16,48 @@
 
                 <div id="content-header" class="content-header">
                     <div class="container">
-                        <div style="font-size: 28px;" id="filter-container">
-                            Hola! <?php echo $commerce->commerce_name; ?>
+                        <div id="filter-container">
+
+                            <div style="font-size: 28px;" class="col-xs-3">
+                                <?php echo $commerce->commerce_name; ?>
+                            </div>
+
+                            <div class="filter-options">
+                                <div class="pull-right form-medium">
+                                    <div id="branch-select" class="pull-right">
+                                        <div href="#" id="branch-mask" class="filter-mask margin-less popover-trigger">
+
+                                            <div class="mask pull-left">
+                                                <?php echo $commerce->branch->street; ?>
+                                            </div>
+
+                                            <div class="caret-wrapp pull-left">
+                                                <span class="caret"></span>
+                                            </div>
+
+                                            <div id="branch-list" class="popover-wrapper">
+                                                <ul class="list-group organized-list">
+
+                                                    <span role="presentation" class="dropdown-header">Otras sucursales</span>
+
+                                                    <?php foreach ($branches as $branch) { ?>
+                                                        <?php if ($commerce->branch->id != $branch->id) { ?>
+
+                                                            <li class="list-group-item">
+                                                                <a class="branch-item" href="?branch=<?php echo $branch->id; ?>"><?php echo $branch->street; ?></a>
+                                                            </li>
+
+                                                        <?php } ?>
+                                                    <?php } ?>
+
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -203,13 +243,13 @@
                             <!-- Main row -->
                             <div class="row">
 
-                                <?php if (!($commerce->branches->count() > 1)) { ?>
+                                <?php if (!is_null($commerce->branch)) { ?>
 
-                                    <?php if (!$commerce->branches[0]->products->isEmpty()) { ?>
+                                    <?php if (!$commerce->branch->products->isEmpty()) { ?>
 
                                         <?php $i = 0; ?>
 
-                                        <?php foreach ($commerce->branches[0]->products as $product) { ?>
+                                        <?php foreach ($commerce->branch->products as $product) { ?>
 
                                             <?php
                                             if ($i % 3 == 0 && $i) {

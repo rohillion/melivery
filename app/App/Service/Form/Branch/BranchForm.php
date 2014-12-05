@@ -77,7 +77,7 @@ class BranchForm extends AbstractForm {
         }
 
         // Branch static map position Google API
-        $this->staticMap($input, $branch);
+        //$this->staticMap($input, $branch);
 
         // Branch Opening Hours--------
         $branchOpening = $this->branchOpening->save($branch, $input['days']);

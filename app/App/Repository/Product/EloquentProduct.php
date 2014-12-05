@@ -66,10 +66,6 @@ class EloquentProduct extends RepositoryAbstract implements ProductInterface {
 
     public function findWhereBranchId($productId, $branchId) {
 
-//        return $this->entity
-//                        ->where('id', '=', $productId)
-//                        ->where('branch', '=', $branchId)
-//                        ->first();
         return $this->entity
                         ->whereHas('branches', function($q) use($branchId) {
                             $q->where('branch.id', '=', $branchId);

@@ -34,5 +34,9 @@ body {
 
 .navbar-fixed-top{
     -webkit-transition: background-color 600ms linear;
-    transition: background-color 600ms linear;
+    transition: background-color 200ms linear;
+}
+
+.skin-landing .navbar-fixed-top{
+    background-color: rgba(0,0,0,0.5);
 }

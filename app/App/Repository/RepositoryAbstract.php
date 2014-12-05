@@ -64,7 +64,7 @@ abstract class RepositoryAbstract implements RepositoryInterface {
         return $this->entity->sync($ids);
     }
 
-    protected function withEntities(array $entities) {
+    public function withEntities(array $entities) {
         
         if (!empty($entities))
             return $this->entity->with($entities);

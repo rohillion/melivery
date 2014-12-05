@@ -5,9 +5,11 @@
         <group>
             <file>file:/C:/xampp/htdocs/lab/melivery/app/App/Repository/Branch/EloquentBranch.php</file>
             <file>file:/C:/xampp/htdocs/lab/melivery/app/controllers/Landing/LandingController.php</file>
+            <file>file:/C:/xampp/htdocs/lab/melivery/app/App/Service/Form/Branch/BranchForm.php</file>
             <file>file:/C:/xampp/htdocs/lab/melivery/app/views/landing/main.php</file>
-            <file>file:/C:/xampp/htdocs/lab/melivery/app/App/Repository/Branch/BranchInterface.php</file>
             <file>file:/C:/xampp/htdocs/lab/melivery/app/assets/javascripts/landing/custom.js</file>
+            <file>file:/C:/xampp/htdocs/lab/melivery/app/assets/stylesheets/general.css</file>
+            <file>file:/C:/xampp/htdocs/lab/melivery/app/App/Repository/Commerce/CommerceInterface.php</file>
             <file>file:/C:/xampp/htdocs/lab/melivery/app/App/Repository/Commerce/EloquentCommerce.php</file>
             <file>file:/C:/xampp/htdocs/lab/melivery/app/assets/stylesheets/landing/custom.css</file>
         </group>

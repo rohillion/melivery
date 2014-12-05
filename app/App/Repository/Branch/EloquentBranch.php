@@ -15,8 +15,7 @@ class EloquentBranch extends RepositoryAbstract implements BranchInterface {
 
     public function findByCommerceId($branchId, $commerceId, $entities = array()) {
 
-        return $this->entity
-                        ->withEntities($entities)
+        return $this->withEntities($entities)
                         ->where('commerce_id', $commerceId)
                         ->find($branchId);
     }

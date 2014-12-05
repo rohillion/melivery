@@ -496,13 +496,15 @@ body{
 
 .filter-mask{font-size: 28px;overflow: hidden;display: block;float: left;margin-right: 20px;cursor: pointer;}
 
-.filter-mask:hover{color:#1769ff;}
+.filter-mask:hover {color:#1769ff}
 .filter-mask:hover .caret-wrapp{border-color: #1769ff;}
 .filter-mask:hover .caret-wrapp .caret{border-top-color: #1769ff;}
 
 .filter-mask.active{color:#1769ff;}
 .filter-mask.active .caret-wrapp{border-color:#1769ff;}
 .filter-mask.active .caret-wrapp .caret{border-top-color:#1769ff;}
+
+.filter-mask.margin-less{margin-right: 0;}
 
 .mask{padding-right:10px;text-transform:capitalize;}
 .caret-wrapp {padding: 2px;border: 1px solid #000000;margin-top: 15px;border-radius: 5px;width: 18px;height: 15px;line-height: 5px;}

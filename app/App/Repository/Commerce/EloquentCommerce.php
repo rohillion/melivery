@@ -6,11 +6,9 @@ use App\Repository\RepositoryAbstract;
 
 class EloquentCommerce extends RepositoryAbstract implements CommerceInterface {
 
-    public function findByName($commerceName){
+    public function findByName($commerceName, $entities = array()){
         
-        return $this->entity
-                /*->with('branches.products.categories.subcategories')
-                ->with('branches.products.tags')*/
+        return $this->withEntities($entities)
                 ->where('commerce_url', $commerceName)
                 ->first();
         
