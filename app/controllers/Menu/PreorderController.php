@@ -20,9 +20,21 @@ class PreorderController extends BaseController {
     }
 
     public function store() {
-
-        $order = $this->preorder->process(Auth::user()->id, Session::get('orders'));
         
+        $queue = CommonEvents::getLastAction();
+        
+        //check if queue data when came from login
+        if($queue && $queue['action'] == Route::getCurrentRoute()->getAction()['controller']){
+            
+            CommonEvents::setLastAction(FALSE);//Delete last attempt action;
+            $payWith = $queue['post'];
+        }else{
+            
+            $payWith = Input::only('pay','amount');
+        }
+        
+        $order = $this->preorder->process(Session::get('user.id'), Session::get('orders'), $payWith);
+
         if (!isset($order['error'])) {
 
             // Success!
@@ -32,7 +44,7 @@ class PreorderController extends BaseController {
         }
 
         return Redirect::to(Request::server('HTTP_REFERER'))
-                        ->withError($order['error'])
+                        ->withErrors($order['error'])
                         ->with('status', 'error');
     }
 

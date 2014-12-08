@@ -34,26 +34,21 @@ abstract class RepositoryAbstract implements RepositoryInterface {
             return $entity;
     }
 
-    public function all($columns = array('*'), $entities = array()) {
+    public function all(array $columns = array('*'), array $entities = array(), array $where = array()) {
 
-        /*if (!empty($entities)) {
+        /* if (!empty($entities)) {
 
-            return $this->withEntities($entities)->get();
-        } else {
-            return $this->entity->all($columns);
-        }*/
-        return $this->withEntities($entities)->get();
+          return $this->withEntities($entities)->get();
+          } else {
+          return $this->entity->all($columns);
+          } */
+        //return $this->withEntities($entities)->get();
+        return $this->whereMatch($where)->with($entities)->get($columns);
     }
 
-    public function find($id, $columns = array('*'), $entities = array()) {
+    public function find($id, array $columns = array('*'), array $entities = array(), array $where = array()) {
 
-        /*if (!empty($entities)) {
-
-            return $this->withEntities($entities)->find($id, $columns);
-        } else {
-            return $this->entity->find($id, $columns);
-        }*/
-        return $this->withEntities($entities)->find($id, $columns);
+        return $this->whereMatch($where)->with($entities)->find($id, $columns);
     }
 
     public function destroy($id) {
@@ -63,13 +58,25 @@ abstract class RepositoryAbstract implements RepositoryInterface {
     public function sync(array $ids) {
         return $this->entity->sync($ids);
     }
-
+    
     public function withEntities(array $entities) {
         
-        if (!empty($entities))
-            return $this->entity->with($entities);
+        return $this->entity->with($entities);
+    }
+
+    public function whereMatch(array $where) {
         
-        return $this->entity;
+        $entity = $this->entity;
+        
+        if (!empty($where)) {
+
+            foreach ($where as $field => $value) {
+                $entity = $entity->where($field, '=', $value);
+            }
+            
+        }
+
+        return $entity;
     }
 
 }

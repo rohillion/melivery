@@ -12,11 +12,18 @@
  */
 $tld = CommonEvents::get_tld()[1];
 
-/*Route::group(array('domain' => 'admin.melivery'.$tld, "before" => "auth|admin"), function() {
-    return Redirect::intended();
-});*/
+Route::get('/twilio', [
+    "uses" => "TwilioController@index"
+]);
+
+Route::post("/twilio", [
+    "uses" => "TwilioController@send"
+]);
+/* Route::group(array('domain' => 'admin.melivery'.$tld, "before" => "auth|admin"), function() {
+  return Redirect::intended();
+  }); */
 //ADMIN -------------------------------------------------------------
-Route::group(array('domain' => 'admin.melivery'.$tld, "before" => "auth|admin"), function() {
+Route::group(array('domain' => 'admin.melivery' . $tld, "before" => "auth|admin"), function() {
 
     Route::get("/", [
         "uses" => "AdminController@index"
@@ -88,7 +95,7 @@ Route::group(array('domain' => 'admin.melivery'.$tld, "before" => "auth|admin"),
 });
 
 //COMMERCE -------------------------------------------------------------
-Route::group(array('domain' => 'commerce.melivery'.$tld, "before" => "auth|verif|commerce"), function() {
+Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|verif|commerce"), function() {
 
     Route::get("/", [
         "as" => "commerce",
@@ -134,32 +141,32 @@ Route::group(array('domain' => 'commerce.melivery'.$tld, "before" => "auth|verif
     ]);
 
     //Route::resource('branch', 'BranchController');
-    
-    /*Route::get("/branch", [
-        "as" => "commerce.branch",
-        "uses" => "BranchController@index"
-    ]);*/
-    
+
+    /* Route::get("/branch", [
+      "as" => "commerce.branch",
+      "uses" => "BranchController@index"
+      ]); */
+
     Route::get("/branch/create", [
         "as" => "commerce.branch.create",
         "uses" => "BranchController@create"
     ]);
-    
+
     Route::post("/branch", [
         'before' => 'csrf',
         "uses" => "BranchController@store"
     ]);
-    
+
     Route::get("/branch/{branch_id}/edit", [
         "as" => "commerce.branch.edit",
         "uses" => "BranchController@edit"
     ]);
-    
+
     Route::put("/branch/{branch_id}", [
         'before' => 'csrf',
         "uses" => "BranchController@update"
     ]);
-    
+
     Route::delete("/branch/{branch_id}", [
         'before' => 'csrf',
         "uses" => "BranchController@destroy"
@@ -169,35 +176,34 @@ Route::group(array('domain' => 'commerce.melivery'.$tld, "before" => "auth|verif
         "as" => "commerce.commerce.order",
         "uses" => "OrderController@index"
     ]);
-    
+
     Route::post("/order/{order_id}", [
         'before' => 'csrf',
         "uses" => "OrderController@update"
     ]);
-    
+
     Route::post("/order/{order_id}/status", [
         'before' => 'csrf',
         "uses" => "OrderController@changeStatus"
     ]);
-    
+
     Route::post("/order/{dealer_id}/dispatch", [
         'before' => 'csrf',
         "uses" => "OrderController@dispatch"
     ]);
-    
+
     Route::post("/order/{dealer_id}/report", [
         'before' => 'csrf',
         "uses" => "OrderController@report"
     ]);
-    
+
     Route::get("/city/find/", [
         "uses" => "AjaxCityController@find"
     ]);
-    
 });
 
 //CUSTOMER -------------------------------------------------------------
-Route::group(array('domain' => 'customer.melivery'.$tld, "before" => "auth|verif|customer"), function() {
+Route::group(array('domain' => 'customer.melivery' . $tld, "before" => "auth|verif|customer"), function() {
 
     Route::get("/", [
         "as" => "customer",
@@ -211,7 +217,7 @@ Route::group(array('domain' => 'customer.melivery'.$tld, "before" => "auth|verif
 });
 
 //ACCOUNT -------------------------------------------------------------
-Route::group(array('domain' => 'account.melivery'.$tld), function() {
+Route::group(array('domain' => 'account.melivery' . $tld), function() {
 
     Route::group(['before' => 'guest'], function() {
 
@@ -284,36 +290,36 @@ Route::group(array('domain' => 'account.melivery'.$tld), function() {
 });
 
 //MENU -------------------------------------------------------------
-Route::group(array('domain' => 'menu.melivery'.$tld), function() {
-    
-    Route::get("/preorder", [
-        'before' => 'queue|auth|verif|customer',
+Route::group(array('domain' => 'menu.melivery' . $tld), function() {
+
+    Route::any("/preorder", [
+        'before' => 'auth|verif|customer',
         "as" => "menu.preorder.store",
         "uses" => "PreorderController@store"
     ]);
-    
+
     Route::get("/preorder/confirm", [
         "as" => "menu.preorder.confirm",
         "uses" => "PreorderController@confirm"
     ]);
-    
+
     Route::post("/preorder/add", [
         'before' => 'csrf',
         "as" => "menu.preorder.add",
         "uses" => "PreorderController@addItem"
     ]);
-    
+
     Route::post("/preorder/config", [
         'before' => 'csrf',
         "as" => "menu.preorder.config",
         "uses" => "PreorderController@configItem"
     ]);
-    
+
     Route::get("/preorder/remove", [
         "as" => "menu.preorder.remove",
         "uses" => "PreorderController@removeItem"
     ]);
-    
+
     Route::get("/{category?}/{page?}", [
         "as" => "menu.products",
         "uses" => "MenuController@index"

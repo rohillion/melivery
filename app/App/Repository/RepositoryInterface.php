@@ -12,9 +12,9 @@ interface RepositoryInterface {
 
     public function edit($id, array $attributes);
 
-    public function all($columns = array('*'), $entities = array());
+    public function all(array $columns = array('*'), array $entities = array(), array $where = array());
 
-    public function find($id, $columns = array('*'), $entities = array());
+    public function find($id, array $columns = array('*'), array $entities = array(), array $where = array());
 
     public function destroy($ids);
 

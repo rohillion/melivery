@@ -57,7 +57,7 @@ var main = {
             type: res.status, // notice, warning, error or success
 
             // time to remove notification if user don't do it
-            ttl: res.time? res.time : 3500,
+            ttl: res.time ? res.time : 3500,
             // callbacks
             onClose: function() {
                 if (typeof callback == 'function')
@@ -74,13 +74,28 @@ var main = {
             color: "#ffff99"
         }, 2000);
     },
-    scrollTo: function(element, callback) {
+    /*scrollTo: function(element, callback) {
+     
+     var container = $('body');
+     
+     container.animate({
+     scrollTop: element.offset().top
+     }, 1000, 'swing', callback);
+     },*/
+    scrollTo: function(element, offsetTopFix, callback) {
 
-        var container = $('body');
+        if (location.pathname.replace(/^\//, '') == element.pathname.replace(/^\//, '') && location.hostname == element.hostname) {
 
-        container.animate({
-            scrollTop: element.offset().top
-        }, 1000, 'swing', callback);
+            var target = $(element.hash);
+            target = target.length ? target : $('[name=' + element.hash.slice(1) + ']');
+            if (target.length) {
+                $('html,body').animate({
+                    scrollTop: target.offset().top - offsetTopFix
+                }, 1000, 'swing', callback);
+                return false;
+            }
+        }
+
     },
     calculateElapsedTime: function(date, time, callback) {
 
@@ -224,6 +239,11 @@ var main = {
         };
     },
     popover: function() {
+        
+        $('body').on('hidden.bs.popover', function() {
+            $('.popover:not(.in)').hide().detach();
+        });
+        
         var popoverOld = false;
 
         $(document).on('click', 'body', function(e) {
@@ -273,9 +293,9 @@ var main = {
             }
 
         });
-        
-         $(document).on('click', '.popover-item', function(){
-            
+
+        $(document).on('click', '.popover-item', function() {
+
             var item = $(this);
             item.closest('.select-mask').find('.mask').text(item.attr('data-label'));
             $(popoverOld).popover('hide');

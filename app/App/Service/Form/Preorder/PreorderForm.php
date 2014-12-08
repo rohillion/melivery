@@ -45,8 +45,7 @@ class PreorderForm {
 
             foreach ($sessionOrders as $branch_id => $order) {
 
-                //$orders[$branch_id]['commerce_name'] = $this->commerce->find($branch_id)->commerce_name;
-                $orders[$branch_id]['commerce_name'] = $this->branch->find($branch_id,['*'],['commerce'])->commerce_name;
+                $orders[$branch_id]['commerce_name'] = $this->branch->find($branch_id, ['*'], ['commerce'])->commerce->commerce_name;
 
                 foreach ($order as $productIndex => $product) {
 
@@ -61,46 +60,58 @@ class PreorderForm {
         return $orders;
     }
 
-    public function process($customer_id, $productsByBranch) {
+    public function process($customer_id, $productsByBranch, $payCash) {
 
-        if (!$productsByBranch) 
-        {
-            $res['error'] = 'No hay elementos en el pedido.';//TODO: lang;
+        if (!$productsByBranch) {
+            $res['error'] = 'No hay elementos en el pedido.'; //TODO: lang;
             return $res;
         }
-                
+
         //Start transaction
         \DB::beginTransaction();
 
         foreach ($productsByBranch as $branchId => $products) {
+            
+            $delivery = 0;
+            $payCashAmount = NULL;
 
+            if (\Session::get('delivery')) {
+                
+                if (!isset($payCash['pay']) || !isset($payCash['pay'][$branchId])) {
+                    
+                    $res['error'] = 'Por favor indique con que monto se abonara el pedido.'; //TODO: lang;
+                    return $res;
+                }
+                
+                $delivery = 1;
+                $payCashAmount = $payCash['pay'][$branchId] == 'custom' ? $payCash['amount'][$branchId] : $payCash['pay'][$branchId];
+            }
+            
             $orderInput = array(
                 'branch_id' => $branchId,
                 'user_id' => $customer_id,
-                'delivery' => \Session::get('delivery')? 1 : 0 ,
-                'paycash' => null,//TODO. paychash proveniente del panel de confirmacion
+                'delivery' => $delivery,
+                'paycash' => $payCashAmount
             );
 
             $order = $this->order->save($orderInput);
 
-            if (!$order)
-            {
+            if (!$order) {
                 \DB::rollback();
                 $res['error'] = $this->order->errors();
                 return $res;
             }
-            
-            $order->status_id = 1;//TODO. escribir estado en constante.
+
+            $order->status_id = 1; //TODO. escribir estado en constante.
 
             $orderStatus = $this->orderstatus->save($order);
-            
-            if (!$orderStatus)
-            {
+
+            if (!$orderStatus) {
                 \DB::rollback();
                 $res['error'] = $this->orderstatus->errors();
                 return $res;
             }
-            
+
             foreach ($products as $product) {
 
                 $orderProductInput = array(
@@ -110,9 +121,8 @@ class PreorderForm {
                 );
 
                 $orderProduct = $this->orderproduct->save($orderProductInput);
-                
-                if (!$orderProduct)
-                {
+
+                if (!$orderProduct) {
                     \DB::rollback();
                     $res['error'] = $this->orderproduct->errors();
                     return $res;
@@ -122,9 +132,8 @@ class PreorderForm {
                 if (!is_null($product['attr'])) {
 
                     $sync = $this->attributeorderproduct->syncAttributes($product['attr'], $orderProduct->id);
-                    
-                    if (!$sync)
-                    {
+
+                    if (!$sync) {
                         \DB::rollback();
                         $res['error'] = $this->attributeorderproduct->errors();
                         return $res;
@@ -132,7 +141,7 @@ class PreorderForm {
                 }
             }
         }
-        
+
         \DB::commit();
 
         return true;
@@ -141,7 +150,7 @@ class PreorderForm {
     public function add($productForm) {
 
         $product = $this->product->findWhereBranchId($productForm['id'], $productForm['branch']);
-        
+
         /* TODO. Logica de tiempos de entrega de sucursales y asignacion de comandas.
          * 
          * if($product->branch->count>1){
@@ -185,7 +194,7 @@ class PreorderForm {
     }
 
     public function config($productForm) {
-        
+
         $sessionProduct = \Session::get('orders.' . $productForm['branch'] . '.' . $productForm['index']);
 
         if ($sessionProduct) {

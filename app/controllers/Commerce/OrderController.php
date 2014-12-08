@@ -46,9 +46,12 @@ class OrderController extends BaseController {
         }
 
         $data['orders'] = $this->order->allByBranchId(Session::get('user.branch_id'));
-
+        echo '<pre>', var_dump(!empty($data['orders']['ready'][19]['branch_dealer'])), '</pre>';
+        exit;
         $dealers = $this->branch->find(Session::get('user.branch_id'), ['*'], ['dealers'])->dealers;
 
+        $data['dealers'][$dealer->dealer_name] = 'barra';
+        
         if (!$dealers->isEmpty()) {
             foreach ($dealers as $dealer) {
                 $data['dealers'][$dealer->dealer_name] = $dealer;
@@ -68,7 +71,7 @@ class OrderController extends BaseController {
             "estimated" => Input::get('estimated')
         );
 
-        $order = $this->order->update($id, $input);
+        $order = $this->order->update($id, $input, Session::get('user.branch_id'));
 
         if ($order) {
 

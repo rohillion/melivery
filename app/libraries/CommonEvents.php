@@ -2,19 +2,20 @@
 
 Class CommonEvents {
 
-    static function getLastActionUrl() {
+    static function getLastAction() {
 
-        $queue = Session::get('queue');
-
-        if ($queue)
-            Session::forget('queue');
-
-        return $queue;
+        return Session::get('queue');
     }
 
-    static function setLastAction($route) {
+    static function setLastAction($route, $postData = NULL) {
 
-        return Session::put('queue', ['action' => $route->getActionName()]);
+        if(!$route)
+            return Session::forget('queue');
+        
+        return Session::put('queue', [
+                    'action' => $route->getActionName(),
+                    'post' => $postData
+        ]);
     }
 
     /*
@@ -92,7 +93,7 @@ Class CommonEvents {
 
         if (count($dots) > 3)
             return true;
-        
+
         if (count($dots) == 3 && !self::isCountry())
             return true;
 
@@ -106,6 +107,38 @@ Class CommonEvents {
         $tld = explode('.', substr($domainTLD[1], 1)); //.com.xx
 
         return count($tld) > 1 ? true : false;
+    }
+
+    static function payWith($price) {
+
+        $minDenom = 50;
+        $maxDenom = 100;
+
+        if ($price == $maxDenom || is_int($price / $maxDenom)) {
+
+            $payWith = false;
+        } else if ($price == $minDenom) {
+
+            $payWith = [$maxDenom];
+        } else {
+
+            if ($price < $minDenom) {
+
+                $payWith = [$minDenom, $maxDenom];
+            } else if ($price > $minDenom && $price < $maxDenom) {
+
+                $payWith = [$maxDenom];
+            } else {
+
+                $bills = self::payWith($price - 100);
+
+                foreach ($bills as $bill) {
+                    $payWith[] = $bill + 100;
+                }
+            }
+        }
+
+        return $payWith;
     }
 
 }

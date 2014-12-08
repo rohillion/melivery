@@ -31,11 +31,16 @@ class LandingController extends BaseController {
                 if (!$branchId)
                     $branchId = $branches[0]->id;
 
-                $branch = $this->branch->findByCommerceId($branchId, $commerce->id, ['products.categories.subcategories', 'products.tags']);
+                $branch = $this->branch->find($branchId, ['*'], ['products.categories.subcategories', 'products.tags'], ['commerce_id' => $commerce->id]);
 
+                foreach ($branch->products as $product) {
+                        $data['productByCategory'][$product->categories->category_name]['data'] = $product->categories;
+                        $data['productByCategory'][$product->categories->category_name]['products'][] = $product;
+                }
+                
                 if (!$branch)
-                    return Redirect::to('/'.$commerce->commerce_url);
-                    
+                    return Redirect::to('/' . $commerce->commerce_url);
+
                 $commerce->setRelations(['branch' => $branch]);
 
                 $data['branches'] = $branches;

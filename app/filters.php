@@ -41,11 +41,12 @@ App::after(function($request, $response) {
   |
  */
 
-Route::filter('auth', function() {
+Route::filter('auth', function($route) {
     if (Auth::guest()) {
         if (Request::ajax()) {
             return Response::make('Unauthorized', 401);
         } else {
+            CommonEvents::setLastAction($route,Input::all());
             return Redirect::route('login');
         }
     }
@@ -69,7 +70,7 @@ Route::filter('auth.basic', function() {
 
 Route::filter('guest', function() {
     if (Auth::check())
-        return Redirect::route(\Session::get('user.dashboard'));
+        return Redirect::route(Session::get('user.dashboard'));
 });
 
 /*
@@ -99,7 +100,7 @@ Route::filter('verif', function() {
  */
 
 Route::filter('queue', function($route) {
-    CommonEvents::setLastAction($route);
+    CommonEvents::setLastAction($route,Input::all());
 });
 
 /*
@@ -115,7 +116,7 @@ Route::filter('queue', function($route) {
 
 Route::filter('admin', function() {
     if (Auth::user()->id_user_type !== 1)
-        return Redirect::route(\Session::get('user.dashboard'));
+        return Redirect::route(Session::get('user.dashboard'));
 });
 
 /*
@@ -131,7 +132,7 @@ Route::filter('admin', function() {
 
 Route::filter('commerce', function() {
     if (Auth::user()->id_user_type !== 2)
-        return Redirect::route(\Session::get('user.dashboard'));
+        return Redirect::route(Session::get('user.dashboard'));
 });
 
 /*
@@ -147,7 +148,7 @@ Route::filter('commerce', function() {
 
 Route::filter('customer', function() {
     if (Auth::user()->id_user_type !== 3)
-        return Redirect::route(\Session::get('user.dashboard'));
+        return Redirect::route(Session::get('user.dashboard'));
 });
 
 /*

@@ -3,8 +3,8 @@ var menu = {
         this.popover();
         this.productConfig();
         this.checkRules();
+        this.confirmForm();
         main.popover();
-
     },
     popover: function() {
 
@@ -119,5 +119,21 @@ var menu = {
         }
 
         return true;
+    },
+    confirmForm : function(){
+        $('.custom-pay').on('change',function(){
+            
+            var radio = $(this);
+
+            if(radio.is(':checked'))
+                radio.closest('.radio-inline').find('.custom-amount').focus();
+        });
+        
+        $('.custom-amount').on('focus',function(){
+            
+            var input = $(this);
+            
+            input.closest('.radio-inline').find('.custom-pay').prop('checked',true);
+        });
     }
 }

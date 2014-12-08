@@ -28,6 +28,10 @@ body{
     font-size: 16px;
 }
 
+.badge{
+    font-size: 1em;
+}
+
 /* -- navbar & header end -- */
 
 
@@ -504,8 +508,6 @@ body{
 .filter-mask.active .caret-wrapp{border-color:#1769ff;}
 .filter-mask.active .caret-wrapp .caret{border-top-color:#1769ff;}
 
-.filter-mask.margin-less{margin-right: 0;}
-
 .mask{padding-right:10px;text-transform:capitalize;}
 .caret-wrapp {padding: 2px;border: 1px solid #000000;margin-top: 15px;border-radius: 5px;width: 18px;height: 15px;line-height: 5px;}
 .popover-content{overflow: auto;max-height: 350px;}
@@ -657,3 +659,5 @@ body{
 #order-paper .config-panel-layout{
     display: none;
 }
+
+.margin-less{margin: 0;}

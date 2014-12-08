@@ -39,11 +39,11 @@ class AccountForm extends AbstractForm {
                     break;
             }
 
-            $queue = \CommonEvents::getLastActionUrl();
-            
-            if($queue)
+            $queue = \CommonEvents::getLastAction();
+
+            if ($queue)
                 return \URL::action($queue['action']);
-            
+
             return \URL::route(\Session::get('user.dashboard'));
         }
 

@@ -1,6 +1,8 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
     <?php foreach ($orders['ready']['dealer'] as $dealer => $readyOrders) { ?>
+    
+    <?php $currentDealer = $dealers[$dealer]; ?>
 
         <div>
 
@@ -103,7 +105,17 @@
                                     <div class="box-footer">
 
                                         <div>
-                                            <p style="margin:0;">Total <span class="badge bg-red pull-right">$<?php echo $orderTotal; ?></span></p>
+                                            <p style="margin:0;">Total <span class="pull-right">$<?php echo $orderTotal; ?></span></p>
+                                        </div>
+
+                                        <span class="clearfix"></span>
+
+                                    </div>
+
+                                    <div class="box-footer">
+
+                                        <div>
+                                            <p style="margin:0;">Paga con <span class="badge bg-red pull-right">$<?php echo $order['paycash']; ?></span></p>
                                         </div>
 
                                         <span class="clearfix"></span>
@@ -129,7 +141,17 @@
                                     <div class="box-footer">
 
                                         <div>
-                                            <p style="margin:0;">Total <span class="badge bg-red pull-right">$<?php echo $orderTotal; ?></span></p>
+                                            <p style="margin:0;">Total <span class="pull-right">$<?php echo $orderTotal; ?></span></p>
+                                        </div>
+
+                                        <span class="clearfix"></span>
+
+                                    </div>
+
+                                    <div class="box-footer">
+
+                                        <div>
+                                            <p style="margin:0;">Paga con <span class="badge bg-red pull-right">$<?php echo $order['paycash']; ?></span></p>
                                         </div>
 
                                         <span class="clearfix"></span>
@@ -139,8 +161,8 @@
                                 <?php } ?>
                             </div><!-- /.box -->
 
-                            <?php $dealerTotal = $dealerTotal + $orderTotal; ?>
-
+                            <?php $dealerTotal = $dealerTotal + $order['paycash']; ?>
+                            
                         <?php } ?>
 
                         <div class="total-dealer-account box box-solid">

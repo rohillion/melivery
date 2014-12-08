@@ -29,7 +29,7 @@ class OrderForm extends AbstractForm {
 
         return $this->order->all($columns, $with);
     }
-    
+
     /**
      * Create an new order
      *
@@ -96,18 +96,19 @@ class OrderForm extends AbstractForm {
      *
      * @return boolean
      */
-    public function update($id, array $input) {
+    public function update($id, array $input, $branchId) {
 
-        $order = $this->order->find($id);
+        $order = $this->order->find($id, ['*'], [], ['branch_id' => $branchId]);
 
         $input["branch_id"] = $order->branch_id;
         $input["user_id"] = $order->user_id;
         $input["delivery"] = $order->delivery;
+        $input["paycash"] = $order->paycash;
 
         if (!$this->valid($input, $id)) {
             return false;
         }
-        
+
         $this->order->edit($id, $input);
 
         return $order;

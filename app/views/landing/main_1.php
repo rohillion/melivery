@@ -23,71 +23,72 @@
                             </div>
 
                             <div class="filter-options col-xs-9">
-                                
-                                <div id="category-select" class="select-mask pull-left">
-                                    <div href="#" id="category-mask" class="filter-mask popover-trigger">
+                                <div class="form-medium">
+                                    <div id="branch-select">
+                                        <div href="#" id="branch-mask" class="filter-mask popover-trigger">
 
-                                        <div class="mask pull-left">
-                                            <?php echo array_values($productByCategory)[0]['data']->category_name ?>
-                                        </div>
+                                            <div class="mask pull-left">
+                                                <?php echo $commerce->branch->street; ?>
+                                            </div>
 
-                                        <div class="caret-wrapp pull-left">
-                                            <span class="caret"></span>
-                                        </div>
+                                            <div class="caret-wrapp pull-left">
+                                                <span class="caret"></span>
+                                            </div>
 
-                                        <div id="category-list" class="popover-wrapper">
-                                            <ul class="list-group organized-list">
+                                            <div id="branch-list" class="popover-wrapper">
+                                                <ul class="list-group organized-list">
 
-                                                <span role="presentation" class="dropdown-header">Categor&iacute;as</span>
+                                                    <span role="presentation" class="dropdown-header">Otras sucursales</span>
 
-                                                <?php foreach ($productByCategory as $category) { ?>
-                                                    <?php //if ($commerce->branch->id != $branch->id) { ?>
+                                                    <?php foreach ($branches as $branch) { ?>
+                                                        <?php if ($commerce->branch->id != $branch->id) { ?>
 
-                                                    <li class="list-group-item">
-                                                        <a class="category-item popover-item scrollTo" href="#<?php echo str_replace(' ', '_', $category['data']->category_name); ?>" data-label="<?php echo $category['data']->category_name; ?>"><?php echo $category['data']->category_name; ?></a>
-                                                    </li>
+                                                            <li class="list-group-item">
+                                                                <a class="branch-item" href="?branch=<?php echo $branch->id; ?>"><?php echo $branch->street; ?></a>
+                                                            </li>
 
-                                                    <?php //} ?>
-                                                <?php } ?>
-
-                                            </ul>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div id="branch-select" class="pull-right">
-                                    <div href="#" id="branch-mask" class="filter-mask popover-trigger margin-less">
-
-                                        <div class="mask pull-left">
-                                            <?php echo $commerce->branch->street; ?>
-                                        </div>
-
-                                        <div class="caret-wrapp pull-left">
-                                            <span class="caret"></span>
-                                        </div>
-
-                                        <div id="branch-list" class="popover-wrapper">
-                                            <ul class="list-group organized-list">
-
-                                                <span role="presentation" class="dropdown-header">Otras sucursales</span>
-
-                                                <?php foreach ($branches as $branch) { ?>
-                                                    <?php if ($commerce->branch->id != $branch->id) { ?>
-
-                                                        <li class="list-group-item">
-                                                            <a class="branch-item" href="?branch=<?php echo $branch->id; ?>"><?php echo $branch->street; ?></a>
-                                                        </li>
-
+                                                        <?php } ?>
                                                     <?php } ?>
-                                                <?php } ?>
 
-                                            </ul>
+                                                </ul>
+                                            </div>
+
                                         </div>
+                                    </div>
+                                    
+                                    <div id="category-select" class="pull-right">
+                                        <div href="#" id="category-mask" class="filter-mask popover-trigger">
 
+                                            <div class="mask pull-left">
+                                                <?php //echo $commerce->branch->street; ?>
+                                                Saraza
+                                            </div>
+
+                                            <div class="caret-wrapp pull-left">
+                                                <span class="caret"></span>
+                                            </div>
+
+                                            <div id="category-list" class="popover-wrapper">
+                                                <ul class="list-group organized-list">
+
+                                                    <span role="presentation" class="dropdown-header">Categor&iacute;as</span>
+
+                                                    <?php foreach ($productByCategory as $category) { ?>
+                                                        <?php //if ($commerce->branch->id != $branch->id) { ?>
+
+                                                            <li class="list-group-item">
+                                                                <a class="category-item" href="#category=<?php echo $category->id; ?>"><?php echo $category->category_name; ?></a>
+                                                            </li>
+
+                                                        <?php //} ?>
+                                                    <?php } ?>
+
+                                                </ul>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
 
                         </div>
@@ -272,99 +273,82 @@
                         <!-- right column -->
                         <div id="product-container" class="col-xs-9">
 
-                            <?php if (!is_null($commerce->branch)) { ?>
+                            <!-- Main row -->
+                            <div class="row">
 
-                                <?php if (!$commerce->branch->products->isEmpty()) { ?>
+                                <?php if (!is_null($commerce->branch)) { ?>
 
-                                    <?php foreach ($productByCategory as $category) { ?>
+                                    <?php if (!$commerce->branch->products->isEmpty()) { ?>
 
                                         <?php $i = 0; ?>
 
-                                        <!-- Category wrapper -->
-                                        <div id="<?php echo str_replace(' ', '_', $category['data']->category_name); ?>">
+                                        <?php foreach ($commerce->branch->products as $product) { ?>
 
-                                            <div class="page-header"><?php echo $category['data']->category_name ?></div>
+                                            <?php
+                                            if ($i % 3 == 0 && $i) {
+                                                echo '</div><div class="row">';
+                                            }
+                                            ?>
 
-                                            <!-- 3 Products row -->
-                                            <div class="row">
+                                            <!-- left column -->
+                                            <div class="col-md-4">
 
-                                                <?php foreach ($category['products'] as $product) { ?>
+                                                <!-- general form elements -->
+                                                <div id="p<?php echo $product->id ?>" class="box box-solid">
 
-                                                    <?php
-                                                    if ($i % 3 == 0 && $i) {
-                                                        echo '</div><div class="row">';
-                                                    }
-                                                    ?>
+                                                    <?php if ($product->image) { ?>
+                                                        <img alt="" src="<?php echo asset('upload/product_photo/' . $product->id . '/' . $product->image); ?>" style="width: 100%; display: block;">
+                                                    <?php } else { ?>
+                                                        <img data-src="holder.js/100%" alt="100%" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" style="width: 100%; display: block;">
+                                                    <?php } ?>
 
-                                                    <!-- left column -->
-                                                    <div class="col-md-4">
+                                                    <div class="box-body">
 
-                                                        <!-- general form elements -->
-                                                        <div id="p<?php echo $product->id ?>" class="box box-solid">
+                                                        <div class="caption">
 
-                                                            <?php if ($product->image) { ?>
-                                                                <img alt="" src="<?php echo asset('upload/product_photo/' . $product->id . '/' . $product->image); ?>" style="width: 100%; display: block;">
-                                                            <?php } else { ?>
-                                                                <img data-src="holder.js/100%" alt="100%" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" style="width: 100%; display: block;">
-                                                            <?php } ?>
-
-                                                            <div class="box-body">
-
-                                                                <div class="caption">
-
-                                                                    <div style="overflow: hidden;">
-                                                                        <h3 class="product-title truncate pull-left" title="<?php echo $product->tags->tag_name ?>"><?php echo $product->tags->tag_name ?></h3>
-                                                                        <h3 class="pull-right"><?php echo ' $' . $product->price; ?></h3>
-                                                                    </div>
-
-                                                                </div>
-
+                                                            <div style="overflow: hidden;">
+                                                                <h3 class="product-title truncate pull-left" title="<?php echo $product->tags->tag_name ?>"><?php echo $product->tags->tag_name ?></h3>
+                                                                <h3 class="pull-right"><?php echo ' $' . $product->price; ?></h3>
                                                             </div>
 
-                                                            <div style="overflow: hidden;" class="box-footer">
-                                                                <form method="post" action="<?php echo URL::route('menu.preorder.add') ?>">
+                                                        </div>
 
-                                                                    <input name="product[id]" type="hidden" value="<?php echo $product->id ?>" />
-                                                                    <input name="product[branch]" type="hidden" value="<?php echo $commerce->branches[0]->id ?>" />
-                                                                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                                                    </div>
 
-                                                                    <div class="row pull-left col-lg-8">
-                                                                        <div class="input-group">
-                                                                            <span class="input-group-btn">
-                                                                                <button class="btn btn-primary btn-sm" type="submit">Agregar</button>
-                                                                            </span>
-                                                                            <input name="product[qty]" type="number" class="input-sm form-control" min="1" value="1">
-                                                                        </div><!-- /input-group -->
-                                                                    </div><!-- /.col-lg-6 -->
-                                                                </form>
-                                                            </div>
+                                                    <div style="overflow: hidden;" class="box-footer">
+                                                        <form method="post" action="<?php echo URL::route('menu.preorder.add') ?>">
 
-                                                        </div><!-- /.box -->
+                                                            <input name="product[id]" type="hidden" value="<?php echo $product->id ?>" />
+                                                            <input name="product[branch]" type="hidden" value="<?php echo $commerce->branches[0]->id ?>" />
+                                                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
-                                                    </div><!--/.col (left) -->
+                                                            <div class="row pull-left col-lg-8">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-primary btn-sm" type="submit">Agregar</button>
+                                                                    </span>
+                                                                    <input name="product[qty]" type="number" class="input-sm form-control" min="1" value="1">
+                                                                </div><!-- /input-group -->
+                                                            </div><!-- /.col-lg-6 -->
+                                                        </form>
+                                                    </div>
 
-                                                    <?php $i++; ?>
+                                                </div><!-- /.box -->
 
-                                                <?php } ?>
+                                            </div><!--/.col (left) -->
+                                            <?php $i++; ?>
+                                        <?php } ?>
+                                    <?php } else { ?>
 
-                                            </div><!-- /.row (3 products row) -->
-
-                                        </div><!-- /(category wrapper) -->
+                                        <section class="container">
+                                            <div class="well well-sm text-center">A&uacute;n no tienes productos cargados en el men&uacute;.</div>
+                                        </section>
 
                                     <?php } ?>
 
-
-                                <?php } else { ?>
-
-                                    <section class="container">
-                                        <div class="well well-sm text-center">A&uacute;n no tienes productos cargados en el men&uacute;.</div>
-                                    </section>
-
                                 <?php } ?>
 
-                            <?php } ?>
-
-
+                            </div><!-- /.row (main row) -->
 
                         </div><!--/.col (left) -->
 

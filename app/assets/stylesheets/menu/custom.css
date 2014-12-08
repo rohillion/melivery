@@ -6,3 +6,24 @@
 }
 
 /* -- orders -- */
+
+.order-confirmation-page #order-paper tr:first-of-type td{
+    border:none;
+}
+
+.order-confirmation-page .radio-inline input[type=radio]{
+    margin-top: 0.5em;
+}
+
+.order-confirmation-page .commerce-order{
+    border-top: 1px solid #f4f4f4;
+}
+
+.order-confirmation-page .commerce-order:first-of-type{
+    border-top: none;
+}
+
+.radio-inline label{
+    font-weight: normal;
+    cursor: pointer;
+}

@@ -17,7 +17,7 @@ class OrderValidator extends LaravelValidator implements ValidableInterface {
         'user_id' => 'required|numeric|exists:user,id',
         'estimated' => 'numeric',
         'delivery' => 'required|numeric|max:1',
-        //'paycash' => 'required_if:delivery,1|price'//TODO. paychash proveniente del panel de confirmacion
+        'paycash' => 'required_if:delivery,1|price'
     );
 
 }
