@@ -24,13 +24,10 @@
         </section>
 
         <!-- Main content -->
-        <section style="padding-top: 122px;" class="container container-with-padding-top">
+        <section class="container container-with-padding-top order-panel">
 
             <!-- Main row -->
             <div class="row">
-
-                <!-- left column -->
-                <div class="col-md-12">
 
                     <?php if ($errors->has()) { ?>
                         <?php foreach ($errors->all() as $error) { ?>
@@ -49,54 +46,83 @@
                     <?php } ?>
 
 
-                    <section class="order-panel">
+                    <!-- left column -->
+                    <section  id="order-panel" class="col-sm-9">
 
-                        <div class="tabs tabs-style-iconbox">
+                        <?php if (!is_null($orders)) { ?>
 
-                            <?php if (!is_null($orders)) { ?>
+                            <section id="order-progress">
 
-                                <section id="order-progress">
+                                <?php if (!is_null($orders['progress'])) { ?>
 
-                                    <?php if (!is_null($orders['progress'])) { ?>
+                                    <?php include 'progress.php'; ?>
 
-                                        <?php include 'progress.php'; ?>
+                                <?php } else { ?>
+
+                                    <div class="well well-sm text-center">No hay pedidos en marcha.</div>
+
+                                <?php } ?>
+
+                            </section>
+
+                            <div id="order-pending-fixed">
+                                <section class="col-xs-12 col-sm-offset-2 col-sm-8 col-lg-offset-3 col-lg-6 shown" id="order-pending">
+
+                                    <?php if (!is_null($orders['pending'])) { ?>
+
+                                        <?php include 'pending.php'; ?>
 
                                     <?php } else { ?>
 
-                                        <div class="well well-sm text-center">No hay pedidos en marcha.</div>
+                                        <div class="text-center">No hay pedidos pendientes.</div>
 
                                     <?php } ?>
 
                                 </section>
+                            </div>
 
-                                <div id="order-pending-fixed">
-                                    <section class="col-xs-12 col-sm-offset-2 col-sm-8 col-lg-offset-3 col-lg-6 shown" id="order-pending">
+                        <?php } else { ?>
 
-                                        <?php if (!is_null($orders['pending'])) { ?>
+                            <section>
+                                <div class="well well-sm text-center">Aun no tienes pedidos para visualizar.</div>
+                            </section>
 
-                                            <?php include 'pending.php'; ?>
+                        <?php } ?>
 
-                                        <?php } else { ?>
+                    </section><!--/.col (left) -->
 
-                                            <div class="text-center">No hay pedidos pendientes.</div>
+                    <!-- right column -->
+                    <section id="dealer-panel" class="col-sm-3 hidden-xs">
+                        <?php if (!$dealers->isEmpty()) { ?>
 
+                            <?php foreach ($dealers as $dealer) { ?>
+
+                                <div class="box box-solid">
+                                    <div class="box-header">
+                                        <h3 class="box-title"><?php echo $dealer->dealer_name ?></h3>
+                                    </div>
+
+                                    <div class="box-body">
+                                        <?php if (!$dealer->orders->isEmpty()) { ?>
+
+                                            <?php foreach ($dealer->orders as $order) { ?>
+                                        
+                                                 <?php echo $order->delivery ?>
+                                        
+                                            <?php } ?>
+                                        
                                         <?php } ?>
-
-                                    </section>
+                                    </div>
                                 </div>
-
-                            <?php } else { ?>
-
-                                <section>
-                                    <div class="well well-sm text-center">Aun no tienes pedidos para visualizar.</div>
-                                </section>
 
                             <?php } ?>
 
-                        </div><!-- /tabs -->
-                    </section>
+                        <?php } else { ?>
 
-                </div><!--/.col (left) -->
+                            <div class="well well-sm text-center">No hay pedidos en marcha.</div>
+
+                        <?php } ?>
+                    </section><!--/.col (right) -->
 
             </div><!-- /.row (main row) -->
 

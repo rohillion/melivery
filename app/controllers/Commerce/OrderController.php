@@ -4,6 +4,7 @@ use App\Repository\Order\OrderInterface;
 use App\Service\Form\Order\OrderForm;
 use App\Service\Form\OrderStatus\OrderStatusForm;
 use App\Repository\User\UserInterface;
+use App\Repository\BranchDealer\BranchDealerInterface;
 
 class OrderController extends BaseController {
 
@@ -11,12 +12,14 @@ class OrderController extends BaseController {
     protected $orderForm;
     protected $orderstatus;
     protected $user;
+    protected $branchDealer;
 
-    public function __construct(OrderInterface $order, OrderForm $orderForm, OrderStatusForm $orderstatus, UserInterface $user) {
+    public function __construct(OrderInterface $order, OrderForm $orderForm, OrderStatusForm $orderstatus, UserInterface $user, BranchDealerInterface $branchDealer) {
         $this->order = $order;
         $this->orderForm = $orderForm;
         $this->orderstatus = $orderstatus;
         $this->user = $user;
+        $this->branchDealer = $branchDealer;
     }
 
     public function index() {
@@ -34,6 +37,8 @@ class OrderController extends BaseController {
         }
 
         $data['orders'] = $this->orderForm->allGroupByStatus(Session::get('user.branch_id'));
+
+        $data['dealers'] = $this->branchDealer->all(['*'], ['orders'], ['branch_id' => Session::get('user.branch_id')]);
 
         return View::make('commerce.order.index', $data);
     }

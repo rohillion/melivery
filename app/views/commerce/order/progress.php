@@ -75,7 +75,7 @@
 
         <?php if ($order['delivery']) { ?>
 
-            <div class="box-footer">
+            <div class="box-body">
 
                 <div>
                     <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$<?php echo $orderTotal; ?></span></p>
@@ -83,7 +83,7 @@
 
             </div>
 
-            <div class="box-footer">
+            <div class="box-body">
 
                 <div>
                     <p class="clearfix" style="margin:0;">Paga con <span class="badge bg-red pull-right">$<?php echo $order['paycash']; ?></span></p>
@@ -93,7 +93,7 @@
 
         <?php } else { ?>
 
-            <div class="box-footer">
+            <div class="box-body">
 
                 <div>
                     <p class="clearfix" style="margin:0;">Total <span class="badge bg-red pull-right">$<?php echo $orderTotal; ?></span></p>
