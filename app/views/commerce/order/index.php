@@ -51,97 +51,25 @@
 
                     <section class="order-panel">
 
-                        <button id="switch-view" class="btn btn-default btn-flat btn-sm visible-lg"><i class="fa fa-bars"></i></button>
-
                         <div class="tabs tabs-style-iconbox">
-
-                            <nav class="box box-solid gridon" style="margin-bottom: 20px;">
-                                <ul>
-                                    <!--<li class="active">
-                                        <a href="#order-pending" class="fa fa-exclamation fa-2x" role="tab" data-toggle="tab">
-                                            <h4>Pendientes</h4>
-                                        </a>
-                                    </li>-->
-                                    <li class="active">
-                                        <a href="#order-progress" class="fa fa-gears fa-2x" role="tab" data-toggle="tab">
-                                            <h4>En Marcha</h4>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#order-ready" class="fa fa-plane fa-2x" role="tab" data-toggle="tab">
-                                            <h4>En Viaje/Para retirar</h4>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#order-done" class="fa fa-check fa-2x" role="tab" data-toggle="tab">
-                                            <h4>Entregado</h4>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
 
                             <?php if (!is_null($orders)) { ?>
 
-                                <div class="row tab-content">
+                                <section id="order-progress">
 
-                                    <section class="col-xs-12 col-lg-4 visible-lg-block tab-pane active" id="order-progress">
+                                    <?php if (!is_null($orders['progress'])) { ?>
 
-                                        <?php if (!is_null($orders['progress'])) { ?>
+                                        <?php include 'progress.php'; ?>
 
-                                            <?php include 'progress.php'; ?>
+                                    <?php } else { ?>
 
-                                        <?php } else { ?>
+                                        <div class="well well-sm text-center">No hay pedidos en marcha.</div>
 
-                                            <div class="well well-sm text-center">No hay pedidos en marcha.</div>
+                                    <?php } ?>
 
-                                        <?php } ?>
+                                </section>
 
-                                    </section>
-
-                                    <section class="col-xs-12 col-lg-4 visible-lg-block tab-pane" id="order-ready">
-
-                                        <?php if (!is_null($orders['ready'])) { ?>
-
-                                            <?php
-                                            foreach ($orders['ready'] as $orderReady) {
-
-                                                if (!empty($orderReady['branch_dealer'])) {
-
-                                                    $orders['ready']['dealer'][$orderReady['branch_dealer'][0]['dealer_name']][] = $orderReady;
-                                                } else {
-
-                                                    $orders['ready']['dealer']['barra'][] = $orderReady;
-                                                }
-                                            }
-                                            ?>
-
-                                            <?php include 'ready.php'; ?>
-
-                                        <?php } else { ?>
-
-                                            <div class="well well-sm text-center">No hay pedidos en viaje o para retirar.</div>
-
-                                        <?php } ?>
-
-                                    </section>
-
-                                    <section class="col-xs-12 col-lg-4 visible-lg-block tab-pane" id="order-done">
-
-                                        <?php if (!is_null($orders['done'])) { ?>
-
-                                            <?php include 'done.php'; ?>
-
-                                        <?php } else { ?>
-
-                                            <div class="well well-sm text-center">No hay pedidos entregados.</div>
-
-                                        <?php } ?>
-
-                                    </section>
-
-                                </div>
-
-                                <div id="order-pending-fixed" class="">
+                                <div id="order-pending-fixed">
                                     <section class="col-xs-12 col-sm-offset-2 col-sm-8 col-lg-offset-3 col-lg-6 shown" id="order-pending">
 
                                         <?php if (!is_null($orders['pending'])) { ?>

@@ -29,5 +29,17 @@ class BranchDealer extends Eloquent {
     public function orders() {
         return $this->belongsToMany('Order', 'branch_dealer_order', 'branch_dealer_id', 'order_id');
     }
+    
+    /**
+     * Order relationship
+     */
+    public function scopeBar() {
+
+        $this->id = 0;
+        $this->dealer_name = 'bar';
+        $this->dispatched = '0';
+        
+        return $this;
+    }
 
 }

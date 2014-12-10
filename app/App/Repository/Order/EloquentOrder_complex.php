@@ -15,6 +15,7 @@ class EloquentOrder extends RepositoryAbstract implements OrderInterface {
                         ->with('branch')
                         ->with('order_products.product.tags.subcategories')
                         ->with('order_products.attributes_order_product.attributes')
+                        ->with('branch_dealer')
                         ->join(\DB::raw(
                                         '(
                                             SELECT OS.order_id, OS.status_id, OS.created_at as status_date, Z.last_status AS last_status, S.status_name, M.motive_name, OSM.observations
@@ -44,7 +45,6 @@ class EloquentOrder extends RepositoryAbstract implements OrderInterface {
                             $join->on('O.id', '=', 'B.order_id');
                         })
                         ->where('O.branch_id', $branch_id)
-                        ->orderBy('O.id', 'desc')
                         ->get();
     }
 

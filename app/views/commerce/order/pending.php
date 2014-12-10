@@ -6,7 +6,17 @@
         <div class="box-header">
             <h3 class="col-xs-12 box-title">
 
-                <i class="fa fa-user"></i> <?php echo $order['user']['name']; ?>
+                <?php
+                if ($order['delivery']){
+                    $title = 'Viaja';
+                    $icon = 'plane';
+                }else{
+                    $title = 'Barra';
+                    $icon = 'home';
+                }
+                ?>
+
+                <i title="<?php echo $title?>" class="fa fa-<?php echo $icon?>"></i> <?php echo $order['user']['name']; ?>
 
                 <span class="pull-right" title="Hora de entrada y tiempo transcurrido">
                     <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['created_at'])); ?> - <span class="elapsed-time"></span>

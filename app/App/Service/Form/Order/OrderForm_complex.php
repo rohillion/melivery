@@ -19,18 +19,39 @@ class OrderForm extends AbstractForm {
         parent::__construct($validator);
         $this->order = $order;
     }
-    
+
+    /**
+     * Create an new order
+     *
+     * @return boolean
+     */
+    public function all($columns = array('*'), $with = array()) {
+
+        return $this->order->all($columns, $with);
+    }
+
+    /**
+     * Create an new order
+     *
+     * @return boolean
+     */
+    public function find($id, $columns = array('*'), $with = array()) {
+
+        return $this->order->find($id, $columns, $with);
+    }
+
     /**
      * All Orders by Commerce Id
      *
      * @return Eloquent collection
      */
-    public function allGroupByStatus($branch_id) {
+    public function allByBranchId($branch_id) {
 
         $orderStatus = array(
             "pending" => NULL,
             "progress" => NULL,
-            "ready" => NULL
+            "ready" => NULL,
+            "done" => NULL,
         );
 
         $orders = $this->order->allByBranchId($branch_id);

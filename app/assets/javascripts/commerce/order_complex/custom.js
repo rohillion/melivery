@@ -5,6 +5,7 @@ var custom = {
         this.orderChronometer();
         this.orderTimer();
         this.togglePendingPanel();
+        this.viewSwitch();
     },
     orderEntry: function() {
 
@@ -92,6 +93,13 @@ var custom = {
 
         $('#order-pending-fixed').on('click', function() {
             $(this).toggleClass('shown');
+        });
+    },
+    viewSwitch: function() {
+        $('#switch-view').on('click', function() {
+            $('.tab-content').find('.tab-pane').toggleClass('col-lg-4 visible-lg-block');
+            $('.tabs').find('nav').toggleClass('gridon');
+            $(this).find('i').toggleClass('fa-bars fa-th');
         });
     }
 }

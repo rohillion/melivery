@@ -1,8 +1,8 @@
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
     <?php foreach ($orders['ready']['dealer'] as $dealer => $readyOrders) { ?>
-    
-    <?php $currentDealer = $dealers[$dealer]; ?>
+
+        <?php $currentDealer = $dealers[$dealer]; ?>
 
         <div>
 
@@ -14,16 +14,20 @@
                     </a>
                 </h2>
 
-                <?php if ($dealers[$dealer]->dispatched) { ?>
+                <?php if ($dealer != 'bar') { ?>
 
-                    <button form="orders<?php echo $dealers[$dealer]->id; ?>" class="btn btn-primary btn-flat pull-right"><i class="fa fa-check-square-o"></i> Rendir</button>
+                    <?php if ($dealers[$dealer]->dispatched) { ?>
 
-                <?php } else { ?>
+                        <button form="orders<?php echo $dealers[$dealer]->id; ?>" class="btn btn-primary btn-flat pull-right"><i class="fa fa-check-square-o"></i> Rendir</button>
 
-                    <form method="post" action="<?php echo URL::action('OrderController@dispatch', $dealers[$dealer]->id) ?>">
-                        <button class="btn btn-success btn-flat pull-right"><i class="fa fa-truck fa-flip-horizontal"></i> Despachar</button>
-                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                    </form>
+                    <?php } else { ?>
+
+                        <form method="post" action="<?php echo URL::action('OrderController@dispatch', $dealers[$dealer]->id) ?>">
+                            <button class="btn btn-success btn-flat pull-right"><i class="fa fa-truck fa-flip-horizontal"></i> Despachar e informar al comensal</button>
+                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                        </form>
+
+                    <?php } ?>
 
                 <?php } ?>
 
@@ -100,41 +104,69 @@
 
                                 </div>
 
-                                <?php if ($dealers[$dealer]->dispatched) { ?>
+                                <?php if ($dealer != 'bar') { ?>
 
-                                    <div class="box-footer">
+                                    <?php if ($dealers[$dealer]->dispatched) { ?>
 
-                                        <div>
-                                            <p style="margin:0;">Total <span class="pull-right">$<?php echo $orderTotal; ?></span></p>
+                                        <div class="box-footer">
+
+                                            <div>
+                                                <p style="margin:0;">Total <span class="pull-right">$<?php echo $orderTotal; ?></span></p>
+                                            </div>
+
+                                            <span class="clearfix"></span>
+
                                         </div>
 
-                                        <span class="clearfix"></span>
+                                        <div class="box-footer">
 
-                                    </div>
+                                            <div>
+                                                <p style="margin:0;">Paga con <span class="badge bg-red pull-right">$<?php echo $order['paycash']; ?></span></p>
+                                            </div>
 
-                                    <div class="box-footer">
+                                            <span class="clearfix"></span>
 
-                                        <div>
-                                            <p style="margin:0;">Paga con <span class="badge bg-red pull-right">$<?php echo $order['paycash']; ?></span></p>
                                         </div>
 
-                                        <span class="clearfix"></span>
+                                        <div class="box-footer">
 
-                                    </div>
+                                            <div class="btn-group radio-toolbar" role="group">
+                                                <input type="radio" id="notdone<?php echo $order['id'] ?>" name="orders[<?php echo $order['id'] ?>]" value="0">
+                                                <label class="btn btn-default btn-flat" for="notdone<?php echo $order['id'] ?>">No entregado</label>
 
-                                    <div class="box-footer">
+                                                <input type="radio" id="done<?php echo $order['id'] ?>" name="orders[<?php echo $order['id'] ?>]" value="1">
+                                                <label class="btn btn-default btn-flat" for="done<?php echo $order['id'] ?>">Entregado</label>
+                                            </div>
 
-                                        <div class="btn-group radio-toolbar" role="group">
-                                            <input type="radio" id="notdone<?php echo $order['id'] ?>" name="orders[<?php echo $order['id'] ?>]" value="0">
-                                            <label class="btn btn-default btn-flat" for="notdone<?php echo $order['id'] ?>">No entregado</label>
+                                            <span class="clearfix"></span>
 
-                                            <input type="radio" id="done<?php echo $order['id'] ?>" name="orders[<?php echo $order['id'] ?>]" value="1">
-                                            <label class="btn btn-default btn-flat" for="done<?php echo $order['id'] ?>">Entregado</label>
                                         </div>
 
-                                        <span class="clearfix"></span>
+                                    <?php } else { ?>
 
-                                    </div>
+                                        <div class="box-footer">
+
+                                            <div>
+                                                <p style="margin:0;">Total <span class="pull-right">$<?php echo $orderTotal; ?></span></p>
+                                            </div>
+
+                                            <span class="clearfix"></span>
+
+                                        </div>
+
+                                        <div class="box-footer">
+
+                                            <div>
+                                                <p style="margin:0;">Paga con <span class="badge bg-red pull-right">$<?php echo $order['paycash']; ?></span></p>
+                                            </div>
+
+                                            <span class="clearfix"></span>
+
+                                        </div>
+
+                                    <?php } ?>
+
+                                    <?php $dealerTotal = $dealerTotal + $order['paycash']; ?>
 
                                 <?php } else { ?>
 
@@ -148,26 +180,19 @@
 
                                     </div>
 
-                                    <div class="box-footer">
-
-                                        <div>
-                                            <p style="margin:0;">Paga con <span class="badge bg-red pull-right">$<?php echo $order['paycash']; ?></span></p>
-                                        </div>
-
-                                        <span class="clearfix"></span>
-
-                                    </div>
-
                                 <?php } ?>
+
                             </div><!-- /.box -->
 
-                            <?php $dealerTotal = $dealerTotal + $order['paycash']; ?>
-                            
                         <?php } ?>
 
-                        <div class="total-dealer-account box box-solid">
-                            <p class="box-body">Total de <?php echo $dealer; ?> <span class="badge bg-red pull-right">$<?php echo $dealerTotal; ?></span></p>
-                        </div>
+                        <?php if ($dealer != 'bar') { ?>
+
+                            <div class="total-dealer-account box box-solid">
+                                <p class="box-body">Total de <?php echo $dealer; ?> <span class="badge bg-red pull-right">$<?php echo $dealerTotal; ?></span></p>
+                            </div>
+
+                        <?php } ?>
 
                     </div><!-- /.panel-body -->
 

@@ -1,25 +1,17 @@
-<?php foreach ($orders['progress'] as $order) { ?>
+<?php foreach ($orders['pending'] as $order) { ?>
 
-    <div class="progress-order box box-solid">
+    <!-- general form elements -->
+    <div class="entry-order box box-solid">
 
         <div class="box-header">
             <h3 class="col-xs-12 box-title">
 
-                <?php
-                if ($order['delivery']) {
-                    $title = 'Viaja';
-                    $icon = 'plane';
-                } else {
-                    $title = 'Barra';
-                    $icon = 'home';
-                }
-                ?>
+                <i class="fa fa-user"></i> <?php echo $order['user']['name']; ?>
 
-                <i title="<?php echo $title ?>" class="fa fa-<?php echo $icon ?>"></i> <?php echo $order['user']['name']; ?>
-
-                <span class="pull-right" title="Hora de entrada - Tiempo transcurrido">
-                    <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['updated_at'])); ?> - <?php echo CommonEvents::humanTiming(strtotime($order['updated_at'])); ?>
+                <span class="pull-right" title="Hora de entrada y tiempo transcurrido">
+                    <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['created_at'])); ?> - <span class="elapsed-time"></span>
                 </span>
+                <input type="hidden" value="<?php echo date("Y-m-d H:i:s", strtotime($order['created_at'])); ?>" class="order-entry-time"/>
             </h3>
         </div>
 
@@ -31,18 +23,13 @@
 
                     <ul class="order-body list-group">
 
-                        <?php $orderTotal = NULL ?>
-
                         <?php foreach ($order['order_products'] as $orderProduct) { ?>
-
-                            <?php $productTotal = $orderProduct['product']['price'] * $orderProduct['product_qty'] ?>
 
                             <li class="order-item list-group-item">
 
                                 <div class="order-item-head">
-                                    <p class="pull-left"><?php echo $orderProduct['product']['tags']['tag_name'] ?> </p>
-                                    <p style="margin-left:5px;" class="pull-left"><strong> x <?php echo $orderProduct['product_qty'] ?></strong></p></span>
-                                    <p class="pull-right"><span class="badge no-background pull-right">$<?php echo $productTotal; ?></span></p>
+                                    <p class="pull-left"><?php echo $orderProduct['product']['tags']['tag_name'] ?></p>
+                                    <span class="badge pull-right">x <?php echo $orderProduct['product_qty'] ?></span>
                                 </div>
 
                                 <?php if (!empty($orderProduct['attributes_order_product'])) { ?>
@@ -61,8 +48,6 @@
 
                             </li>
 
-                            <?php $orderTotal += $productTotal; ?>
-
                         <?php } ?>
 
                     </ul>
@@ -73,39 +58,52 @@
 
         </div>
 
-        <?php if ($order['delivery']) { ?>
+        <div class="box-footer">
 
-            <div class="box-footer">
+            <div class="">
+                <div class="btn-group btn-group-justified">
 
-                <div>
-                    <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$<?php echo $orderTotal; ?></span></p>
+                    <div class="btn-group">
+                        <button form="estimated-20" type="submit" class="btn btn-success">20m</button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button form="estimated-30" type="submit" class="btn btn-success">30m</button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button form="estimated-40" type="submit" class="btn btn-success">40m</button>
+                    </div>
+
                 </div>
-
             </div>
 
-            <div class="box-footer">
+            <form id="estimated-20" method="post" action="<?php echo URL::action('OrderController@update', $order['id']) ?>">
+                <input type="hidden" name="estimated" value="20" />
+                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+            </form>
 
-                <div>
-                    <p class="clearfix" style="margin:0;">Paga con <span class="badge bg-red pull-right">$<?php echo $order['paycash']; ?></span></p>
-                </div>
+            <form id="estimated-30" method="post" action="<?php echo URL::action('OrderController@update', $order['id']) ?>">
+                <input type="hidden" name="estimated" value="30" />
+                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+            </form>
 
+            <form id="estimated-40" method="post" action="<?php echo URL::action('OrderController@update', $order['id']) ?>">
+                <input type="hidden" name="estimated" value="40" />
+                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+            </form>
+
+            <div class="reject-button">
+                <button form="reject" type="button" class="btn btn-default btn-flat btn-block" data-toggle="modal" data-target="#reject-motive-<?php echo $order['id'] ?>">No realizable</button>
             </div>
 
-        <?php } else { ?>
+            <span class="clearfix"></span>
 
-            <div class="box-footer">
-
-                <div>
-                    <p class="clearfix" style="margin:0;">Total <span class="badge bg-red pull-right">$<?php echo $orderTotal; ?></span></p>
-                </div>
-
-            </div>
-
-        <?php } ?>
+        </div>
 
     </div><!-- /.box -->
 
-    <!-- Reject Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="reject-motive-<?php echo $order['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="reject-motiveLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -127,8 +125,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" form="reject-form-<?php echo $order['id'] ?>">Aceptar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Si es posible realizar este pedido</button>
+                    <button type="submit" class="btn btn-primary" form="reject-form-<?php echo $order['id'] ?>">Cancelar el pedido y notificar el comensal</button>
                 </div>
             </div>
         </div>
