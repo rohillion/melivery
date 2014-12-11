@@ -1,7 +1,8 @@
 var main = {
     init: function() {
         //this.getChannel();
-        this.onSuccess();
+        this.onSuccess();   
+        storage.init();
     },
     onSuccess: function() {
         var msg = $('#success-msg');
@@ -239,11 +240,11 @@ var main = {
         };
     },
     popover: function() {
-        
+
         $('body').on('hidden.bs.popover', function() {
             $('.popover:not(.in)').hide().detach();
         });
-        
+
         var popoverOld = false;
 
         $(document).on('click', 'body', function(e) {

@@ -8,6 +8,7 @@ $channel = $name == 'commerce' ? "branch_".Session::get('user.branch_id') : "use
     <!--<title>Melivery</title>-->
     <title>Melivery - <?php echo (Request::segment(1)) ? Lang::get('segment.' . Request::segment(1) . '.name.plural') : 'Dashboard'; ?></title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta name="_token" content="<?php echo csrf_token() ?>" />
     <!-- bootstrap 3.0.2 -->
     <link href="/assets/application.css" rel="stylesheet" type="text/css" />
     <link href="/assets/<?php echo $name ?>.css" rel="stylesheet" type="text/css" />

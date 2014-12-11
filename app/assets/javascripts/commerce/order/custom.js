@@ -97,6 +97,18 @@ var custom = {
     },
     draggable: function() {
 
+        if (storage.data.isSet('assignments'))
+            storage.data.remove('assignments');
+
+        storage.data.set('assignments', []);
+
+        var dealerBox = $("#dealer-panel .box"),
+                helpers = dealerBox.parent().find('.order-helper');
+
+        $.each(helpers, function(i) {
+            storage.push('assignments', $(helpers[i]).attr('data-id'));
+        });
+
         $(".progress-order").draggable({
             handle: ".grab-order",
             helper: function(e) {
@@ -107,28 +119,47 @@ var custom = {
             appendTo: 'body'
         });
 
-        $("#dealer-panel .box").droppable({
+        dealerBox.droppable({
             drop: function(event, ui) {
 
-                var delaerPanel = $(this),
-                        helper = $(ui.helper),
-                        helpers = delaerPanel.find('.order-helper');
-                
-                var currentHelper = $(helpers).filter('[data-id="' + helper.attr('data-id') + '"]');
+                var helper = $(ui.helper),
+                        helperId = helper.attr('data-id');
 
-                if (currentHelper.length > 0) {
 
-                    $(currentHelper[0]).effect( "shake", { direction: "up", times: 6, distance: 5} , "slow");
+                if (storage.data.get('assignments').indexOf(helperId) === -1) {
+                    
+                    var params = {
+                        dealer: $(this).attr('data-dealer-id'),
+                        status: 3
+                    };
+
+                    main.sendForm('/order/' + helperId + '/status', $.param( params ), function(res) {
+
+                        if (res.status) {
+                            storage.push('assignments', helperId);
+
+                            $(this).find('.box-body')
+                                    .append(helper.clone())
+                                    .find('.order-helper')
+                                    .removeClass('ui-draggable-dragging')
+                                    .attr('style', '');
+                        }else{
+                            
+                            main.notify(res);
+                        }
+
+                    });
+
+
                 } else {
                     
-                    main.sendForm();
+                    console.log($(this).parent().find('[data-id="' + helperId + '"]'));
 
-                    delaerPanel
-                            .find('.box-body')
-                            .append(helper.clone())
-                            .find('.order-helper')
-                            .removeClass('ui-draggable-dragging')
-                            .attr('style', '');
+                    $(this).parent().find('[data-id="' + helperId + '"]').effect("shake", {
+                        direction: "up",
+                        times: 6,
+                        distance: 5
+                    }, "slow");
                 }
 
             }

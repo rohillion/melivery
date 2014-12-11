@@ -38,7 +38,7 @@ class OrderController extends BaseController {
 
         $data['orders'] = $this->orderForm->allGroupByStatus(Session::get('user.branch_id'));
 
-        $data['dealers'] = $this->branchDealer->all(['*'], ['orders'], ['branch_id' => Session::get('user.branch_id')]);
+        $data['dealers'] = $this->branchDealer->all(['*'], ['orders.user'], ['branch_id' => Session::get('user.branch_id')]);
 
         return View::make('commerce.order.index', $data);
     }
@@ -82,9 +82,38 @@ class OrderController extends BaseController {
      * Update order status
      * POST /order/{order_id}/status
      */
+    /* public function changeStatus($id) {
+
+      $order = $this->order->find($id, ['*'], [], ['branch_id' => Session::get('user.branch_id')]);
+
+      if (!is_null($order)) {
+
+      $order->status_id = Input::get('status');
+      $order->motive_id = Input::get('motive');
+      $order->branch_dealer_id = Input::get('dealer');
+      $order->observations = Input::get('observations');
+
+      if ($this->orderstatus->save($order)) {
+      // Success!
+      return Redirect::to('/order')
+      ->withSuccess(Lang::get('segment.order.message.success.edit'))
+      ->with('status', 'success');
+      }
+      }
+
+      return Redirect::to('/order')
+      ->withInput()
+      ->withErrors($this->orderstatus->errors())
+      ->with('status', 'error');
+      } */
+
+    /**
+     * Update order status
+     * POST /order/{order_id}/status
+     */
     public function changeStatus($id) {
 
-        $order = $this->order->find($id); //TODO. buscar por sucursal por seguridad.
+        $order = $this->order->find($id, ['*'], [], ['branch_id' => Session::get('user.branch_id')]);
 
         if (!is_null($order)) {
 
@@ -95,16 +124,26 @@ class OrderController extends BaseController {
 
             if ($this->orderstatus->save($order)) {
                 // Success!
-                return Redirect::to('/order')
-                                ->withSuccess(Lang::get('segment.order.message.success.edit'))
-                                ->with('status', 'success');
+                return Response::json(array(
+                            'status' => TRUE,
+                            'type' => 'success')
+                );
+                /* return Redirect::to('/order')
+                  ->withSuccess(Lang::get('segment.order.message.success.edit'))
+                  ->with('status', 'success'); */
             }
         }
 
-        return Redirect::to('/order')
-                        ->withInput()
-                        ->withErrors($this->orderstatus->errors())
-                        ->with('status', 'error');
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->orderstatus->errors()->all())
+        );
+
+        /* return Redirect::to('/order')
+          ->withInput()
+          ->withErrors($this->orderstatus->errors())
+          ->with('status', 'error'); */
     }
 
 }

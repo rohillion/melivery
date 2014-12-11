@@ -29,106 +29,111 @@
             <!-- Main row -->
             <div class="row">
 
-                    <?php if ($errors->has()) { ?>
-                        <?php foreach ($errors->all() as $error) { ?>
-                            <div class="alert alert-danger alert-dismissable">
-                                <i class="fa fa-ban"></i>
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                <?php echo $error ?>
-                            </div>
-                        <?php } ?>
-                    <?php } else if (Session::get('success')) { ?>
-                        <div class="alert alert-success alert-dismissable">
-                            <i class="fa fa-check"></i>
+                <?php if ($errors->has()) { ?>
+                    <?php foreach ($errors->all() as $error) { ?>
+                        <div class="alert alert-danger alert-dismissable">
+                            <i class="fa fa-ban"></i>
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <?php echo Session::get('success') ?>
+                            <?php echo $error ?>
                         </div>
                     <?php } ?>
+                <?php } else if (Session::get('success')) { ?>
+                    <div class="alert alert-success alert-dismissable">
+                        <i class="fa fa-check"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <?php echo Session::get('success') ?>
+                    </div>
+                <?php } ?>
 
 
-                    <!-- left column -->
-                    <section  id="order-panel" class="col-sm-8">
+                <!-- left column -->
+                <section  id="order-panel" class="col-sm-8">
 
-                        <?php if (!is_null($orders)) { ?>
+                    <?php if (!is_null($orders)) { ?>
 
-                            <section id="order-progress">
+                        <section id="order-progress">
 
-                                <?php if (!is_null($orders['progress'])) { ?>
+                            <?php if (!is_null($orders['progress'])) { ?>
 
-                                    <?php include 'progress.php'; ?>
+                                <?php include 'progress.php'; ?>
+
+                            <?php } else { ?>
+
+                                <div class="well well-sm text-center">No hay pedidos en marcha.</div>
+
+                            <?php } ?>
+
+                        </section>
+
+                        <div id="order-pending-fixed">
+                            <section class="col-xs-12 col-sm-offset-2 col-sm-8 col-lg-offset-3 col-lg-6 shown" id="order-pending">
+
+                                <?php if (!is_null($orders['pending'])) { ?>
+
+                                    <?php include 'pending.php'; ?>
 
                                 <?php } else { ?>
 
-                                    <div class="well well-sm text-center">No hay pedidos en marcha.</div>
+                                    <div class="text-center">No hay pedidos pendientes.</div>
 
                                 <?php } ?>
 
                             </section>
+                        </div>
 
-                            <div id="order-pending-fixed">
-                                <section class="col-xs-12 col-sm-offset-2 col-sm-8 col-lg-offset-3 col-lg-6 shown" id="order-pending">
+                    <?php } else { ?>
 
-                                    <?php if (!is_null($orders['pending'])) { ?>
+                        <section>
+                            <div class="well well-sm text-center">Aun no tienes pedidos para visualizar.</div>
+                        </section>
 
-                                        <?php include 'pending.php'; ?>
+                    <?php } ?>
 
-                                    <?php } else { ?>
+                </section><!--/.col (left) -->
 
-                                        <div class="text-center">No hay pedidos pendientes.</div>
+                <!-- right column -->
+                <section id="dealer-panel" class="col-sm-4 hidden-xs">
+                    <?php if (!$dealers->isEmpty()) { ?>
 
-                                    <?php } ?>
+                        <?php foreach ($dealers as $dealer) { ?>
 
-                                </section>
-                            </div>
-
-                        <?php } else { ?>
-
-                            <section>
-                                <div class="well well-sm text-center">Aun no tienes pedidos para visualizar.</div>
-                            </section>
-
-                        <?php } ?>
-
-                    </section><!--/.col (left) -->
-
-                    <!-- right column -->
-                    <section id="dealer-panel" class="col-sm-4 hidden-xs">
-                        <?php if (!$dealers->isEmpty()) { ?>
-
-                            <?php foreach ($dealers as $dealer) { ?>
-
-                                <div class="box box-solid">
-                                    <div class="box-header">
-                                        <h3 class="box-title"><?php echo $dealer->dealer_name ?> <i class="pull-right fa fa-lightbulb-o"></i></h3>
-                                    </div>
-
-                                    <div class="box-body">
-                                        <?php if (!$dealer->orders->isEmpty()) { ?>
-
-                                            <?php foreach ($dealer->orders as $order) { ?>
-                                        
-                                                 <?php echo $order->delivery ?>
-                                        
-                                            <?php } ?>
-                                        
-                                        <?php } ?>
-                                    </div>
+                            <div class="box box-solid" data-dealer-id="<?php echo $dealer->id ?>">
+                                <div class="box-header">
+                                    <h3 class="box-title"><?php echo $dealer->dealer_name ?> <i class="pull-right fa fa-lightbulb-o"></i></h3>
                                 </div>
 
-                            <?php } ?>
+                                <div class="box-body">
+                                    <?php if (!$dealer->orders->isEmpty()) { ?>
 
-                        <?php } else { ?>
+                                        <?php foreach ($dealer->orders as $order) { ?>
 
-                            <div class="well well-sm text-center">No hay pedidos en marcha.</div>
+                                            <div class="order-helper" data-id="<?php echo $order->id ?>">
+                                                <i class="fa fa-paperclip"></i>
+                                                <div class="box box-solid">
+                                                    <?php echo $order->user->name ?>
+                                                </div>
+                                            </div>
+
+                                        <?php } ?>
+
+                                    <?php } ?>
+                                </div>
+                            </div>
 
                         <?php } ?>
-                    </section><!--/.col (right) -->
+
+                    <?php } else { ?>
+
+                        <div class="well well-sm text-center">No hay pedidos en marcha.</div>
+
+                    <?php } ?>
+                </section><!--/.col (right) -->
 
             </div><!-- /.row (main row) -->
 
         </section><!-- /.content -->
 
         <?php echo View::make('footer'); ?>
-        
+
     </body>
 </html>

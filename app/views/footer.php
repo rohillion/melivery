@@ -20,14 +20,13 @@ switch ($name) {
         break;
 }
 
-if(!CommonEvents::isSubdomain() && Request::segment(1)){
-    
+if (!CommonEvents::isSubdomain() && Request::segment(1)) {
+
     $dir = NULL;
-}else{
-    
-    $dir = Request::segment(1) ? '/'.Request::segment(1) : $assetDir ;
+} else {
+
+    $dir = Request::segment(1) ? '/' . Request::segment(1) : $assetDir;
 }
-    
 ?>
 
 
@@ -35,11 +34,17 @@ if(!CommonEvents::isSubdomain() && Request::segment(1)){
 <script src="/assets/application.js" type="text/javascript"></script>
 
 <!-- commerce -->
-<script src="/assets/<?php echo $name ?><?php echo $dir;?>/bundle.js" type="text/javascript"></script>
+<script src="/assets/<?php echo $name ?><?php echo $dir; ?>/bundle.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
         main.init();
         custom.init();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+            }
+        });
     });
 </script>

@@ -15,4 +15,6 @@
 //= require plugins/modernizr/modernizr.custom.js
 //= require plugins/notify/classie.js
 //= require plugins/notify/notificationFx.js
+//= require plugins/storage/jquery.storageapi.min
+//= require storage.js
 //= require main.js
