@@ -1,6 +1,6 @@
 <?php foreach ($orders['progress'] as $order) { ?>
 
-    <div class="progress-order box box-solid" data-client="<?php echo $order['user']['name']; ?>">
+    <div class="progress-order box box-solid" data-id="<?php echo $order['id']; ?>" data-client="<?php echo $order['user']['name']; ?>">
 
         <div class="box-header">
             <h3 class="col-xs-12 box-title">

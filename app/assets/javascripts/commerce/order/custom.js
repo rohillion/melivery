@@ -99,21 +99,38 @@ var custom = {
 
         $(".progress-order").draggable({
             handle: ".grab-order",
-            helper: function(e){
-                return '<div class="order-helper"><i class="fa fa-paperclip fa-2x"></i><div class="box box-solid">'+e.currentTarget.dataset.client+'</div></div>';
+            helper: function(e) {
+                return '<div class="order-helper" data-id="' + e.currentTarget.dataset.id + '"><i class="fa fa-paperclip"></i><div class="box box-solid">' + e.currentTarget.dataset.client + '</div></div>';
             },
-            cursorAt: { left: 50, top:40 }
+            cursor: "-webkit-grabbing",
+            cursorAt: {left: 50, top: 30},
+            appendTo: 'body'
         });
-        
+
         $("#dealer-panel .box").droppable({
             drop: function(event, ui) {
 
-                $(this)
-                        .find('.box-body')
-                        //.addClass("ui-state-highlight")
-                        //.append($(ui.draggable).attr('data-client'));
-                        .append($(ui.helper).clone())
-                        .find('.order-helper').removeClass('ui-draggable-dragging').attr('style','');
+                var delaerPanel = $(this),
+                        helper = $(ui.helper),
+                        helpers = delaerPanel.find('.order-helper');
+                
+                var currentHelper = $(helpers).filter('[data-id="' + helper.attr('data-id') + '"]');
+
+                if (currentHelper.length > 0) {
+
+                    $(currentHelper[0]).effect( "shake", { direction: "up", times: 6, distance: 5} , "slow");
+                } else {
+                    
+                    main.sendForm();
+
+                    delaerPanel
+                            .find('.box-body')
+                            .append(helper.clone())
+                            .find('.order-helper')
+                            .removeClass('ui-draggable-dragging')
+                            .attr('style', '');
+                }
+
             }
         });
     }

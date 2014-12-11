@@ -274,19 +274,28 @@
     position: relative;
     float: left;
     z-index: 970;
-    padding: 9px;
+    margin-right: 8px;
+}
+
+.order-helper:last-of-type{
+    margin-right: 0px;
 }
 
 .order-helper i{
+    font-size: 1.5em;
     z-index: 1;
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: -2px;
+    left: -5px;
 }
 
 .order-helper .box{
     padding: 5px 15px;
     margin: 0;
+}
+
+#dealer-panel .box-body{
+    overflow: hidden;
 }
 
 #dealer-panel .ui-droppable{
