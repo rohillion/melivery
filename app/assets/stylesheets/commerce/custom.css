@@ -209,6 +209,18 @@
     transform: translateY(0%);
 }
 
+.grab-order{
+    font-size: 20px;
+    opacity: 0.5;
+    color: #999;
+    position: absolute;
+    width: 50px;
+    top: 5px;
+    left: 50%;
+    margin-left: -25px;
+    cursor: -webkit-grab;
+}
+
 .order-body{
     margin: 0;
 }
@@ -256,6 +268,29 @@
 .badge.no-background {
     color: #000;
     background-color: inherit;
+}
+
+.order-helper{
+    position: relative;
+    float: left;
+    z-index: 970;
+    padding: 9px;
+}
+
+.order-helper i{
+    z-index: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.order-helper .box{
+    padding: 5px 15px;
+    margin: 0;
+}
+
+#dealer-panel .ui-droppable{
+    overflow: hidden;
 }
 /***** orders *****/
 

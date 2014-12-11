@@ -47,7 +47,7 @@
 
 
                     <!-- left column -->
-                    <section  id="order-panel" class="col-sm-9">
+                    <section  id="order-panel" class="col-sm-8">
 
                         <?php if (!is_null($orders)) { ?>
 
@@ -92,14 +92,14 @@
                     </section><!--/.col (left) -->
 
                     <!-- right column -->
-                    <section id="dealer-panel" class="col-sm-3 hidden-xs">
+                    <section id="dealer-panel" class="col-sm-4 hidden-xs">
                         <?php if (!$dealers->isEmpty()) { ?>
 
                             <?php foreach ($dealers as $dealer) { ?>
 
                                 <div class="box box-solid">
                                     <div class="box-header">
-                                        <h3 class="box-title"><?php echo $dealer->dealer_name ?></h3>
+                                        <h3 class="box-title"><?php echo $dealer->dealer_name ?> <i class="pull-right fa fa-lightbulb-o"></i></h3>
                                     </div>
 
                                     <div class="box-body">
@@ -129,6 +129,6 @@
         </section><!-- /.content -->
 
         <?php echo View::make('footer'); ?>
-
+        
     </body>
 </html>

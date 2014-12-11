@@ -1,6 +1,6 @@
 <?php foreach ($orders['progress'] as $order) { ?>
 
-    <div class="progress-order box box-solid">
+    <div class="progress-order box box-solid" data-client="<?php echo $order['user']['name']; ?>">
 
         <div class="box-header">
             <h3 class="col-xs-12 box-title">
@@ -16,6 +16,8 @@
                 ?>
 
                 <i title="<?php echo $title ?>" class="fa fa-<?php echo $icon ?>"></i> <?php echo $order['user']['name']; ?>
+                
+                <div class="grab-order text-center fa fa-ellipsis-h"></div>
 
                 <span class="pull-right" title="Hora de entrada - Tiempo transcurrido">
                     <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['updated_at'])); ?> - <?php echo CommonEvents::humanTiming(strtotime($order['updated_at'])); ?>

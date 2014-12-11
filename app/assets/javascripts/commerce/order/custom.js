@@ -5,6 +5,7 @@ var custom = {
         this.orderChronometer();
         this.orderTimer();
         this.togglePendingPanel();
+        this.draggable();
     },
     orderEntry: function() {
 
@@ -92,6 +93,28 @@ var custom = {
 
         $('#order-pending-fixed').on('click', function() {
             $(this).toggleClass('shown');
+        });
+    },
+    draggable: function() {
+
+        $(".progress-order").draggable({
+            handle: ".grab-order",
+            helper: function(e){
+                return '<div class="order-helper"><i class="fa fa-paperclip fa-2x"></i><div class="box box-solid">'+e.currentTarget.dataset.client+'</div></div>';
+            },
+            cursorAt: { left: 50, top:40 }
+        });
+        
+        $("#dealer-panel .box").droppable({
+            drop: function(event, ui) {
+
+                $(this)
+                        .find('.box-body')
+                        //.addClass("ui-state-highlight")
+                        //.append($(ui.draggable).attr('data-client'));
+                        .append($(ui.helper).clone())
+                        .find('.order-helper').removeClass('ui-draggable-dragging').attr('style','');
+            }
         });
     }
 }
