@@ -82,35 +82,6 @@ class OrderController extends BaseController {
      * Update order status
      * POST /order/{order_id}/status
      */
-    /* public function changeStatus($id) {
-
-      $order = $this->order->find($id, ['*'], [], ['branch_id' => Session::get('user.branch_id')]);
-
-      if (!is_null($order)) {
-
-      $order->status_id = Input::get('status');
-      $order->motive_id = Input::get('motive');
-      $order->branch_dealer_id = Input::get('dealer');
-      $order->observations = Input::get('observations');
-
-      if ($this->orderstatus->save($order)) {
-      // Success!
-      return Redirect::to('/order')
-      ->withSuccess(Lang::get('segment.order.message.success.edit'))
-      ->with('status', 'success');
-      }
-      }
-
-      return Redirect::to('/order')
-      ->withInput()
-      ->withErrors($this->orderstatus->errors())
-      ->with('status', 'error');
-      } */
-
-    /**
-     * Update order status
-     * POST /order/{order_id}/status
-     */
     public function changeStatus($id) {
 
         $order = $this->order->find($id, ['*'], [], ['branch_id' => Session::get('user.branch_id')]);
@@ -128,9 +99,6 @@ class OrderController extends BaseController {
                             'status' => TRUE,
                             'type' => 'success')
                 );
-                /* return Redirect::to('/order')
-                  ->withSuccess(Lang::get('segment.order.message.success.edit'))
-                  ->with('status', 'success'); */
             }
         }
 
@@ -139,11 +107,27 @@ class OrderController extends BaseController {
                     'type' => 'error',
                     'message' => $this->orderstatus->errors()->all())
         );
+    }
 
-        /* return Redirect::to('/order')
-          ->withInput()
-          ->withErrors($this->orderstatus->errors())
-          ->with('status', 'error'); */
+    /**
+     * Attach order dealer
+     * GET /order/{order_id}/dealer/{dealer_id}
+     */
+    public function attachDealer($order_id, $dealer_id) {
+
+        if ($this->orderForm->attachDealer($order_id, $dealer_id)) {
+            // Success!
+            return Response::json(array(
+                        'status' => TRUE,
+                        'type' => 'success')
+            );
+        }
+
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->orderForm->errors()->all())
+        );
     }
 
 }

@@ -124,7 +124,7 @@
 
                     <?php } else { ?>
 
-                        <div class="well well-sm text-center">No hay pedidos en marcha.</div>
+                        <div class="well well-sm text-center">No hay repartidores cargados.</div>
 
                     <?php } ?>
                 </section><!--/.col (right) -->

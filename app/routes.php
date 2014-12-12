@@ -186,6 +186,11 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         'before' => 'csrf',
         "uses" => "OrderController@changeStatus"
     ]);
+    
+    Route::get("/order/{order_id}/dealer/{dealer_id}", [
+        'before' => 'csrf',
+        "uses" => "OrderController@attachDealer"
+    ]);
 
     Route::post("/order/{dealer_id}/dispatch", [
         'before' => 'csrf',

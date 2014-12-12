@@ -24,6 +24,17 @@ var main = {
                 callback(res);
         });
     },
+    run: function(target, callback) {
+
+        $.ajax({
+            url: target,
+            dataType: "json"
+        }).done(function(res) {
+
+            if (typeof callback == 'function')
+                callback(res);
+        });
+    },
     notify: function(res, callback) {
 
         var msg = new Array;

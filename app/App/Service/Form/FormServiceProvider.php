@@ -279,7 +279,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\Order\OrderForm', function($app) {
 
             return new OrderForm(
-                    new OrderValidator($app['validator']), $app->make('App\Repository\Order\OrderInterface')
+                    new OrderValidator($app['validator']), $app->make('App\Repository\Order\OrderInterface'), $app->make('App\Repository\BranchDealer\BranchDealerInterface')
             );
         });
     }

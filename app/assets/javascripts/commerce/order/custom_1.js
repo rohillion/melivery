@@ -110,7 +110,6 @@ var custom = {
         });
 
         $(".progress-order").draggable({
-            connectToSortable: "#dealer-panel > .box",
             handle: ".grab-order",
             helper: function(e) {
                 return '<div class="order-helper" data-id="' + e.currentTarget.dataset.id + '" data-client="' + e.currentTarget.dataset.client + '"><i class="fa fa-paperclip"></i><div class="box box-solid">' + e.currentTarget.dataset.client + '</div></div>';
@@ -120,54 +119,46 @@ var custom = {
             appendTo: 'body'
         });
 
-        dealerBox.sortable({
-            connectWith: "#dealer-panel > .box",
-            receive: function(event, ui) {
+        dealerBox.droppable({
+            drop: function(event, ui) {
 
-                if ($(ui.sender).is('.progress-order')) {//Si viene de una orden
-
-                    var helper = $(ui.helper),
-                            helperId = helper.attr('data-id'),
-                            currentBox = $(this);
+                var helper = $(ui.helper),
+                        helperId = helper.attr('data-id'),
+                        currentBox = $(this);
 
 
-                    if (storage.data.get('assignments').indexOf(helperId) === -1) {
+                if (storage.data.get('assignments').indexOf(helperId) === -1) {
 
-                        main.run('/order/' + helperId + '/dealer/' + currentBox.attr('data-dealer-id'), function(res) {
+                    main.run('/order/' + helperId + '/dealer/' + currentBox.attr('data-dealer-id'), function(res) {
 
-                            if (res.status) {
-                                storage.push('assignments', helperId);
+                        if (res.status) {
+                            storage.push('assignments', helperId);
 
-                                currentBox.find('.box-body')
-                                        .append(helper.clone())
-                                        .find('.order-helper')
-                                        .removeClass('ui-draggable-dragging')
-                                        .attr('style', '')
-                                        .draggable({
-                                            helper: 'clone',
-                                            cursor: "-webkit-grabbing",
-                                            cursorAt: {left: 50, top: 30},
-                                            appendTo: 'body'
-                                        });
-                            } else {
+                            currentBox.find('.box-body')
+                                    .append(helper.clone())
+                                    .find('.order-helper')
+                                    .removeClass('ui-draggable-dragging')
+                                    .attr('style', '')
+                                    .draggable({
+                                        helper: 'clone',
+                                        cursor: "-webkit-grabbing",
+                                        cursorAt: {left: 50, top: 30},
+                                        appendTo: 'body'
+                                    });
+                        } else {
 
-                                main.notify(res);
-                            }
+                            main.notify(res);
+                        }
 
-                        });
+                    });
 
-                    } else {
+                } else {
 
-                        $(this).parent().find('[data-id="' + helperId + '"]').effect("shake", {
-                            direction: "up",
-                            times: 6,
-                            distance: 5
-                        }, "slow");
-                    }
-
-                } else {//Si viene de sortable
-
-
+                    $(this).parent().find('[data-id="' + helperId + '"]').effect("shake", {
+                        direction: "up",
+                        times: 6,
+                        distance: 5
+                    }, "slow");
                 }
 
             }

@@ -72,7 +72,7 @@ class OrderStatusForm extends AbstractForm {
                 
                 // TODO. SI es comida para la barra se debe notificar inmediatamente al comensal, de lo contrario, se notifica cuando el repartidor es despachado.
 
-                $order->branch_dealer()->attach($order->branch_dealer_id);
+                //$order->branch_dealer()->attach($order->branch_dealer_id);
 
                 break;
 
