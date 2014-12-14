@@ -6,6 +6,11 @@ var custom = {
         this.orderTimer();
         this.togglePendingPanel();
         this.draggable();
+        this.archiveOrder();
+        main.tooltip();
+        main.popover();
+        this.popover();
+        this.dispatchDealer();
     },
     orderEntry: function() {
 
@@ -97,12 +102,18 @@ var custom = {
     },
     draggable: function() {
 
+        var dragCursor;
+        var curBrowser = navigator.userAgent.indexOf('Firefox');
+
+        dragCursor = (curBrowser === -1) ? "-webkit-grabbing" : "-moz-grabbing";
+
         if (storage.data.isSet('assignments'))
             storage.data.remove('assignments');
 
         storage.data.set('assignments', []);
 
-        var dealerBox = $("#dealer-panel > .box"),
+        var dealerPanel = $('#dealer-panel'),
+                dealerBox = dealerPanel.find(".box-body"),
                 helpers = dealerBox.parent().find('.order-helper');
 
         $.each(helpers, function(i) {
@@ -110,45 +121,45 @@ var custom = {
         });
 
         $(".progress-order").draggable({
-            connectToSortable: "#dealer-panel > .box",
+            connectToSortable: "#dealer-panel .box-body",
             handle: ".grab-order",
             helper: function(e) {
-                return '<div class="order-helper" data-id="' + e.currentTarget.dataset.id + '" data-client="' + e.currentTarget.dataset.client + '"><i class="fa fa-paperclip"></i><div class="box box-solid">' + e.currentTarget.dataset.client + '</div></div>';
+                return '<div class="order-helper" data-id="' + e.currentTarget.dataset.id + '" data-client="' + e.currentTarget.dataset.client + '"><i class="fa fa-paperclip"></i><div class="box box-solid client-helper-name">' + e.currentTarget.dataset.client + '</div></div>';
             },
-            cursor: "-webkit-grabbing",
+            cursor: dragCursor,
             cursorAt: {left: 50, top: 30},
-            appendTo: 'body'
+            appendTo: 'body',
+            start: function() {
+                dealerBox.addClass('bg-warning');
+            },
+            stop: function() {
+                dealerBox.removeClass('bg-warning');
+            }
         });
 
         dealerBox.sortable({
-            connectWith: "#dealer-panel > .box",
-            receive: function(event, ui) {
+            cursor: dragCursor,
+            connectWith: "#dealer-panel .box-body",
+            receive: function(e, ui) {
+
+                var currentBox = $(this),
+                        dealerId = currentBox.parent().attr('data-dealer-id');
 
                 if ($(ui.sender).is('.progress-order')) {//Si viene de una orden
 
                     var helper = $(ui.helper),
-                            helperId = helper.attr('data-id'),
-                            currentBox = $(this);
+                            orderId = helper.attr('data-id');
 
+                    helper.removeClass('ui-draggable-dragging')
+                            .attr('style', '');
 
-                    if (storage.data.get('assignments').indexOf(helperId) === -1) {
+                    if (storage.data.get('assignments').indexOf(orderId) === -1) {
 
-                        main.run('/order/' + helperId + '/dealer/' + currentBox.attr('data-dealer-id'), function(res) {
+                        main.run('/order/' + orderId + '/dealer/' + dealerId, function(res) {
 
                             if (res.status) {
-                                storage.push('assignments', helperId);
 
-                                currentBox.find('.box-body')
-                                        .append(helper.clone())
-                                        .find('.order-helper')
-                                        .removeClass('ui-draggable-dragging')
-                                        .attr('style', '')
-                                        .draggable({
-                                            helper: 'clone',
-                                            cursor: "-webkit-grabbing",
-                                            cursorAt: {left: 50, top: 30},
-                                            appendTo: 'body'
-                                        });
+                                storage.push('assignments', orderId);
                             } else {
 
                                 main.notify(res);
@@ -158,19 +169,146 @@ var custom = {
 
                     } else {
 
-                        $(this).parent().find('[data-id="' + helperId + '"]').effect("shake", {
-                            direction: "up",
-                            times: 6,
-                            distance: 5
-                        }, "slow");
+                        helper.remove();
+
+                        helper.promise().done(function() {
+                            dealerPanel.find('[data-id="' + orderId + '"]').effect("shake", {
+                                direction: "up",
+                                times: 6,
+                                distance: 5
+                            }, "slow");
+                        });
+
+
                     }
 
                 } else {//Si viene de sortable
 
+                    var item = $(ui.item),
+                            orderId = item.attr('data-id');
 
+                    main.run('/order/' + orderId + '/dealer/' + dealerId, function(res) {
+
+                        if (res.status) {
+
+                            storage.push('assignments', orderId);
+                        } else {
+
+                            main.notify(res);
+                        }
+
+                    });
                 }
 
+            },
+            beforeStop: function(event, ui) {
+
+                var itemWidth = $(ui.item).width(),
+                        itemHeight = $(ui.item).height(),
+                        dealerPanelWidth = dealerPanel.width(),
+                        dealerPanelHeight = dealerPanel.height();
+
+                var horizontal = ui.offset.left + itemWidth > dealerPanel.offset().left && ui.offset.left < dealerPanel.offset().left + dealerPanelWidth;
+                var vertical = ui.offset.top + itemHeight > dealerPanel.offset().top && ui.offset.top < dealerPanel.offset().top + dealerPanelHeight;
+
+                if (!(horizontal && vertical)) {
+
+                    var item = $(ui.item),
+                            orderId = item.attr('data-id');
+
+                    ui.item.remove();
+
+                    main.run('/order/' + orderId + '/dealer/remove', function(res) {
+
+                        if (res.status) {
+
+                            storage.removeElement('assignments', orderId);
+                        } else {
+
+                            main.notify(res);
+                        }
+
+                    });
+                }
+                
+                var box = $(event.target);
+
+                console.log(main.isEmpty(box));
+
+                if (main.isEmpty(box)) {
+                    box.parent().find('.dispatch').addClass('hidden');
+                } else {
+                    box.parent().find('.dispatch').removeClass('hidden');
+                }
+
+                $(event.toElement).closest('.box-body').parent().find('.dispatch').removeClass('hidden');
+                
+            },
+            start: function() {
+
+                dealerBox.addClass('bg-warning');
+            },
+            stop: function() {
+
+                dealerBox.removeClass('bg-warning');
             }
+        });
+    },
+    archiveOrder: function() {
+
+        var rejectModal = $('#reject-motive');
+
+        $('.cancel-order-id').on('click', function() {
+            rejectModal.find('.cancel-order').attr('data-order', this.dataset.order)
+        });
+
+        $('.cancel-order,.done-order').on('click', function(e) {
+
+            e.preventDefault();
+
+            $('.progress-order').one("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
+                $(this).remove();
+            });
+
+            rejectModal.modal('hide');
+
+            var orderId = this.dataset.order;
+
+            main.sendForm('/order/' + orderId + '/status/' + this.dataset.status, $.param({
+                'motive': $('#reject-form [name="motive"]').val()
+            }), function(res) {
+
+                if (res.status) {
+
+                    $('#order-panel').find('[data-id="' + orderId + '"]').addClass('archive');
+                } else {
+
+                    main.notify(res);
+                }
+
+            });
+
+        });
+
+    },
+    popover: function() {
+        $(".client-name").popover({
+            html: true,
+            content: function() {
+                return $(this).next().html();
+            },
+            trigger: 'manual'
+        });
+    },
+    dispatchDealer: function() {
+
+        $('.dispatch').on('click', function() {
+
+            main.run('/order/' + this.dataset.dealer + '/dispatch', function(res){
+                console.log(res);
+                main.notify(res);
+            });
+
         });
     }
 }

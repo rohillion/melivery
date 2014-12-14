@@ -100,6 +100,8 @@
                             <div class="box box-solid" data-dealer-id="<?php echo $dealer->id ?>">
                                 <div class="box-header">
                                     <h3 class="box-title"><?php echo $dealer->dealer_name ?> <i class="pull-right fa fa-lightbulb-o"></i></h3>
+                                    <?php $hidden = $dealer->orders->isEmpty()? 'hidden':'';?>
+                                    <a data-dealer="<?php echo $dealer->id ?>" class="<?php echo $hidden; ?> dispatch btn btn-link pull-right text-primary">Enviar</a>
                                 </div>
 
                                 <div class="box-body">
@@ -109,7 +111,7 @@
 
                                             <div class="order-helper" data-id="<?php echo $order->id ?>">
                                                 <i class="fa fa-paperclip"></i>
-                                                <div class="box box-solid">
+                                                <div class="box box-solid client-helper-name">
                                                     <?php echo $order->user->name ?>
                                                 </div>
                                             </div>

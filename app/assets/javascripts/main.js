@@ -1,7 +1,7 @@
 var main = {
     init: function() {
         //this.getChannel();
-        this.onSuccess();   
+        this.onSuccess();
         storage.init();
     },
     onSuccess: function() {
@@ -314,5 +314,11 @@ var main = {
             popoverOld = false;
             return false;
         });
+    },
+    tooltip: function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    },
+    isEmpty: function(el) {
+        return !$.trim(el.html());
     }
 }

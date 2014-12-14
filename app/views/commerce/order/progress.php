@@ -7,21 +7,32 @@
 
                 <?php
                 if ($order['delivery']) {
-                    $title = 'Viaja';
-                    $icon = 'plane';
+                    $title = 'Para delivery';
+                    $icon = 'arrow-up';
                 } else {
-                    $title = 'Barra';
-                    $icon = 'home';
+                    $title = 'Para retirar';
+                    $icon = 'arrow-down';
                 }
                 ?>
 
-                <i title="<?php echo $title ?>" class="fa fa-<?php echo $icon ?>"></i> <?php echo $order['user']['name']; ?>
+                <i data-toggle="tooltip" data-placement="auto" title="<?php echo $title ?>" class="fa fa-<?php echo $icon ?>"></i> 
+                <span class="client-name popover-trigger"><?php echo $order['user']['name']; ?></span>
                 
+                <div class="hidden">
+                    <div><i class="fa fa-phone"></i> 4328-9807</div>
+                    <div><i class="fa fa-home"></i> Paraguay 914 4D</div>
+                </div>
+
                 <div class="grab-order text-center fa fa-ellipsis-h"></div>
 
-                <span class="pull-right" title="Hora de entrada - Tiempo transcurrido">
-                    <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['updated_at'])); ?> - <?php echo CommonEvents::humanTiming(strtotime($order['updated_at'])); ?>
-                </span>
+                <div class="time-order pull-right">
+                    <span data-toggle="tooltip" data-placement="auto" title="Hora de entrada">
+                        <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['updated_at'])); ?> - 
+                    </span>
+                    <span data-toggle="tooltip" data-placement="auto" title="Transcurrido">
+                        <?php echo CommonEvents::humanTiming(strtotime($order['updated_at'])); ?>
+                    </span>
+                </div>
             </h3>
         </div>
 
@@ -77,63 +88,78 @@
 
         <?php if ($order['delivery']) { ?>
 
-            <div class="box-body">
-
-                <div>
-                    <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$<?php echo $orderTotal; ?></span></p>
+            <div class="box-body clearfix">
+                <div class="row">
+                    <div class="col-sm-4 col-sm-offset-8 col-md-3 col-md-offset-9">
+                        <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$<?php echo $orderTotal; ?></span></p>
+                    </div>
                 </div>
-
             </div>
 
-            <div class="box-body">
-
-                <div>
-                    <p class="clearfix" style="margin:0;">Paga con <span class="badge bg-red pull-right">$<?php echo $order['paycash']; ?></span></p>
+            <div class="box-body clearfix">
+                <div class="row">
+                    <div class="hidden-xs col-sm-2">
+                        <span data-toggle="tooltip" data-placement="auto" title="Cancelado">
+                            <a data-order="<?php echo $order['id']; ?>" href="#" class="cancel-order-id fa fa-circle text-danger" data-toggle="modal" data-target="#reject-motive"></a>
+                        </span>
+                        <span data-toggle="tooltip" data-placement="auto" title="Entregado">
+                            <a data-order="<?php echo $order['id']; ?>" data-status="4" style="margin-left:10px;" href="#" class="done-order fa fa-circle text-success"></a>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-sm-offset-6 col-md-3 col-md-offset-7">
+                        <p class="clearfix" style="margin:0;">Paga con <span class="badge bg-yellow pull-right">$<?php echo $order['paycash']; ?></span></p>
+                    </div>
                 </div>
-
             </div>
 
         <?php } else { ?>
 
-            <div class="box-body">
-
-                <div>
-                    <p class="clearfix" style="margin:0;">Total <span class="badge bg-red pull-right">$<?php echo $orderTotal; ?></span></p>
+            <div class="box-body clearfix">
+                <div class="row">
+                    <div class="hidden-xs col-sm-2">
+                        <span data-toggle="tooltip" data-placement="auto" title="Cancelado" >
+                            <a data-order="<?php echo $order['id']; ?>" href="#" class="cancel-order-id fa fa-circle text-danger" data-toggle="modal" data-target="#reject-motive"></a>
+                        </span>
+                        <span data-toggle="tooltip" data-placement="auto" title="Entregado" >
+                            <a data-order="<?php echo $order['id']; ?>" data-status="4" style="margin-left:10px;" href="#" class="done-order fa fa-circle text-success"></a>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 col-sm-offset-6 col-md-3 col-md-offset-7">
+                        <p class="clearfix" style="margin:0;">Total <span class="badge bg-yellow pull-right">$<?php echo $orderTotal; ?></span></p>
+                    </div>
                 </div>
-
             </div>
 
         <?php } ?>
 
     </div><!-- /.box -->
 
-    <!-- Reject Modal -->
-    <div class="modal fade" id="reject-motive-<?php echo $order['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="reject-motiveLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form method="post" id="reject-form-<?php echo $order['id'] ?>" class="form-large" action="<?php echo URL::action('OrderController@changeStatus', $order['id']) ?>">
-                        <div class="form-group">
-                            <label style="padding-bottom:0;" for="branchPickup" class="col-xs-4 control-label">Motivo:</label>
-                            <select name="motive" class="form-control">
-                                <option value="1">Ya cerramos.</option>
-                                <option value="2">No es posible cocinar el/los producto/s.</option>
-                                <option value="3">El delivery no llega al domicilio.</option>
-                                <option value="4">No se puede entregar el pedido (Falta de personal).</option>
-                                <option value="5">Sin suministros (luz,agua,gas).</option>
-                                <option value="6">Otros.</option>
-                            </select>
-                        </div>
-                        <input type="hidden" name="status" value="5">
-                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" form="reject-form-<?php echo $order['id'] ?>">Aceptar</button>
-                </div>
+<?php } ?>
+
+<!-- Reject Modal -->
+<div class="modal fade" id="reject-motive" tabindex="-1" role="dialog" aria-labelledby="reject-motiveLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form method="post" id="reject-form" class="form-large">
+                    <div class="form-group">
+                        <label style="padding-bottom:0;" for="branchPickup" class="col-xs-4 control-label">Motivo:</label>
+                        <select name="motive" class="form-control">
+                            <option value="1">Ya cerramos.</option>
+                            <option value="2">No es posible cocinar el/los producto/s.</option>
+                            <option value="3">El delivery no llega al domicilio.</option>
+                            <option value="4">No se puede entregar el pedido (Falta de personal).</option>
+                            <option value="6">Sin suministros (luz,agua,gas).</option>
+                            <option value="8">Nadie lo recibi&oacute;.</option>
+                            <option value="7">Otros.</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary cancel-order" data-status="5" type="button" form="reject-form">Aceptar</button>
             </div>
         </div>
     </div>
-
-<?php } ?>
+</div>

@@ -72,7 +72,7 @@ class BranchDealerForm extends AbstractForm {
         if (!$dealer)
             return false;
 
-        foreach ($dealer->orders as $order) {
+        /*foreach ($dealer->orders as $order) {//TODO. Notificar al comensal en caso de ser necesario.
 
             $sended = \Notification::send('customer_' . $order->id, 'order', ['order' => 'delivered']);
 
@@ -83,17 +83,12 @@ class BranchDealerForm extends AbstractForm {
                     $message->to('rohillion@hotmail.com', 'Jose Lopez')->subject('Pedido de Melivery');
                 });
             }
-        }
+        }*/
 
         return $dealer;
     }
 
-    public function report($dealer, $ordersStatus) {
-
-        if (count($ordersStatus) < $dealer->orders->count()) {
-            $this->validator->errors = 'Por favor, indique la resoluci&oacute;n de todas las comandas correspondientes al repartidor ' . $dealer->dealer_name;
-            return false;
-        }
+    public function report($dealer) {
 
         $input = array(
             'branch_id' => $dealer->branch_id,
@@ -105,10 +100,7 @@ class BranchDealerForm extends AbstractForm {
 
         foreach ($dealer->orders as $order) {
 
-            $order->status_id = $ordersStatus[$order->id] ? 4 : 6;
-            //$order->motive_id = Input::get('motive');
-            //$order->branch_dealer_id = Input::get('dealer');
-            //$order->observations = Input::get('observations');
+            $order->status_id = 4;
 
             if (!$this->orderstatus->save($order)) {
                 $this->validator->errors = $this->orderstatus->errors();

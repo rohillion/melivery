@@ -131,7 +131,7 @@ class OrderForm extends AbstractForm {
 
         if (is_null($order)) {
 
-            $this->messageBag->add('error', 'El repartidor en cuestion no existe. Por favor intentelo nuevamente.');//TODO. Soporte Lang.
+            $this->messageBag->add('error', 'El pedido en cuestion no existe. Por favor intentelo nuevamente.'); //TODO. Soporte Lang.
             $this->validator->errors = $this->messageBag;
 
             return false;
@@ -141,20 +141,52 @@ class OrderForm extends AbstractForm {
         $branchDealer = $this->branchDealer->find($dealer_id, ['*'], [], ['branch_id' => \Session::get('user.branch_id')]);
 
         if (is_null($branchDealer)) {
-            
-            $this->messageBag->add('error', 'El pedido en cuestion no existe. Por favor intentelo nuevamente.');//TODO. Soporte Lang.
+
+            $this->messageBag->add('error', 'El repartidor en cuestion no existe. Por favor intentelo nuevamente.'); //TODO. Soporte Lang.
             $this->validator->errors = $this->messageBag;
 
             return false;
         }
 
         try {
-            $order->branch_dealer()->attach($branchDealer->id);
+            //$order->branch_dealer()->attach($branchDealer->id);
+            $order->branch_dealer()->sync(array($branchDealer->id));
             return true;
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
-            $this->messageBag->add('error', 'Ha ocurrido un error. Por favor refresque el navegador e intentelo nuevamente.');//TODO. Soporte Lang.
+            $this->messageBag->add('error', 'Ha ocurrido un error. Por favor refresque el navegador e intentelo nuevamente.'); //TODO. Soporte Lang.
             $this->validator->errors = $this->messageBag;
+        }
+
+        return false;
+    }
+
+    /**
+     * Attach dealer to order 
+     *
+     * @return boolean
+     */
+    public function dettachDealer($order_id) {
+
+        $order = $this->order->find($order_id, ['*'], ['branch_dealer'], ['branch_id' => \Session::get('user.branch_id')]);
+
+        if (is_null($order)) {
+
+            $this->messageBag->add('error', 'El pedido en cuestion no existe. Por favor intentelo nuevamente.'); //TODO. Soporte Lang.
+            $this->validator->errors = $this->messageBag;
+
+            return false;
+        }
+
+        if (!$order->branch_dealer->isEmpty()) {
+            try {
+                $order->branch_dealer()->detach($order->branch_dealer[0]->id);
+                return true;
+            } catch (\Exception $e) {
+                \Log::error($e->getMessage());
+                $this->messageBag->add('error', 'Ha ocurrido un error. Por favor refresque el navegador e intentelo nuevamente.'); //TODO. Soporte Lang.
+                $this->validator->errors = $this->messageBag;
+            }
         }
 
         return false;

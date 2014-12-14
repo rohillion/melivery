@@ -5,6 +5,7 @@ use App\Service\Form\Order\OrderForm;
 use App\Service\Form\OrderStatus\OrderStatusForm;
 use App\Repository\User\UserInterface;
 use App\Repository\BranchDealer\BranchDealerInterface;
+use App\Service\Form\BranchDealer\BranchDealerForm;
 
 class OrderController extends BaseController {
 
@@ -13,13 +14,15 @@ class OrderController extends BaseController {
     protected $orderstatus;
     protected $user;
     protected $branchDealer;
+    protected $branchDealerForm;
 
-    public function __construct(OrderInterface $order, OrderForm $orderForm, OrderStatusForm $orderstatus, UserInterface $user, BranchDealerInterface $branchDealer) {
+    public function __construct(OrderInterface $order, OrderForm $orderForm, OrderStatusForm $orderstatus, UserInterface $user, BranchDealerInterface $branchDealer, BranchDealerForm $branchDealerForm) {
         $this->order = $order;
         $this->orderForm = $orderForm;
         $this->orderstatus = $orderstatus;
         $this->user = $user;
         $this->branchDealer = $branchDealer;
+        $this->branchDealerForm = $branchDealerForm;
     }
 
     public function index() {
@@ -82,15 +85,15 @@ class OrderController extends BaseController {
      * Update order status
      * POST /order/{order_id}/status
      */
-    public function changeStatus($id) {
+    public function changeStatus($order_id, $status_id) {
 
-        $order = $this->order->find($id, ['*'], [], ['branch_id' => Session::get('user.branch_id')]);
+        $order = $this->order->find($order_id, ['*'], [], ['branch_id' => Session::get('user.branch_id')]);
 
         if (!is_null($order)) {
 
-            $order->status_id = Input::get('status');
+            $order->status_id = $status_id;
             $order->motive_id = Input::get('motive');
-            $order->branch_dealer_id = Input::get('dealer');
+            //$order->branch_dealer_id = Input::get('dealer');
             $order->observations = Input::get('observations');
 
             if ($this->orderstatus->save($order)) {
@@ -127,6 +130,81 @@ class OrderController extends BaseController {
                     'status' => FALSE,
                     'type' => 'error',
                     'message' => $this->orderForm->errors()->all())
+        );
+    }
+
+    /**
+     * Attach order dealer
+     * GET /order/{order_id}/dealer/remove
+     */
+    public function dettachDealer($order_id) {
+
+        if ($this->orderForm->dettachDealer($order_id)) {
+            // Success!
+            return Response::json(array(
+                        'status' => TRUE,
+                        'type' => 'success')
+            );
+        }
+
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->orderForm->errors()->all())
+        );
+    }
+
+    /**
+     * Update order status
+     * POST /order/{order_id}/status
+     */
+    public function dispatch($dealer_id) {
+
+        $dealer = $this->branchDealer->findWithReadyOrders($dealer_id, Session::get('user.branch_id'));
+
+        if (!is_null($dealer)) {
+
+            if ($this->branchDealerForm->dispatch($dealer)) {
+                // Success!
+                return Response::json(array(
+                            'status' => TRUE,
+                            'type' => 'success',
+                            'message' => Lang::get('dealer.dispatched.success'))
+                );
+            }
+        }
+
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->branchDealer->errors()->all())
+        );
+    }
+
+    /**
+     * Update order status
+     * POST /order/{order_id}/status
+     */
+    public function report($dealer_id) {
+
+        $dealer = $this->branchDealer->findWithReadyOrders($dealer_id, Session::get('user.branch_id'));
+
+        if (!is_null($dealer)) {
+
+            if ($this->branchDealerForm->report($dealer)) {
+                // Success!
+                return Response::json(array(
+                            'status' => TRUE,
+                            'type' => 'success',
+                            'message' => Lang::get('dealer.report.success'))
+                );
+            }
+        }
+        
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->branchDealer->errors()->all())
         );
     }
 

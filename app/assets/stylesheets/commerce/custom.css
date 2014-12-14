@@ -177,9 +177,9 @@
     display: inline-block;
 }
 
-
 .order-panel .box .box-header .box-title{
     font-size: 16px;
+    cursor: inherit;
 }
 
 #order-pending-fixed{
@@ -209,6 +209,11 @@
     transform: translateY(0%);
 }
 
+.time-order{
+    font-size: 13px;
+    margin-right: 6px;
+}
+
 .grab-order{
     font-size: 20px;
     opacity: 0.5;
@@ -219,6 +224,7 @@
     left: 50%;
     margin-left: -25px;
     cursor: -webkit-grab;
+    cursor: -moz-grab;
 }
 
 .order-body{
@@ -275,6 +281,8 @@
     float: left;
     z-index: 970;
     margin-right: 8px;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
 }
 
 .order-helper:last-of-type{
@@ -294,12 +302,53 @@
     margin: 0;
 }
 
+#dealer-panel, #dealer-panel .box{
+    position: inherit;
+}
+
 #dealer-panel .box-body{
+    min-height: 50px;
     overflow: hidden;
 }
 
 #dealer-panel .ui-droppable{
     overflow: hidden;
+}
+
+.ui-draggable-dragging .client-helper-name ,.order-helper .client-helper-name {
+    position: relative!important;
+}
+
+.text-danger{
+    color: #f44336;
+}
+.text-success{
+    color: #4caf50;
+}
+
+#order-panel a.text-success:focus{
+    color: #4caf50;
+}
+
+#order-panel a.text-danger:focus{
+    color: #f44336;
+}
+
+.progress-order{
+    transition: all 1000ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.progress-order.archive{
+    transform: translateX(-130%);
+}
+
+.client-name{
+    cursor: pointer;
+    border-bottom: 1px dotted;
+}
+
+.box .box-header a.text-primary {
+    color: #428bca;
 }
 /***** orders *****/
 
