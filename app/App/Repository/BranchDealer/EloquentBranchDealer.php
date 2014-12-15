@@ -13,7 +13,7 @@ class EloquentBranchDealer extends RepositoryAbstract implements BranchDealerInt
                 ->find($dealerId);
     }
 
-    public function findWithReadyOrders($dealer_id, $branch_id) {
+    public function findWithOrders($dealer_id, $branch_id) {
 
         return $this->entity
                         ->with(array('orders' => function($query) {
@@ -42,7 +42,7 @@ class EloquentBranchDealer extends RepositoryAbstract implements BranchDealerInt
                             $join->on('order.id', '=', 'B.order_id');
                         });
 
-                        $query->where('B.status_id', '=', \DB::raw(3));
+                        $query->where('B.status_id', '=', \DB::raw(2));
                     }))
                         ->where('id', $dealer_id)
                         ->where('branch_id', $branch_id)

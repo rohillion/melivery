@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
 use App\Repository\Order\OrderInterface;
 use App\Service\Form\Order\OrderForm;
 use App\Service\Form\OrderStatus\OrderStatusForm;
@@ -41,7 +42,15 @@ class OrderController extends BaseController {
 
         $data['orders'] = $this->orderForm->allGroupByStatus(Session::get('user.branch_id'));
 
-        $data['dealers'] = $this->branchDealer->all(['*'], ['orders.user'], ['branch_id' => Session::get('user.branch_id')]);
+        $dealers = $this->branchDealer->all(['*'], [], ['branch_id' => Session::get('user.branch_id')]);
+
+        $dealerCollection = new Collection();
+
+        foreach ($dealers as $dealer) {
+            $dealerCollection->push($this->branchDealer->findWithOrders($dealer->id, Session::get('user.branch_id')));
+        }
+
+        $data['dealers'] = $dealerCollection;
 
         return View::make('commerce.order.index', $data);
     }
@@ -160,7 +169,7 @@ class OrderController extends BaseController {
      */
     public function dispatch($dealer_id) {
 
-        $dealer = $this->branchDealer->findWithReadyOrders($dealer_id, Session::get('user.branch_id'));
+        $dealer = $this->branchDealer->findWithOrders($dealer_id, Session::get('user.branch_id'));
 
         if (!is_null($dealer)) {
 
@@ -187,20 +196,22 @@ class OrderController extends BaseController {
      */
     public function report($dealer_id) {
 
-        $dealer = $this->branchDealer->findWithReadyOrders($dealer_id, Session::get('user.branch_id'));
+        $dealer = $this->branchDealer->findWithOrders($dealer_id, Session::get('user.branch_id'));
 
         if (!is_null($dealer)) {
 
-            if ($this->branchDealerForm->report($dealer)) {
+            if ($dealer = $this->branchDealerForm->report($dealer)) {
                 // Success!
                 return Response::json(array(
                             'status' => TRUE,
                             'type' => 'success',
-                            'message' => Lang::get('dealer.report.success'))
+                            'message' => Lang::get('dealer.report.success'),
+                            'orders' => $dealer->orders->toArray()
+                        )
                 );
             }
         }
-        
+
         return Response::json(array(
                     'status' => FALSE,
                     'type' => 'error',

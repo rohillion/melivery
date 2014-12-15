@@ -202,7 +202,7 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         "uses" => "OrderController@dispatch"
     ]);
 
-    Route::post("/order/{dealer_id}/report", [
+    Route::get("/order/{dealer_id}/report", [
         'before' => 'csrf',
         "uses" => "OrderController@report"
     ]);

@@ -43,11 +43,6 @@ class BranchDealerForm extends AbstractForm {
         return $this->branchDealer->create($input);
     }
 
-    public function findWithReadyOrders($id) {
-
-        return $this->branchDealer->findWithReadyOrders($id);
-    }
-
     public function update($id, $input) {
 
         $this->validator->rules['dealer_name'] = "required|alpha_spaces|unique:branch_dealer,dealer_name," . $id . ",id,branch_id," . $input['branch_id'];
@@ -118,7 +113,7 @@ class BranchDealerForm extends AbstractForm {
 
     public function delete($dealerId) {
 
-        $dealer = $this->branchDealer->findWithReadyOrders($dealerId);
+        $dealer = $this->branchDealer->findWithOrders($dealerId);
 
         if (!$dealer->orders->isEmpty()) {
             $this->validator->errors = new MessageBag(['dealer' => 'El repartidor ' . $dealer->dealer_name . ' no puede ser eliminado debido a que tiene asignados uno o mas pedidos pendientes de entrega. Por favor finalice su cuenta abierta para luego poder eliminarlo.']);

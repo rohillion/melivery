@@ -100,8 +100,12 @@
                             <div class="box box-solid" data-dealer-id="<?php echo $dealer->id ?>">
                                 <div class="box-header">
                                     <h3 class="box-title"><?php echo $dealer->dealer_name ?> <i class="pull-right fa fa-lightbulb-o"></i></h3>
-                                    <?php $hidden = $dealer->orders->isEmpty()? 'hidden':'';?>
+                                    
+                                    <?php $hidden = $dealer->orders->isEmpty() ? 'hidden' : ($dealer->dispatched ? 'hidden' : '');?>
                                     <a data-dealer="<?php echo $dealer->id ?>" class="<?php echo $hidden; ?> dispatch btn btn-link pull-right text-primary">Enviar</a>
+                                    
+                                    <?php $hidden = $dealer->dispatched ? '' : 'hidden';?>
+                                    <a data-dealer="<?php echo $dealer->id ?>" class="<?php echo $hidden; ?> report btn btn-link pull-right text-primary">Entregado</a>
                                 </div>
 
                                 <div class="box-body">

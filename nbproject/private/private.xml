@@ -8,7 +8,7 @@
             <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/BranchDealer/BranchDealerForm.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/index.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/controllers/Commerce/OrderController.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/progress.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Repository/BranchDealer/EloquentBranchDealer.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/Order/OrderForm.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/commerce/order/custom.js</file>
         </group>

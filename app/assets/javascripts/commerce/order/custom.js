@@ -11,6 +11,7 @@ var custom = {
         main.popover();
         this.popover();
         this.dispatchDealer();
+        this.reportDealer();
     },
     orderEntry: function() {
 
@@ -230,10 +231,8 @@ var custom = {
 
                     });
                 }
-                
-                var box = $(event.target);
 
-                console.log(main.isEmpty(box));
+                var box = $(event.target);
 
                 if (main.isEmpty(box)) {
                     box.parent().find('.dispatch').addClass('hidden');
@@ -242,7 +241,7 @@ var custom = {
                 }
 
                 $(event.toElement).closest('.box-body').parent().find('.dispatch').removeClass('hidden');
-                
+
             },
             start: function() {
 
@@ -264,11 +263,11 @@ var custom = {
 
         $('.cancel-order,.done-order').on('click', function(e) {
 
-            e.preventDefault();
-
-            $('.progress-order').one("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
+            $('.progress-order').on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
                 $(this).remove();
             });
+
+            e.preventDefault();
 
             rejectModal.modal('hide');
 
@@ -304,8 +303,34 @@ var custom = {
 
         $('.dispatch').on('click', function() {
 
-            main.run('/order/' + this.dataset.dealer + '/dispatch', function(res){
-                console.log(res);
+            var trigger = $(this);
+
+            main.run('/order/' + this.dataset.dealer + '/dispatch', function(res) {
+
+                trigger.addClass('hidden').next().removeClass('hidden');
+
+                main.notify(res);
+            });
+
+        });
+    },
+    reportDealer: function() {
+
+        $('.report').on('click', function() {
+
+            var trigger = $(this);
+
+            main.run('/order/' + this.dataset.dealer + '/report', function(res) {
+
+                if (res.status) {
+                    
+                    trigger.addClass('hidden');
+                    
+                    for(var i in res.orders){
+                        $('#order-panel').find('[data-id="' + res.orders[i].id + '"]').addClass('archive');
+                    }
+                }
+
                 main.notify(res);
             });
 
