@@ -232,16 +232,6 @@ var custom = {
                     });
                 }
 
-                var box = $(event.target);
-
-                if (main.isEmpty(box)) {
-                    box.parent().find('.dispatch').addClass('hidden');
-                } else {
-                    box.parent().find('.dispatch').removeClass('hidden');
-                }
-
-                $(event.toElement).closest('.box-body').parent().find('.dispatch').removeClass('hidden');
-
             },
             start: function() {
 
@@ -250,6 +240,17 @@ var custom = {
             stop: function() {
 
                 dealerBox.removeClass('bg-warning');
+
+                var box = $('#dealer-panel .box-body');
+
+                $.each(box, function() {
+                    if (main.isEmpty($(this))) {
+                        $(this).parent().find('.dispatch').addClass('hidden');
+                    } else {
+                        $(this).parent().find('.dispatch').removeClass('hidden');
+                    }
+                });
+
             }
         });
     },
@@ -318,15 +319,22 @@ var custom = {
 
         $('.report').on('click', function() {
 
-            var trigger = $(this);
+            $('.progress-order').one("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
+                $(this).remove();
+            });
 
-            main.run('/order/' + this.dataset.dealer + '/report', function(res) {
+            var trigger = $(this),
+                    dealerId = this.dataset.dealer;
+
+            main.run('/order/' + dealerId + '/report', function(res) {
 
                 if (res.status) {
-                    
+
                     trigger.addClass('hidden');
-                    
-                    for(var i in res.orders){
+
+                    custom.cleanDealer(dealerId);
+
+                    for (var i in res.orders) {
                         $('#order-panel').find('[data-id="' + res.orders[i].id + '"]').addClass('archive');
                     }
                 }
@@ -335,5 +343,8 @@ var custom = {
             });
 
         });
+    },
+    cleanDealer: function(dealerId) {
+        $('#dealer-panel').find('[data-dealer-id="'+dealerId+'"] .box-body').empty();
     }
 }
