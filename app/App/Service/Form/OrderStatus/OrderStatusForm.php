@@ -45,6 +45,9 @@ class OrderStatusForm extends AbstractForm {
         if (!$this->valid($input)) {
             return false;
         }
+        
+        //Start transaction
+        \DB::beginTransaction();
 
         $orderstatus = $this->orderstatus->create($input);
 
@@ -86,6 +89,9 @@ class OrderStatusForm extends AbstractForm {
 
                 break;
         }
+        
+        \DB::commit();
+        // End transaction
 
         return $orderstatus;
     }

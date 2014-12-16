@@ -1,14 +1,16 @@
 /* Order Custom.JS */
 var custom = {
     init: function() {
+        main.tooltip();
+        main.popover();
         this.orderEntry();
         this.orderChronometer();
         this.orderTimer();
         this.togglePendingPanel();
         this.draggable();
-        this.archiveOrder();
-        main.tooltip();
-        main.popover();
+        this.orderRemove();
+        this.orderDonde();
+        this.orderCanceled();
         this.popover();
         this.dispatchDealer();
         this.reportDealer();
@@ -214,22 +216,9 @@ var custom = {
 
                 if (!(horizontal && vertical)) {
 
-                    var item = $(ui.item),
-                            orderId = item.attr('data-id');
+                    var orderId = $(ui.item).attr('data-id');
 
-                    ui.item.remove();
-
-                    main.run('/order/' + orderId + '/dealer/remove', function(res) {
-
-                        if (res.status) {
-
-                            storage.removeElement('assignments', orderId);
-                        } else {
-
-                            main.notify(res);
-                        }
-
-                    });
+                    custom.detachDealerOrder(orderId);
                 }
 
             },
@@ -241,43 +230,60 @@ var custom = {
 
                 dealerBox.removeClass('bg-warning');
 
-                var box = $('#dealer-panel .box-body');
-
-                $.each(box, function() {
-                    
-                    var current = $(this).parent();
-                    
-                    if (main.isEmpty($(this))) {
-                        
-                        current.find('.dispatch').addClass('hidden');
-                        
-                        if( !current.find('.report').hasClass('hidden') ){
-                            main.run('/order/' + current.attr('data-dealer-id') + '/undispatch');
-                            current.find('.report').addClass('hidden');
-                        }
-                        
-                    } else {
-                        
-                        if( current.find('.report').hasClass('hidden') )
-                            current.find('.dispatch').removeClass('hidden');
-                    }
-                });
+                custom.toggleDealerActionButtons();
             }
         });
     },
-    archiveOrder: function() {
+    archiveOrder: function(orderId, statusId, callback) {
+
+        main.sendForm('/order/' + orderId + '/status/' + statusId, $.param({
+            'motive': $('#reject-form [name="motive"]').val()
+        }), function(res) {
+
+            if (res.status) {
+
+                $('#order-panel').find('[data-id="' + orderId + '"]').addClass('archive');
+
+                if (typeof callback === 'function')
+                    callback(res);
+
+            } else {
+
+                main.notify(res);
+            }
+
+        });
+    },
+    orderRemove: function() {
+
+        $('.progress-order').on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(e) {
+            if ($(e.target).is('.progress-order'))
+                $(this).remove();
+        });
+    },
+    orderDonde: function() {
+
+        $('.done-order').on('click', function(e) {
+
+            e.preventDefault();
+
+            var orderId = this.dataset.order;
+
+            custom.archiveOrder(orderId, 4, function() {
+
+                custom.detachDealerOrder(orderId);
+            });
+        });
+    },
+    orderCanceled: function() {
 
         var rejectModal = $('#reject-motive');
 
         $('.cancel-order-id').on('click', function() {
-            rejectModal.find('.cancel-order').attr('data-order', this.dataset.order)
+            rejectModal.find('.cancel-order').attr('data-order', this.dataset.order);
         });
 
-        $('.cancel-order,.done-order').on('click', function(e) {
-
-            $('.progress-order').one("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
-                $(this).remove();
-            });
+        $('.cancel-order').on('click', function(e) {
 
             e.preventDefault();
 
@@ -285,22 +291,11 @@ var custom = {
 
             var orderId = this.dataset.order;
 
-            main.sendForm('/order/' + orderId + '/status/' + this.dataset.status, $.param({
-                'motive': $('#reject-form [name="motive"]').val()
-            }), function(res) {
+            custom.archiveOrder(orderId, 5, function() {
 
-                if (res.status) {
-
-                    $('#order-panel').find('[data-id="' + orderId + '"]').addClass('archive');
-                } else {
-
-                    main.notify(res);
-                }
-
+                custom.detachDealerOrder(orderId);
             });
-
         });
-
     },
     popover: function() {
         $(".client-name").popover({
@@ -330,10 +325,6 @@ var custom = {
 
         $('.report').on('click', function() {
 
-            $('.progress-order').one("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
-                $(this).remove();
-            });
-
             var trigger = $(this),
                     dealerId = this.dataset.dealer;
 
@@ -356,15 +347,66 @@ var custom = {
         });
     },
     cleanDealer: function(dealerId) {
-        
+
         var box = $('#dealer-panel').find('[data-dealer-id="' + dealerId + '"] .box-body');
-        
+
         var orders = box.find('.order-helper');
 
         $.grep(orders, function(order) {
             storage.removeElement('assignments', order.dataset.id);
         });
-        
+
         box.empty();
+        
+        custom.toggleDealerActionButtons();
+    },
+    detachDealerOrder: function(orderId) {
+
+        var dealerOrder = $('#dealer-panel').find('[data-id="' + orderId + '"]');
+
+        if (dealerOrder.length > 0) {
+            
+            dealerOrder.remove();
+            custom.toggleDealerActionButtons();
+
+            main.run('/order/' + orderId + '/dealer/remove', function(res) {
+
+                if (res.status) {
+
+                    storage.removeElement('assignments', orderId);
+
+                } else {
+
+                    main.notify(res);
+                }
+
+            });
+        }
+
+    },
+    toggleDealerActionButtons: function() {
+
+        var box = $('#dealer-panel .box-body');
+
+        $.each(box, function() {
+
+            var current = $(this).parent();
+
+            if (main.isEmpty($(this))) {
+
+                current.find('.dispatch').addClass('hidden');
+
+                if (!current.find('.report').hasClass('hidden')) {
+                    main.run('/order/' + current.attr('data-dealer-id') + '/undispatch');
+                    current.find('.report').addClass('hidden');
+                }
+
+            } else {
+
+                if (current.find('.report').hasClass('hidden'))
+                    current.find('.dispatch').removeClass('hidden');
+            }
+        });
+
     }
 }
