@@ -14,7 +14,7 @@ class Order extends Eloquent {
      * 
      * @var array 
      */
-    protected $fillable = array('branch_id','user_id','estimated','paycash','delivery');
+    protected $fillable = array('branch_id','user_id','estimated','delivery');
     
     /**
      * Branch relationship
@@ -58,8 +58,11 @@ class Order extends Eloquent {
         return $this->belongsToMany('BranchDealer', 'branch_dealer_order', 'order_id', 'branch_dealer_id');
     }
     
-    public function scopeReady($query){
-        return $query->where('votes', '>', 100);
+    /**
+     * Order relationship
+     */
+    public function cash() {
+        return $this->hasOne('OrderCash', 'order_id');
     }
 
 }

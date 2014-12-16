@@ -18,6 +18,7 @@ use Rule;
 use RuleType;
 use Order;
 use OrderStatus;
+use OrderCash;
 use OrderProduct;
 use Country;
 use City;
@@ -39,6 +40,7 @@ use App\Repository\Rule\EloquentRule;
 use App\Repository\RuleType\EloquentRuleType;
 use App\Repository\Order\EloquentOrder;
 use App\Repository\OrderStatus\EloquentOrderStatus;
+use App\Repository\OrderCash\EloquentOrderCash;
 use App\Repository\OrderProduct\EloquentOrderProduct;
 use App\Repository\Country\EloquentCountry;
 use App\Repository\City\EloquentCity;
@@ -117,6 +119,7 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->ruletype($app);
         $this->order($app);
         $this->orderstatus($app);
+        $this->ordercash($app);
         $this->orderproduct($app);
         $this->country($app);
         $this->city($app);
@@ -220,6 +223,16 @@ class RepositoryServiceProvider extends ServiceProvider {
             );
 
             return $orderstatus;
+        });
+    }
+    
+    private function ordercash($app) {
+        $app->bind('App\Repository\OrderCash\OrderCashInterface', function($app) {
+            $ordercash = new EloquentOrderCash(
+                    new OrderCash
+            );
+
+            return $ordercash;
         });
     }
 

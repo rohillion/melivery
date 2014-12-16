@@ -13,6 +13,7 @@ class EloquentOrder extends RepositoryAbstract implements OrderInterface {
                         ->from('order as O')
                         ->with('user.customer')
                         ->with('branch')
+                        ->with('cash')
                         ->with('order_products.product.tags.subcategories')
                         ->with('order_products.attributes_order_product.attributes')
                         ->join(\DB::raw(

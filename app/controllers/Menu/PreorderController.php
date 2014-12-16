@@ -35,7 +35,7 @@ class PreorderController extends BaseController {
         
         $order = $this->preorder->process(Session::get('user.id'), Session::get('orders'), $payWith);
 
-        if (!isset($order['error'])) {
+        if ($order) {
 
             // Success!
             return Redirect::to(Request::server('HTTP_REFERER'))
@@ -44,7 +44,7 @@ class PreorderController extends BaseController {
         }
 
         return Redirect::to(Request::server('HTTP_REFERER'))
-                        ->withErrors($order['error'])
+                        ->withErrors($this->preorder->errors())
                         ->with('status', 'error');
     }
 

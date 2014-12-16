@@ -110,21 +110,28 @@
                                     <a data-dealer="<?php echo $dealer->id ?>" class="<?php echo $hiddenReport; ?> report btn btn-link pull-right text-primary">Entregado</a>
                                 </div>
 
-                                <div class="box-body">
+                                <div class="box-body bg-warning">
 
                                     <?php if (!$dealer->orders->isEmpty()) { ?>
 
                                         <?php foreach ($dealer->orders as $order) { ?>
 
-                                            <div class="order-helper" data-id="<?php echo $order->id ?>" data-paycash="<?php echo $order->paycash ?>">
+                                            <div class="order-helper" data-id="<?php echo $order->id ?>" data-paycash="<?php echo $order->cash->paycash ?>">
                                                 <i class="fa fa-paperclip"></i>
-                                                <div class="box box-solid client-helper-name">
-                                                    <?php echo $order->user->name ?> 
-                                                    <strong>$<?php echo $order->paycash ?></strong>
+                                                <div class="box box-solid order-helper-client">
+                                                    
+                                                    <div class="client-name">
+                                                        <?php echo $order->user->name ?> 
+                                                    </div>
+
+                                                    <div class="order-change">
+                                                        Cambio
+                                                        <strong>$<?php echo $order->cash->change ?></strong>
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <?php $dealerTotal = $dealerTotal + $order->paycash ?>
+                                            <?php $dealerTotal = $dealerTotal + $order->cash->paycash ?>
 
                                         <?php } ?>
 

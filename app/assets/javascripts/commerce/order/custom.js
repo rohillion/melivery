@@ -127,16 +127,16 @@ var custom = {
             connectToSortable: "#dealer-panel .box-body",
             handle: ".grab-order",
             helper: function(e) {
-                return '<div class="order-helper" data-id="' + e.currentTarget.dataset.id + '" data-client="' + e.currentTarget.dataset.client + '" data-paycash="' + e.currentTarget.dataset.paycash + '"><i class="fa fa-paperclip"></i><div class="box box-solid client-helper-name">' + e.currentTarget.dataset.client + ' <strong>$' + e.currentTarget.dataset.paycash + '</strong></div></div>';
+                return '<div class="order-helper" data-id="' + e.currentTarget.dataset.id + '" data-client="' + e.currentTarget.dataset.client + '" data-paycash="' + e.currentTarget.dataset.paycash + '"><i class="fa fa-paperclip"></i><div class="box box-solid order-helper-client"><div class="client-name">' + e.currentTarget.dataset.client + ' </div><div class="order-change">Cambio <strong>$' + e.currentTarget.dataset.change + '</strong></div></div></div>';
             },
             cursor: dragCursor,
             cursorAt: {left: 50, top: 30},
             appendTo: 'body',
             start: function() {
-                dealerBox.addClass('bg-warning');
+                dealerBox.addClass('bg-over');
             },
             stop: function() {
-                dealerBox.removeClass('bg-warning');
+                dealerBox.removeClass('bg-over');
             }
         });
 
@@ -232,11 +232,11 @@ var custom = {
             },
             start: function() {
 
-                dealerBox.addClass('bg-warning');
+                dealerBox.addClass('bg-over');
             },
             stop: function() {
 
-                dealerBox.removeClass('bg-warning');
+                dealerBox.removeClass('bg-over');
 
                 custom.toggleDealerActionButtons();
             }

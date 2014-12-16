@@ -315,8 +315,9 @@
     overflow: hidden;
 }
 
-.ui-draggable-dragging .client-helper-name ,.order-helper .client-helper-name {
+.ui-draggable-dragging .order-helper-client ,.order-helper .order-helper-client {
     position: relative!important;
+    width: 101%;
 }
 
 .text-danger{
@@ -335,20 +336,33 @@
 }
 
 .progress-order{
-    transition: all 1000ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 1000ms cubic-bezier(0.68, -0.25, 0.265, 1.55);
 }
 
 .progress-order.archive{
     transform: translateX(-130%);
 }
 
-.client-name{
+.progress-order .client-name{
     cursor: pointer;
     border-bottom: 1px dotted;
 }
 
 .box .box-header a.text-primary {
     color: #428bca;
+}
+
+.order-helper .client-name{
+    font-size: 16px;
+    /*border-bottom: 1px dotted;*/
+}
+
+.order-helper .order-change{
+    font-size: 13px;
+}
+
+.bg-over{
+    background-color: rgba(252,248,227,0.5);
 }
 /***** orders *****/
 

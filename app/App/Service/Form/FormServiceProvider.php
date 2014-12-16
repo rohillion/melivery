@@ -45,10 +45,13 @@ use App\Service\Form\RuleType\RuleTypeForm;
 use App\Service\Form\RuleType\RuleTypeValidator;
 use App\Service\Form\Menu\MenuForm;
 use App\Service\Form\Preorder\PreorderForm;
+use App\Service\Form\Preorder\PreorderValidator;
 use App\Service\Form\Order\OrderForm;
 use App\Service\Form\Order\OrderValidator;
 use App\Service\Form\OrderStatus\OrderStatusForm;
 use App\Service\Form\OrderStatus\OrderStatusValidator;
+use App\Service\Form\OrderCash\OrderCashForm;
+use App\Service\Form\OrderCash\OrderCashValidator;
 use App\Service\Form\OrderProduct\OrderProductForm;
 use App\Service\Form\OrderProduct\OrderProductValidator;
 use App\Service\Form\AttributeOrderProduct\AttributeOrderProductForm;
@@ -132,6 +135,7 @@ class FormServiceProvider extends ServiceProvider {
         $this->ruletype($app);
         $this->menu($app);
         $this->order($app);
+        $this->ordercash($app);
         $this->orderstatus($app);
         $this->preorder($app);
         $this->orderProduct($app);
@@ -270,7 +274,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\Preorder\PreorderForm', function($app) {
 
             return new PreorderForm(
-                    $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Repository\Category\CategoryInterface'), $app->make('App\Repository\Commerce\CommerceInterface'), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Service\Form\Order\OrderForm'), $app->make('App\Service\Form\OrderStatus\OrderStatusForm'), $app->make('App\Service\Form\OrderProduct\OrderProductForm'), $app->make('App\Service\Form\AttributeOrderProduct\AttributeOrderProductForm')
+                    new PreorderValidator($app['validator']), $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Repository\Category\CategoryInterface'), $app->make('App\Repository\Commerce\CommerceInterface'), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Service\Form\Order\OrderForm'), $app->make('App\Service\Form\OrderCash\OrderCashForm'), $app->make('App\Service\Form\OrderStatus\OrderStatusForm'), $app->make('App\Service\Form\OrderProduct\OrderProductForm'), $app->make('App\Service\Form\AttributeOrderProduct\AttributeOrderProductForm')
             );
         });
     }
@@ -289,6 +293,15 @@ class FormServiceProvider extends ServiceProvider {
 
             return new OrderStatusForm(
                     new OrderStatusValidator($app['validator']), $app->make('App\Repository\OrderStatus\OrderStatusInterface')
+            );
+        });
+    }
+    
+    private function ordercash($app) {
+        $app->bind('App\Service\Form\OrderCash\OrderCashForm', function($app) {
+
+            return new OrderCashForm(
+                    new OrderCashValidator($app['validator']), $app->make('App\Repository\OrderCash\OrderCashInterface')
             );
         });
     }

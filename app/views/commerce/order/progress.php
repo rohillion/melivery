@@ -1,6 +1,6 @@
 <?php foreach ($orders['progress'] as $order) { ?>
 
-    <div class="progress-order box box-solid" data-id="<?php echo $order['id']; ?>" data-client="<?php echo $order['user']['name']; ?>" data-paycash="<?php echo $order['paycash']; ?>">
+    <div class="progress-order box box-solid" data-id="<?php echo $order['id']; ?>" data-client="<?php echo $order['user']['name']; ?>" data-paycash="<?php echo $order['cash']['paycash']; ?>" data-change="<?php echo $order['cash']['change']; ?>">
 
         <div class="box-header">
             <h3 class="col-xs-12 box-title">
@@ -44,8 +44,6 @@
 
                     <ul class="order-body list-group">
 
-                        <?php $orderTotal = NULL ?>
-
                         <?php foreach ($order['order_products'] as $orderProduct) { ?>
 
                             <?php $productTotal = $orderProduct['product']['price'] * $orderProduct['product_qty'] ?>
@@ -74,8 +72,6 @@
 
                             </li>
 
-                            <?php $orderTotal += $productTotal; ?>
-
                         <?php } ?>
 
                     </ul>
@@ -91,7 +87,7 @@
             <div class="box-body clearfix">
                 <div class="row">
                     <div class="col-sm-4 col-sm-offset-8 col-md-3 col-md-offset-9">
-                        <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$<?php echo $orderTotal; ?></span></p>
+                        <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$<?php echo $order['cash']['total']; ?></span></p>
                     </div>
                 </div>
             </div>
@@ -107,7 +103,7 @@
                         </span>
                     </div>
                     <div class="col-sm-4 col-sm-offset-6 col-md-3 col-md-offset-7">
-                        <p class="clearfix" style="margin:0;">Paga con <span class="badge bg-yellow pull-right">$<?php echo $order['paycash']; ?></span></p>
+                        <p class="clearfix" style="margin:0;">Paga con <span class="badge bg-yellow pull-right">$<?php echo $order['cash']['paycash']; ?></span></p>
                     </div>
                 </div>
             </div>
@@ -125,7 +121,7 @@
                         </span>
                     </div>
                     <div class="col-sm-4 col-sm-offset-6 col-md-3 col-md-offset-7">
-                        <p class="clearfix" style="margin:0;">Total <span class="badge bg-yellow pull-right">$<?php echo $orderTotal; ?></span></p>
+                        <p class="clearfix" style="margin:0;">Total <span class="badge bg-yellow pull-right">$<?php echo $order['cash']['total']; ?></span></p>
                     </div>
                 </div>
             </div>
