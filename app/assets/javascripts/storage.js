@@ -8,8 +8,8 @@ var storage = {
         if (this.data.isSet(key)) {
 
             var array = this.data.get(key);
-            
-            if(array.indexOf(value) === -1)
+
+            if (array.indexOf(value) === -1)
                 array.push(value);
 
             this.data.set(key, array);

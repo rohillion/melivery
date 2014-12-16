@@ -244,13 +244,24 @@ var custom = {
                 var box = $('#dealer-panel .box-body');
 
                 $.each(box, function() {
+                    
+                    var current = $(this).parent();
+                    
                     if (main.isEmpty($(this))) {
-                        $(this).parent().find('.dispatch').addClass('hidden');
+                        
+                        current.find('.dispatch').addClass('hidden');
+                        
+                        if( !current.find('.report').hasClass('hidden') ){
+                            main.run('/order/' + current.attr('data-dealer-id') + '/undispatch');
+                            current.find('.report').addClass('hidden');
+                        }
+                        
                     } else {
-                        $(this).parent().find('.dispatch').removeClass('hidden');
+                        
+                        if( current.find('.report').hasClass('hidden') )
+                            current.find('.dispatch').removeClass('hidden');
                     }
                 });
-
             }
         });
     },
@@ -264,7 +275,7 @@ var custom = {
 
         $('.cancel-order,.done-order').on('click', function(e) {
 
-            $('.progress-order').on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
+            $('.progress-order').one("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
                 $(this).remove();
             });
 
@@ -345,6 +356,15 @@ var custom = {
         });
     },
     cleanDealer: function(dealerId) {
-        $('#dealer-panel').find('[data-dealer-id="'+dealerId+'"] .box-body').empty();
+        
+        var box = $('#dealer-panel').find('[data-dealer-id="' + dealerId + '"] .box-body');
+        
+        var orders = box.find('.order-helper');
+
+        $.grep(orders, function(order) {
+            storage.removeElement('assignments', order.dataset.id);
+        });
+        
+        box.empty();
     }
 }

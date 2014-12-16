@@ -82,8 +82,8 @@ class BranchDealerForm extends AbstractForm {
 
         return $dealer;
     }
-
-    public function report($dealer) {
+    
+    public function undispatch($dealer) {
 
         $input = array(
             'branch_id' => $dealer->branch_id,
@@ -91,7 +91,17 @@ class BranchDealerForm extends AbstractForm {
             'dispatched' => 0
         );
 
-        $this->update($dealer->id, $input);
+        $dealer = $this->update($dealer->id, $input);
+
+        if (!$dealer)
+            return false;
+
+        return $dealer;
+    }
+
+    public function report($dealer) {
+        
+        $dealer = $this->undispatch($dealer);
 
         foreach ($dealer->orders as $order) {
 

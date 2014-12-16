@@ -189,6 +189,33 @@ class OrderController extends BaseController {
                     'message' => $this->branchDealer->errors()->all())
         );
     }
+    
+    /**
+     * Update order status
+     * POST /order/{order_id}/status
+     */
+    public function undispatch($dealer_id) {
+
+        $dealer = $this->branchDealer->findWithOrders($dealer_id, Session::get('user.branch_id'));
+
+        if (!is_null($dealer)) {
+
+            if ($this->branchDealerForm->undispatch($dealer)) {
+                // Success!
+                return Response::json(array(
+                            'status' => TRUE,
+                            'type' => 'success',
+                            'message' => Lang::get('dealer.dispatched.success'))
+                );
+            }
+        }
+
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->branchDealer->errors()->all())
+        );
+    }
 
     /**
      * Update order status
