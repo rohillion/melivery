@@ -97,33 +97,47 @@
 
                         <?php foreach ($dealers as $dealer) { ?>
 
+                            <?php $dealerTotal = 0 ?>
+
                             <div class="box box-solid" data-dealer-id="<?php echo $dealer->id ?>">
                                 <div class="box-header">
                                     <h3 class="box-title"><?php echo $dealer->dealer_name ?> <i class="pull-right fa fa-lightbulb-o"></i></h3>
-                                    
-                                    <?php $hiddenDispatch = $dealer->orders->isEmpty() ? 'hidden' : ($dealer->dispatched ? 'hidden' : '');?>
+
+                                    <?php $hiddenDispatch = $dealer->orders->isEmpty() ? 'hidden' : ($dealer->dispatched ? 'hidden' : ''); ?>
                                     <a data-dealer="<?php echo $dealer->id ?>" class="<?php echo $hiddenDispatch; ?> dispatch btn btn-link pull-right text-primary">Enviar</a>
-                                    
-                                    <?php $hiddenReport = $dealer->dispatched ? '' : 'hidden';?>
+
+                                    <?php $hiddenReport = $dealer->dispatched ? '' : 'hidden'; ?>
                                     <a data-dealer="<?php echo $dealer->id ?>" class="<?php echo $hiddenReport; ?> report btn btn-link pull-right text-primary">Entregado</a>
                                 </div>
 
                                 <div class="box-body">
+
                                     <?php if (!$dealer->orders->isEmpty()) { ?>
 
                                         <?php foreach ($dealer->orders as $order) { ?>
 
-                                            <div class="order-helper" data-id="<?php echo $order->id ?>">
+                                            <div class="order-helper" data-id="<?php echo $order->id ?>" data-paycash="<?php echo $order->paycash ?>">
                                                 <i class="fa fa-paperclip"></i>
                                                 <div class="box box-solid client-helper-name">
-                                                    <?php echo $order->user->name ?>
+                                                    <?php echo $order->user->name ?> 
+                                                    <strong>$<?php echo $order->paycash ?></strong>
                                                 </div>
                                             </div>
+
+                                            <?php $dealerTotal = $dealerTotal + $order->paycash ?>
 
                                         <?php } ?>
 
                                     <?php } ?>
                                 </div>
+
+
+                                <div class="box-footer">
+                                    <div class="dealer-total">
+                                        <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$<?php echo $dealerTotal; ?></span></p>
+                                    </div>
+                                </div>
+
                             </div>
 
                         <?php } ?>

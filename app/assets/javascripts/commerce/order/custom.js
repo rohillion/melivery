@@ -39,7 +39,6 @@ var custom = {
 
                 location.reload();
             }
-            //location.reload();
         });
     },
     orderTimer: function() {
@@ -105,6 +104,7 @@ var custom = {
     },
     draggable: function() {
 
+        var remove = false;
         var dragCursor;
         var curBrowser = navigator.userAgent.indexOf('Firefox');
 
@@ -127,7 +127,7 @@ var custom = {
             connectToSortable: "#dealer-panel .box-body",
             handle: ".grab-order",
             helper: function(e) {
-                return '<div class="order-helper" data-id="' + e.currentTarget.dataset.id + '" data-client="' + e.currentTarget.dataset.client + '"><i class="fa fa-paperclip"></i><div class="box box-solid client-helper-name">' + e.currentTarget.dataset.client + '</div></div>';
+                return '<div class="order-helper" data-id="' + e.currentTarget.dataset.id + '" data-client="' + e.currentTarget.dataset.client + '" data-paycash="' + e.currentTarget.dataset.paycash + '"><i class="fa fa-paperclip"></i><div class="box box-solid client-helper-name">' + e.currentTarget.dataset.client + ' <strong>$' + e.currentTarget.dataset.paycash + '</strong></div></div>';
             },
             cursor: dragCursor,
             cursorAt: {left: 50, top: 30},
@@ -145,18 +145,51 @@ var custom = {
             connectWith: "#dealer-panel .box-body",
             receive: function(e, ui) {
 
-                var currentBox = $(this),
-                        dealerId = currentBox.parent().attr('data-dealer-id');
+                if (!remove) {
 
-                if ($(ui.sender).is('.progress-order')) {//Si viene de una orden
+                    var currentBox = $(this),
+                            dealerId = currentBox.parent().attr('data-dealer-id');
 
-                    var helper = $(ui.helper),
-                            orderId = helper.attr('data-id');
+                    if ($(ui.sender).is('.progress-order')) {//Si viene de una orden
 
-                    helper.removeClass('ui-draggable-dragging')
-                            .attr('style', '');
+                        var helper = $(ui.helper),
+                                orderId = helper.attr('data-id');
 
-                    if (storage.data.get('assignments').indexOf(orderId) === -1) {
+                        helper.removeClass('ui-draggable-dragging')
+                                .attr('style', '');
+
+                        if (storage.data.get('assignments').indexOf(orderId) === -1) {
+
+                            main.run('/order/' + orderId + '/dealer/' + dealerId, function(res) {
+
+                                if (res.status) {
+
+                                    storage.push('assignments', orderId);
+                                } else {
+
+                                    main.notify(res);
+                                }
+
+                            });
+
+                        } else {
+
+                            helper.remove();
+
+                            helper.promise().done(function() {
+                                dealerPanel.find('[data-id="' + orderId + '"]').effect("shake", {
+                                    direction: "up",
+                                    times: 6,
+                                    distance: 5
+                                }, "slow");
+                            });
+
+                        }
+
+                    } else {//Si viene de sortable
+
+                        var item = $(ui.item),
+                                orderId = item.attr('data-id');
 
                         main.run('/order/' + orderId + '/dealer/' + dealerId, function(res) {
 
@@ -169,38 +202,8 @@ var custom = {
                             }
 
                         });
-
-                    } else {
-
-                        helper.remove();
-
-                        helper.promise().done(function() {
-                            dealerPanel.find('[data-id="' + orderId + '"]').effect("shake", {
-                                direction: "up",
-                                times: 6,
-                                distance: 5
-                            }, "slow");
-                        });
-
-
                     }
 
-                } else {//Si viene de sortable
-
-                    var item = $(ui.item),
-                            orderId = item.attr('data-id');
-
-                    main.run('/order/' + orderId + '/dealer/' + dealerId, function(res) {
-
-                        if (res.status) {
-
-                            storage.push('assignments', orderId);
-                        } else {
-
-                            main.notify(res);
-                        }
-
-                    });
                 }
 
             },
@@ -216,9 +219,14 @@ var custom = {
 
                 if (!(horizontal && vertical)) {
 
+                    remove = true;
+
                     var orderId = $(ui.item).attr('data-id');
 
-                    custom.detachDealerOrder(orderId);
+                    custom.detachDealerOrder(orderId, function() {
+
+                        remove = false;
+                    });
                 }
 
             },
@@ -357,16 +365,17 @@ var custom = {
         });
 
         box.empty();
-        
+
         custom.toggleDealerActionButtons();
     },
-    detachDealerOrder: function(orderId) {
+    detachDealerOrder: function(orderId, callback) {
 
         var dealerOrder = $('#dealer-panel').find('[data-id="' + orderId + '"]');
 
         if (dealerOrder.length > 0) {
-            
+
             dealerOrder.remove();
+
             custom.toggleDealerActionButtons();
 
             main.run('/order/' + orderId + '/dealer/remove', function(res) {
@@ -374,6 +383,9 @@ var custom = {
                 if (res.status) {
 
                     storage.removeElement('assignments', orderId);
+
+                    if (typeof callback === 'function')
+                        callback(res);
 
                 } else {
 
@@ -401,10 +413,22 @@ var custom = {
                     current.find('.report').addClass('hidden');
                 }
 
+                current.find('.dealer-total span').text('$0');
+
             } else {
 
                 if (current.find('.report').hasClass('hidden'))
                     current.find('.dispatch').removeClass('hidden');
+
+                var orders = current.find('.order-helper');
+                var total = 0;
+
+                $.each(orders, function(index,item) {
+                    total = (parseFloat(total) + parseFloat(item.dataset.paycash));
+                });
+
+                current.find('.dealer-total span').text('$' + total);
+
             }
         });
 

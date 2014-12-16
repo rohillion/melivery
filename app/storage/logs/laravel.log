@@ -9886,3 +9886,7 @@ Stack trace:
 #22 C:\xampp\htdocs\lab\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
 #23 C:\xampp\htdocs\lab\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
 #24 {main} [] []
+[2014-12-16 13:58:04] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Call to a member function all() on a non-object' in C:\xampp\htdocs\lab\melivery\app\controllers\Commerce\OrderController.php:162
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
