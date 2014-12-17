@@ -59,7 +59,7 @@ class CommerceForm extends AbstractForm {
         //$input['tags'] = $this->processTags($input['tags']);
         return $this->commerce->edit($id, $input);
     }
-    
+
     /**
      * Update an existing commerce
      *
@@ -84,7 +84,7 @@ class CommerceForm extends AbstractForm {
 
         return $this->commerce->edit($id, $input);
     }
-    
+
     /**
      * Create an new commerce
      *
@@ -93,6 +93,25 @@ class CommerceForm extends AbstractForm {
     public function find($idCommerce, $columns = array('*'), $entities = array()) {
 
         return $this->commerce->find($idCommerce, $columns, $entities);
+    }
+
+    /**
+     * Create an new commerce
+     *
+     * @return boolean
+     */
+    public function checkBrandUrl($url) {
+
+        $valid = \Validator::make(
+                        array('brandUrl' => $url), array('brandUrl' => 'required|unique:commerce,commerce_url,' . \Session::get('user.id_commerce'))
+        );
+
+        if ($valid->fails()) {
+            $this->validator->errors = $valid->messages();
+            return false;
+        }
+
+        return true;
     }
 
 }

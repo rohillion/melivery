@@ -88,7 +88,6 @@ class OrderForm extends AbstractForm {
         $input["branch_id"] = $order->branch_id;
         $input["user_id"] = $order->user_id;
         $input["delivery"] = $order->delivery;
-        $input["paycash"] = $order->paycash;
 
         if (!$this->valid($input, $id)) {
             return false;

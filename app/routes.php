@@ -139,6 +139,11 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         'before' => 'csrf',
         "uses" => "ProfileController@update"
     ]);
+    
+    Route::get("/profile/url/{url}", [
+        //'before' => 'csrf',
+        "uses" => "ProfileController@checkBrandUrl"
+    ]);
 
     //Route::resource('branch', 'BranchController');
 

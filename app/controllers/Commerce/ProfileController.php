@@ -55,4 +55,26 @@ class ProfileController extends BaseController {
                         ->with('status', 'error');
     }
 
+    /**
+     * Edit category form processing
+     * POST /category
+     */
+    public function checkBrandUrl($url) {
+
+        if ($this->commerce->checkBrandUrl($url)) {
+
+            return Response::json(array(
+                        'status' => TRUE,
+                        'type' => 'success',
+                        'message' => 'URL disponible!')//TODO. Lang::get('segment.profile.message.success.edit')
+            );
+        }
+
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->commerce->errors()->all())
+        );
+    }
+
 }
