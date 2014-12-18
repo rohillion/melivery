@@ -36,7 +36,7 @@
 
                             <p class="bg-info text-right">
                                 <small class="text-left"></small>
-                                <a class="btn btn-flat" data-toggle="modal" data-target="#custom-tag-modal-<?php echo $subcategory->id ?>" href="#"><i class="fa fa-plus"></i> No ves tu producto? Agr&eacute;galo</a>
+                                <a class="btn btn-flat" data-toggle="modal" data-target="#custom-tag-modal-<?php echo $subcategory->id ?>" href="#"><i class="fa fa-plus"></i> No ves tu producto?</a>
                             </p>
 
 
@@ -71,7 +71,7 @@
                                         ?>
 
                                         <div href="#" class="list-group-item">
-                                            <input <?php echo $checked ?> class="publish hidden-checkbox" type="checkbox" id="product_<?php echo $tag->id; ?>" name="product[<?php echo $tag->id; ?>][enable]"/>
+                                            <input <?php echo $checked ?> class="add hidden-checkbox" type="checkbox" id="product_<?php echo $tag->id; ?>" name="product[<?php echo $tag->id; ?>][enable]"/>
                                             <label lang="es" for="product_<?php echo $tag->id; ?>" class="switch-checkbox pull-right btn btn-flat btn-xs"></label>
 
                                             <h4 class="list-group-item-heading product-title"><?php echo $tag->tag_name; ?></h4>

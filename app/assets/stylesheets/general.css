@@ -61,6 +61,22 @@ body{
 }
 
 /* Publish/Unublish label */
+.add.hidden-checkbox + .switch-checkbox:lang(es):before {
+    content: "Agregar";
+}
+
+.add.hidden-checkbox:checked + .switch-checkbox:lang(es):before {
+    content: "Remover";
+}
+
+.add.hidden-checkbox + .switch-checkbox:lang(en):before {
+    content: "Add";
+}
+
+.add.hidden-checkbox:checked + .switch-checkbox:lang(en):before {
+    content: "Remove";
+}
+
 .publish.hidden-checkbox + .switch-checkbox:lang(es):before {
     content: "Publicar";
 }
