@@ -41,6 +41,14 @@
                     <!-- general form elements -->
                     <div class="box box-solid">
 
+                        <div id="cover">
+                            <img title="COVER" alt="COVER" src="upload/commerce_image/<?php echo Session::get('user.id_commerce')?>/cover.jpg"/>
+                        </div>
+                        
+                        <div id="logo" class="col-xs-3">
+                            <img title="LOGO" alt="LOGO" src="upload/commerce_image/<?php echo Session::get('user.id_commerce')?>/logo.png"/>
+                        </div>
+
                         <div class="box-body">
 
                             <form id="commerceData" class="form-horizontal form-large" role="form" method="post" action="<?php echo URL::route('commerce.profile'); ?>">
@@ -58,7 +66,7 @@
 
                                     <div class="col-lg-8">
                                         <div class="input-group">
-                                            <span class="input-group-addon">melivery.com<?php echo Session::get('location.country') ? '.'.Session::get('location.country') : '' ?>/</span>
+                                            <span class="input-group-addon">melivery.com<?php echo Session::get('location.country') ? '.' . Session::get('location.country') : '' ?>/</span>
                                             <input name="url" type="text" class="form-control" id="brandUrl" placeholder="tunegocio" value="<?php echo $commerce->commerce_url; ?>">
                                         </div>
                                     </div>
@@ -66,9 +74,9 @@
                                 </div>
 
                                 <?php
-                                /*if ($commerce->branches->isEmpty()) {
-                                    echo View::make('commerce.branch.create_form');
-                                }*/
+                                /* if ($commerce->branches->isEmpty()) {
+                                  echo View::make('commerce.branch.create_form');
+                                  } */
                                 ?>
 
                                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">

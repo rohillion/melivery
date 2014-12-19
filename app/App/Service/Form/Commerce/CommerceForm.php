@@ -114,4 +114,28 @@ class CommerceForm extends AbstractForm {
         return true;
     }
 
+    /**
+     * Create an new commerce
+     *
+     * @return boolean
+     */
+    public function uploadImage($file) {
+
+        if (!$file->isValid()) {
+            $this->validator->errors = $file->getErrorMessage();
+            return false;
+        }
+
+        $valid = \Validator::make(
+                        array('brandUrl' => $url), array('brandUrl' => 'required|unique:commerce,commerce_url,' . \Session::get('user.id_commerce'))
+        );
+
+        if ($valid->fails()) {
+            $this->validator->errors = $valid->messages();
+            return false;
+        }
+
+        return true;
+    }
+
 }
