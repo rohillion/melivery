@@ -76,53 +76,63 @@ class ProfileController extends BaseController {
                     'message' => $this->commerce->errors()->all())
         );
     }
-    
+
     /**
      * Edit category form processing
      * POST /category
      */
     public function cover() {
-        
+
         $file = Input::file('cover');
 
-        if ($this->commerce->uploadImage($file)) {
+        if (!is_null($file)) {
+            
+            $imagePath = $this->commerce->uploadImage($file, Config::get('cons.image.commerceCover'));
+
+            if ($imagePath) {
+
+                return Response::json(array(
+                            'status' => TRUE,
+                            'type' => 'success',
+                            'data' => ['src' => $imagePath])
+                );
+            }
 
             return Response::json(array(
-                        'status' => TRUE,
-                        'type' => 'success',
-                        'message' => 'URL disponible!')//TODO. Lang::get('segment.profile.message.success.edit')
+                        'status' => FALSE,
+                        'type' => 'error',
+                        'message' => $this->commerce->errors()->all())
             );
         }
-
-        return Response::json(array(
-                    'status' => FALSE,
-                    'type' => 'error',
-                    'message' => $this->commerce->errors()->all())
-        );
     }
-    
+
     /**
      * Edit category form processing
      * POST /category
      */
     public function logo() {
-        
+
         $file = Input::file('logo');
 
-        if ($this->commerce->uploadImage($file)) {
+        if (!is_null($file)) {
+
+            $imagePath = $this->commerce->uploadImage($file, Config::get('cons.image.commerceLogo'));
+
+            if ($imagePath) {
+
+                return Response::json(array(
+                            'status' => TRUE,
+                            'type' => 'success',
+                            'data' => ['src' => $imagePath])
+                );
+            }
 
             return Response::json(array(
-                        'status' => TRUE,
-                        'type' => 'success',
-                        'message' => 'URL disponible!')//TODO. Lang::get('segment.profile.message.success.edit')
+                        'status' => FALSE,
+                        'type' => 'error',
+                        'message' => $this->commerce->errors()->all())
             );
         }
-
-        return Response::json(array(
-                    'status' => FALSE,
-                    'type' => 'error',
-                    'message' => $this->commerce->errors()->all())
-        );
     }
 
 }

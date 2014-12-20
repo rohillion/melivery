@@ -145,12 +145,14 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         "uses" => "ProfileController@checkBrandUrl"
     ]);
     
-    Route::get("/profile/logo", [
+    Route::post("/profile/logo", [
+        "as" => "commerce.profile.logo",
         'before' => 'csrf',
         "uses" => "ProfileController@logo"
     ]);
     
-    Route::get("/profile/cover", [
+    Route::post("/profile/cover", [
+        "as" => "commerce.profile.cover",
         'before' => 'csrf',
         "uses" => "ProfileController@cover"
     ]);

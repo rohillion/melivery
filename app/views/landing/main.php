@@ -8,7 +8,11 @@
         <?php if (!is_null($commerce)) { ?>
 
             <div class="parallax-group">
-                <div class="cover-container" style="background-image: url('http://wallfon.com/walls/others/delicious-food.jpg');"></div>
+                <?php
+                $coverPath = Config::get('cons.image.commerceCover.path') . '/' . $commerce->id . '/' . Config::get('cons.image.commerceCover.name');
+                $cover = File::exists($coverPath) ? 'style="background-image: url(' . $coverPath. '?cache=' . rand(1111, 9999) . ')"' : '';
+                ?>
+                <div class="cover-container" <?php echo $cover ?>></div>
             </div>
 
             <!-- Main content -->
@@ -23,7 +27,7 @@
                             </div>
 
                             <div class="filter-options col-xs-9">
-                                
+
                                 <div id="category-select" class="select-mask pull-left">
                                     <div href="#" id="category-mask" class="filter-mask popover-trigger">
 

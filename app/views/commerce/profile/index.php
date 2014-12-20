@@ -42,11 +42,42 @@
                     <div class="box box-solid">
 
                         <div id="cover">
-                            <img title="COVER" alt="COVER" src="upload/commerce_image/<?php echo Session::get('user.id_commerce')?>/cover.jpg"/>
+                            <label for="cover-hidden">
+                                
+                                <div class="img-container">
+                                    <?php $coverPath = Config::get('cons.image.commerceCover.path') . '/' . $commerce->id . '/' . Config::get('cons.image.commerceCover.name'); ?>
+
+                                    <?php if (File::exists($coverPath)) { ?>
+                                        <img title="COVER" alt="COVER" src="<?php echo $coverPath . '?cache=' . rand(1111, 9999) ?>"/>
+                                    <?php } ?>
+                                </div>
+
+                                <div class="edit text-center">Editar</div>
+                            </label>
+
+                            <form id="cover-form" enctype="multipart/form-data" method="post" action="<?php echo URL::route('commerce.profile.cover') ?>" autocomplete="off">
+                                <input data-form="cover-form" data-type="cover" type="file" name="cover" id="cover-hidden" class="hidden"/>
+                            </form>
                         </div>
-                        
-                        <div id="logo" class="col-xs-3">
-                            <img title="LOGO" alt="LOGO" src="upload/commerce_image/<?php echo Session::get('user.id_commerce')?>/logo.png"/>
+
+                        <div id="logo" class="col-xs-5 col-sm-3">
+                            <label for="logo-hidden">
+                                
+                                <div class="img-container">
+                                    <?php $logoPath = Config::get('cons.image.commerceLogo.path') . '/' . $commerce->id . '/' . Config::get('cons.image.commerceLogo.name'); ?>
+
+                                    <?php if (File::exists($logoPath)) { ?>
+                                        <img title="LOGO" alt="LOGO" src="<?php echo $logoPath . '?cache=' . rand(1111, 9999) ?>"/>
+                                    <?php } ?>
+
+                                </div>
+
+                                <div class="edit text-center">Editar</div>
+                            </label>
+
+                            <form id="logo-form" enctype="multipart/form-data" method="post" action="<?php echo URL::route('commerce.profile.logo') ?>" autocomplete="off">
+                                <input data-form="logo-form" data-type="logo" type="file" name="logo" id="logo-hidden" class="hidden" />
+                            </form>
                         </div>
 
                         <div class="box-body">

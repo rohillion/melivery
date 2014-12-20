@@ -3,7 +3,6 @@
 /*****************************/
 #cover{
     overflow: hidden;
-    height: 50vh;
     margin-bottom: 30px;
 }
 
@@ -13,9 +12,31 @@
 }
 
 #logo img{
-    width: 100%;
     border: 5px solid #fff;
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#cover label, #logo label{
+    position: relative;
+    max-width: inherit;
+    margin-bottom: 0;
+    font-weight: inherit;
+}
+
+#cover .edit, #logo .edit{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    line-height: 800%;
+    background-color: #fff;
+    opacity: 0;
+}
+
+#cover:hover .edit, #logo:hover .edit{
+    font-size: 2em;
+    opacity: 0.6;
 }
 
 .add-branch{
