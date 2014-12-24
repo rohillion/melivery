@@ -22,8 +22,3 @@
 .order-confirmation-page .commerce-order:first-of-type{
     border-top: none;
 }
-
-.radio-inline label{
-    font-weight: normal;
-    cursor: pointer;
-}

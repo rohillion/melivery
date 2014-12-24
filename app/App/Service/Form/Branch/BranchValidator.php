@@ -18,8 +18,8 @@ class BranchValidator extends LaravelValidator implements ValidableInterface {
         'email' => 'required|email',
         'position' => 'required|max:255',
         'delivery' => 'required_without:pickup',
-        'radio' => 'required_with:delivery|numeric',
-        'delivery_area' => 'required_with:delivery|max:255',
+        /*'radio' => 'required_with:delivery|numeric',
+        'delivery_area' => 'required_with:delivery|max:255',*/
         'pickup' => 'required_without:delivery|numeric',
         'commerce_id' => 'required|numeric',
     );

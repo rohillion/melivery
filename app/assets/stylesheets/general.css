@@ -198,7 +198,7 @@ body{
 }
 
 .form-medium .control-label{
-    padding: 30px;
+    padding: 10px;
     line-height: normal;
     text-align: left;
 }
@@ -677,3 +677,8 @@ body{
 }
 
 .margin-less{margin: 0;}
+
+.radio-inline label{
+    font-weight: normal;
+    cursor: pointer;
+}

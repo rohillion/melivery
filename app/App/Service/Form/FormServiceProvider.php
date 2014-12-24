@@ -35,6 +35,8 @@ use App\Service\Form\BranchOpening\BranchOpeningForm;
 use App\Service\Form\BranchOpening\BranchOpeningValidator;
 use App\Service\Form\BranchPhone\BranchPhoneForm;
 use App\Service\Form\BranchPhone\BranchPhoneValidator;
+use App\Service\Form\BranchArea\BranchAreaForm;
+use App\Service\Form\BranchArea\BranchAreaValidator;
 use App\Service\Form\BranchDealer\BranchDealerForm;
 use App\Service\Form\BranchDealer\BranchDealerValidator;
 use App\Service\Form\TagController\TagForm;
@@ -129,6 +131,7 @@ class FormServiceProvider extends ServiceProvider {
         $this->branch($app);
         $this->branchOpening($app);
         $this->branchPhone($app);
+        $this->branchArea($app);
         $this->branchDealer($app);
         $this->tag($app);
         $this->rule($app);
@@ -202,7 +205,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\Branch\BranchForm', function($app) {
 
             return new BranchForm(
-                    new BranchValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Service\Form\BranchOpening\BranchOpeningForm'), $app->make('App\Service\Form\BranchPhone\BranchPhoneForm'), $app->make('App\Service\Form\BranchDealer\BranchDealerForm'), $app->make('App\Repository\Product\ProductInterface')
+                    new BranchValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Service\Form\BranchOpening\BranchOpeningForm'), $app->make('App\Service\Form\BranchPhone\BranchPhoneForm'), $app->make('App\Service\Form\BranchArea\BranchAreaForm'), $app->make('App\Service\Form\BranchDealer\BranchDealerForm'), $app->make('App\Repository\Product\ProductInterface')
             );
         });
     }
@@ -221,6 +224,15 @@ class FormServiceProvider extends ServiceProvider {
 
             return new BranchPhoneForm(
                     new BranchPhoneValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface')
+            );
+        });
+    }
+    
+    private function branchArea($app) {
+        $app->bind('App\Service\Form\BranchArea\BranchAreaForm', function($app) {
+
+            return new BranchAreaForm(
+                    new BranchAreaValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface')
             );
         });
     }

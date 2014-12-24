@@ -43,7 +43,7 @@
 
                         <div class="box-body">
 
-                            <form id="branchData" class="form-horizontal form-large" role="form" method="post" action="<?php echo URL::action('BranchController@store'); ?>">
+                            <form id="branchData" class="form-horizontal form-medium" role="form" method="post" action="<?php echo URL::action('BranchController@store'); ?>">
 
                                 <?php include('create_form.php'); ?>
 

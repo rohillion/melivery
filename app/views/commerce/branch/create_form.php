@@ -37,7 +37,7 @@
     <label for="branchPickup" class="col-xs-4 control-label">Retira por sucursal</label>
 
     <div style="padding: 20px;line-height: 0;" class="col-xs-8">
-        <input <?php echo Input::old('pickup')? 'checked' : '' ?> class="enable hidden-checkbox" type="checkbox" id="pickup" name="pickup" value="1">
+        <input <?php echo Input::old('pickup') ? 'checked' : '' ?> class="enable hidden-checkbox" type="checkbox" id="pickup" name="pickup" value="1">
         <label lang="es" for="pickup" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
     </div>
 </div>
@@ -47,57 +47,85 @@
 
     <div style="padding: 20px;line-height: 0;" class="col-xs-8">
 
-        <input <?php echo Input::old('delivery')? 'checked' : '' ?> class="enable hidden-checkbox" type="checkbox" id="delivery" name="delivery">
+        <input <?php echo Input::old('delivery') ? 'checked' : '' ?> class="enable hidden-checkbox" type="checkbox" id="delivery" name="delivery">
         <label lang="es" for="delivery" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
 
         <span class="clearfix"></span>
 
-        <div id="deliveryRadius" class="switchable-wrapper">
+        <div class="switchable-wrapper">
 
-            <div class="box-header">
-                <h3 class="box-title">Radio de entrega en manzanas</h3>
+            <div id="deliveryRadius">
+
+                <div class="box-header">
+                    <h3 class="box-title">Radio de entrega en manzanas</h3>
+                </div>
+
+                <div class="well well-md">
+
+                    <img id="mapBranchDelivery" style="width: 100%; display: block;" data-src="holder.js/100%" alt="100%" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=">
+
+                    <div class="slider irs-with-grid">
+                        <input id="radio" name="areas[radio][]" type="range" min="1" max="10" step="1" value="<?php echo Input::old('radio') ? Input::old('radio') : '1' ?>"/>
+                        <input name="areas[area][]" type="hidden" id="delivery_area" />
+                        <span class="irs-grid">
+
+                            <span class="irs-grid-pol" style="left: 2.5%;"></span>
+                            <span class="irs-grid-text" style="left: 2%;">1</span>
+
+                            <span class="irs-grid-pol" style="left: 13%;"></span>
+                            <span class="irs-grid-text" style="left: 12.5%;">2</span>
+
+                            <span class="irs-grid-pol" style="left: 23.5%;"></span>
+                            <span class="irs-grid-text" style="left: 23%;">3</span>
+
+                            <span class="irs-grid-pol" style="left: 34%;"></span>
+                            <span class="irs-grid-text" style="left: 33.5%;">4</span>
+
+                            <span class="irs-grid-pol" style="left: 44.5%;"></span>
+                            <span class="irs-grid-text" style="left: 44%;">5</span>
+
+                            <span class="irs-grid-pol" style="left: 55%;"></span>
+                            <span class="irs-grid-text" style="left: 54.5%;">6</span>
+
+                            <span class="irs-grid-pol" style="left: 65.5%;"></span>
+                            <span class="irs-grid-text" style="left: 65%;">7</span>
+
+                            <span class="irs-grid-pol" style="left: 76.2%;"></span>
+                            <span class="irs-grid-text" style="left: 75.7%;">8</span>
+
+                            <span class="irs-grid-pol" style="left: 87%;"></span>
+                            <span class="irs-grid-text" style="left: 86.5%;">9</span>
+
+                            <span class="irs-grid-pol" style="left: 97.5%;"></span>
+                            <span class="irs-grid-text" style="left: 97%;">10</span>
+
+                        </span>
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="well well-md">
+            <div style="overflow:hidden;" id="deliveryCost">
 
-                <img id="mapBranchDelivery" style="width: 100%; display: block;" data-src="holder.js/100%" alt="100%" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=">
+                <div class="box-header">
+                    <h3 class="box-title">Costo de env&iacute;o</h3>
+                </div>
 
-                <div class="slider irs-with-grid">
-                    <input id="radio" name="radio" type="range" min="1" max="10" step="1" value="<?php echo Input::old('radio') ? Input::old('radio') : '1' ?>"/>
-                    <input name="delivery_area" type="hidden" id="delivery_area" />
-                    <span class="irs-grid">
+                <div class="control-label">
+                    <input class="custom-amount" style="display:inline-block;" name="areas[cost][]" type="text" placeholder="0.00">
+                </div>
 
-                        <span class="irs-grid-pol" style="left: 2.5%;"></span>
-                        <span class="irs-grid-text" style="left: 2%;">1</span>
+            </div>
 
-                        <span class="irs-grid-pol" style="left: 13%;"></span>
-                        <span class="irs-grid-text" style="left: 12.5%;">2</span>
+            <div style="overflow:hidden;" id="deliveryMin">
 
-                        <span class="irs-grid-pol" style="left: 23.5%;"></span>
-                        <span class="irs-grid-text" style="left: 23%;">3</span>
+                <div class="box-header">
+                    <h3 class="box-title">Pedido m&iacute;nimo</h3>
+                </div>
 
-                        <span class="irs-grid-pol" style="left: 34%;"></span>
-                        <span class="irs-grid-text" style="left: 33.5%;">4</span>
-
-                        <span class="irs-grid-pol" style="left: 44.5%;"></span>
-                        <span class="irs-grid-text" style="left: 44%;">5</span>
-
-                        <span class="irs-grid-pol" style="left: 55%;"></span>
-                        <span class="irs-grid-text" style="left: 54.5%;">6</span>
-
-                        <span class="irs-grid-pol" style="left: 65.5%;"></span>
-                        <span class="irs-grid-text" style="left: 65%;">7</span>
-
-                        <span class="irs-grid-pol" style="left: 76.2%;"></span>
-                        <span class="irs-grid-text" style="left: 75.7%;">8</span>
-
-                        <span class="irs-grid-pol" style="left: 87%;"></span>
-                        <span class="irs-grid-text" style="left: 86.5%;">9</span>
-
-                        <span class="irs-grid-pol" style="left: 97.5%;"></span>
-                        <span class="irs-grid-text" style="left: 97%;">10</span>
-
-                    </span>
+                <div class="control-label">
+                    <input class="custom-amount" style="display:inline-block;" name="areas[min][]" type="text" placeholder="0.00">
                 </div>
 
             </div>
@@ -144,6 +172,7 @@
             </div>
 
         </div>
+
     </div>
 </div>
 

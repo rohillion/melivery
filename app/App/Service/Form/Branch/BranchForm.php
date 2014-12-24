@@ -6,6 +6,7 @@ use App\Service\Validation\ValidableInterface;
 use App\Repository\Branch\BranchInterface;
 use App\Service\Form\BranchOpening\BranchOpeningForm;
 use App\Service\Form\BranchPhone\BranchPhoneForm;
+use App\Service\Form\BranchArea\BranchAreaForm;
 use App\Service\Form\BranchDealer\BranchDealerForm;
 use App\Repository\Product\ProductInterface;
 use App\Service\Form\AbstractForm;
@@ -22,14 +23,16 @@ class BranchForm extends AbstractForm {
     protected $branch;
     protected $branchOpening;
     protected $branchPhone;
+    protected $branchArea;
     protected $branchDealer;
     protected $product;
 
-    public function __construct(ValidableInterface $validator, BranchInterface $branch, BranchOpeningForm $branchOpening, BranchPhoneForm $branchPhone, BranchDealerForm $branchDealer, ProductInterface $product) {
+    public function __construct(ValidableInterface $validator, BranchInterface $branch, BranchOpeningForm $branchOpening, BranchPhoneForm $branchPhone, BranchAreaForm $branchArea, BranchDealerForm $branchDealer, ProductInterface $product) {
         parent::__construct($validator);
         $this->branch = $branch;
         $this->branchOpening = $branchOpening;
         $this->branchPhone = $branchPhone;
+        $this->branchArea = $branchArea;
         $this->branchDealer = $branchDealer;
         $this->product = $product;
     }
@@ -62,8 +65,8 @@ class BranchForm extends AbstractForm {
 
 
         if (isset($input['delivery'])) {
-            $input['delivery'] = $input['radio'];
-            $input['area'] = $input['delivery_area'];
+            //$input['delivery'] = $input['radio'];
+            $input['delivery'] = 1;
         }
 
         //Start transaction
@@ -79,9 +82,22 @@ class BranchForm extends AbstractForm {
         // Branch static map position Google API
         //$this->staticMap($input, $branch);
 
+
+        // Branch Delivery Area --------
+        if (isset($input['delivery'])) {
+
+            $branchArea = $this->branchArea->save($branch, $input['areas']);
+
+            if (!$branchArea) {
+                \DB::rollback();
+                $this->validator->errors = $this->branchArea->errors();
+                return false;
+            }
+        }
+
+
         // Branch Opening Hours--------
         $branchOpening = $this->branchOpening->save($branch, $input['days']);
-
 
         if (!$branchOpening) {
             \DB::rollback();

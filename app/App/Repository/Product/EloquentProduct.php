@@ -39,6 +39,7 @@ class EloquentProduct extends RepositoryAbstract implements ProductInterface {
                     $join->on('product.id', '=', 'branch_product.product_id');
                 })*/
                 ->join('branch', 'branch_product.branch_id', '=', 'branch.id')
+                ->join('branch_area', 'branch.id', '=', 'branch_area.branch_id')
                 ->where('product.active', '=', 1)
                 ->where(function($sql) use($position) {
             $sql->where(\DB::raw("SELECT 
@@ -47,7 +48,7 @@ class EloquentProduct extends RepositoryAbstract implements ProductInterface {
                                         'POINT(" . $position . ")'
                                       ),
                                       POLYFROMTEXT(
-                                        CONCAT('POLYGON((', branch.area ,'))')
+                                        CONCAT('POLYGON((', branch_area.area ,'))')
                                       )
                                     )"), "=", 1);
         });

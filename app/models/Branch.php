@@ -47,6 +47,13 @@ class Branch extends Eloquent {
     /**
      * Product relationship
      */
+    public function areas() {
+        return $this->hasMany('BranchArea', 'branch_id');
+    }
+    
+    /**
+     * Product relationship
+     */
     public function phones() {
         return $this->hasMany('BranchPhone', 'branch_id');
     }

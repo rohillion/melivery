@@ -193,7 +193,7 @@
 
                                                     <label for="address" class="col-xs-4 control-label">Paga con:</label>
 
-                                                    <div class="col-xs-8 control-label">
+                                                    <div class="col-xs-8">
                                                         <?php foreach ($pay as $p) { ?>
 
                                                             <div class="radio-inline">
