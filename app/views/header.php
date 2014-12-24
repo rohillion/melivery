@@ -30,6 +30,10 @@
                         <li>
                             <a href="/profile"><?php echo Lang::get('segment.profile.title.main_menu'); ?></a>
                         </li>
+                        
+                        <li>
+                            <a href="/branch"><?php echo Lang::get('segment.branch.title.main_menu'); ?></a>
+                        </li>
 
                     </ul>
                 <?php } ?>

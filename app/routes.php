@@ -139,18 +139,18 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         'before' => 'csrf',
         "uses" => "ProfileController@update"
     ]);
-    
+
     Route::get("/profile/url/{url}", [
         'before' => 'csrf',
         "uses" => "ProfileController@checkBrandUrl"
     ]);
-    
+
     Route::post("/profile/logo", [
         "as" => "commerce.profile.logo",
         'before' => 'csrf',
         "uses" => "ProfileController@logo"
     ]);
-    
+
     Route::post("/profile/cover", [
         "as" => "commerce.profile.cover",
         'before' => 'csrf',
@@ -159,10 +159,10 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
 
     //Route::resource('branch', 'BranchController');
 
-    /* Route::get("/branch", [
-      "as" => "commerce.branch",
-      "uses" => "BranchController@index"
-      ]); */
+    Route::get("/branch", [
+        "as" => "commerce.branch.index",
+        "uses" => "BranchController@index"
+    ]);
 
     Route::get("/branch/create", [
         "as" => "commerce.branch.create",
@@ -203,12 +203,12 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         'before' => 'csrf',
         "uses" => "OrderController@changeStatus"
     ]);
-    
+
     Route::get("/order/{order_id}/dealer/remove", [
         'before' => 'csrf',
         "uses" => "OrderController@dettachDealer"
     ]);
-    
+
     Route::get("/order/{order_id}/dealer/{dealer_id}", [
         'before' => 'csrf',
         "uses" => "OrderController@attachDealer"
@@ -218,7 +218,7 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         'before' => 'csrf',
         "uses" => "OrderController@dispatch"
     ]);
-    
+
     Route::get("/order/{dealer_id}/undispatch", [
         'before' => 'csrf',
         "uses" => "OrderController@undispatch"

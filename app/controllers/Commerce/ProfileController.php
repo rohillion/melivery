@@ -16,7 +16,7 @@ class ProfileController extends BaseController {
 
     public function index() {
 
-        $data['commerce'] = $this->commerce->find(Auth::user()->id_commerce, ['*'], ['branches']);
+        $data['commerce'] = $this->commerce->find(Auth::user()->id_commerce);
 
         return View::make("commerce.profile.index", $data);
     }

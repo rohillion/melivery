@@ -121,48 +121,6 @@
 
                     </div><!-- /.box -->
 
-                    <!-- general form elements -->
-                    <div class="box box-solid">
-
-                        <?php //if (!$commerce->branches->isEmpty()) { ?>
-                        <?php if ($commerce->commerce_name != NULL) { ?>
-
-                            <div class="box-body">
-
-                                <form id="commerceData" class="form-horizontal form-large" role="form" method="post" action="<?php echo URL::route('commerce.profile'); ?>">
-
-                                    <div class="form-group">
-                                        <label for="commerceName" class="col-lg-4 control-label">Puntos de venta</label>
-
-                                        <div style="padding-top: 20px;" class="col-lg-8">
-                                            <div class="row">
-
-                                                <?php foreach ($commerce->branches as $branch) { ?>
-
-                                                    <a href="<?php echo URL::action('BranchController@edit', $branch->id); ?>">
-                                                        <img class="col-lg-4" src="<?php echo asset('upload/branch_image/' . $branch->id . '/' . $branch->id . '.png'); ?>"/>
-                                                    </a>
-
-                                                <?php } ?>
-
-                                                <div class="col-lg-4 add-branch">
-                                                    <a href="<?php echo URL::route('commerce.branch.create'); ?>">
-                                                        <i class="fa fa-plus"></i>
-                                                    </a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </form>
-
-                            </div>
-
-                        <?php } ?>
-
-                    </div><!-- /.box -->
-
                 </div><!--/.col (left) -->
 
             </div><!-- /.row (main row) -->

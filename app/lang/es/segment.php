@@ -170,11 +170,11 @@ return array(
     ),
     "branch" => array(
         "name" => array(
-            "single" => "Sucursal",
-            "plural" => "Sucursales",
+            "single" => "Punto de venta",
+            "plural" => "Puntos de venta",
         ),
         "title" => array(
-            "main_menu" => "Sucursales",
+            "main_menu" => "Puntos de venta",
             "create" => "Agregar una sucursal",
         ),
         "form" => array(

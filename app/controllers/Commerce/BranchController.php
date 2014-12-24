@@ -1,16 +1,26 @@
 <?php
 
+use App\Repository\Branch\BranchInterface;
 use App\Service\Form\Branch\BranchForm;
 use App\Repository\City\CityInterface;
 
 class BranchController extends BaseController {
 
     protected $branch;
+    protected $branchForm;
     protected $city;
 
-    public function __construct(BranchForm $branch, CityInterface $city) {
+    public function __construct(BranchInterface $branch, BranchForm $branchForm, CityInterface $city) {
         $this->branch = $branch;
+        $this->branchForm = $branchForm;
         $this->city = $city;
+    }
+    
+    public function index() {
+
+        $data['branches'] = $this->branch->allByCommerceId(Session::get('user.id_commerce'));
+
+        return View::make("commerce.branch.index", $data);
     }
 
     /**
@@ -28,7 +38,7 @@ class BranchController extends BaseController {
      */
     public function store() {
 
-        if ($this->branch->save(Input::all())) {
+        if ($this->branchForm->save(Input::all())) {
             // Success!
             return Redirect::route('commerce.profile')
                             ->withSuccess(Lang::get('segment.branch.message.success.save'))
@@ -37,7 +47,7 @@ class BranchController extends BaseController {
 
         return Redirect::to('/branch/create')
                         ->withInput()
-                        ->withErrors($this->branch->errors())
+                        ->withErrors($this->branchForm->errors())
                         ->with('status', 'error');
     }
     
@@ -65,16 +75,16 @@ class BranchController extends BaseController {
         
         $input = Input::only('street','city','email','position','delivery','pickup','radio','delivery_area','phone','dealer','days');
         
-        if ($this->branch->update($id, $input)) {
+        if ($this->branchForm->update($id, $input)) {
             // Success!
-            return Redirect::to('/profile')
+            return Redirect::route('commerce.branch.index')
                             ->withSuccess(Lang::get('segment.branch.message.success.edit'))
                             ->with('status', 'success');
         }
         
         return Redirect::to('/branch/'.$id.'/edit')
                         ->withInput()
-                        ->withErrors($this->branch->errors())
+                        ->withErrors($this->branchForm->errors())
                         ->with('status', 'error');
     }
 
@@ -84,16 +94,16 @@ class BranchController extends BaseController {
      */
     public function destroy($id) {
 
-        if ($this->branch->delete($id)) {
+        if ($this->branchForm->delete($id)) {
             // Success!
-            return Redirect::to('/profile')
+            return Redirect::route('commerce.branch.index')
                             ->withSuccess(Lang::get('segment.branch.message.success.delete'))
                             ->with('status', 'success');
         }
 
-        return Redirect::to('/profile')
+        return Redirect::route('commerce.branch.index')
                         ->withInput()
-                        ->withErrors($this->branch->errors())
+                        ->withErrors($this->branchForm->errors())
                         ->with('status', 'error');
     }
 
