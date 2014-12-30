@@ -17,7 +17,7 @@
         <section style="padding-top: 122px;" class="container container-with-padding-top">
 
             <!-- Main row -->
-            <div class="row">
+            <div class="">
 
                 <!-- left column -->
                 <div class="col-md-12">

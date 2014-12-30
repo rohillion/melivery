@@ -35,7 +35,7 @@ var custom = {
         });
     },
     parallax: function() {
-
+        
         $('.cover-container').parallax("50%", -0.5);
     },
     popover: function() {
@@ -81,6 +81,7 @@ var custom = {
                 });
 
         $(document).on('click', '.scrollTo', function(e) {
+            
             flag = false;
             e.preventDefault();
             main.scrollTo(this, offsetTopFix, function() {

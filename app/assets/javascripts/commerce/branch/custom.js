@@ -408,7 +408,7 @@ var custom = {
                 duration: 800,
                 complete: function() {
                     current_fs.hide();
-                    next_fs.css({'left': 'initial'});
+                    //next_fs.css({'left': 'initial'});
                     animating = false;
                 },
                 //this comes from the custom easing plugin

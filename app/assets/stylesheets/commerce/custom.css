@@ -1,3 +1,6 @@
+html, body{
+    height: 100%;
+}
 /*****************************/
 /*         PROFILE           */
 /*****************************/
@@ -61,6 +64,7 @@
 }
 
 .branch-data {
+    left:0%;
     position: absolute;
 }
 
