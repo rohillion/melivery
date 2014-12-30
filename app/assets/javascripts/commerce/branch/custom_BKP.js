@@ -5,7 +5,7 @@ var custom = {
         this.cityTypeahead();
         this.adressModal();
         this.searchBranchLocation();
-        this.setDeliveryMap();
+        this.deliveryArea();
         this.dealers();
         this.formSteps();
 
@@ -62,140 +62,52 @@ var custom = {
             return false;
         });
     },
-    setDeliveryMap: function() {
+    getDeliveryMapPreview: function(LatLng) {
 
-        var notifyOpts = {
-            'message': 'Para poder establecer un radio de entrega primero debe ingresar la dirección de la sucursal',
-            'status': 'notice',
-            'time': '10000'
+        var path = typeof LatLng != 'undefined' ? "&path=color%3ared|weight:1|fillcolor%3awhite|" + LatLng[0].lat + "," + LatLng[0].lng + "|" + LatLng[1].lat + "," + LatLng[1].lng + "|" + LatLng[2].lat + "," + LatLng[2].lng + "|" + LatLng[3].lat + "," + LatLng[3].lng + "|" + LatLng[0].lat + "," + LatLng[0].lng : "";
+
+        var url = "http://maps.googleapis.com/maps/api/staticmap?center=" + document.getElementById('position').value + "&markers=color:red%7C" + document.getElementById('position').value + "&zoom=14&size=687x569&maptype=ROADMAP&sensor=false" + path;
+        document.getElementById('mapBranchDelivery').src = url;
+
+    },
+    getDeliveryArea: function(LatLng, radio) {
+
+        var branchLastCoord = {
+            lat: parseFloat(LatLng.split(",")[0]),
+            lng: parseFloat(LatLng.split(",")[1])
         };
 
-        var position = $('#position');
+        var m = radio * 130;
 
-        $('#delivery').on('change', function() {
+        var mtsByOrientation = [
+            {lat: 0, lng: m}, //Este
+            {lat: m, lng: 0}, //Norte
+            {lat: 0, lng: (m * 2) * (-1)}, //Oeste
+            {lat: (m * 2) * (-1), lng: 0}, //Sur
+            {lat: 0, lng: (m * 2)}//Este
+        ];
 
-            if ($(this).is(':checked')) {
+        var coords = new Array, pi = Math.PI, R = 6378137;
 
-                if (position.val().length == 0) {
+        for (var i in mtsByOrientation) {
 
-                    main.notify(notifyOpts);
+            //Coordinate offsets in radians
+            var dLat = mtsByOrientation[i].lat / R;
+            var dLng = mtsByOrientation[i].lng / (R * Math.cos(pi * branchLastCoord.lat / 180));
 
-                    return false;
-                }
-
-                map.setMap($('#mapBranchDelivery'), position.val(), function() {
-
-                    var deliveryArea = $('#deliveryPanelAreas').find('.deliveryArea');
-
-                    if (deliveryArea.length >= 1) {
-
-                        $.each(deliveryArea, function(i) {
-
-                            var current = $(deliveryArea[i]);
-
-                            if (current.val().length > 0)
-                                map.drawPolygon(current);
-                        });
-                    } else {
-
-                        custom.addArea();
-                    }
-                });
-
-            } else {
-
-                map.polygons = new Array;
-            }
-        });
-
-        $('.addArea').on('click', function() {
-            custom.addArea();
-        });
-
-        $(document).on('click', '.saveArea', function() {
-
-            custom.saveArea($(this).closest('.areaGroup'));
-        });
-
-        $(document).on('click', '.cancelArea', function() {
-            custom.cancelArea($(this).closest('.areaGroup'));
-        });
-        
-        $(document).on('click', '.editArea', function() {
-            custom.editArea($(this).closest('.areaGroup'));
-        });
-    },
-    addArea: function() {
-
-        $('.addArea').hide();
-
-        var position = $('#position');
-
-        var newAreaPanel = $('.areaGroupModel').clone().addClass('areaGroup new').removeClass('areaGroupModel');
-
-        $('#deliveryPanelAreas').append(newAreaPanel);
-
-        map.getDeliveryArea(position.val(), 5, function(coords) {
-
-            map.getCoords(coords, function(coordString) {
-
-                var newArea = newAreaPanel.find('.deliveryArea');
-
-                newArea.val(coordString);
-
-                map.drawPolygon(newArea);
+            //OffsetPosition, decimal degrees
+            coords.push({
+                lat: (branchLastCoord.lat + (dLat * 180 / pi)),
+                lng: (branchLastCoord.lng + (dLng * 180 / pi))
             });
-        });
 
-    },
-    saveArea: function(group) {
-        
-        var index = group.index();
-        
-        var path = map.polygons[ index ].getPath().getArray();
-        
-        console.log(path);
-        
-        if (group.is('.new')) {
-            
-            //ajax inserto
-        } else {
+            branchLastCoord.lat = branchLastCoord.lat + dLat * 180 / pi;
+            branchLastCoord.lng = branchLastCoord.lng + dLng * 180 / pi;
 
-            //ajax edito
         }
-        
-        group.removeClass('new edit');
-        
-        map.polygons[ index ].setEditable(false);
-
-        $('.addArea').show();
-    },
-    cancelArea: function(group) {
-
-        var index = group.index();
-        
-        if (group.is('.new')) {
-            
-            map.polygons[ index ].setMap(null);
-            map.polygons.splice(index, 1);
-            group.remove();
-        } else {
-
-            map.polygons[ index ].setEditable(false);
-            group.removeClass('new edit');
-        }
-        
-        $('.addArea').show();
-    },
-    editArea: function(group) {
-
-        var index = group.index();
-        
-        map.polygons[ index ].setEditable(true);
-        
-        group.addClass('edit');
-        
-        $('.addArea').hide();
+        coords.shift();
+        $('#delivery_area').val(coords[0].lat + ' ' + coords[0].lng + ',' + coords[1].lat + ' ' + coords[1].lng + ',' + coords[2].lat + ' ' + coords[2].lng + ',' + coords[3].lat + ' ' + coords[3].lng + ',' + coords[0].lat + ' ' + coords[0].lng);
+        custom.getDeliveryMapPreview(coords);
     },
     cityTypeahead: function() {
 
@@ -344,6 +256,43 @@ var custom = {
                 custom.searchLocation(geocoding.street, geocoding.city, geocoding.state);
             }
 
+        });
+    },
+    deliveryArea: function() {
+
+        var notifyOpts = {
+            'message': 'Para poder establecer un radio de entrega primero debe ingresar la dirección de la sucursal',
+            'status': 'notice',
+            'time': '10000'
+        };
+
+        var position = $('#position');
+        var radio = $('#radio');
+
+        $('#delivery').on('change', function() {
+
+            if ($(this).is(':checked')) {
+
+                if (position.val().length == 0) {
+
+                    main.notify(notifyOpts);
+
+                    return false;
+                }
+
+                custom.getDeliveryArea(position.val(), 1);
+            }
+        });
+
+        radio.on('change', function() {
+
+            if (position.val().length == 0) {
+
+                main.notify(notifyOpts);
+                return false;
+            }
+
+            custom.getDeliveryArea(position.val(), radio.val());
         });
     },
     dealers: function() {
