@@ -88,7 +88,8 @@ var map = {
             disableDefaultUI: true,
             zoom: 15,
             center: center,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            zoomControl:true
         });
 
         var marker = new google.maps.Marker({
@@ -136,7 +137,7 @@ var map = {
 
         }
     },
-    drawPolygon: function(polygonAreaInput) {
+    drawPolygon: function(polygonAreaInput,editable) {
 
         var i;
         var bounds = new google.maps.LatLngBounds();
@@ -165,7 +166,7 @@ var map = {
             strokeWeight: 3,
             strokeOpacity: 0.8,
             fillOpacity: 0.35,
-            editable: true
+            editable: editable
         });
         
         map.poly.setMap(map.canvas);

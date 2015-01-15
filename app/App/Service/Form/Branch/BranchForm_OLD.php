@@ -63,8 +63,11 @@ class BranchForm extends AbstractForm {
             return false;
         }
 
-        $input['pickup'] = 0;
-        $input['delivery'] = 0;
+
+        if (isset($input['delivery'])) {
+            //$input['delivery'] = $input['radio'];
+            $input['delivery'] = 1;
+        }
 
         //Start transaction
         \DB::beginTransaction();
@@ -76,6 +79,33 @@ class BranchForm extends AbstractForm {
             return false;
         }
 
+        // Branch static map position Google API
+        //$this->staticMap($input, $branch);
+
+
+        // Branch Delivery Area --------
+        if (isset($input['delivery'])) {
+
+            $branchArea = $this->branchArea->save($branch, $input['areas']);
+
+            if (!$branchArea) {
+                \DB::rollback();
+                $this->validator->errors = $this->branchArea->errors();
+                return false;
+            }
+        }
+
+
+        // Branch Opening Hours--------
+        $branchOpening = $this->branchOpening->save($branch, $input['days']);
+
+        if (!$branchOpening) {
+            \DB::rollback();
+            $this->validator->errors = $this->branchOpening->errors();
+            return false;
+        }
+
+
         // Branch Phone Numbers--------
         $branchPhone = $this->branchPhone->save($branch, $input['phone']);
 
@@ -86,8 +116,20 @@ class BranchForm extends AbstractForm {
             return false;
         }
 
-        // Branch static map position Google API
-        $this->staticMap($input, $branch);
+        // Branch Dealers --------
+        if (isset($input['delivery'])) {
+
+            $branchDealer = $this->syncBranchDealers($branch, $input['dealer']);
+
+            if (!$branchDealer) {
+                \DB::rollback();
+                $this->validator->errors = $this->branchDealer->errors();
+                return false;
+            }
+        }
+
+        $this->syncBranchUsers($branch, $user);
+        $this->syncBranchProducts($branch, $user);
 
         \DB::commit();
         // End transaction
@@ -117,9 +159,20 @@ class BranchForm extends AbstractForm {
             return false;
         }
 
-        $phone = $input['phone'];
+        if (isset($input['delivery'])) {
+            $input['delivery'] = $input['radio'];
+            $input['area'] = $input['delivery_area'];
+        }
 
+        $phone = $input['phone'];
+        $dealer = $input['dealer'];
+        $days = $input['days'];
+
+        unset($input['radio']);
+        unset($input['delivery_area']);
         unset($input['phone']);
+        unset($input['dealer']);
+        unset($input['days']);
         unset($input['city']);
 
         //Start transaction
@@ -135,6 +188,17 @@ class BranchForm extends AbstractForm {
         // Branch static map position Google API
         $this->staticMap($input, $branch);
 
+        // Branch Opening Hours--------
+
+        $branchOpening = $this->branchOpening->save($branch, $days);
+
+
+        if (!$branchOpening) {
+            \DB::rollback();
+            $this->validator->errors = $this->branchOpening->errors();
+            return false;
+        }
+
 
         // Branch Phone Numbers--------
         $branchPhone = $this->branchPhone->save($branch, $phone);
@@ -144,6 +208,18 @@ class BranchForm extends AbstractForm {
             \DB::rollback();
             $this->validator->errors = $this->branchPhone->errors();
             return false;
+        }
+
+        // Branch Dealers --------
+        if (isset($input['delivery'])) {
+
+            $branchDealer = $this->syncBranchDealers($branch, $dealer);
+
+            if (!$branchDealer) {
+                \DB::rollback();
+                $this->validator->errors = $this->branchDealer->errors();
+                return false;
+            }
         }
 
 
@@ -321,44 +397,9 @@ class BranchForm extends AbstractForm {
         return true;
     }
 
-    public function findByCommerceId($branchId, $commerceId, $entities = array()) {//TODO. remover
+    public function findByCommerceId($branchId, $commerceId, $entities = array()) {
+
         return $this->branch->findByCommerceId($branchId, $commerceId, $entities);
-    }
-
-    public function delivery($branch_id, $input) {
-
-        $commerce_id = \Session::get('user.id_commerce');
-
-        $branch = $this->branch->findByCommerceId($branch_id, $commerce_id, ['areas']);
-
-        if (is_null($branch)) {
-            $this->validator->errors = 'No se ha encontrado esa sucursal.'; //TODO. Lang
-            return false;
-        }
-
-        if ($input['delivery'] && !$branch->areas->isEmpty()) {
-
-            return $this->branch->edit($branch_id, $input);
-        } elseif (!$input['delivery']) {
-
-            return $this->branch->edit($branch_id, $input);
-        }
-        
-        return $branch;
-    }
-
-    public function pickup($branch_id, $input) {
-
-        $commerce_id = \Session::get('user.id_commerce');
-
-        $branch = $this->branch->findByCommerceId($branch_id, $commerce_id);
-
-        if (!is_null($branch))
-            return $this->branch->edit($branch_id, $input);
-
-        $this->validator->errors = 'No se ha encontrado esa sucursal.'; //TODO. Lang
-
-        return false;
     }
 
 }

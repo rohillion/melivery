@@ -232,7 +232,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\BranchArea\BranchAreaForm', function($app) {
 
             return new BranchAreaForm(
-                    new BranchAreaValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface')
+                    new BranchAreaValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Repository\BranchArea\BranchAreaInterface')
             );
         });
     }

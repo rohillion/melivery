@@ -9,7 +9,22 @@
             <div class="container">
                 <h3>
                     <?php echo Lang::get('segment.branch.title.create'); ?>
+
+                    <?php if (isset($branch)) { ?>
+                        <button id="deleteBranch" form="deleteBranchForm" type="submit" class="btn btn-danger btn-flat pull-right">
+                            <i class="fa fa-trash-o"></i>
+                            <?php echo 'Eliminar esta sucursal'; //TODO. Lang. echo Lang::get('common.action.edit') . ' ' . Lang::get('segment.product.title.menu'); ?>
+                        </button>
+                    <?php } ?>
                 </h3>
+
+                <?php if (isset($branch)) { ?>
+                    <form id="deleteBranchForm" method="post" action="<?php echo URL::action('BranchController@destroy', $branch->id) ?>">
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                        <input type="hidden" name="_method" value="DELETE">
+                    </form>
+                <?php } ?>
+
             </div>
         </section>
 
@@ -40,27 +55,27 @@
 
                     <ul id="progressbar">
                         <li class="active">Configuraci&oacute;n b&aacute;sica</li>
-                        <li>Pickup</li>
+                        <li <?php echo isset($branch) && Input::get('step') ? 'class="active"' : '' ?>>Pickup</li>
                         <li>Delivery</li>
                         <li>Horarios de atenci&oacute;n</li>
                     </ul>
 
                     <!-- general form elements -->
-                    <div class="box box-solid branch-data">
+                    <div class="box box-solid branch-data" <?php echo isset($branch) && Input::get('step') ? 'style="transform: scale(0.8); opacity: 0; display: none;"' : '' ?>>
 
                         <div class="box-body">
-                            <form id="branchBasic" class="form-horizontal form-medium" role="form" method="post" action="<?php echo URL::action('BranchController@store'); ?>">
+                            <form id="branchBasic" class="form-horizontal form-medium" role="form" method="post" action="<?php echo isset($branch) ? URL::action('BranchController@update', $branch->id) : URL::action('BranchController@store'); ?>">
 
                                 <div class="clearfix">
                                     <label for="address" class="col-xs-12 col-sm-4 control-label">Direcci&oacute;n</label>
 
                                     <div class="col-xs-12 col-sm-8">
-                                        <input data-toggle="modal" data-target="#address-modal" name="address" type="text" class="form-control" id="address" placeholder="Direcci&oacute;n de la sucursal" value="<?php echo Input::old('address') ? Input::old('address') : ''; ?>">
+                                        <input data-toggle="modal" data-target="#address-modal" name="address" type="text" class="form-control" id="address" placeholder="Direcci&oacute;n de la sucursal" value="<?php echo Input::old('address') ? Input::old('address') : (isset($branch) ? $branch->street . ', ' . $branch->city->name : ''); ?>">
                                     </div>
 
-                                    <input name="position" id="position" type="hidden" value="<?php echo Input::old('position') ? Input::old('position') : '-34.603304,-58.387943'; ?>">
-                                    <input name="street" id="street" type="hidden" value="<?php echo Input::old('street') ? Input::old('street') : ''; ?>">
-                                    <input name="city" id="city" type="hidden" value="<?php echo Input::old('city') ? Input::old('city') : ''; ?>">
+                                    <input name="position" id="position" type="hidden" value="<?php echo Input::old('position') ? Input::old('position') : (isset($branch) ? $branch->position : ''); ?>">
+                                    <input name="street" id="street" type="hidden" value="<?php echo Input::old('street') ? Input::old('street') : (isset($branch) ? $branch->street : ''); ?>">
+                                    <input name="city" id="city" type="hidden" value="<?php echo Input::old('city') ? Input::old('city') : (isset($branch) ? $branch->city->geonameid : ''); ?>">
 
                                 </div>
 
@@ -68,7 +83,7 @@
                                     <label for="branchEmail" class="col-xs-12 col-sm-4 control-label">Email</label>
 
                                     <div class="col-xs-12 col-sm-8">
-                                        <input name="email" type="text" class="form-control" id="branchEmail" placeholder="Email de la sucursal" value="<?php echo Input::old('email') ? Input::old('email') : ''; ?>">
+                                        <input name="email" type="text" class="form-control" id="branchEmail" placeholder="Email de la sucursal" value="<?php echo Input::old('email') ? Input::old('email') : (isset($branch) ? $branch->email : ''); ?>">
                                     </div>
                                 </div>
 
@@ -77,222 +92,314 @@
 
                                     <div class="col-xs-12 col-sm-8">
                                         <div>
-                                            <input name="phone[primary]" type="text" class="form-control" id="branchPhone" placeholder="Tel&eacute;fono de la sucursal" value="<?php echo Input::old('phone.primary') ? Input::old('phone.primary') : ''; ?>">
+                                            <input name="phone[primary]" type="text" class="form-control" id="branchPhone" placeholder="Tel&eacute;fono de la sucursal" value="<?php echo Input::old('phone.primary') ? Input::old('phone.primary') : (isset($branch) ? $branch->phones[0]->number : ''); ?>">
                                         </div>
 
                                         <div>
-                                            <input name="phone[optional]" type="text" class="form-control" id="branchPhoneOptional" placeholder="Tel&eacute;fono (opcional)" value="<?php echo Input::old('phone.optional') ? Input::old('phone.optional') : ''; ?>">
+                                            <input name="phone[optional]" type="text" class="form-control" id="branchPhoneOptional" placeholder="Tel&eacute;fono (opcional)" value="<?php echo Input::old('phone.optional') ? Input::old('phone.optional') : (isset($branch) && isset($branch->phones[1]) ? $branch->phones[1]->number : ''); ?>">
                                         </div>
                                     </div>
                                 </div>
+
+                                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 
                             </form>
                         </div>
 
                         <div class="box-footer clearfix">
                             <div class="col-xs-12 text-right">
-                                <button class="btn btn-default btn-lg next" form="branchBasic" type="button">Siguiente</button>
+                                <?php if (isset($branch)) { ?>
+                                    <button id="editBranch" class="btn btn-default btn-lg" form="branchBasic" type="button">Guardar cambios</button>
+                                    <button class="btn btn-default btn-lg next" type="button">Siguiente</button>
+                                <?php } else { ?>
+                                    <button id="createBranch" class="btn btn-default btn-lg" form="branchBasic" type="submit">Crear sucursal</button>
+                                <?php } ?>
                             </div>
                         </div>
 
                     </div>
 
-                    <!-- general form elements -->
-                    <div class="box box-solid branch-data">
-                        <div class="box-body">
-                            <form id="branchPickUp" class="form-horizontal form-medium" role="form" method="post" action="<?php echo URL::action('BranchController@store'); ?>">
-                                <div class="clearfix">
-                                    <label for="branchPickup" class="col-xs-4 control-label">Retira por sucursal</label>
+                    <?php if (isset($branch)) { ?>
 
-                                    <div style="padding: 20px;line-height: 0;" class="col-xs-8">
-                                        <input <?php echo Input::old('pickup') ? 'checked' : '' ?> class="enable hidden-checkbox" type="checkbox" id="pickup" name="pickup" value="1">
-                                        <label lang="es" for="pickup" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
-                                    </div>
+                        <!-- general form elements -->
+                        <div class="box box-solid branch-data" <?php echo Input::get('step') ? 'style="display: block;"' : '' ?>>
+                            <div class="box-body">
+
+                                <div class="clearfix">
+                                    <form id="branchPickUp" class="form-horizontal form-medium" role="form" method="post" action="<?php echo URL::action('BranchController@pickup', $branch->id); ?>">
+                                        <div class="clearfix">
+                                            <label for="branchPickup" class="col-xs-12 col-sm-4">Retira por sucursal</label>
+
+                                            <div class="col-xs-12 col-sm-8">
+                                                <input <?php echo $branch->pickup ? 'checked' : '' ?> class="enable hidden-checkbox" type="checkbox" id="pickup" name="pickup" value="1">
+                                                <label lang="es" for="pickup" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
+
+                                                <span class="clearfix"></span>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
 
-                        <div class="box-footer clearfix">
-                            <div class="col-xs-12 text-right">
-                                <button class="btn btn-default btn-lg prev" type="button">Atr&aacute;s</button>
-                                <button class="btn btn-default btn-lg next" form="branchPickUp" type="button">Siguiente</button>
+                            <div class="box-footer clearfix">
+                                <div class="col-xs-12 text-right">
+                                    <button class="btn btn-default btn-lg prev" type="button">Atr&aacute;s</button>
+                                    <button class="btn btn-default btn-lg next" form="branchPickUp" type="button">Siguiente</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- general form elements -->
-                    <div class="box box-solid branch-data">
-                        <div class="box-body">
-                            <form id="branchDelivery" role="form" method="post" action="<?php echo URL::action('BranchController@store'); ?>">
+                        <!-- general form elements -->
+                        <div class="box box-solid branch-data">
+                            <div class="box-body">
 
                                 <div class="clearfix">
-                                    <div class="form-medium form-group clearfix">
-                                        <label for="branchDelivery" class="col-xs-12 col-sm-4">Entrega a domicilio</label>
 
-                                        <div class="col-xs-12 col-sm-8">
-                                            <input <?php echo Input::old('delivery') ? 'checked' : '' ?> class="enable hidden-checkbox" type="checkbox" id="delivery" name="delivery">
-                                            <label lang="es" for="delivery" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
+                                    <form id="branchDelivery" role="form" method="post" action="<?php echo URL::action('BranchController@delivery', $branch->id); ?>">
+                                        <div class="form-medium form-group clearfix">
+                                            <label for="branchDelivery" class="col-xs-12 col-sm-4">Entrega a domicilio</label>
 
-                                            <span class="clearfix"></span>
+                                            <div class="col-xs-12 col-sm-8">
+                                                <input <?php echo $branch->delivery ? 'checked' : '' ?> class="enable hidden-checkbox" type="checkbox" id="delivery" name="delivery" value="1">
+                                                <label lang="es" for="delivery" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
+
+                                                <span class="clearfix"></span>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <div id="deliverySetup" <?php echo !$branch->delivery ? 'style="display: none;"' : '' ?>>
+                                        <div class="col-xs-4">
+
+                                            <div class="hidden">
+                                                <div class="panel-group areaGroupModel" role="tablist" aria-multiselectable="true">
+                                                    <form method="post" action="<?php echo URL::action('BranchController@areaCreate', $branch->id); ?>">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading clearfix" role="tab">
+                                                                <h4 class="panel-title pull-left">
+                                                                    <a class="area_title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                        Area de entrega 1
+                                                                    </a>
+                                                                </h4>
+                                                                <div class="actionArea pull-right">
+                                                                    <button type="button" href="#" class="btn btn-link width-padding removeArea">Borrar</button>
+                                                                    <button type="button" href="#" class="btn btn-link width-padding editArea">Editar</button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+
+                                                                <div class="onAreaEdition">
+                                                                    <div class="clearfix">
+                                                                        <span class="col-xs-6">Nombre</span>
+                                                                        <span class="col-xs-6">
+                                                                            <input class="custom-amount form-control custom-control border-bottom area_name" name="area_name" type="text" placeholder="Area de entrega 1">
+                                                                        </span>
+                                                                    </div>
+
+                                                                    <div class="clearfix">
+                                                                        <span class="col-xs-6">Costo de env&iacute;o</span>
+                                                                        <span class="col-xs-6">
+                                                                            <input class="custom-amount form-control custom-control border-bottom cost" name="cost" type="text" placeholder="0.00">
+                                                                        </span>
+                                                                    </div>
+
+                                                                    <div class="clearfix">
+                                                                        <span class="col-xs-6">Pedido m&iacute;nimo</span>
+                                                                        <span class="col-xs-6">
+                                                                            <input class="custom-amount form-control custom-control border-less min" name="min" type="text" placeholder="0.00">
+                                                                        </span>
+                                                                    </div>
+
+                                                                    <div class="panel-footer">
+                                                                        <button type="button" class="btn btn-link cancelArea">Cancelar</button>
+                                                                        <button type="button" class="btn btn-link saveArea">Guardar</button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="dataArea">
+                                                                    <div class="clearfix cost">
+                                                                        <span class="col-xs-6">Costo de env&iacute;o</span>
+                                                                        <span class="col-xs-6 amount"></span>
+                                                                    </div>
+
+                                                                    <div class="clearfix min">
+                                                                        <span class="col-xs-6">Pedido m&iacute;nimo</span>
+                                                                        <span class="col-xs-6 amount"></span>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <input name="area" type="hidden" class="deliveryArea" />
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <!-- Delivery Panels -->
+                                            <div id="deliveryPanelAreas">
+
+                                                <?php if (!$branch->areas->isEmpty()) { ?>
+                                                    <?php foreach ($branch->areas as $deliveryArea) { ?>
+
+                                                        <div class="panel-group areaGroup" role="tablist" aria-multiselectable="true">
+                                                            <form method="post" action="<?php echo URL::action('BranchController@areaUpdate', [$branch->id, $deliveryArea->id]); ?>">
+                                                                <div class="panel panel-default">
+                                                                    <div class="panel-heading clearfix" role="tab">
+                                                                        <h4 class="panel-title pull-left">
+                                                                            <a class="area_title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                                <?php echo $deliveryArea->area_name; ?>
+                                                                            </a>
+                                                                        </h4>
+                                                                        <div class="actionArea pull-right">
+                                                                            <button type="button" href="#" class="btn btn-link width-padding removeArea">Borrar</button>
+                                                                            <button type="button" href="#" class="btn btn-link width-padding editArea">Editar</button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+
+                                                                        <div class="onAreaEdition">
+                                                                            <div class="clearfix">
+                                                                                <span class="col-xs-6">Nombre</span>
+                                                                                <span class="col-xs-6">
+                                                                                    <input class="custom-amount form-control custom-control border-bottom area_name" name="area_name" type="text" placeholder="Area de entrega 1" value="<?php echo $deliveryArea->area_name; ?>">
+                                                                                </span>
+                                                                            </div>
+
+                                                                            <div class="clearfix">
+                                                                                <span class="col-xs-6">Costo de env&iacute;o</span>
+                                                                                <span class="col-xs-6">
+                                                                                    <input class="custom-amount form-control custom-control border-bottom cost" name="cost" type="text" placeholder="0.00" value="<?php echo $deliveryArea->cost; ?>">
+                                                                                </span>
+                                                                            </div>
+
+                                                                            <div class="clearfix">
+                                                                                <span class="col-xs-6">Pedido m&iacute;nimo</span>
+                                                                                <span class="col-xs-6">
+                                                                                    <input class="custom-amount form-control custom-control border-less min" name="min" type="text" placeholder="0.00" value="<?php echo $deliveryArea->min; ?>">
+                                                                                </span>
+                                                                            </div>
+
+                                                                            <div class="panel-footer">
+                                                                                <button type="button" class="btn btn-link cancelArea">Cancelar</button>
+                                                                                <button type="button" class="btn btn-link saveArea">Guardar</button>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="dataArea">
+                                                                            <div class="clearfix cost">
+                                                                                <span class="col-xs-6">Costo de env&iacute;o</span>
+                                                                                <span class="col-xs-6 amount"><?php echo $deliveryArea->cost; ?></span>
+                                                                            </div>
+
+                                                                            <div class="clearfix min">
+                                                                                <span class="col-xs-6">Pedido m&iacute;nimo</span>
+                                                                                <span class="col-xs-6 amount"><?php echo $deliveryArea->min; ?></span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <input name="area" type="hidden" class="deliveryArea" value="<?php echo $deliveryArea->area; ?>"/>
+                                                            </form>
+                                                        </div>
+
+                                                    <?php } ?>
+                                                <?php } ?>
+                                            </div>
+
+                                            <button type="button" class="btn btn-success btn-flat btn-block addArea">Agregar zona de entrega</button>
+
+                                        </div>
+
+                                        <div class="col-xs-8">
+
+                                            <div id="deliveryArea">
+
+                                                <div id="mapBranchDelivery"></div>
+
+                                            </div>
+
                                         </div>
                                     </div>
 
-                                    <div class="col-xs-4">
+                                </div>
 
-                                        <div class="hidden">
-                                            <div class="panel-group areaGroupModel" role="tablist" aria-multiselectable="true">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading clearfix" role="tab">
-                                                        <h4 class="panel-title pull-left">
-                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                                Area de entrega 1
+
+                            </div>
+
+                            <div class="box-footer clearfix">
+                                <div class="col-xs-12 text-right">
+                                    <button class="btn btn-default btn-lg prev" type="button">Atr&aacute;s</button>
+                                    <button class="btn btn-default btn-lg next" form="branchDelivery" type="button">Siguiente</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- general form elements -->
+                        <div class="box box-solid branch-data">
+
+                            <div class="box-body">
+                                <form id="branchOpening" class="" role="form" method="post" action="<?php echo URL::action('BranchController@store'); ?>">
+
+                                    <div class="box-body clearfix">
+                                        <label for="branchOpen" class="col-xs-4 control-label form-medium">Atenci&oacute;n al p&uacute;blico</label>
+                                        <div class="col-xs-8 business-hours form-large">
+                                            <?php foreach (CommonEvents::dayArray() as $dayIndex => $day) { ?>
+                                                <div class="business-hours-control clearfix">
+                                                    <div class="day-range">
+
+                                                        <div class="col-xs-3">
+                                                            <input type="text" class="form-control input-sm" disabled value="<?php echo Lang::get('common.day.long.' . $dayIndex) ?>"/>
+                                                        </div>
+
+                                                        <div class="col-xs-6 range-control hour-range from-label <?php echo Input::old('days.' . $dayIndex . '.open') ? '' : 'invisible'; ?>">
+                                                            <div class="col-xs-6">
+                                                                <div class="timepicker">
+                                                                    <div class="bootstrap-timepicker">
+                                                                        <input name="days[<?php echo $dayIndex; ?>][from]" type="text" class="form-control input-sm from-range" value="<?php echo Input::old('days.' . $dayIndex . '.from') ? Input::old('days.' . $dayIndex . '.from') : '08:00'; ?>"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-xs-6">
+                                                                <div class="timepicker">
+                                                                    <div class="bootstrap-timepicker">
+                                                                        <input name="days[<?php echo $dayIndex; ?>][to]" type="text" class="form-control input-sm to-range" value="<?php echo Input::old('days.' . $dayIndex . '.to') ? Input::old('days.' . $dayIndex . '.to') : '18:00'; ?>"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <a href="#" title="Copiar anterior" class="copy-last-time">
+                                                                <i class="fa fa-clock-o"></i>
                                                             </a>
-                                                        </h4>
-                                                        <div class="actionArea pull-right">
-                                                            <button type="button" href="#" class="btn btn-link width-padding removeArea">Borrar</button>
-                                                            <button type="button" href="#" class="btn btn-link width-padding editArea">Editar</button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-
-                                                        <div class="onAreaEdition">
-                                                            <div class="clearfix">
-                                                                <span class="col-xs-6">Nombre</span>
-                                                                <span class="col-xs-6">
-                                                                    <input class="custom-amount form-control custom-control border-bottom" name="areas[name][]" type="text" placeholder="Area de entrega 1">
-                                                                </span>
-                                                            </div>
-
-                                                            <div class="clearfix">
-                                                                <span class="col-xs-6">Costo de env&iacute;o</span>
-                                                                <span class="col-xs-6">
-                                                                    <input class="custom-amount form-control custom-control border-bottom" name="areas[cost][]" type="text" placeholder="0.00">
-                                                                </span>
-                                                            </div>
-
-                                                            <div class="clearfix">
-                                                                <span class="col-xs-6">Pedido m&iacute;nimo</span>
-                                                                <span class="col-xs-6">
-                                                                    <input class="custom-amount form-control custom-control border-less" name="areas[min][]" type="text" placeholder="0.00">
-                                                                </span>
-                                                            </div>
-
-                                                            <div class="panel-footer">
-                                                                <button type="button" class="btn btn-link cancelArea">Cancelar</button>
-                                                                <button type="button" class="btn btn-link saveArea">Guardar</button>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div class="dataArea">
-                                                            <div class="clearfix cost">
-                                                                <span class="col-xs-6">Costo de env&iacute;o</span>
-                                                                <span class="col-xs-6 amount"></span>
-                                                            </div>
-
-                                                            <div class="clearfix min">
-                                                                <span class="col-xs-6">Pedido m&iacute;nimo</span>
-                                                                <span class="col-xs-6 amount"></span>
-                                                            </div>
                                                         </div>
 
-                                                    </div>
-                                                </div>
-
-                                                <input name="areas[area][]" type="hidden" class="deliveryArea" />
-                                            </div>
-                                        </div>
-
-                                        <!-- Delivery Panels -->
-                                        <div id="deliveryPanelAreas"></div>
-
-                                        <button type="button" class="btn btn-success btn-flat btn-block addArea">Agregar zona de entrega</button>
-
-                                    </div>
-
-                                    <div class="col-xs-8">
-
-                                        <div id="deliveryArea">
-
-                                            <div id="mapBranchDelivery" style="height: 250px;"></div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </form>
-                        </div>
-
-                        <div class="box-footer clearfix">
-                            <div class="col-xs-12 text-right">
-                                <button class="btn btn-default btn-lg prev" type="button">Atr&aacute;s</button>
-                                <button class="btn btn-default btn-lg next" form="branchDelivery" type="button">Siguiente</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- general form elements -->
-                    <div class="box box-solid branch-data">
-
-                        <div class="box-body">
-                            <form id="branchOpening" class="" role="form" method="post" action="<?php echo URL::action('BranchController@store'); ?>">
-
-                                <div class="box-body clearfix">
-                                    <label for="branchOpen" class="col-xs-4 control-label form-medium">Atenci&oacute;n al p&uacute;blico</label>
-                                    <div class="col-xs-8 business-hours form-large">
-                                        <?php foreach (CommonEvents::dayArray() as $dayIndex => $day) { ?>
-                                            <div class="business-hours-control clearfix">
-                                                <div class="day-range">
-
-                                                    <div class="col-xs-3">
-                                                        <input type="text" class="form-control input-sm" disabled value="<?php echo Lang::get('common.day.long.' . $dayIndex) ?>"/>
-                                                    </div>
-
-                                                    <div class="col-xs-6 range-control hour-range from-label <?php echo Input::old('days.' . $dayIndex . '.open') ? '' : 'invisible'; ?>">
-                                                        <div class="col-xs-6">
-                                                            <div class="timepicker">
-                                                                <div class="bootstrap-timepicker">
-                                                                    <input name="days[<?php echo $dayIndex; ?>][from]" type="text" class="form-control input-sm from-range" value="<?php echo Input::old('days.' . $dayIndex . '.from') ? Input::old('days.' . $dayIndex . '.from') : '08:00'; ?>"/>
-                                                                </div>
-                                                            </div>
+                                                        <div style="padding-top: 15px;" class="pull-right">
+                                                            <input <?php echo Input::old('days.' . $dayIndex . '.open') ? 'checked' : ''; ?> class="enable hidden-checkbox day-status" type="checkbox" id="day-<?php echo $dayIndex; ?>" name="days[<?php echo $dayIndex; ?>][open]" value="1">
+                                                            <label lang="<?php echo App::getLocale(); ?>" for="day-<?php echo $dayIndex; ?>" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
                                                         </div>
 
-                                                        <div class="col-xs-6">
-                                                            <div class="timepicker">
-                                                                <div class="bootstrap-timepicker">
-                                                                    <input name="days[<?php echo $dayIndex; ?>][to]" type="text" class="form-control input-sm to-range" value="<?php echo Input::old('days.' . $dayIndex . '.to') ? Input::old('days.' . $dayIndex . '.to') : '18:00'; ?>"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <a href="#" title="Copiar anterior" class="copy-last-time">
-                                                            <i class="fa fa-clock-o"></i>
-                                                        </a>
-                                                    </div>
-
-                                                    <div style="padding-top: 15px;" class="pull-right">
-                                                        <input <?php echo Input::old('days.' . $dayIndex . '.open') ? 'checked' : ''; ?> class="enable hidden-checkbox day-status" type="checkbox" id="day-<?php echo $dayIndex; ?>" name="days[<?php echo $dayIndex; ?>][open]" value="1">
-                                                        <label lang="<?php echo App::getLocale(); ?>" for="day-<?php echo $dayIndex; ?>" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
                                                     </div>
 
                                                 </div>
-
-                                            </div>
-                                        <?php } ?>
+                                            <?php } ?>
+                                        </div>
                                     </div>
+
+                                </form>
+                            </div>
+
+                            <div class="box-footer clearfix">
+                                <div class="col-xs-12 text-right">
+                                    <button class="btn btn-default btn-lg prev" type="button">Atr&aacute;s</button>
+                                    <button class="btn btn-default btn-lg next" form="branchOpening" type="button">Guardar</button>
                                 </div>
-
-                            </form>
-                        </div>
-
-                        <div class="box-footer clearfix">
-                            <div class="col-xs-12 text-right">
-                                <button class="btn btn-default btn-lg prev" type="button">Atr&aacute;s</button>
-                                <button class="btn btn-default btn-lg next" form="branchOpening" type="button">Guardar</button>
                             </div>
                         </div>
-                    </div>
+
+                    <?php } ?>
 
                 </div><!--/.col (left) -->
 

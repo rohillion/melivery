@@ -13,6 +13,7 @@ use Commerce;
 use Customer;
 use Branch;
 use BranchDealer;
+use BranchArea;
 use Tag;
 use Rule;
 use RuleType;
@@ -35,6 +36,7 @@ use App\Repository\Commerce\EloquentCommerce;
 use App\Repository\Customer\EloquentCustomer;
 use App\Repository\Branch\EloquentBranch;
 use App\Repository\BranchDealer\EloquentBranchDealer;
+use App\Repository\BranchArea\EloquentBranchArea;
 use App\Repository\Tag\EloquentTag;
 use App\Repository\Rule\EloquentRule;
 use App\Repository\RuleType\EloquentRuleType;
@@ -114,6 +116,7 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->customer($app);
         $this->branch($app);
         $this->branchDealer($app);
+        $this->branchArea($app);
         $this->tag($app);
         $this->rule($app);
         $this->ruletype($app);
@@ -173,6 +176,16 @@ class RepositoryServiceProvider extends ServiceProvider {
             );
 
             return $branchDealer;
+        });
+    }
+    
+    private function branchArea($app) {
+        $app->bind('App\Repository\BranchArea\BranchAreaInterface', function($app) {
+            $branchArea = new EloquentBranchArea(
+                    new BranchArea
+            );
+
+            return $branchArea;
         });
     }
 

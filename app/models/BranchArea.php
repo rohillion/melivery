@@ -14,7 +14,7 @@ class BranchArea extends Eloquent {
      * 
      * @var array 
      */
-    protected $fillable = array('branch_id','cost','min','area');
+    protected $fillable = array('branch_id','cost','min','area','area_name');
 
     /**
      * Branch relationship

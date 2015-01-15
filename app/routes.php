@@ -158,20 +158,45 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
     ]);
 
     //Route::resource('branch', 'BranchController');
-
+    
     Route::get("/branch", [
         "as" => "commerce.branch.index",
         "uses" => "BranchController@index"
+    ]);
+    
+    Route::post("/branch", [
+        'before' => 'csrf',
+        "uses" => "BranchController@store"
     ]);
 
     Route::get("/branch/create", [
         "as" => "commerce.branch.create",
         "uses" => "BranchController@create"
     ]);
-
-    Route::post("/branch", [
+    
+    Route::post("/branch/{branch_id}/delivery", [
         'before' => 'csrf',
-        "uses" => "BranchController@store"
+        "uses" => "BranchController@delivery"
+    ]);
+    
+    Route::post("/branch/{branch_id}/pickup", [
+        'before' => 'csrf',
+        "uses" => "BranchController@pickup"
+    ]);
+    
+    Route::post("/branch/{branch_id}/area", [
+        'before' => 'csrf',
+        "uses" => "BranchController@areaCreate"
+    ]);
+    
+    Route::post("/branch/{branch_id}/area/{area_id}", [
+        'before' => 'csrf',
+        "uses" => "BranchController@areaUpdate"
+    ]);
+    
+    Route::delete("/branch/{branch_id}/area/{area_id}", [
+        'before' => 'csrf',
+        "uses" => "BranchController@areaDelete"
     ]);
 
     Route::get("/branch/{branch_id}/edit", [
@@ -187,6 +212,11 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
     Route::delete("/branch/{branch_id}", [
         'before' => 'csrf',
         "uses" => "BranchController@destroy"
+    ]);
+    
+    Route::post("/branch/{branch_id}", [
+        'before' => 'csrf',
+        "uses" => "BranchController@update"
     ]);
 
     Route::get("/order", [

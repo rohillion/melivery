@@ -226,6 +226,7 @@ html, body{
     color: white;
 }
 
+/* DELIVERY AREA */
 .areaGroup .onAreaEdition{
     display: none;
 }
@@ -242,6 +243,10 @@ html, body{
 
 .cancelArea{
     padding-left: 0;
+}
+
+#mapBranchDelivery{
+    height: 350px;
 }
 
 /***** branch *****/

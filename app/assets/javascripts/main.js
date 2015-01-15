@@ -1,10 +1,10 @@
 var main = {
-    init: function() {
+    init: function () {
         //this.getChannel();
         this.onSuccess();
         storage.init();
     },
-    onSuccess: function() {
+    onSuccess: function () {
         var msg = $('#success-msg');
 
         if (msg.val()) {
@@ -13,29 +13,42 @@ var main = {
             });
         }
     },
-    sendForm: function(target, formData, callback) {
+    sendForm: function (target, formData, callback) {
 
         $.ajax({
             url: target + "?" + formData,
             dataType: "json"
-        }).done(function(res) {
+        }).done(function (res) {
 
             if (typeof callback == 'function')
                 callback(res);
         });
     },
-    run: function(target, callback) {
+    sendFormPost: function (target, formData, callback) {
+
+        $.ajax({
+            type: 'post',
+            url: target,
+            data: formData,
+            dataType: "json"
+        }).done(function (res) {
+
+            if (typeof callback == 'function')
+                callback(res);
+        });
+    },
+    run: function (target, callback) {
 
         $.ajax({
             url: target,
             dataType: "json"
-        }).done(function(res) {
+        }).done(function (res) {
 
             if (typeof callback == 'function')
                 callback(res);
         });
     },
-    notify: function(res, callback) {
+    notify: function (res, callback) {
 
         var msg = new Array;
 
@@ -71,7 +84,7 @@ var main = {
             // time to remove notification if user don't do it
             ttl: res.time ? res.time : 3500,
             // callbacks
-            onClose: function() {
+            onClose: function () {
                 if (typeof callback == 'function')
                     callback();
             }
@@ -80,7 +93,7 @@ var main = {
         // show the notification
         notification.show();
     },
-    highlight: function(element) {
+    highlight: function (element) {
 
         element.effect("highlight", {
             color: "#ffff99"
@@ -94,7 +107,7 @@ var main = {
      scrollTop: element.offset().top
      }, 1000, 'swing', callback);
      },*/
-    scrollTo: function(element, offsetTopFix, callback) {
+    scrollTo: function (element, offsetTopFix, callback) {
 
         if (location.pathname.replace(/^\//, '') == element.pathname.replace(/^\//, '') && location.hostname == element.hostname) {
 
@@ -109,7 +122,7 @@ var main = {
         }
 
     },
-    calculateElapsedTime: function(date, time, callback) {
+    calculateElapsedTime: function (date, time, callback) {
 
         // set the date we're counting down to
         var targetDate = new Date(date[0], date[1] - 1, date[2], time[0], time[1], time[2]);
@@ -130,7 +143,7 @@ var main = {
 
         callback(currentDate);
     },
-    calculateRemainingTime: function(date, time, callback) {
+    calculateRemainingTime: function (date, time, callback) {
 
         // set the date we're counting down to
         var targetDate = new Date(date[0], date[1] - 1, date[2], time[0], time[1], time[2]);
@@ -151,7 +164,7 @@ var main = {
 
         callback(currentDate, targetDate);
     },
-    doClock: function(elapsedDate, callback) {
+    doClock: function (elapsedDate, callback) {
 
         var orderSeconds = elapsedDate.getSeconds() * 1000,
                 currentDate = new Date(),
@@ -188,7 +201,7 @@ var main = {
         window.setTimeout(instance, 100);
 
     },
-    doTimer: function(elapsedDate, callback) {
+    doTimer: function (elapsedDate, callback) {
 
         var orderSeconds = elapsedDate.getSeconds() * 1000,
                 currentDate = new Date(),
@@ -226,7 +239,7 @@ var main = {
         window.setTimeout(instance, 100);
 
     },
-    substringMatcher: function(strs) {
+    substringMatcher: function (strs) {
 
         return function findMatches(q, cb) {
             var matches, substrRegex;
@@ -239,7 +252,7 @@ var main = {
 
             // iterate through the pool of strings and for any string that
             // contains the substring `q`, add it to the `matches` array
-            $.each(strs, function(i, str) {
+            $.each(strs, function (i, str) {
                 if (substrRegex.test(str)) {
                     // the typeahead jQuery plugin expects suggestions to a
                     // JavaScript object, refer to typeahead docs for more info
@@ -250,15 +263,15 @@ var main = {
             cb(matches);
         };
     },
-    popover: function() {
+    popover: function () {
 
-        $('body').on('hidden.bs.popover', function() {
+        $('body').on('hidden.bs.popover', function () {
             $('.popover:not(.in)').hide().detach();
         });
 
         var popoverOld = false;
 
-        $(document).on('click', 'body', function(e) {
+        $(document).on('click', 'body', function (e) {
 
             if ($('.popover').has(e.target).length === 0) {
 
@@ -279,7 +292,7 @@ var main = {
 
                         if ($(popoverOld).is(popoverNew)) {
 
-                            $(popoverOld).one('hidden.bs.popover', function() {
+                            $(popoverOld).one('hidden.bs.popover', function () {
 
                                 popoverOld = false;
                             });
@@ -288,9 +301,9 @@ var main = {
 
                         } else {
 
-                            $(popoverOld).one('hidden.bs.popover', function() {
+                            $(popoverOld).one('hidden.bs.popover', function () {
 
-                                $(popoverNew).one('shown.bs.popover', function() {
+                                $(popoverNew).one('shown.bs.popover', function () {
                                     popoverOld = popoverNew;
                                 });
 
@@ -306,7 +319,7 @@ var main = {
 
         });
 
-        $(document).on('click', '.popover-item', function() {
+        $(document).on('click', '.popover-item', function () {
 
             var item = $(this);
             item.closest('.select-mask').find('.mask').text(item.attr('data-label'));
@@ -315,15 +328,15 @@ var main = {
             return false;
         });
     },
-    tooltip: function() {
+    tooltip: function () {
         $('[data-toggle="tooltip"]').tooltip();
     },
-    isEmpty: function(el) {
+    isEmpty: function (el) {
         return !$.trim(el.html());
     },
-    delay: function() {
+    delay: function () {
         var timer = 0;
-        return function(callback, ms) {
+        return function (callback, ms) {
             clearTimeout(timer);
             timer = setTimeout(callback, ms);
         };

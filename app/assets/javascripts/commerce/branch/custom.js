@@ -1,16 +1,19 @@
 /* Branch Custom.JS */
 var custom = {
-    init: function() {
+    init: function () {
         this.openHours();
         this.cityTypeahead();
         this.adressModal();
         this.searchBranchLocation();
         this.setDeliveryMap();
         this.dealers();
-        this.formSteps();
+        this.basic();
+        this.delivery();
+        this.pickup();
+        this.formControl();
 
     },
-    toggleClock: function() {
+    toggleClock: function () {
         var wrappers = $('.business-hours-control');
 
         var i = 0;
@@ -30,14 +33,14 @@ var custom = {
 
         return true;
     },
-    openHours: function() {
+    openHours: function () {
         //Timepicker
         $(".timepicker input").timepicker({
             showInputs: false,
             showMeridian: false
         });
 
-        $('.day-status').on('change', function() {
+        $('.day-status').on('change', function () {
 
             var wrapper = $(this).closest('.business-hours-control');
 
@@ -48,7 +51,7 @@ var custom = {
             custom.toggleClock();
         });
 
-        $('.copy-last-time').on('click', function() {
+        $('.copy-last-time').on('click', function () {
 
             var last = $(this).closest('.business-hours-control').prevAll('.business-hours-control').find('.hour-range').not('.invisible').last();
 
@@ -62,7 +65,7 @@ var custom = {
             return false;
         });
     },
-    setDeliveryMap: function() {
+    setDeliveryMap: function () {
 
         var notifyOpts = {
             'message': 'Para poder establecer un radio de entrega primero debe ingresar la dirección de la sucursal',
@@ -72,7 +75,7 @@ var custom = {
 
         var position = $('#position');
 
-        $('#delivery').on('change', function() {
+        $('#delivery').on('change', function () {
 
             if ($(this).is(':checked')) {
 
@@ -83,18 +86,20 @@ var custom = {
                     return false;
                 }
 
-                map.setMap($('#mapBranchDelivery'), position.val(), function() {
+                $('#deliverySetup').show();
+
+                map.setMap($('#mapBranchDelivery'), position.val(), function () {
 
                     var deliveryArea = $('#deliveryPanelAreas').find('.deliveryArea');
 
                     if (deliveryArea.length >= 1) {
 
-                        $.each(deliveryArea, function(i) {
+                        $.each(deliveryArea, function (i) {
 
                             var current = $(deliveryArea[i]);
 
                             if (current.val().length > 0)
-                                map.drawPolygon(current);
+                                map.drawPolygon(current, false);
                         });
                     } else {
 
@@ -103,29 +108,35 @@ var custom = {
                 });
 
             } else {
-
+                $('#deliverySetup').hide();
+                $('#mapBranchDelivery').remove();
+                $('#deliveryArea').append('<div id="mapBranchDelivery"></div>');
                 map.polygons = new Array;
             }
         });
 
-        $('.addArea').on('click', function() {
+        $('.addArea').on('click', function () {
             custom.addArea();
         });
 
-        $(document).on('click', '.saveArea', function() {
+        $(document).on('click', '.saveArea', function () {
 
             custom.saveArea($(this).closest('.areaGroup'));
         });
 
-        $(document).on('click', '.cancelArea', function() {
+        $(document).on('click', '.cancelArea', function () {
             custom.cancelArea($(this).closest('.areaGroup'));
         });
-        
-        $(document).on('click', '.editArea', function() {
+
+        $(document).on('click', '.editArea', function () {
             custom.editArea($(this).closest('.areaGroup'));
         });
+
+        $(document).on('click', '.removeArea', function () {
+            custom.removeArea($(this).closest('.areaGroup'));
+        });
     },
-    addArea: function() {
+    addArea: function () {
 
         $('.addArea').hide();
 
@@ -135,47 +146,89 @@ var custom = {
 
         $('#deliveryPanelAreas').append(newAreaPanel);
 
-        map.getDeliveryArea(position.val(), 5, function(coords) {
+        map.getDeliveryArea(position.val(), 5, function (coords) {
 
-            map.getCoords(coords, function(coordString) {
+            map.getCoords(coords, function (coordString) {
 
                 var newArea = newAreaPanel.find('.deliveryArea');
 
                 newArea.val(coordString);
 
-                map.drawPolygon(newArea);
+                map.drawPolygon(newArea, true);
             });
         });
 
     },
-    saveArea: function(group) {
-        
-        var index = group.index();
-        
-        var path = map.polygons[ index ].getPath().getArray();
-        
-        console.log(path);
-        
-        if (group.is('.new')) {
-            
-            //ajax inserto
-        } else {
+    saveArea: function (group) {
 
-            //ajax edito
-        }
-        
-        group.removeClass('new edit');
-        
-        map.polygons[ index ].setEditable(false);
+        var form = group.find('form'),
+                dataArea = group.find('.dataArea'),
+                index = group.index();
 
-        $('.addArea').show();
+        main.sendFormPost(form.attr('action'), form.serialize(), function (res) {
+
+            if (res.status) {
+
+                if (group.is('.new'))
+                    form.attr('action', form.attr('action') + '/' + res.area.id);
+
+                dataArea.find('.cost').find('.amount').text(res.area.cost);
+                dataArea.find('.min').find('.amount').text(res.area.min);
+                group.find('.area_title').text(res.area.area_name);
+
+                group.removeClass('new edit');
+                map.polygons[ index ].setEditable(false);
+
+                $('.addArea').show();
+            }
+
+            main.notify(res);
+
+        });
+
     },
-    cancelArea: function(group) {
+    removeArea: function (group) {
+
+        var form = group.find('form'),
+                index = group.index();
+
+        main.sendFormPost(form.attr('action'), '&_method=delete', function (res) {
+
+            if (res.status) {
+
+                map.polygons[ index ].setMap(null);
+                map.polygons.splice(index, 1);
+                group.remove();
+                
+                if (map.polygons.length < 1){
+                     $('#delivery').prop('checked', false);
+                     $('#deliverySetup').hide();
+                }
+                   
+            }
+
+            main.notify(res);
+
+        });
+
+    },
+    editArea: function (group) {
 
         var index = group.index();
-        
+
+        map.poly = map.polygons[ index ];
+        map.poly.setEditable(true);
+
+        group.addClass('edit');
+
+        $('.addArea').hide();
+    },
+    cancelArea: function (group) {
+
+        var index = group.index();
+
         if (group.is('.new')) {
-            
+
             map.polygons[ index ].setMap(null);
             map.polygons.splice(index, 1);
             group.remove();
@@ -184,20 +237,97 @@ var custom = {
             map.polygons[ index ].setEditable(false);
             group.removeClass('new edit');
         }
-        
+
         $('.addArea').show();
     },
-    editArea: function(group) {
+    basic: function () {
 
-        var index = group.index();
-        
-        map.polygons[ index ].setEditable(true);
-        
-        group.addClass('edit');
-        
-        $('.addArea').hide();
+        var form,
+                trigger;
+
+        $('#editBranch').on('click', function () {
+
+            form = $('#branchBasic');
+            trigger = $(this);
+
+            trigger.attr('disabled', 'disabled');
+
+            main.sendFormPost(form.attr('action'), form.serializeArray(), function (res) {
+
+                trigger.removeAttr('disabled');
+                main.notify(res);
+
+            });
+        });
+
     },
-    cityTypeahead: function() {
+    delivery: function () {
+
+        var form,
+                trigger;
+
+        $('#delivery').on('change', function () {
+
+            form = $('#branchDelivery');
+            trigger = $(this);
+
+            main.sendFormPost(form.attr('action'), form.serializeArray(), function (res) {
+
+                main.notify(res);
+            });
+        });
+
+    },
+    pickup: function () {
+
+        var form,
+                trigger;
+
+        $('#pickup').on('change', function () {
+
+            form = $('#branchPickUp');
+            trigger = $(this);
+
+            main.sendFormPost(form.attr('action'), form.serializeArray(), function (res) {
+
+                main.notify(res);
+            });
+        });
+
+    },
+    createBranch: function () {
+
+        var form = $('#branchBasic'),
+                deleteButton = $('#deleteBranch'),
+                deleteForm = $('#deleteBranchForm'),
+                trigger;
+
+        $('#createBranch').on('click', function () {
+
+            trigger = $(this);
+
+            trigger.attr('disabled', 'disabled');
+
+            custom.saveBranch(form, function (res) {
+
+                if (res.status) {
+                    custom.formNext(trigger, function () {
+                        trigger.removeAttr('disabled');
+                        trigger.attr('id', 'editBranch');
+                        deleteButton.removeClass('notvisible');
+                        form.attr('action', form.attr('action') + '/' + res.branch.id);
+                        deleteForm.attr('action', deleteForm.attr('action') + '/' + res.branch.id);
+                    });
+                } else {
+                    trigger.removeAttr('disabled');
+                    main.notify(res);
+                }
+
+            });
+        });
+
+    },
+    cityTypeahead: function () {
 
 
         // constructs the suggestion engine
@@ -205,10 +335,10 @@ var custom = {
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('asciiname'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             remote: {
-                url: '../city/find?query=%QUERY',
-                filter: function(cities) {
+                url: '/city/find?query=%QUERY',
+                filter: function (cities) {
                     // Map the remote source JSON array to a JavaScript array
-                    return $.map(cities.cities, function(city) {
+                    return $.map(cities.cities, function (city) {
                         return {id: city.geonameid, name: city.name, asciiname: city.asciiname, state_name: city.state.state_name, state_asciiname: city.state.state_asciiname};
                     });
                 }
@@ -237,13 +367,13 @@ var custom = {
                 suggestion: Handlebars.compile('<p><strong>{{name}}</strong> – {{state_name}}</p>')
             }
 
-        }).on('typeahead:selected', function(event, obj) {
+        }).on('typeahead:selected', function (event, obj) {
             geocoding.cityId = obj.id;
             geocoding.city = obj.asciiname;
             geocoding.state = obj.state_asciiname;
         });
     },
-    completeAddress: function() {
+    completeAddress: function () {
 
         if (geocoding.position) {
 
@@ -261,9 +391,9 @@ var custom = {
         }
 
     },
-    adressModal: function() {
+    adressModal: function () {
 
-        $('#branchCity').on('focus', function() {
+        $('#branchCity').on('focus', function () {
 
             if ($(this).val().length > 0) {
                 var e = jQuery.Event("keydown");
@@ -273,12 +403,12 @@ var custom = {
 
         });
 
-        $('#address-modal').on('shown.bs.modal', function() {
+        $('#address-modal').on('shown.bs.modal', function () {
 
             $(this).find('input:text')[0].focus();
         });
 
-        $('#address-modal').on('hidden.bs.modal', function() {
+        $('#address-modal').on('hidden.bs.modal', function () {
 
             $('#found,#not-found').hide();
             $('#map-canvas').empty();
@@ -296,11 +426,11 @@ var custom = {
      * searchLocation(address, city)
      * Lets us retrieve the coordinates from a branch with the address and the city.
      *******************************************************************************/
-    searchLocation: function(address, city, state) {
+    searchLocation: function (address, city, state) {
 
         $('#found,#not-found').hide();
 
-        geocoding.searchLocation(address, city, state, function(mapOptions, markerOpts) {
+        geocoding.searchLocation(address, city, state, function (mapOptions, markerOpts) {
 
             if (geocoding.found) {
 
@@ -310,13 +440,13 @@ var custom = {
                 $('#not-found').show();
             }
 
-            geocoding.setMap($('#map-canvas')[0], mapOptions, function(map) {
+            geocoding.setMap($('#map-canvas')[0], mapOptions, function (map) {
 
                 markerOpts.map = map;
 
-                geocoding.setMaker(markerOpts, function(marker) {
+                geocoding.setMaker(markerOpts, function (marker) {
 
-                    google.maps.event.addListener(marker, "mouseup", function(event) {
+                    google.maps.event.addListener(marker, "mouseup", function (event) {
 
                         geocoding.position = event.latLng;
                     });
@@ -327,8 +457,8 @@ var custom = {
 
         });
     },
-    searchBranchLocation: function() {
-        $('#searchBranchLocation').on('click', function() {
+    searchBranchLocation: function () {
+        $('#searchBranchLocation').on('click', function () {
 
             geocoding.street = $('#branchAddress').val();
 
@@ -346,14 +476,14 @@ var custom = {
 
         });
     },
-    dealers: function() {
+    dealers: function () {
 
         var newDealer;
         var dealer = $('#dealer-model');
         var dealerList = $('#dealer-list');
 
 
-        $('#add-dealer').on('click', function() {
+        $('#add-dealer').on('click', function () {
             newDealer = dealer.clone()[0];
             dealerList.append(newDealer);
             $(newDealer).removeClass('invisible').addClass('dealer').find('input').attr('name', 'dealer[new][]');
@@ -361,7 +491,7 @@ var custom = {
 
         var parent;
 
-        $(document).on('click', '.remove-dealer', function() {
+        $(document).on('click', '.remove-dealer', function () {
 
             parent = $(this).parent();
 
@@ -372,84 +502,120 @@ var custom = {
         });
 
     },
-    formSteps: function() {
+    formNext: function (trigger, callback) {
 
-        var current_fs, next_fs, previous_fs;
+        var current_fs, next_fs;
         var left, opacity, scale; //fieldset properties which we will animate
         var animating; //flag to prevent quick multi-click glitches
 
-        $('.next').on('click', function() {
+        if (animating)
+            return false;
+        animating = true;
 
-            if (animating)
-                return false;
-            animating = true;
+        current_fs = trigger.closest('.branch-data');
+        next_fs = current_fs.next('.branch-data');
 
-            current_fs = $(this).closest('.branch-data');
-            next_fs = current_fs.next('.branch-data');
+        //activate next step on progressbar using the index of next_fs
+        $("#progressbar li").eq($(".branch-data").index(next_fs)).addClass("active");
 
-            //activate next step on progressbar using the index of next_fs
-            $("#progressbar li").eq($(".branch-data").index(next_fs)).addClass("active");
+        //show the next fieldset
+        next_fs.show();
+        //hide the current fieldset with style
+        current_fs.animate({opacity: 0}, {
+            step: function (now, mx) {
+                //as the opacity of current_fs reduces to 0 - stored in "now"
+                //1. scale current_fs down to 80%
+                scale = 1 - (1 - now) * 0.2;
+                //2. bring next_fs from the right(50%)
+                left = (now * 50) + "%";
+                //3. increase opacity of next_fs to 1 as it moves in
+                opacity = 1 - now;
+                current_fs.css({'transform': 'scale(' + scale + ')'});
+                next_fs.css({'left': left, 'opacity': opacity});
+            },
+            duration: 800,
+            complete: function () {
+                current_fs.hide();
+                //next_fs.css({'left': 'initial'});
+                animating = false;
 
-            //show the next fieldset
-            next_fs.show();
-            //hide the current fieldset with style
-            current_fs.animate({opacity: 0}, {
-                step: function(now, mx) {
-                    //as the opacity of current_fs reduces to 0 - stored in "now"
-                    //1. scale current_fs down to 80%
-                    scale = 1 - (1 - now) * 0.2;
-                    //2. bring next_fs from the right(50%)
-                    left = (now * 50) + "%";
-                    //3. increase opacity of next_fs to 1 as it moves in
-                    opacity = 1 - now;
-                    current_fs.css({'transform': 'scale(' + scale + ')'});
-                    next_fs.css({'left': left, 'opacity': opacity});
-                },
-                duration: 800,
-                complete: function() {
-                    current_fs.hide();
-                    //next_fs.css({'left': 'initial'});
-                    animating = false;
-                },
-                //this comes from the custom easing plugin
-                easing: 'easeInOutBack'
-            });
-
+                if (typeof callback == 'function')
+                    callback(next_fs);
+            },
+            //this comes from the custom easing plugin
+            easing: 'easeInOutBack'
         });
 
-        $('.prev').on('click', function() {
+    },
+    formPrev: function (trigger) {
 
-            current_fs = $(this).closest('.branch-data');
-            previous_fs = current_fs.prev('.branch-data');
+        var current_fs, previous_fs;
+        var left, opacity, scale; //fieldset properties which we will animate
+        var animating; //flag to prevent quick multi-click glitches
 
-            //de-activate current step on progressbar
-            $("#progressbar li").eq($(".branch-data").index(current_fs)).removeClass("active");
+        current_fs = trigger.closest('.branch-data');
+        previous_fs = current_fs.prev('.branch-data');
 
-            //show the previous fieldset
-            previous_fs.show();
-            //hide the current fieldset with style
-            current_fs.animate({opacity: 0}, {
-                step: function(now, mx) {
-                    //as the opacity of current_fs reduces to 0 - stored in "now"
-                    //1. scale previous_fs from 80% to 100%
-                    scale = 0.8 + (1 - now) * 0.2;
-                    //2. take current_fs to the right(50%) - from 0%
-                    left = ((1 - now) * 50) + "%";
-                    //3. increase opacity of previous_fs to 1 as it moves in
-                    opacity = 1 - now;
-                    current_fs.css({'left': left});
-                    previous_fs.css({'transform': 'scale(' + scale + ')', 'opacity': opacity});
-                },
-                duration: 800,
-                complete: function() {
-                    current_fs.hide();
-                    animating = false;
-                },
-                //this comes from the custom easing plugin
-                easing: 'easeInOutBack'
-            });
+        //de-activate current step on progressbar
+        $("#progressbar li").eq($(".branch-data").index(current_fs)).removeClass("active");
 
+        //show the previous fieldset
+        previous_fs.show();
+        //hide the current fieldset with style
+        current_fs.animate({opacity: 0}, {
+            step: function (now, mx) {
+                //as the opacity of current_fs reduces to 0 - stored in "now"
+                //1. scale previous_fs from 80% to 100%
+                scale = 0.8 + (1 - now) * 0.2;
+                //2. take current_fs to the right(50%) - from 0%
+                left = ((1 - now) * 50) + "%";
+                //3. increase opacity of previous_fs to 1 as it moves in
+                opacity = 1 - now;
+                current_fs.css({'left': left});
+                previous_fs.css({'transform': 'scale(' + scale + ')', 'opacity': opacity});
+            },
+            duration: 800,
+            complete: function () {
+                current_fs.hide();
+                animating = false;
+            },
+            //this comes from the custom easing plugin
+            easing: 'easeInOutBack'
         });
 
+    },
+    formControl: function () {
+
+        $('.next').on('click', function () {
+            custom.formNext($(this), function (branchData) {
+
+                var delivery = branchData.find('#delivery');
+
+                if (delivery.length > 0 && delivery.is(':checked')) {
+
+                    var position = $('#position');
+
+                    map.setMap($('#mapBranchDelivery'), position.val(), function () {
+
+                        var deliveryArea = $('#deliveryPanelAreas').find('.deliveryArea');
+
+                        $.each(deliveryArea, function (i) {
+
+                            var current = $(deliveryArea[i]);
+
+                            if (current.val().length > 0)
+                                map.drawPolygon(current, false);
+                        });
+
+                    });
+
+                }
+
+            });
+        });
+
+        $('.prev').on('click', function () {
+            custom.formPrev($(this));
+        });
     }
 }
