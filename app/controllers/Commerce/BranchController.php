@@ -3,6 +3,7 @@
 use App\Repository\Branch\BranchInterface;
 use App\Service\Form\Branch\BranchForm;
 use App\Service\Form\BranchArea\BranchAreaForm;
+use App\Service\Form\BranchOpening\BranchOpeningForm;
 use App\Repository\City\CityInterface;
 
 class BranchController extends BaseController {
@@ -10,12 +11,14 @@ class BranchController extends BaseController {
     protected $branch;
     protected $branchForm;
     protected $branchAreaForm;
+    protected $branchOpeningForm;
     protected $city;
 
-    public function __construct(BranchInterface $branch, BranchForm $branchForm, BranchAreaForm $branchAreaForm, CityInterface $city) {
+    public function __construct(BranchInterface $branch, BranchForm $branchForm, BranchAreaForm $branchAreaForm, BranchOpeningForm $branchOpeningForm, CityInterface $city) {
         $this->branch = $branch;
         $this->branchForm = $branchForm;
         $this->branchAreaForm = $branchAreaForm;
+        $this->branchOpeningForm = $branchOpeningForm;
         $this->city = $city;
     }
 
@@ -171,6 +174,34 @@ class BranchController extends BaseController {
                     'status' => FALSE,
                     'type' => 'error',
                     'message' => $this->branchForm->errors()->all())
+        );
+    }
+    
+    /**
+     * Edit branch opening hours
+     * POST /branch/{branch_id}/opening
+     */
+    public function opening($branch_id) {
+
+        $input['days'] = Input::get('days');
+        
+        // Branch Opening Hours--------
+        $branchOpening = $this->branchOpeningForm->save($branch_id, $input['days']);
+
+        if ($branchOpening) {
+
+            // Success!
+            return Response::json(array(
+                        'status' => TRUE,
+                        'type' => 'success',
+                        'message' => Lang::get('segment.branch.message.success.edit'))
+            );
+        }
+
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->branchOpeningForm->errors()->all())
         );
     }
 

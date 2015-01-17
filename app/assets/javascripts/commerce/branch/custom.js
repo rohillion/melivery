@@ -5,9 +5,10 @@ var custom = {
         this.cityTypeahead();
         this.adressModal();
         this.searchBranchLocation();
-        this.setDeliveryMap();
+        this.branchArea();
         this.dealers();
         this.basic();
+        this.opening();
         this.delivery();
         this.pickup();
         this.formControl();
@@ -65,7 +66,7 @@ var custom = {
             return false;
         });
     },
-    setDeliveryMap: function () {
+    branchArea: function () {
 
         var notifyOpts = {
             'message': 'Para poder establecer un radio de entrega primero debe ingresar la dirección de la sucursal',
@@ -160,30 +161,39 @@ var custom = {
 
     },
     saveArea: function (group) {
+        
+        
 
         var form = group.find('form'),
                 dataArea = group.find('.dataArea'),
+                deliveryAreaInput = group.find('.deliveryArea'),
                 index = group.index();
 
-        main.sendFormPost(form.attr('action'), form.serialize(), function (res) {
+        map.getCoords(map.poly.getPath().getArray(), function (coordString) {
 
-            if (res.status) {
+            deliveryAreaInput.val(coordString);
+            
+            main.sendFormPost(form.attr('action'), form.serialize(), function (res) {
 
-                if (group.is('.new'))
-                    form.attr('action', form.attr('action') + '/' + res.area.id);
+                if (res.status) {
 
-                dataArea.find('.cost').find('.amount').text(res.area.cost);
-                dataArea.find('.min').find('.amount').text(res.area.min);
-                group.find('.area_title').text(res.area.area_name);
+                    if (group.is('.new'))
+                        form.attr('action', form.attr('action') + '/' + res.area.id);
 
-                group.removeClass('new edit');
-                map.polygons[ index ].setEditable(false);
+                    dataArea.find('.cost').find('.amount').text(res.area.cost);
+                    dataArea.find('.min').find('.amount').text(res.area.min);
+                    group.find('.area_title').text(res.area.area_name);
 
-                $('.addArea').show();
-            }
+                    group.removeClass('new edit');
+                    map.polygons[ index ].setEditable(false);
 
-            main.notify(res);
+                    $('.addArea').show();
+                    $('.actionArea').show();
+                }
 
+                main.notify(res);
+
+            });
         });
 
     },
@@ -199,12 +209,12 @@ var custom = {
                 map.polygons[ index ].setMap(null);
                 map.polygons.splice(index, 1);
                 group.remove();
-                
-                if (map.polygons.length < 1){
-                     $('#delivery').prop('checked', false);
-                     $('#deliverySetup').hide();
+
+                if (map.polygons.length < 1) {
+                    $('#delivery').prop('checked', false);
+                    $('#deliverySetup').hide();
                 }
-                   
+
             }
 
             main.notify(res);
@@ -213,32 +223,46 @@ var custom = {
 
     },
     editArea: function (group) {
-
+        
         var index = group.index();
 
+        map.oldPath = new Array;
+
         map.poly = map.polygons[ index ];
+
+        var polyPathArray = map.poly.getPath().getArray();
+
+        for (var i in polyPathArray) {
+            map.oldPath.push(new google.maps.LatLng(polyPathArray[i].lat(), polyPathArray[i].lng()));
+        }
+
         map.poly.setEditable(true);
 
         group.addClass('edit');
 
         $('.addArea').hide();
+        $('.actionArea').hide();
     },
     cancelArea: function (group) {
-
+        
         var index = group.index();
 
         if (group.is('.new')) {
 
-            map.polygons[ index ].setMap(null);
+            map.poly.setMap(null);
             map.polygons.splice(index, 1);
             group.remove();
         } else {
 
-            map.polygons[ index ].setEditable(false);
+            map.poly.setPath(map.oldPath);
+            map.poly.setEditable(false);
             group.removeClass('new edit');
         }
 
+        map.oldPath = new Array;
+
         $('.addArea').show();
+        $('.actionArea').show();
     },
     basic: function () {
 
@@ -257,6 +281,23 @@ var custom = {
                 trigger.removeAttr('disabled');
                 main.notify(res);
 
+            });
+        });
+
+    },
+    opening: function () {
+
+        var form,
+                trigger;
+
+        $('#saveOpening').on('click', function () {
+
+            form = $('#branchOpening');
+            trigger = $(this);
+
+            main.sendFormPost(form.attr('action'), form.serializeArray(), function (res) {
+
+                main.notify(res);
             });
         });
 

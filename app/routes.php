@@ -184,6 +184,11 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         "uses" => "BranchController@pickup"
     ]);
     
+    Route::post("/branch/{branch_id}/opening", [
+        'before' => 'csrf',
+        "uses" => "BranchController@opening"
+    ]);
+    
     Route::post("/branch/{branch_id}/area", [
         'before' => 'csrf',
         "uses" => "BranchController@areaCreate"

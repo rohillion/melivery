@@ -168,7 +168,7 @@
                                         </div>
                                     </form>
 
-                                    <div id="deliverySetup" <?php echo !$branch->delivery ? 'style="display: none;"' : '' ?>>
+                                    <div id="deliverySetup" <?php echo!$branch->delivery ? 'style="display: none;"' : '' ?>>
                                         <div class="col-xs-4">
 
                                             <div class="hidden">
@@ -341,49 +341,51 @@
                         <div class="box box-solid branch-data">
 
                             <div class="box-body">
-                                <form id="branchOpening" class="" role="form" method="post" action="<?php echo URL::action('BranchController@store'); ?>">
+                                <form id="branchOpening" class="" role="form" method="post" action="<?php echo URL::action('BranchController@opening', $branch->id); ?>">
 
                                     <div class="box-body clearfix">
                                         <label for="branchOpen" class="col-xs-4 control-label form-medium">Atenci&oacute;n al p&uacute;blico</label>
                                         <div class="col-xs-8 business-hours form-large">
                                             <?php foreach (CommonEvents::dayArray() as $dayIndex => $day) { ?>
-                                                <div class="business-hours-control clearfix">
-                                                    <div class="day-range">
+                                                <?php foreach ($branch->openingHours as $openDay) { ?>
+                                                    <div class="business-hours-control clearfix">
+                                                        <div class="day-range">
 
-                                                        <div class="col-xs-3">
-                                                            <input type="text" class="form-control input-sm" disabled value="<?php echo Lang::get('common.day.long.' . $dayIndex) ?>"/>
-                                                        </div>
-
-                                                        <div class="col-xs-6 range-control hour-range from-label <?php echo Input::old('days.' . $dayIndex . '.open') ? '' : 'invisible'; ?>">
-                                                            <div class="col-xs-6">
-                                                                <div class="timepicker">
-                                                                    <div class="bootstrap-timepicker">
-                                                                        <input name="days[<?php echo $dayIndex; ?>][from]" type="text" class="form-control input-sm from-range" value="<?php echo Input::old('days.' . $dayIndex . '.from') ? Input::old('days.' . $dayIndex . '.from') : '08:00'; ?>"/>
-                                                                    </div>
-                                                                </div>
+                                                            <div class="col-xs-3">
+                                                                <input type="text" class="form-control input-sm" disabled value="<?php echo Lang::get('common.day.long.' . $dayIndex) ?>"/>
                                                             </div>
 
-                                                            <div class="col-xs-6">
-                                                                <div class="timepicker">
-                                                                    <div class="bootstrap-timepicker">
-                                                                        <input name="days[<?php echo $dayIndex; ?>][to]" type="text" class="form-control input-sm to-range" value="<?php echo Input::old('days.' . $dayIndex . '.to') ? Input::old('days.' . $dayIndex . '.to') : '18:00'; ?>"/>
+                                                            <div class="col-xs-6 range-control hour-range from-label <?php echo Input::old('days.' . $dayIndex . '.open') ? '' : 'invisible'; ?>">
+                                                                <div class="col-xs-6">
+                                                                    <div class="timepicker">
+                                                                        <div class="bootstrap-timepicker">
+                                                                            <input name="days[<?php echo $dayIndex; ?>][from]" type="text" class="form-control input-sm from-range" value="<?php echo Input::old('days.' . $dayIndex . '.from') ? Input::old('days.' . $dayIndex . '.from') : '08:00'; ?>"/>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+
+                                                                <div class="col-xs-6">
+                                                                    <div class="timepicker">
+                                                                        <div class="bootstrap-timepicker">
+                                                                            <input name="days[<?php echo $dayIndex; ?>][to]" type="text" class="form-control input-sm to-range" value="<?php echo Input::old('days.' . $dayIndex . '.to') ? Input::old('days.' . $dayIndex . '.to') : '18:00'; ?>"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <a href="#" title="Copiar anterior" class="copy-last-time">
+                                                                    <i class="fa fa-clock-o"></i>
+                                                                </a>
                                                             </div>
 
-                                                            <a href="#" title="Copiar anterior" class="copy-last-time">
-                                                                <i class="fa fa-clock-o"></i>
-                                                            </a>
-                                                        </div>
+                                                            <div style="padding-top: 15px;" class="pull-right">
+                                                                <input <?php echo Input::old('days.' . $dayIndex . '.open') ? 'checked' : ''; ?> class="enable hidden-checkbox day-status" type="checkbox" id="day-<?php echo $dayIndex; ?>" name="days[<?php echo $dayIndex; ?>][open]" value="1">
+                                                                <label lang="<?php echo App::getLocale(); ?>" for="day-<?php echo $dayIndex; ?>" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
+                                                            </div>
 
-                                                        <div style="padding-top: 15px;" class="pull-right">
-                                                            <input <?php echo Input::old('days.' . $dayIndex . '.open') ? 'checked' : ''; ?> class="enable hidden-checkbox day-status" type="checkbox" id="day-<?php echo $dayIndex; ?>" name="days[<?php echo $dayIndex; ?>][open]" value="1">
-                                                            <label lang="<?php echo App::getLocale(); ?>" for="day-<?php echo $dayIndex; ?>" class="switch-checkbox pull-right btn btn-flat btn-lg"></label>
                                                         </div>
 
                                                     </div>
-
-                                                </div>
+                                                <?php } ?>
                                             <?php } ?>
                                         </div>
                                     </div>
@@ -394,7 +396,7 @@
                             <div class="box-footer clearfix">
                                 <div class="col-xs-12 text-right">
                                     <button class="btn btn-default btn-lg prev" type="button">Atr&aacute;s</button>
-                                    <button class="btn btn-default btn-lg next" form="branchOpening" type="button">Guardar</button>
+                                    <button id="saveOpening" class="btn btn-default btn-lg" form="branchOpening" type="button">Guardar</button>
                                 </div>
                             </div>
                         </div>

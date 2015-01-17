@@ -13677,3 +13677,11 @@ Stack trace:
 #9 C:\xampp\htdocs\melivery\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(641): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
 #10 C:\xampp\htdocs\melivery\public\index.php(49): Illuminate\Foundation\Application->run()
 #11 {main} [] []
+[2015-01-17 12:34:21] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Call to a member function toArray() on array' in C:\xampp\htdocs\melivery\app\controllers\Commerce\BranchController.php:198
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []
+[2015-01-17 12:36:52] local.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Call to a member function toArray() on array' in C:\xampp\htdocs\melivery\app\controllers\Commerce\BranchController.php:190
+Stack trace:
+#0 [internal function]: Illuminate\Exception\Handler->handleShutdown()
+#1 {main} [] []

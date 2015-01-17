@@ -26,6 +26,7 @@ class BranchForm extends AbstractForm {
     protected $branchArea;
     protected $branchDealer;
     protected $product;
+    protected $messageBag;
 
     public function __construct(ValidableInterface $validator, BranchInterface $branch, BranchOpeningForm $branchOpening, BranchPhoneForm $branchPhone, BranchAreaForm $branchArea, BranchDealerForm $branchDealer, ProductInterface $product) {
         parent::__construct($validator);
@@ -35,6 +36,7 @@ class BranchForm extends AbstractForm {
         $this->branchArea = $branchArea;
         $this->branchDealer = $branchDealer;
         $this->product = $product;
+        $this->messageBag = new MessageBag();
     }
 
     /**
@@ -106,7 +108,8 @@ class BranchForm extends AbstractForm {
 
         //validate Branch by Commerce ID.
         if (is_null($this->branch->findByCommerceId($id, $commerceId))) {
-            $this->validator->errors = 'No hemos podido encontrar esa sucursal.';
+            $this->messageBag->add('error', 'No hemos podido encontrar esa sucursal.'); //TODO. Soporte Lang.
+            $this->validator->errors = $this->messageBag;
             return false;
         }
 
@@ -164,7 +167,8 @@ class BranchForm extends AbstractForm {
 
         //validate Branch by Commerce ID.
         if (is_null($this->branch->findByCommerceId($id, $commerceId))) {
-            $this->validator->errors = 'No hemos podido encontrar esa sucursal.';
+            $this->messageBag->add('error', 'No hemos podido encontrar esa sucursal.'); //TODO. Soporte Lang.
+            $this->validator->errors = $this->messageBag;
             return false;
         }
 
@@ -332,7 +336,8 @@ class BranchForm extends AbstractForm {
         $branch = $this->branch->findByCommerceId($branch_id, $commerce_id, ['areas']);
 
         if (is_null($branch)) {
-            $this->validator->errors = 'No se ha encontrado esa sucursal.'; //TODO. Lang
+            $this->messageBag->add('error', 'No hemos podido encontrar esa sucursal.'); //TODO. Soporte Lang.
+            $this->validator->errors = $this->messageBag;
             return false;
         }
 
@@ -343,7 +348,7 @@ class BranchForm extends AbstractForm {
 
             return $this->branch->edit($branch_id, $input);
         }
-        
+
         return $branch;
     }
 
@@ -353,12 +358,13 @@ class BranchForm extends AbstractForm {
 
         $branch = $this->branch->findByCommerceId($branch_id, $commerce_id);
 
-        if (!is_null($branch))
-            return $this->branch->edit($branch_id, $input);
-
-        $this->validator->errors = 'No se ha encontrado esa sucursal.'; //TODO. Lang
-
-        return false;
+        if (is_null($branch)) {
+            $this->messageBag->add('error', 'No hemos podido encontrar esa sucursal.'); //TODO. Soporte Lang.
+            $this->validator->errors = $this->messageBag;
+            return false;
+        }
+        
+        return $this->branch->edit($branch_id, $input);
     }
 
 }

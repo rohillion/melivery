@@ -2,6 +2,7 @@
 
 namespace App\Service\Form\BranchOpening;
 
+use Illuminate\Support\MessageBag;
 use App\Service\Validation\ValidableInterface;
 use App\Repository\Branch\BranchInterface;
 use App\Service\Form\AbstractForm;
@@ -14,10 +15,12 @@ class BranchOpeningForm extends AbstractForm {
      * @var \App\Repository\Branch\BranchInterface
      */
     protected $branch;
+    protected $messageBag;
 
     public function __construct(ValidableInterface $validator, BranchInterface $branch) {
         parent::__construct($validator);
         $this->branch = $branch;
+        $this->messageBag = new MessageBag();
     }
 
     /**
@@ -25,7 +28,18 @@ class BranchOpeningForm extends AbstractForm {
      *
      * @return boolean
      */
-    public function save($branch, array $days) {
+    public function save($branch_id, array $days) {
+        
+        $commerceId = \Auth::user()->id_commerce;
+        
+        //validate Branch by Commerce ID.
+        $branch = $this->branch->findByCommerceId($branch_id, $commerceId);
+
+        if (is_null($branch)) {
+            $this->messageBag->add('error', 'No hemos podido encontrar esa sucursal.'); //TODO. Soporte Lang.
+            $this->validator->errors = $this->messageBag;
+            return false;
+        }
         
         $branch->openingHours()->delete();
 

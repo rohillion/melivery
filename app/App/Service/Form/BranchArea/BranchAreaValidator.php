@@ -16,7 +16,7 @@ class BranchAreaValidator extends LaravelValidator implements ValidableInterface
         'branch_id' => 'required|numeric|exists:branch,id',
         'cost' => 'required|price',
         'min' => 'required|price',
-        'area' => 'required',
+        'area' => 'required|max:100000',
         'area_name' => 'required',
     );
 

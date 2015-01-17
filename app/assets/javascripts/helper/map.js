@@ -1,22 +1,23 @@
 var map = {
-    loaded: false,
+    //loaded: false,
     canvas: '',
     poly: '',
     polygons: new Array,
-    drawingManager: '',
-    init: function() {
+    //drawingManager: '',
+    oldPath: new Array,
+    init: function () {
 
-        $(document).on('click', '.perform-action', function() {
+        $(document).on('click', '.perform-action', function () {
             map.performAction($(this).closest('form'));
 
-        }).on('keypress', '.panel-collapse input:text', function(event) {
+        }).on('keypress', '.panel-collapse input:text', function (event) {
             if (event.which == 13) {
                 $(this).closest('.panel-collapse').find('.perform-action').click();
                 event.preventDefault();
             }
         });
 
-        $(document).on('shown.bs.collapse', '.panel-collapse', function() {
+        $(document).on('shown.bs.collapse', '.panel-collapse', function () {
             main.toBottom();
             $(this).find('input:text').first().focus();
             if (main.getHash() == 'zone') {
@@ -27,7 +28,7 @@ var map = {
 
         $("[data-toggle='tooltip']").tooltip();
     },
-    hashNav: function(hash) {
+    hashNav: function (hash) {
         var url = main.getUrl(false);
 
 
@@ -41,7 +42,7 @@ var map = {
 
         return false;
     },
-    defaultSubSection: function(url) {
+    defaultSubSection: function (url) {
 
         var subsection = '';
         if (url.match(/basic/)) {
@@ -52,8 +53,8 @@ var map = {
         }
         return subsection;
     },
-    performAction: function(form) {
-        main.sendData(main.getUrl(true), form.serialize(), function(response) {
+    performAction: function (form) {
+        main.sendData(main.getUrl(true), form.serialize(), function (response) {
 
             if (response.status) {
                 if (response.hash) {
@@ -72,10 +73,10 @@ var map = {
 
         });
     },
-    setMap: function(mapCanvas, center, callback) {
+    setMap: function (mapCanvas, center, callback) {
 
         //if (!map.loaded) {
-        map.loaded = true;
+        //map.loaded = true;
 
         var coord = {
             lat: parseFloat(center.split(",")[0]),
@@ -89,7 +90,7 @@ var map = {
             zoom: 15,
             center: center,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            zoomControl:true
+            zoomControl: true
         });
 
         var marker = new google.maps.Marker({
@@ -103,13 +104,13 @@ var map = {
 
         //}
     },
-    getCoords: function(coords, callback) {
+    getCoords: function (coords, callback) {
 
         var contentString = '';
 
         if (coords) {
 
-            coords.forEach(function(xy) {
+            coords.forEach(function (xy) {
                 contentString += xy.lat() + ' ' + xy.lng() + ',';
             });
 
@@ -122,7 +123,7 @@ var map = {
         if (typeof callback === 'function')
             callback(contentString);
     },
-    deletePath: function(event) {
+    deletePath: function (event) {
         var path = map.poly.getPath();
         if (event.vertex != null) {
 
@@ -130,14 +131,14 @@ var map = {
 
             if (path.getLength() <= '1') {
                 path.clear();
-                map.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+                //map.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
             } else {
-                map.getCoords(map.poly);
+                map.getCoords(map.poly.getPath().getArray());
             }
 
         }
     },
-    drawPolygon: function(polygonAreaInput,editable) {
+    drawPolygon: function (polygonAreaInput, editable) {
 
         var i;
         var bounds = new google.maps.LatLngBounds();
@@ -146,7 +147,7 @@ var map = {
 
         if (delivery_area != '') {
 
-            $.each(delivery_area, function(i, coord) {
+            $.each(delivery_area, function (i, coord) {
                 if (i + 1 <= delivery_area.length - 1) {
                     var LatLng = coord.split(" ");
                     polyCoords.push(new google.maps.LatLng(LatLng[0], LatLng[1]));
@@ -158,7 +159,7 @@ var map = {
             }
         }
 
-        map.poly = new google.maps.Polygon({
+        var poly = new google.maps.Polygon({
             path: polyCoords,
             clickable: false,
             fillColor: '#FF0000',
@@ -169,34 +170,19 @@ var map = {
             editable: editable
         });
         
-        map.poly.setMap(map.canvas);
-        
-        map.polygons.push(map.poly);
+        if(editable)
+            map.poly = poly;
 
-        google.maps.event.addListener(map.poly.getPath(), 'set_at', function() {
-            map.getCoords(map.poly.getPath().getArray(), function(coordString) {
+        poly.setMap(map.canvas);
 
-                polygonAreaInput.val(coordString);
-            });
-        });
+        map.polygons.push(poly);
 
-        google.maps.event.addListener(map.poly.getPath(), 'insert_at', function() {
-            map.getCoords(map.poly.getPath().getArray(), function(coordString) {
-
-                polygonAreaInput.val(coordString);
-            });
-        });
-
-        google.maps.event.addListener(map.poly, 'rightclick', function(event) {
+        google.maps.event.addListener(poly, 'rightclick', function (event) {
             map.deletePath(event);
-            map.getCoords(false, function(coordString) {
-
-                polygonAreaInput.val(coordString);
-            });
         });
 
     },
-    getDeliveryArea: function(LatLng, radio, callback) {
+    getDeliveryArea: function (LatLng, radio, callback) {
 
         var branchLastCoord = {
             lat: parseFloat(LatLng.split(",")[0]),
