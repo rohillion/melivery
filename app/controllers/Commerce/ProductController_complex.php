@@ -1,41 +1,23 @@
 <?php
 
 //use Illuminate\Support\MessageBag;
-use App\Service\Form\ProductController\productForm;
-use App\Repository\Product\ProductInterface;
+use App\Service\Form\ProductController\ProductForm;
 use App\Repository\Category\CategoryInterface;
-use App\Repository\Branch\BranchInterface;
 
 class ProductController extends BaseController {
 
     protected $product;
-    protected $productForm;
     protected $category;
-    protected $branch;
 
-    public function __construct(BranchInterface $branch, ProductInterface $product, productForm $productForm, CategoryInterface $category) {
+    public function __construct(ProductForm $product, CategoryInterface $category) {
         $this->product = $product;
-        $this->productForm = $productForm;
         $this->category = $category;
-        $this->branch = $branch;
     }
 
     public function index() {
-        
-        $data['productsByCategory'] = array();
 
         $data['categories'] = $this->category->all(['*'], ['subcategories.attributes.attribute_types']);
-        
-        //$data['productCategories'] = $this->product->listProductCategoriesByCommerceId(Session::get('user.id_commerce'));
-
-        $branch = $this->branch->find(Session::get('user.branch_id'), ['*'], ['products.categories.subcategories', 'products.tags', 'products.attributes.attribute_types']);
-
-        foreach ($branch->products as $product) {
-            $data['productsByCategory'][$product->categories->category_name]['data'] = $product->categories;
-            $data['productsByCategory'][$product->categories->category_name]['products'][] = $product;
-        }
-
-        //$data['products'] = $this->productForm->allByCommerceId(Session::get('user.id_commerce'));
+        $data['products'] = $this->product->allByCommerceId(Auth::user()->id_commerce);
 
         return View::make("commerce.product.index", $data);
     }
@@ -62,7 +44,7 @@ class ProductController extends BaseController {
      */
     public function store() {
 
-        $res = $this->productForm->save(Input::all());
+        $res = $this->product->save(Input::all());
 
         if (!isset($res['error'])) {
             // Success!

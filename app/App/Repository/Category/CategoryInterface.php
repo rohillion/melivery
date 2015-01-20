@@ -13,4 +13,6 @@ interface CategoryInterface extends RepositoryInterface {
     public function findWithCustomTag($commerceId, $commerceId);
     
     public function findByName($category_name);
+    
+    public function likeCategoryName($countryCode, $q);
 }

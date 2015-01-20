@@ -49,5 +49,16 @@ class EloquentCategory extends RepositoryAbstract implements CategoryInterface {
                         ->with('subcategories')
                         ->first();
     }
+    
+    public function likeCategoryName($countryCode, $q) {
+        $categories = $this->entity
+                ->where('active', 1)
+                ->where(function($query) use($q) {
+                    $query->where('category_name', 'LIKE', '%' . $q . '%');
+                })
+                ->get();
+
+        return $categories;
+    }
 
 }

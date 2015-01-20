@@ -1,6 +1,34 @@
 <?php
+
 $route = explode('.', Route::currentRouteName());
+
 $name = array_shift($route);
+
+switch ($name) {
+
+    case 'admin':
+    case 'commerce':
+    case 'customer':
+
+        $assetDir = 'dashboard';
+
+        break;
+
+    default :
+
+        $assetDir = NULL;
+
+        break;
+}
+
+if (!CommonEvents::isSubdomain() && Request::segment(1)) {
+
+    $dir = NULL;
+} else {
+
+    $dir = Request::segment(1) ? '/' . Request::segment(1) : $assetDir;
+}
+
 $channel = $name == 'commerce' ? "branch_".Session::get('user.branch_id') : "user_".Session::get('user.id');
 ?>
 <head>
@@ -11,7 +39,7 @@ $channel = $name == 'commerce' ? "branch_".Session::get('user.branch_id') : "use
     <meta name="_token" content="<?php echo csrf_token() ?>" />
     <!-- bootstrap 3.0.2 -->
     <link href="/assets/application.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/<?php echo $name ?>.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/<?php echo $name ?><?php echo $dir; ?>/bundle.css" rel="stylesheet" type="text/css" />
 
     <script src="//js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
     

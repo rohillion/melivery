@@ -36,13 +36,6 @@ abstract class RepositoryAbstract implements RepositoryInterface {
 
     public function all(array $columns = array('*'), array $entities = array(), array $where = array()) {
 
-        /* if (!empty($entities)) {
-
-          return $this->withEntities($entities)->get();
-          } else {
-          return $this->entity->all($columns);
-          } */
-        //return $this->withEntities($entities)->get();
         return $this->whereMatch($where)->with($entities)->get($columns);
     }
 

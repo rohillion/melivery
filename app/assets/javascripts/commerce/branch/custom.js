@@ -161,8 +161,8 @@ var custom = {
 
     },
     saveArea: function (group) {
-        
-        
+
+
 
         var form = group.find('form'),
                 dataArea = group.find('.dataArea'),
@@ -172,7 +172,7 @@ var custom = {
         map.getCoords(map.poly.getPath().getArray(), function (coordString) {
 
             deliveryAreaInput.val(coordString);
-            
+
             main.sendFormPost(form.attr('action'), form.serialize(), function (res) {
 
                 if (res.status) {
@@ -223,7 +223,7 @@ var custom = {
 
     },
     editArea: function (group) {
-        
+
         var index = group.index();
 
         map.oldPath = new Array;
@@ -244,7 +244,7 @@ var custom = {
         $('.actionArea').hide();
     },
     cancelArea: function (group) {
-        
+
         var index = group.index();
 
         if (group.is('.new')) {
@@ -368,7 +368,7 @@ var custom = {
         });
 
     },
-    cityTypeahead: function () {
+    cityTypeahead: function() {
 
 
         // constructs the suggestion engine
@@ -376,10 +376,10 @@ var custom = {
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('asciiname'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             remote: {
-                url: '/city/find?query=%QUERY',
-                filter: function (cities) {
+                url: '../ajax/city/find?query=%QUERY',
+                filter: function(cities) {
                     // Map the remote source JSON array to a JavaScript array
-                    return $.map(cities.cities, function (city) {
+                    return $.map(cities.cities, function(city) {
                         return {id: city.geonameid, name: city.name, asciiname: city.asciiname, state_name: city.state.state_name, state_asciiname: city.state.state_asciiname};
                     });
                 }
@@ -408,7 +408,7 @@ var custom = {
                 suggestion: Handlebars.compile('<p><strong>{{name}}</strong> – {{state_name}}</p>')
             }
 
-        }).on('typeahead:selected', function (event, obj) {
+        }).on('typeahead:selected', function(event, obj) {
             geocoding.cityId = obj.id;
             geocoding.city = obj.asciiname;
             geocoding.state = obj.state_asciiname;

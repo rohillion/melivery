@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <?php echo View::make('head'); ?>
-    <body class="skin-dark">
+    <body class="skin-dark" data-spy="scroll" data-target="#scrollControl">
 
         <?php echo View::make('header'); ?>
 
@@ -13,6 +13,10 @@
                         <i class="fa fa-edit"></i> 
                         <?php echo Lang::get('common.action.edit') . ' ' . Lang::get('segment.product.title.menu'); ?>
                     </a>
+                    <a id="showProductForm" href="#productForm" class="pull-right btn btn-primary btn-flat">
+                        <i class="fa fa-plus"></i> 
+                        <?php echo Lang::get('common.action.create') . ' ' . Lang::get('segment.product.name.single'); ?>
+                    </a>
                 </h3>
             </div>
         </section>
@@ -23,83 +27,129 @@
             <!-- Main row -->
             <div class="row">
 
-                <?php if (!$products->isEmpty()) { ?>
+                <?php if (!empty($productsByCategory)) { ?>
 
-                    <?php $i = 0; ?>
-
-                    <?php foreach ($products as $product) { ?>
-
-                        <?php
-                        if ($i % 3 == 0 && $i) {
-                            echo '</div><div class="row">';
-                        }
-                        ?>
-
-                        <!-- left column -->
-                        <div class="col-md-4">
-
+                    <!-- left column -->
+                    <div class="col-xs-4" >
+                        <div class="page-header">Categor&iacute;as</div><!-- TODO. Lang -->
+                        <div id="scrollControl" data-spy="affix" data-offset-top="90">
                             <!-- general form elements -->
-                            <div id="p<?php echo $product->id ?>" class="box box-solid">
+                            <div class="box box-solid">
 
-                                <?php if ($product->image) { ?>
-                                    <img alt="" src="<?php echo asset('upload/product_photo/' . $product->id . '/' . $product->image); ?>" style="width: 100%; display: block;">
-                                <?php } else { ?>
-                                    <img data-src="holder.js/100%" alt="100%" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" style="width: 100%; display: block;">
-                                <?php } ?>
-                                <div class="box-body">
+                                <ul class="list-group nav">
 
-                                    <div class="caption">
+                                    <?php foreach ($productsByCategory as $category) { ?>
 
-                                        <div style="overflow: hidden;">
-                                            <h3 class="product-title truncate pull-left" title="<?php echo $product->tags->tag_name ?>"><?php echo $product->tags->tag_name ?></h3>
-                                            <h3 class="pull-right"><?php echo ' $' . $product->price; ?></h3>
-                                        </div>
+                                        <li class="list-group-item">
+                                            <a href="#c<?php echo $category['data']->id; ?>">
+                                                <?php echo $category['data']->category_name; ?>
+                                            </a>
+                                        </li>
 
-                                        <div class="clearfix">
-                                            <?php $attributes = array(); ?>
+                                    <?php } ?>
 
-                                            <?php if (!$product->attributes->isEmpty()) { ?>
-
-                                                <?php
-                                                foreach ($product->attributes as $attributeProduct) {
-                                                    $attributes[$attributeProduct->attribute_types->d_attribute_type]['attributes'][$attributeProduct->id]['id'] = $attributeProduct->id;
-                                                    $attributes[$attributeProduct->attribute_types->d_attribute_type]['attributes'][$attributeProduct->id]['attribute_name'] = $attributeProduct->attribute_name;
-                                                }
-                                                ?>
-
-                                                <?php foreach ($attributes as $attributeTypeName => $attributeType) { ?>
-
-                                                    <h5><?php echo $attributeTypeName; ?></h5>
-
-                                                    <div style="height: 60px;overflow: auto;" class="well well-sm">
-                                                        <?php foreach ($attributeType['attributes'] as $attribute) { ?>
-
-                                                            <span class="label label-default" ><?php echo $attribute['attribute_name']; ?></span>
-
-                                                        <?php } ?>
-                                                    </div>
-                                                <?php } ?>
-
-
-
-                                            <?php } ?>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div style="overflow: hidden;" class="box-footer">
-                                    <a href="#" class="btn btn-warning btn-sm" role="button" title="Pausar publicaci&oacute;n"><i class="fa fa-pause"></i> Pausar publicaci&oacute;n</a>
-                                    <a href="<?php echo URL::route('commerce.product.create', $product->id_category) ?>#<?php echo $product->subcategory_id ?>" class="btn btn-info btn-sm" role="button" title="Editar publicaci&oacute;n"><i class="fa fa-edit"></i> Editar publicaci&oacute;n</a>
-                                </div>
-
+                                </ul>
                             </div><!-- /.box -->
 
                         </div><!--/.col (left) -->
-                        <?php $i++; ?>
-                    <?php } ?>
+
+                    </div>
+
+                    <!-- left column -->
+                    <div class="col-xs-8">
+
+                        <?php foreach ($productsByCategory as $category) { ?>
+
+                            <div id="c<?php echo $category['data']->id; ?>" class="page-header"><?php echo $category['data']->category_name; ?></div>
+
+                            <div class="row">
+
+                                <?php $i = 0; ?>
+
+                                <?php foreach ($category['products'] as $product) { ?>
+
+                                    <?php
+                                    if ($i % 3 == 0 && $i) {
+                                        echo '</div><div class="row">';
+                                    }
+                                    ?>
+
+                                    <!-- left column -->
+                                    <div class="col-xs-12">
+
+                                        <!-- general form elements -->
+                                        <div id="p<?php echo $product->id ?>" class="box box-solid" style="overflow: hidden;">
+
+                                            <div class="col-xs-4">
+                                                <div class="row">
+                                                    <?php if ($product->image) { ?>
+                                                        <img alt="" src="<?php echo asset('upload/product_photo/' . $product->id . '/' . $product->image); ?>" style="width: 100%; display: block;">
+                                                    <?php } else { ?>
+                                                        <img data-src="holder.js/100%" alt="100%" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" style="width: 100%; display: block;">
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-8">
+
+                                                <div class="caption">
+
+                                                    <div style="overflow: hidden;">
+                                                        <h3 class="product-title truncate pull-left" title="<?php echo $product->tags->tag_name ?>"><?php echo $product->tags->tag_name ?></h3>
+                                                        <h3 class="pull-right"><?php echo ' $' . $product->price; ?></h3>
+                                                    </div>
+
+                                                    <div class="clearfix">
+                                                        <?php $attributes = array(); ?>
+
+                                                        <?php if (!$product->attributes->isEmpty()) { ?>
+
+                                                            <?php
+                                                            foreach ($product->attributes as $attributeProduct) {
+                                                                $attributes[$attributeProduct->attribute_types->d_attribute_type]['attributes'][$attributeProduct->id]['id'] = $attributeProduct->id;
+                                                                $attributes[$attributeProduct->attribute_types->d_attribute_type]['attributes'][$attributeProduct->id]['attribute_name'] = $attributeProduct->attribute_name;
+                                                            }
+                                                            ?>
+
+                                                            <?php foreach ($attributes as $attributeTypeName => $attributeType) { ?>
+
+                                                                <h5><?php echo $attributeTypeName; ?></h5>
+
+                                                                <div style="height: 60px;overflow: auto;" class="well well-sm">
+                                                                    <?php foreach ($attributeType['attributes'] as $attribute) { ?>
+
+                                                                        <span class="label label-default" ><?php echo $attribute['attribute_name']; ?></span>
+
+                                                                    <?php } ?>
+                                                                </div>
+                                                            <?php } ?>
+
+
+
+                                                        <?php } ?>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <span class="clearfix"></span>
+
+                                            <div style="overflow: hidden;" class="box-footer">
+                                                <a href="#" class="btn btn-warning btn-sm" role="button" title="Pausar publicaci&oacute;n"><i class="fa fa-pause"></i> Pausar publicaci&oacute;n</a>
+                                                <a href="<?php echo URL::route('commerce.product.create', $product->id_category) ?>#<?php echo $product->subcategory_id ?>" class="btn btn-info btn-sm" role="button" title="Editar publicaci&oacute;n"><i class="fa fa-edit"></i> Editar publicaci&oacute;n</a>
+                                            </div>
+
+                                        </div><!-- /.box -->
+
+                                    </div><!--/.col (left) -->
+                                    <?php $i++; ?>
+                                <?php } ?>
+                            </div>
+                        <?php } ?>
+
+                    </div>
+
                 <?php } else { ?>
 
                     <section class="container">
@@ -111,6 +161,31 @@
             </div><!-- /.row (main row) -->
 
         </section><!-- /.content -->
+
+        <div id="product-form-fixed" class="shown">
+            <div class="container">
+                <section class="col-xs-4" id="product-form-container">
+                    <form id="productForm" method="post" action="<?php echo URL::action('ProductController@store') ?>">
+
+                        <div class="form-group">
+                            <label for="">Categor&iacute;a</label>
+                            <input id="category" placeholder="Ej. Empanadas, Helados" class="form-control" type="text" name="category"/>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="">Subcategor&iacute;a</label>
+                            <input id="subcategory" placeholder="Ej. Frito/Horno, Por Kilo/Por bocha" class="form-control" type="text" name="subcategory"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Nombre, sabor o tamano</label>
+                            <input placeholder="Ej. Empanada de carne, 1/2 Kilo de helado" class="form-control" type="text" name="tag"/>
+                        </div>
+
+                    </form>
+                </section>
+            </div>
+        </div>
 
         <?php echo View::make('footer'); ?>
 

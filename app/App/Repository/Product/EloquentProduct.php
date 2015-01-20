@@ -107,5 +107,15 @@ class EloquentProduct extends RepositoryAbstract implements ProductInterface {
 
         return $query;
     }
+    
+    public function listProductCategoriesByCommerceId($commerceId) {
+
+        return $this->entity
+                ->select('category.*')
+                ->join('category', 'category.id', '=', 'product.id_category')
+                ->where('product.id_commerce', '=', $commerceId)
+                ->distinct()
+                ->get();
+    }
 
 }

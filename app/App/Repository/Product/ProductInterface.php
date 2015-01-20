@@ -15,4 +15,6 @@ interface ProductInterface extends RepositoryInterface {
     public function findWhereBranchId($productId, $branchId);
     
     public function allActive($filters, $items);
+    
+    public function listProductCategoriesByCommerceId($commerceId);
 }

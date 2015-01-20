@@ -9,7 +9,7 @@ var custom = {
     },
     affixTopBar: function() {
 
-        $('#content-header').affix({
+        $('#content-header,#order-paper').affix({
             offset: {
                 top: function() {
                     return $('.parallax-group').height() - 54;
@@ -17,13 +17,13 @@ var custom = {
             }
         });
 
-        $('#order-paper').affix({
+        /*$('#order-paper').affix({
             offset: {
                 top: function() {
                     return $('.parallax-group').height() - 54;
                 }
             }
-        });
+        });*/
 
         $('#content-header').on('affixed.bs.affix', function() {
 

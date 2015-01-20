@@ -1,0 +1,78 @@
+/*****************************/
+/*         PRODUCT           */
+/*****************************/
+
+body {
+    position: relative;
+}
+
+/***** Scroll Control affix *****/
+#scrollControl.affix{
+    top: 156px;
+}
+
+@media (min-width: 768px){
+    #scrollControl.affix {
+        width: 220px;
+    }
+}
+@media (min-width: 992px){
+    #scrollControl.affix {
+        width: 293px;
+    }
+}
+@media (min-width: 1200px){
+    #scrollControl.affix {
+        width: 360px;
+    }
+}
+
+.nav>li {
+    padding: 0;
+}
+.nav>li>a {
+    color: #000;
+}
+.nav>li.active>a {
+    color: #fff;
+}
+.nav>li>a:hover, .nav>li>a:focus {
+    background-color: transparent;
+}
+
+#product-form-fixed{
+    z-index: 1000;
+    transition: all 500ms ease-in-out 0s;
+    transform: translateY(100%);
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 142px;
+    background: rgba(255, 255, 255, 0.8);
+}
+#product-form-fixed.shown{
+    transform: translateY(0%);
+}
+
+#product-form-fixed > .container{
+    height: 100%;
+}
+
+#product-form-container{
+    padding-top: 15px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    min-height: 200px;
+    transition: all 500ms ease-in-out 0s;
+    height: 100%;
+    overflow: auto;
+}
+
+#product-form-container .twitter-typeahead{
+    width: 100%;
+}
+
+/***** scroll control *****/
+
