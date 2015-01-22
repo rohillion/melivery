@@ -29,6 +29,20 @@ class Subcategory extends Eloquent {
     public function tags() {
         return $this->hasMany('Tag', 'subcategory_id');
     }
+    
+    /**
+     * Tag relationship
+     */
+    public function activeTags() {
+        return $this->hasMany('Tag', 'subcategory_id')->where('active', '=', 1);
+    }
+    
+    /**
+     * Tag relationship
+     */
+    public function activeTagsWithCustom() {
+        return $this->hasMany('Tag', 'subcategory_id')->where('active', '=', 1)->where('commerce_id', '=', Session::get('user.id_commerce'))->orWhere('commerce_id', '=', NULL);
+    }
 
     /**
      * Tag by commerce_id relationship

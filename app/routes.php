@@ -268,6 +268,10 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         "uses" => "AjaxCityController@find"
     ]);
     
+    Route::get("/ajax/category", [
+        "uses" => "AjaxCategoryController@index"
+    ]);
+    
     Route::get("/ajax/category/find/", [
         "uses" => "AjaxCategoryController@find"
     ]);

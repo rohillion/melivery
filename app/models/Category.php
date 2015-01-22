@@ -36,6 +36,13 @@ class Category extends Eloquent {
     public function subcategories() {
         return $this->hasMany('Subcategory', 'id_category');
     }
+    
+    /**
+     * Subcategory relationship
+     */
+    public function activeSubcategories() {
+        return $this->hasMany('Subcategory', 'id_category')->where('active', '=', 1);
+    }
 
     // User model
     public function availableAttributes() {

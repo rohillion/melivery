@@ -74,5 +74,22 @@ body {
     width: 100%;
 }
 
+#category, #subcategory{
+    text-transform: capitalize;
+}
+
+.tt-empty-tags{
+    padding: 0 15px;
+}
+
+.price-size-row {
+    overflow: hidden;
+}
+
+.price-size-row .btn{
+    padding-left: 0; 
+    padding-right: 0; 
+}
+
 /***** scroll control *****/
 

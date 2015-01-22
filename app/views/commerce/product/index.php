@@ -168,20 +168,76 @@
                     <form id="productForm" method="post" action="<?php echo URL::action('ProductController@store') ?>">
 
                         <div class="form-group">
-                            <label for="">Categor&iacute;a</label>
-                            <input id="category" placeholder="Ej. Empanadas, Helados" class="form-control" type="text" name="category"/>
+                            <label for="category">Categor&iacute;a</label>
+                            <select class="form-control" id="category" name="category">
+                                <?php foreach ($categories as $category) { ?>
+                                    <option value="<?php echo $category->id; ?>"><?php echo $category->category_name; ?></option>
+                                <?php } ?>
+                            </select>
                         </div>
-                        
+
                         <div class="form-group">
-                            <label for="">Subcategor&iacute;a</label>
-                            <input id="subcategory" placeholder="Ej. Frito/Horno, Por Kilo/Por bocha" class="form-control" type="text" name="subcategory"/>
+                            <label for="subcategory">Subcategor&iacute;a</label>
+                            <select class="form-control" id="subcategory" name="subcategory">
+                                <option value="0">Otros</option><!-- TODO. Lang. -->
+                            </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="">Nombre, sabor o tamano</label>
-                            <input placeholder="Ej. Empanada de carne, 1/2 Kilo de helado" class="form-control" type="text" name="tag"/>
+                            <label for="tag">Nombre, sabor o tama&ntilde;o</label>
+                            <input id="tag" placeholder="Ej. Empanada de carne, 1/2 Kilo de helado" class="form-control" type="text" name="tag"/>
                         </div>
 
+                        <div class="form-group">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="multisize" id="multisize"> M&uacute;ltiples tama&ntilde;os
+                            </label>
+                        </div>
+
+                        <div id="singleprice" class="form-group">
+                            <label for="price">Precio</label>
+                            <input id="price" placeholder="Valor" class="form-control" type="text" name="price"/>
+                        </div>
+
+                        <div id="multiprice">
+
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <label for="">Tama&ntilde;o</label>
+                                </div>
+                                <div class="col-xs-6">
+                                    <label for="">Precio</label>
+                                </div>
+                            </div>
+
+                            <div id="price-size-row-model" class="price-size-row hidden form-group">
+                                <div class="col-xs-6">
+                                    <input placeholder="Ej. Mediano" class="form-control" type="text" name="size"/>
+                                </div>
+                                <div class="col-xs-5">
+                                    <input placeholder="Valor" class="form-control" type="text" name="price"/>
+                                </div>
+                                <div class="pull-left text-right">
+                                    <button type="button" class="btn btn-link remove-price-size"><i class="fa fa-close"></i></button>
+                                </div>
+                            </div>
+
+                            <div id="price-size" class="row">
+                                <div class="price-size-row form-group">
+                                    <div class="col-xs-6">
+                                        <input placeholder="Ej. Mediano" class="form-control" type="text" name="size"/>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <input placeholder="Valor" class="form-control" type="text" name="price"/>
+                                    </div>
+                                    <div class="pull-left text-right">
+                                        <button type="button" class="btn btn-link remove-price-size"><i class="fa fa-close"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" id="add-price-size" class="btn btn-success btn-md btn-flat btn-block">Agregar tama&ntilde;o</button>
+                        </div>
                     </form>
                 </section>
             </div>

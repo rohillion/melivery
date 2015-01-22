@@ -21,11 +21,11 @@ class ProductController extends BaseController {
     }
 
     public function index() {
-        
+
         $data['productsByCategory'] = array();
 
-        $data['categories'] = $this->category->all(['*'], ['subcategories.attributes.attribute_types']);
-        
+        $data['categories'] = $this->category->all(['*'], [], ['active' => 1]);
+
         //$data['productCategories'] = $this->product->listProductCategoriesByCommerceId(Session::get('user.id_commerce'));
 
         $branch = $this->branch->find(Session::get('user.branch_id'), ['*'], ['products.categories.subcategories', 'products.tags', 'products.attributes.attribute_types']);
