@@ -163,7 +163,9 @@
         </section><!-- /.content -->
 
         <div id="product-form-fixed" class="shown">
+            
             <div class="container">
+                
                 <section class="col-xs-4" id="product-form-container">
                     <form id="productForm" method="post" action="<?php echo URL::action('ProductController@store') ?>">
 
@@ -218,7 +220,7 @@
                                     <input placeholder="Valor" class="form-control" type="text" name="price"/>
                                 </div>
                                 <div class="pull-left text-right">
-                                    <button type="button" class="btn btn-link remove-price-size"><i class="fa fa-close"></i></button>
+                                    <button type="button" class="btn btn-link remove-price-size"><i class="fa fa-close text-danger"></i></button>
                                 </div>
                             </div>
 
@@ -231,7 +233,7 @@
                                         <input placeholder="Valor" class="form-control" type="text" name="price"/>
                                     </div>
                                     <div class="pull-left text-right">
-                                        <button type="button" class="btn btn-link remove-price-size"><i class="fa fa-close"></i></button>
+                                        <button type="button" class="btn btn-link remove-price-size"><i class="fa fa-close text-danger"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -240,6 +242,14 @@
                         </div>
                     </form>
                 </section>
+                
+                <section class="col-xs-8" id="product-preview-container">
+                    
+                </section>
+                
+                <button id="cancelProduct" type="button" class="btn btn-link"><i title="Cancelar" class="fa fa-close fa-2x"></i></button><!--TODO. Lang-->
+                <button id="saveProduct" type="button" class="btn btn-success btn-md btn-flat">Guardar</button>
+                
             </div>
         </div>
 

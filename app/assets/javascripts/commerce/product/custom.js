@@ -134,13 +134,14 @@ var custom = {
                 $('#multiprice').hide();
             }
         });
-        
+
         $('#add-price-size').on('click', function () {
             $('#price-size-row-model').clone().appendTo('#price-size').removeAttr('id').removeClass('hidden');
         });
-        
+
         $(document).on('click', '.remove-price-size', function () {
-            $(this).closest('.price-size-row').remove();
+            if ($(".price-size-row").not( "#price-size-row-model" ).length > 1)
+                $(this).closest('.price-size-row').remove();
         });
 
         if ($('#multisize').is(':checked')) {
