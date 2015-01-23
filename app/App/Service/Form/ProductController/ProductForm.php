@@ -2,6 +2,7 @@
 
 namespace App\Service\Form\ProductController;
 
+use Illuminate\Support\MessageBag;
 use App\Service\Validation\ValidableInterface;
 use App\Repository\Product\ProductInterface;
 /* use App\Repository\Subcategory\SubcategoryInterface;
@@ -17,6 +18,7 @@ class ProductForm extends AbstractForm {
      *
      * @var \App\Repository\Product\ProductInterface
      */
+    protected $messageBag;
     protected $product;
     /* protected $subcategory;
       protected $tag; */
@@ -24,6 +26,7 @@ class ProductForm extends AbstractForm {
 
     public function __construct(ValidableInterface $validator, ProductInterface $product/* , SubcategoryInterface $subcategory, TagInterface $tag */, BranchInterface $branch) {
         parent::__construct($validator);
+        $this->messageBag = new MessageBag();
         $this->product = $product;
         /* $this->subcategory = $subcategory;
           $this->tag = $tag; */
@@ -69,100 +72,34 @@ class ProductForm extends AbstractForm {
 
         $commerceId = \Auth::user()->id_commerce;
 
-        $res = array();
+        $data = [
+            'price' => $input['price'],
+            'id_commerce' => $commerceId,
+            'id_category' => $input['category'],
+            'subcategory_id' => $input['subcategory'],
+            'tag_id' => $input['tag']
+        ];
 
-        if (!isset($input['subcategory']) || empty($input['subcategory'])) {
-            $res['error'] = 'No hay una subcategor&iacute;a asignada';
-            return $res;
-        }
+        if (!$this->valid($data))
+            return false;
 
-        if (!isset($input['product']) || empty($input['product'])) {
-            $res['error'] = 'No hay productos asignados';
-            return $res;
-        }
+        $product = $this->product->create($data);
 
-        foreach ($input["product"] as $tagId => $productForm) {
+        /*$branches = $this->branch->allByCommerceId($commerceId);
 
-            $product = $this->product->findProductByTagByCommerceId($tagId, $commerceId);
+        if (!$branches->isEmpty()) {
 
-            $directoryPhotoPath = public_path() . '/upload/product_photo/';
+            $productBranch = array();
 
-            if (isset($productForm['enable'])) {
+            foreach ($branches as $branch) {
 
-                if (!isset($productForm['price'])) {
-                    $res['error'] = 'El precio es obligatorio';
-                    return $res;
-                }
-
-                if (!$this->valid(['price' => $productForm['price'], 'category_id' => $input["category"], 'subcategory_id' => $input["subcategory"], 'tag_id' => $tagId])) {
-                    $res['error'] = $this->validator->errors();
-                    return $res;
-                }
-
-                if (!is_null($product)) {
-
-                    $this->update($product->id, ['price' => $productForm['price']]);
-                    $res['msg'] = \Lang::get('segment.product.message.success.edit');
-                } else {
-
-                    //se inserta nuevo
-                    $product = $this->product->create([
-                        'price' => $productForm['price'],
-                        'id_commerce' => $commerceId,
-                        'id_category' => $input['category'],
-                        'subcategory_id' => $input['subcategory'],
-                        'tag_id' => $tagId
-                    ]);
-                    $res['msg'] = \Lang::get('segment.product.message.success.store');
-                }
-
-                if (isset($productForm['file']) && !is_null($productForm['file'])) {
-
-                    $this->savePhoto($directoryPhotoPath, $product, $productForm);
-                }
-
-                if (isset($productForm['attribute_type'])) {
-
-                    if (!$this->syncAttributes($productForm, $product)) {
-                        $res['error'] = 'Ocurrio un error al sincronizar atributos';
-                        return $res;
-                    }
-                }
-
-                $branches = $this->branch->allByCommerceId($commerceId);
-
-                if (!$branches->isEmpty()) {
-                    
-                    $productBranch = array();
-                    
-                    foreach ($branches as $branch) {
-
-                        $productBranch[] = $branch->id;
-                    }
-
-                    $product->branches()->sync($productBranch);
-                }
-
-                $res['redirect'] = '/product#p' . $product->id;
-            } else {
-
-                if (!is_null($product)) {
-
-                    if ($this->delete($product->id)) {
-
-                        $Filesystem = new Filesystem();
-
-                        $Filesystem->deleteDirectory($directoryPhotoPath . $product->id);
-
-                        $res['redirect'] = '/product';
-                        $res['msg'] = \Lang::get('segment.product.message.success.delete');
-                    }
-                }
+                $productBranch[] = $branch->id;
             }
-        }
 
-        //$input['tags'] = $this->processTags($input['tags']);
-        return $res;
+            $product->branches()->sync($productBranch);
+        }*/
+
+        return $product;
     }
 
     /**

@@ -1,5 +1,5 @@
 var custom = {
-    tags: {},
+    tagSelected : false,
     init: function () {
         this.tabs();
         this.tag();
@@ -140,7 +140,7 @@ var custom = {
         });
 
         $(document).on('click', '.remove-price-size', function () {
-            if ($(".price-size-row").not( "#price-size-row-model" ).length > 1)
+            if ($(".price-size-row").not("#price-size-row-model").length > 1)
                 $(this).closest('.price-size-row').remove();
         });
 
@@ -151,6 +151,25 @@ var custom = {
             $('#singleprice').show();
             $('#multiprice').hide();
         }
+
+        $('#saveProduct').on('click', function () {
+
+            var trigger = $(this),
+                    form = $('#productForm');
+                    
+            trigger.button('loading');
+
+            main.sendFormPost(form.attr('action'), form.serializeArray(), function (res) {
+
+                if (res.status) {
+                    console.log(res);
+                }
+
+                trigger.button('reset');
+                main.notify(res);
+
+            });
+        });
     },
     tagTypeahead: function (tags) {
 
@@ -168,7 +187,7 @@ var custom = {
 
         tagsMatch.initialize();
 
-        $('#tag').typeahead({
+        $('#tagName').typeahead({
             hint: false,
             highlight: true,
             minLength: 3
@@ -183,7 +202,14 @@ var custom = {
             }
 
         }).on('typeahead:selected', function (event, obj) {
-            console.log(obj);
+            $('#tag').val(obj.id);
+            custom.tagSelected = true;
+        }).on('typeahead:opened', function (event, obj) {
+            $('#tag').val('');
+            custom.tagSelected = false;
+        }).on('typeahead:closed', function (event, obj) {
+            if(!custom.tagSelected)
+                $('#tagName').val('');
         });
 
     },

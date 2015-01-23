@@ -5,14 +5,18 @@
         <group>
             <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/commerce/product/custom.js</file>
             <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/commerce/branch/custom.js</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/ProductController/ProductValidator.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/BranchArea/BranchAreaForm.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/models/Subcategory.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/product/index.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/routes.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/main.js</file>
             <file>file:/C:/xampp/htdocs/melivery/app/controllers/Commerce/ProductController.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/controllers/ajax/AjaxCategoryController.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/models/Category.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/models/Subcategory.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/product/index.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/controllers/Commerce/BranchController.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/product_complex/generico.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/ProductController/ProductForm.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/assets/stylesheets/commerce/product/custom.css</file>
         </group>
     </open-files>

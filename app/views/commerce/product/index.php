@@ -163,10 +163,23 @@
         </section><!-- /.content -->
 
         <div id="product-form-fixed" class="shown">
-            
+
             <div class="container">
-                
+
                 <section class="col-xs-4" id="product-form-container">
+
+                    <div id="price-size-row-model" class="price-size-row hidden form-group">
+                        <div class="col-xs-6">
+                            <input placeholder="Ej. Mediano" class="form-control" type="text" name="size"/>
+                        </div>
+                        <div class="col-xs-5">
+                            <input placeholder="Valor" class="form-control" type="text" name="price"/>
+                        </div>
+                        <div class="pull-left text-right">
+                            <button type="button" class="btn btn-link remove-price-size"><i class="fa fa-close text-danger"></i></button>
+                        </div>
+                    </div>
+
                     <form id="productForm" method="post" action="<?php echo URL::action('ProductController@store') ?>">
 
                         <div class="form-group">
@@ -187,7 +200,8 @@
 
                         <div class="form-group">
                             <label for="tag">Nombre, sabor o tama&ntilde;o</label>
-                            <input id="tag" placeholder="Ej. Empanada de carne, 1/2 Kilo de helado" class="form-control" type="text" name="tag"/>
+                            <input id="tagName" placeholder="Ej. Empanada de carne, 1/2 Kilo de helado" class="form-control" type="text" name="tagName"/>
+                            <input id="tag" name="tag" type="hidden"/>
                         </div>
 
                         <div class="form-group">
@@ -212,25 +226,13 @@
                                 </div>
                             </div>
 
-                            <div id="price-size-row-model" class="price-size-row hidden form-group">
-                                <div class="col-xs-6">
-                                    <input placeholder="Ej. Mediano" class="form-control" type="text" name="size"/>
-                                </div>
-                                <div class="col-xs-5">
-                                    <input placeholder="Valor" class="form-control" type="text" name="price"/>
-                                </div>
-                                <div class="pull-left text-right">
-                                    <button type="button" class="btn btn-link remove-price-size"><i class="fa fa-close text-danger"></i></button>
-                                </div>
-                            </div>
-
                             <div id="price-size" class="row">
                                 <div class="price-size-row form-group">
                                     <div class="col-xs-6">
-                                        <input placeholder="Ej. Mediano" class="form-control" type="text" name="size"/>
+                                        <input placeholder="Ej. Mediano" class="form-control" type="text" name="multisize[]"/>
                                     </div>
                                     <div class="col-xs-5">
-                                        <input placeholder="Valor" class="form-control" type="text" name="price"/>
+                                        <input placeholder="Valor" class="form-control" type="text" name="multiprice[]"/>
                                     </div>
                                     <div class="pull-left text-right">
                                         <button type="button" class="btn btn-link remove-price-size"><i class="fa fa-close text-danger"></i></button>
@@ -242,14 +244,14 @@
                         </div>
                     </form>
                 </section>
-                
+
                 <section class="col-xs-8" id="product-preview-container">
-                    
+
                 </section>
-                
+
                 <button id="cancelProduct" type="button" class="btn btn-link"><i title="Cancelar" class="fa fa-close fa-2x"></i></button><!--TODO. Lang-->
-                <button id="saveProduct" type="button" class="btn btn-success btn-md btn-flat">Guardar</button>
-                
+                <button id="saveProduct" type="button" class="btn btn-success btn-md btn-flat" data-loading-text="Guardando...">Guardar</button>
+
             </div>
         </div>
 

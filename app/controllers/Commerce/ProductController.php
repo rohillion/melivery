@@ -62,19 +62,24 @@ class ProductController extends BaseController {
      */
     public function store() {
 
-        $res = $this->productForm->save(Input::all());
+        $product = $this->productForm->save(Input::all());
 
-        if (!isset($res['error'])) {
+        if ($product) {
             // Success!
-            return Redirect::to($res['redirect'])
-                            ->withSuccess($res['msg'])
-                            ->with('status', 'success');
+            return Response::json(array(
+                        'status' => TRUE,
+                        'type' => 'success',
+                        'message' => Lang::get('segment.product.message.success.store'),
+                        'product' => $product->toJson())
+            );
         }
 
-        return Redirect::to('/product/create')
-                        ->withInput()
-                        ->withErrors($res['error'])
-                        ->with('status', 'error');
+        // Error!
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->productForm->errors()->all())
+        );
     }
 
     /**
