@@ -74,7 +74,10 @@ return array(
             ),
         ),
         "item" => array(
-            "icecream_flavor" => "Available Flavors"
+            "icecream_flavor" => "Available flavors",
+            "ingredient" => "Available ingredient",
+            "sauce" => "Available sauces",
+            "garnish" => "Available garnishes",
         )
     ),
     "dashboard" => array(

@@ -82,15 +82,19 @@ body {
     text-transform: capitalize;
 }
 
-.tt-empty-tags{
+.tt-empty-suggestions{
     padding: 0 15px;
 }
 
-.price-size-row {
+.sublabel{
+    font-weight: normal;
+}
+
+.overflow-hidden {
     overflow: hidden;
 }
 
-.price-size-row .btn{
+.price-size-row .btn, .add-attribute{
     padding-left: 0; 
     padding-right: 0;
 }
@@ -106,6 +110,36 @@ body {
     color: #000;
     right: 15px;
     top: 15px;
+}
+.defaultSuggestion{
+    display: none;
+    width: 100%;
+    margin-top: 12px;
+    padding: 8px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    position: absolute;
+    left: 0px;
+    z-index: 100;
+    right: auto;
+}
+.tt-cursor{
+    cursor: pointer;
+}
+.attribute-panel .defaultSuggestion{
+    bottom: 45px;
+}
+
+.selected-attributes-panel h4{
+    margin: 0 5px 5px 0;
+    display: inline-block;
 }
 
 /***** scroll control *****/

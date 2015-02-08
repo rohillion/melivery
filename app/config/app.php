@@ -109,7 +109,8 @@ return array(
         'App\Repository\RepositoryServiceProvider',
         'App\Service\Form\FormServiceProvider',
         'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
-        'Intervention\Image\ImageServiceProvider'
+        'Intervention\Image\ImageServiceProvider',
+        'JsLocalization\JsLocalizationServiceProvider'
     ),
     /*
       |--------------------------------------------------------------------------

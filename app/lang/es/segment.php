@@ -73,8 +73,11 @@ return array(
                 "store" => "No se ha podido agregar el atributo",
             ),
         ),
-        "item"=>array(
-            "icecream_flavor"=>"Sabores disponibles"
+        "item" => array(
+            "icecream_flavor" => "Sabores disponibles",
+            "ingredient" => "Ingredientes disponibles",
+            "sauce" => "Salsas disponibles",
+            "garnish" => "Guarniciones disponibles",
         )
     ),
     "dashboard" => array(
@@ -121,7 +124,6 @@ return array(
                 "store" => "xxxx",
             ),
         ),
-        
     ),
     "product" => array(
         "name" => array(
@@ -166,7 +168,6 @@ return array(
                 "store" => "xxxx",
             ),
         ),
-        
     ),
     "branch" => array(
         "name" => array(
@@ -189,7 +190,6 @@ return array(
                 "store" => "Ha ocurrido un error al intentar agregar la sucursal.",
             ),
         ),
-        
     ),
     "tag-name" => array(
         "name" => "tag",

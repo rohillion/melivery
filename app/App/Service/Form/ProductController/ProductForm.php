@@ -85,7 +85,7 @@ class ProductForm extends AbstractForm {
 
         $product = $this->product->create($data);
 
-        /*$branches = $this->branch->allByCommerceId($commerceId);
+        $branches = $this->branch->allByCommerceId($commerceId);
 
         if (!$branches->isEmpty()) {
 
@@ -97,7 +97,7 @@ class ProductForm extends AbstractForm {
             }
 
             $product->branches()->sync($productBranch);
-        }*/
+        }
 
         return $product;
     }

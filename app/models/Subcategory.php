@@ -22,6 +22,13 @@ class Subcategory extends Eloquent {
     public function attributes() {
         return $this->belongsToMany('Attribute', 'attribute_subcategory', 'id_subcategory', 'id_attribute')->withPivot('id');
     }
+    
+    /**
+     * Active & custom Attributes relationship
+     */
+    public function activeAttributesWithCustom() {
+        return $this->belongsToMany('Attribute', 'attribute_subcategory', 'id_subcategory', 'id_attribute')->withPivot('id')->where('active', '=', 1)->where('commerce_id', '=', Session::get('user.id_commerce'))->orWhere('commerce_id', '=', NULL);
+    }
 
     /**
      * Tag relationship

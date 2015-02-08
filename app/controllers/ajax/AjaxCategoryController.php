@@ -20,7 +20,7 @@ class AjaxCategoryController extends BaseController {
         );
 
 
-        $categories = $this->category->all(['*'], ['activeSubcategories.activeTagsWithCustom'], ['active' => 1]);
+        $categories = $this->category->all(['*'], ['activeSubcategories.activeTagsWithCustom', 'activeSubcategories.activeAttributesWithCustom.attribute_types'], ['active' => 1]);
 
         if (!$categories->isEmpty()) {
 
@@ -33,11 +33,18 @@ class AjaxCategoryController extends BaseController {
                     foreach ($category->activeSubcategories as $subcategory) {
 
                         $data[$category->id]['active_subcategories'][$subcategory->id] = $subcategory->toArray();
+                        $data[$category->id]['active_subcategories'][$subcategory->id]['active_attributes_with_custom'] = NULL;
+
+                        foreach ($subcategory->activeAttributesWithCustom as $attribute) {
+
+                            $data[$category->id]['active_subcategories'][$subcategory->id]['active_attributes_with_custom'][$attribute->attribute_types->id]['attribute_type'] = $attribute->attribute_types->toArray();
+                            $data[$category->id]['active_subcategories'][$subcategory->id]['active_attributes_with_custom'][$attribute->attribute_types->id]['attribute_list'][$attribute->id] = $attribute->toArray();
+                        }
                     }
                 }
             }
-  
-            
+
+
             $response = Response::json(
                             array(
                                 'status' => TRUE,

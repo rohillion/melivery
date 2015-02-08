@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="<?php echo App::getLocale(); ?>">
     <?php echo View::make('head'); ?>
     <body class="skin-dark" data-spy="scroll" data-target="#scrollControl">
 
@@ -168,7 +168,67 @@
 
                 <section class="col-xs-4" id="product-form-container">
 
-                    <div id="price-size-row-model" class="price-size-row hidden form-group">
+                    <div id="attribute-panel-model" class="form-group attribute-panel hidden">
+
+                        <label class="attribute-type-name" for=""></label>
+
+                        <div class="well well-sm">
+
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <label class="sublabel text-muted" for="">M&iacute;nimo <i class="fa fa-info-circle"></i></label>
+                                </div>
+                                <div class="col-xs-5">
+                                    <label class="sublabel text-muted" for="">M&aacute;ximo <i class="fa fa-info-circle"></i></label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="overflow-hidden form-group">
+                                    <div class="col-xs-6">
+                                        <input placeholder="Valor" class="form-control" type="text"/>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <input placeholder="Valor" class="form-control" type="text"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <label class="sublabel text-muted" for="">Nombre</label>
+                                </div>
+                                <div class="col-xs-5">
+                                    <label class="sublabel text-muted" for="">Precio adicional</label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group clearfix">
+                                    <div class="col-xs-6" style="position:relative;">
+                                        <input placeholder="Ej. Dulce de leche, Tomate" class="form-control attributeTypeahead" type="text"/>
+                                        <input class="selectedAttribute" type="hidden"/>
+                                        <div class="defaultSuggestion attributeSuggestions">
+                                            <div class="tt-dataset-defaults">
+                                                <span class="tt-suggestions" style="display: block;"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <input placeholder="Valor" class="form-control" type="text"/>
+                                    </div>
+                                    <div class="pull-left text-right clearfix">
+                                        <button title="Agregar" type="button" class="btn btn-link add-attribute"><i class="fa fa-plus-circle text-success"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="selected-attributes-panel"></div>
+                        </div>
+
+                    </div><!-- attribute panel model -->
+
+                    <div id="price-size-row-model" class="overflow-hidden price-size-row hidden form-group">
                         <div class="col-xs-6">
                             <input placeholder="Ej. Mediano" class="form-control" type="text" name="size"/>
                         </div>
@@ -198,10 +258,16 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style="position:relative;">
                             <label for="tag">Nombre, sabor o tama&ntilde;o</label>
                             <input id="tagName" placeholder="Ej. Empanada de carne, 1/2 Kilo de helado" class="form-control" type="text" name="tagName"/>
                             <input id="tag" name="tag" type="hidden"/>
+
+                            <div id="tagSuggestions" class="defaultSuggestion">
+                                <div class="tt-dataset-defaults">
+                                    <span class="tt-suggestions" style="display: block;"></span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -215,7 +281,7 @@
                             <input id="price" placeholder="Valor" class="form-control" type="text" name="price"/>
                         </div>
 
-                        <div id="multiprice">
+                        <div id="multiprice" class="form-group">
 
                             <div class="row">
                                 <div class="col-xs-6">
@@ -227,7 +293,7 @@
                             </div>
 
                             <div id="price-size" class="row">
-                                <div class="price-size-row form-group">
+                                <div class="overflow-hidden price-size-row form-group">
                                     <div class="col-xs-6">
                                         <input placeholder="Ej. Mediano" class="form-control" type="text" name="multisize[]"/>
                                     </div>
@@ -242,6 +308,9 @@
 
                             <button type="button" id="add-price-size" class="btn btn-success btn-md btn-flat btn-block">Agregar tama&ntilde;o</button>
                         </div>
+
+                        <div id="attribute-panel-container"></div>
+
                     </form>
                 </section>
 
@@ -256,6 +325,8 @@
         </div>
 
         <?php echo View::make('footer'); ?>
+
+        <script type="text/javascript" src="<?php echo URL::action('JsLocalizationController@createJsMessages'); ?>"></script>
 
     </body>
 </html>

@@ -31,6 +31,7 @@ return array(
     'Normalizer' => array($vendorDir . '/patchwork/utf8/class'),
     'Net' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'Math' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
+    'JsLocalization' => array($vendorDir . '/andywer/js-localization/src'),
     'Jeremeamia\\SuperClosure' => array($vendorDir . '/jeremeamia/SuperClosure/src'),
     'JSMinPlus' => array($vendorDir . '/nitra/php-min/JSMinPlus'),
     'Illuminate' => array($vendorDir . '/laravel/framework/src'),

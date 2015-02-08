@@ -29,7 +29,8 @@
         "App\\Repository\\RepositoryServiceProvider",
         "App\\Service\\Form\\FormServiceProvider",
         "Codesleeve\\AssetPipeline\\AssetPipelineServiceProvider",
-        "Intervention\\Image\\ImageServiceProvider"
+        "Intervention\\Image\\ImageServiceProvider",
+        "JsLocalization\\JsLocalizationServiceProvider"
     ],
     "eager": [
         "Illuminate\\Cookie\\CookieServiceProvider",
@@ -42,7 +43,8 @@
         "App\\Repository\\RepositoryServiceProvider",
         "App\\Service\\Form\\FormServiceProvider",
         "Codesleeve\\AssetPipeline\\AssetPipelineServiceProvider",
-        "Intervention\\Image\\ImageServiceProvider"
+        "Intervention\\Image\\ImageServiceProvider",
+        "JsLocalization\\JsLocalizationServiceProvider"
     ],
     "deferred": {
         "artisan": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",
@@ -84,6 +86,7 @@
         "html": "Illuminate\\Html\\HtmlServiceProvider",
         "form": "Illuminate\\Html\\HtmlServiceProvider",
         "log": "Illuminate\\Log\\LogServiceProvider",
+        "Psr\\Log\\LoggerInterface": "Illuminate\\Log\\LogServiceProvider",
         "mailer": "Illuminate\\Mail\\MailServiceProvider",
         "swift.mailer": "Illuminate\\Mail\\MailServiceProvider",
         "swift.transport": "Illuminate\\Mail\\MailServiceProvider",
@@ -118,62 +121,24 @@
         "validation.presence": "Illuminate\\Validation\\ValidationServiceProvider"
     },
     "when": {
-        "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider": [
-
-        ],
-        "Illuminate\\Auth\\AuthServiceProvider": [
-
-        ],
-        "Illuminate\\Cache\\CacheServiceProvider": [
-
-        ],
-        "Illuminate\\Session\\CommandsServiceProvider": [
-
-        ],
-        "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider": [
-
-        ],
-        "Illuminate\\Routing\\ControllerServiceProvider": [
-
-        ],
-        "Illuminate\\Hashing\\HashServiceProvider": [
-
-        ],
-        "Illuminate\\Html\\HtmlServiceProvider": [
-
-        ],
-        "Illuminate\\Log\\LogServiceProvider": [
-
-        ],
-        "Illuminate\\Mail\\MailServiceProvider": [
-
-        ],
-        "Illuminate\\Database\\MigrationServiceProvider": [
-
-        ],
-        "Illuminate\\Pagination\\PaginationServiceProvider": [
-
-        ],
-        "Illuminate\\Queue\\QueueServiceProvider": [
-
-        ],
-        "Illuminate\\Redis\\RedisServiceProvider": [
-
-        ],
-        "Illuminate\\Remote\\RemoteServiceProvider": [
-
-        ],
-        "Illuminate\\Auth\\Reminders\\ReminderServiceProvider": [
-
-        ],
-        "Illuminate\\Database\\SeedServiceProvider": [
-
-        ],
-        "Illuminate\\Translation\\TranslationServiceProvider": [
-
-        ],
-        "Illuminate\\Validation\\ValidationServiceProvider": [
-
-        ]
+        "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider": [],
+        "Illuminate\\Auth\\AuthServiceProvider": [],
+        "Illuminate\\Cache\\CacheServiceProvider": [],
+        "Illuminate\\Session\\CommandsServiceProvider": [],
+        "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider": [],
+        "Illuminate\\Routing\\ControllerServiceProvider": [],
+        "Illuminate\\Hashing\\HashServiceProvider": [],
+        "Illuminate\\Html\\HtmlServiceProvider": [],
+        "Illuminate\\Log\\LogServiceProvider": [],
+        "Illuminate\\Mail\\MailServiceProvider": [],
+        "Illuminate\\Database\\MigrationServiceProvider": [],
+        "Illuminate\\Pagination\\PaginationServiceProvider": [],
+        "Illuminate\\Queue\\QueueServiceProvider": [],
+        "Illuminate\\Redis\\RedisServiceProvider": [],
+        "Illuminate\\Remote\\RemoteServiceProvider": [],
+        "Illuminate\\Auth\\Reminders\\ReminderServiceProvider": [],
+        "Illuminate\\Database\\SeedServiceProvider": [],
+        "Illuminate\\Translation\\TranslationServiceProvider": [],
+        "Illuminate\\Validation\\ValidationServiceProvider": []
     }
 }
