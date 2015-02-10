@@ -9,4 +9,4 @@ Thumbs.db
 /app/storage/cache/asset-pipeline
 /public/upload/branch_image/*
 /public/upload/product_photo/*
-/vendor
+/vendor/*
