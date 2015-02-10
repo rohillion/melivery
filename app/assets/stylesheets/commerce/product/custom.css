@@ -138,6 +138,7 @@ body {
 }
 
 .selected-attributes-panel h4{
+    line-height: normal;
     margin: 0 5px 5px 0;
     display: inline-block;
 }

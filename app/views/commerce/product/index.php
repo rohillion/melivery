@@ -176,10 +176,10 @@
 
                             <div class="row">
                                 <div class="col-xs-6">
-                                    <label class="sublabel text-muted" for="">M&iacute;nimo <i class="fa fa-info-circle"></i></label>
+                                    <label class="sublabel text-muted" for="">Cant. M&iacute;nima <i class="fa fa-info-circle"></i></label>
                                 </div>
-                                <div class="col-xs-5">
-                                    <label class="sublabel text-muted" for="">M&aacute;ximo <i class="fa fa-info-circle"></i></label>
+                                <div class="col-xs-6">
+                                    <label class="sublabel text-muted" for="">Cant. M&aacute;xima <i class="fa fa-info-circle"></i></label>
                                 </div>
                             </div>
 
@@ -199,7 +199,7 @@
                                     <label class="sublabel text-muted" for="">Nombre</label>
                                 </div>
                                 <div class="col-xs-5">
-                                    <label class="sublabel text-muted" for="">Precio adicional</label>
+                                    <label class="sublabel text-muted" for="">Precio adicional <i class="fa fa-info-circle"></i></label>
                                 </div>
                             </div>
 
@@ -215,7 +215,7 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-5">
-                                        <input placeholder="Valor" class="form-control" type="text"/>
+                                        <input placeholder="Valor" class="form-control attributeAditionalPrice" type="text"/>
                                     </div>
                                     <div class="pull-left text-right clearfix">
                                         <button title="Agregar" type="button" class="btn btn-link add-attribute"><i class="fa fa-plus-circle text-success"></i></button>

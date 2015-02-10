@@ -1,7 +1,7 @@
 var custom = {
     tagSelected: false,
     attributeSelected: false,
-    init: function () {
+    init: function() {
         this.tabs();
         this.tag();
         this.onSuccess();
@@ -9,7 +9,7 @@ var custom = {
         this.tagSuggestions();
         this.attributeSuggestions();
     },
-    tabs: function () {
+    tabs: function() {
 
         var url = document.location.toString();
         if (url.match('#')) {
@@ -17,13 +17,13 @@ var custom = {
         }
 
         // Change hash for page-reload
-        $('.nav-tabs a').on('shown.bs.tab', function (e) {
+        $('.nav-tabs a').on('shown.bs.tab', function(e) {
             window.location.hash = e.target.hash;
         })
     },
-    tag: function () {
+    tag: function() {
 
-        $(".custom-tag-form").on("submit", function (event) {
+        $(".custom-tag-form").on("submit", function(event) {
 
             event.preventDefault();
             event.stopImmediatePropagation();
@@ -31,14 +31,14 @@ var custom = {
 
             var form = $(this), modal = form.closest('.modal');
 
-            main.sendForm(form.attr('action'), form.serialize(), function (res) {
+            main.sendForm(form.attr('action'), form.serialize(), function(res) {
 
                 if (res.status != 'error') {
 
                     modal.modal('hide');
 
-                    modal.on('hidden.bs.modal', function (e) {
-                        main.notify(res, function () {
+                    modal.on('hidden.bs.modal', function(e) {
+                        main.notify(res, function() {
                             location.reload();
                         });
                     });
@@ -50,7 +50,7 @@ var custom = {
             });
         });
     },
-    onSuccess: function () {
+    onSuccess: function() {
 
         var url = document.location.toString();
 
@@ -58,22 +58,22 @@ var custom = {
 
             var element = $('#' + url.split('#')[1]);
 
-            main.scrollTo(element, function () {
+            main.scrollTo(element, function() {
                 main.highlight(element);
             });
 
         }
 
     },
-    productForm: function () {
+    productForm: function() {
 
         if (storage.data.isSet('categories'))
             storage.data.remove('categories');
 
-        $('#showProductForm').on('click', function () {
+        $('#showProductForm').on('click', function() {
 
             if (!storage.data.isSet('categories')) {
-                main.run('../ajax/category', function (res) {
+                main.run('../ajax/category', function(res) {
 
                     if (res.status) {
 
@@ -90,7 +90,7 @@ var custom = {
             return false;
         });
 
-        $('#category').on('change', function () {
+        $('#category').on('change', function() {
 
             var category = $(this),
                     subcategory = $('#subcategory'),
@@ -108,7 +108,7 @@ var custom = {
             //subcategory.chage();
         });
 
-        $('#subcategory').on('change', function () {
+        $('#subcategory').on('change', function() {
 
             var category = $('#category'),
                     subcategory = $(this),
@@ -128,7 +128,7 @@ var custom = {
             }
         });
 
-        $('#multisize').on('change', function () {
+        $('#multisize').on('change', function() {
             if ($(this).is(':checked')) {
                 $('#singleprice').hide();
                 $('#multiprice').show();
@@ -138,11 +138,11 @@ var custom = {
             }
         });
 
-        $('#add-price-size').on('click', function () {
+        $('#add-price-size').on('click', function() {
             $('#price-size-row-model').clone().appendTo('#price-size').removeAttr('id').removeClass('hidden');
         });
 
-        $(document).on('click', '.remove-price-size', function () {
+        $(document).on('click', '.remove-price-size', function() {
             if ($(".price-size-row").not("#price-size-row-model").length > 1)
                 $(this).closest('.price-size-row').remove();
         });
@@ -155,14 +155,14 @@ var custom = {
             $('#multiprice').hide();
         }
 
-        $('#saveProduct').on('click', function () {
+        $('#saveProduct').on('click', function() {
 
             var trigger = $(this),
                     form = $('#productForm');
 
             trigger.button('loading');
 
-            main.sendFormPost(form.attr('action'), form.serializeArray(), function (res) {
+            main.sendFormPost(form.attr('action'), form.serializeArray(), function(res) {
 
                 if (res.status) {
                     console.log(res);
@@ -174,7 +174,7 @@ var custom = {
             });
         });
     },
-    tagTypeahead: function (tags) {
+    tagTypeahead: function(tags) {
 
         var defaultSuggestions = $('#tagSuggestions'),
                 suggestions = defaultSuggestions.find('.tt-suggestions'),
@@ -188,9 +188,9 @@ var custom = {
         }
 
         suggestions.hover(
-                function () {
+                function() {
                     $(this).addClass('tt-cursor');
-                }, function () {
+                }, function() {
             $(this).removeClass('tt-cursor');
         });
 
@@ -201,7 +201,7 @@ var custom = {
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('tag_name'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             // `states` is an array of state names defined in "The Basics"
-            local: $.map(tags, function (tag) {
+            local: $.map(tags, function(tag) {
                 return {id: tag.id, tag_name: tag.tag_name};
             })
         });
@@ -221,14 +221,14 @@ var custom = {
                 suggestion: Handlebars.compile('<p>{{tag_name}}</p>')
             }
 
-        }).on('typeahead:selected', function (event, obj) {
+        }).on('typeahead:selected', function(event, obj) {
             tag.val(obj.id);
             custom.tagSelected = true;
-        }).on('typeahead:opened', function (event, obj) {
+        }).on('typeahead:opened', function(event, obj) {
             var e = $.Event("keydown");
             e.which = 40; // # Down arrow
             tagTypeahead.trigger(e);
-        }).on('typeahead:closed', function (event, obj) {
+        }).on('typeahead:closed', function(event, obj) {
             if (!custom.tagSelected) {
                 tag.val('');
                 tagTypeahead.typeahead('val', '');
@@ -236,13 +236,13 @@ var custom = {
         });
 
     },
-    tagSuggestions: function () {
+    tagSuggestions: function() {
 
         var defaultSuggestions = $('#tagSuggestions'),
                 tagTypeahead = $('#tagName'),
                 tag = $('#tag');
 
-        $(document).on('click', function (event) {
+        $(document).on('click', function(event) {
             if (!$(event.target).closest('#tagSuggestions').length && !$(event.target).is('#tagName')) {
                 if (defaultSuggestions.is(":visible")) {
                     defaultSuggestions.hide();
@@ -250,7 +250,7 @@ var custom = {
             }
         });
 
-        tagTypeahead.on('keyup', function (e) {
+        tagTypeahead.on('keyup', function(e) {
             if (e.which !== 40)
                 custom.tagSelected = false;
             if (!tagTypeahead.val().length > 0) {
@@ -260,12 +260,12 @@ var custom = {
             }
         });
 
-        tagTypeahead.on('focus', function () {
+        tagTypeahead.on('focus', function() {
             if ($(this).val() === '')
                 defaultSuggestions.show();
         });
 
-        $(document).on('click', '#tagSuggestions .tt-suggestion', function () {
+        $(document).on('click', '#tagSuggestions .tt-suggestion', function() {
             tagTypeahead.typeahead('val', $(this).attr('data-name'));
             tag.val($(this).attr('id'));
             custom.tagSelected = true;
@@ -273,7 +273,7 @@ var custom = {
         });
 
     },
-    attributeTypeahead: function (attributes) {
+    attributeTypeahead: function(attributes) {
 
         var model = $('#attribute-panel-model');
 
@@ -292,9 +292,9 @@ var custom = {
         }
 
         suggestions.hover(
-                function () {
+                function() {
                     $(this).addClass('tt-cursor');
-                }, function () {
+                }, function() {
             $(this).removeClass('tt-cursor');
         });
 
@@ -305,7 +305,7 @@ var custom = {
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('attribute_name'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             // `states` is an array of state names defined in "The Basics"
-            local: $.map(attributes.attribute_list, function (attribute) {
+            local: $.map(attributes.attribute_list, function(attribute) {
                 return {id: attribute.id, attribute_name: attribute.attribute_name};
             })
         });
@@ -325,14 +325,14 @@ var custom = {
                 suggestion: Handlebars.compile('<p>{{attribute_name}}</p>')
             }
 
-        }).on('typeahead:selected', function (event, obj) {
+        }).on('typeahead:selected', function(event, obj) {
             custom.attributeSelected = true;
             selectedAttribute.val(obj.id);
-        }).on('typeahead:opened', function (event, obj) {
+        }).on('typeahead:opened', function(event, obj) {
             var e = $.Event("keydown");
             e.which = 40; // # Down arrow
             attributeTypeahead.trigger(e);
-        }).on('typeahead:closed', function (event, obj) {
+        }).on('typeahead:closed', function(event, obj) {
             if (!custom.attributeSelected) {
                 selectedAttribute.val('');
                 attributeTypeahead.typeahead('val', '');
@@ -340,9 +340,9 @@ var custom = {
         });
 
     },
-    attributeSuggestions: function () {
+    attributeSuggestions: function() {
 
-        $(document).on('click', function (event) {
+        $(document).on('click', function(event) {
             if (!$(event.target).closest('.attributeSuggestions').length && !$(event.target).is('.attributeTypeahead')) {
                 if ($('.attributeSuggestions').is(":visible")) {
                     $('.attributeSuggestions').hide();
@@ -350,7 +350,7 @@ var custom = {
             }
         });
 
-        $(document).on('keyup', '.attributeTypeahead', function (e) {
+        $(document).on('keyup', '.attributeTypeahead', function(e) {
 
             var defaultSuggestions = $(this).closest('.attribute-panel').find('.attributeSuggestions');
 
@@ -364,7 +364,7 @@ var custom = {
             }
         });
 
-        $(document).on('focus', '.attributeTypeahead', function () {
+        $(document).on('focus', '.attributeTypeahead', function() {
 
             var defaultSuggestions = $(this).closest('.attribute-panel').find('.attributeSuggestions');
 
@@ -372,7 +372,7 @@ var custom = {
                 defaultSuggestions.show();
         });
 
-        $(document).on('click', '.attributeSuggestions .tt-suggestion', function () {
+        $(document).on('click', '.attributeSuggestions .tt-suggestion', function() {
 
             var defaultSuggestions = $(this).closest('.attributeSuggestions'),
                     attributeTypeahead = defaultSuggestions.closest('.attribute-panel').find('.attributeTypeahead'),
@@ -384,17 +384,24 @@ var custom = {
             defaultSuggestions.hide();
         });
 
-        $(document).on('click', '.add-attribute', function () {
+        $(document).on('click', '.add-attribute', function() {
             var attributePanel = $(this).closest('.attribute-panel'),
                     attributeTypeahead = attributePanel.find('.attributeTypeahead'),
+                    attributeAditionalPrice = attributePanel.find('.attributeAditionalPrice'),
                     selectedAttributesPanel = attributePanel.find('.selected-attributes-panel'),
-                    attribute = $('<h4><div class="label label-success">' + attributeTypeahead.typeahead('val') + '</div></h4>');
+                    aditionalPrice = attributeAditionalPrice.val().length > 0 ? ' + $' + attributeAditionalPrice.val() : '' ;
+
+
+            var attribute = $('<h4><div class="label label-success">' + attributeTypeahead.typeahead('val') + aditionalPrice + '</div></h4>');
 
             selectedAttributesPanel.append(attribute);
+
+            attributeTypeahead.typeahead('val', '');
+            attributeAditionalPrice.val('');
         });
 
     },
-    categoryTypeahead: function () {
+    categoryTypeahead: function() {
 
         // constructs the suggestion engine
         var categories = new Bloodhound({
@@ -402,10 +409,10 @@ var custom = {
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             remote: {
                 url: '../ajax/category/find?query=%QUERY',
-                filter: function (data) {
+                filter: function(data) {
                     // Map the remote source JSON array to a JavaScript array
                     if (data.status) {
-                        return $.map(data.categories, function (category) {
+                        return $.map(data.categories, function(category) {
                             return {id: category.id, name: category.category_name};
                         });
                     }
@@ -438,7 +445,7 @@ var custom = {
                 suggestion: Handlebars.compile('<p><strong>{{name}}</strong></p>')
             }
 
-        }).on('typeahead:selected', function (event, obj) {
+        }).on('typeahead:selected', function(event, obj) {
 
         });
 
