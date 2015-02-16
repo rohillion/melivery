@@ -5,8 +5,7 @@ namespace App\Service\Form\ProductController;
 use Illuminate\Support\MessageBag;
 use App\Service\Validation\ValidableInterface;
 use App\Repository\Product\ProductInterface;
-/* use App\Repository\Subcategory\SubcategoryInterface;
-  use App\Repository\Tag\TagInterface; */
+use App\Service\Form\ProductPrice\ProductPriceForm;
 use App\Repository\Branch\BranchInterface;
 use App\Service\Form\AbstractForm;
 use Illuminate\Filesystem\Filesystem;
@@ -20,16 +19,14 @@ class ProductForm extends AbstractForm {
      */
     protected $messageBag;
     protected $product;
-    /* protected $subcategory;
-      protected $tag; */
+    protected $productPrice;
     protected $branch;
 
-    public function __construct(ValidableInterface $validator, ProductInterface $product/* , SubcategoryInterface $subcategory, TagInterface $tag */, BranchInterface $branch) {
+    public function __construct(ValidableInterface $validator, ProductInterface $product, ProductPriceForm $productPrice, BranchInterface $branch) {
         parent::__construct($validator);
         $this->messageBag = new MessageBag();
         $this->product = $product;
-        /* $this->subcategory = $subcategory;
-          $this->tag = $tag; */
+        $this->productPrice = $productPrice;
         $this->branch = $branch;
     }
 
@@ -70,10 +67,9 @@ class ProductForm extends AbstractForm {
      */
     public function save(array $input) {
 
-        $commerceId = \Auth::user()->id_commerce;
+        $commerceId = \Session::get('user.id_commerce');
 
         $data = [
-            'price' => $input['price'],
             'id_commerce' => $commerceId,
             'id_category' => $input['category'],
             'subcategory_id' => $input['subcategory'],
@@ -83,21 +79,22 @@ class ProductForm extends AbstractForm {
         if (!$this->valid($data))
             return false;
 
+        //Start transaction
+        \DB::beginTransaction();
+
         $product = $this->product->create($data);
 
-        $branches = $this->branch->allByCommerceId($commerceId);
+        if (!$this->syncPrices($product, $input))
+            return false;
 
-        if (!$branches->isEmpty()) {
+        if (!$this->syncBranches($product, $commerceId))
+            return false;
 
-            $productBranch = array();
+        if (!$this->syncAttributes($productForm, $product))
+            return false;
 
-            foreach ($branches as $branch) {
-
-                $productBranch[] = $branch->id;
-            }
-
-            $product->branches()->sync($productBranch);
-        }
+        \DB::commit();
+        // End transaction
 
         return $product;
     }
@@ -161,29 +158,88 @@ class ProductForm extends AbstractForm {
         return true;
     }
 
-    private function syncAttributes($productForm, $product) {
+    private function syncPrices($product, $input) {
 
-        if (isset($productForm['attribute_type']['attr'])) {
+        if (isset($input['multisize'])) {
 
-            $product->attributes()->sync($productForm['attribute_type']['attr']);
+            foreach ($input['multiprice']['price'] as $key => $price) {
+
+                $priceSize['product_id'] = $product->id;
+                $priceSize['price'] = $price;
+                $priceSize['size'] = $input['multiprice']['size'][$key];
+
+                $productPrice = $this->productPrice->store($priceSize);
+
+                if (!$productPrice) {
+                    \DB::rollback();
+                    $this->validator->errors = $this->productPrice->errors();
+                    return false;
+                }
+            }
         } else {
 
-            //$res['error'] = 'Faltan atributos';
-            return false;
+            $price['product_id'] = $product->id;
+            $price['price'] = $input['price'];
+
+            $productPrice = $this->productPrice->store($price);
+
+            if (!$productPrice) {
+                \DB::rollback();
+                $this->validator->errors = $this->productPrice->errors();
+                return false;
+            }
         }
 
-        if (isset($productForm['attribute_type']['rules'])) {
+        return true;
+    }
 
-            if (isset($productForm['attribute_type']['id'])) {
+    private function syncBranches($product, $commerceId) {
 
-                foreach ($productForm['attribute_type']['rules'] as $rule) {
+        $branches = $this->branch->allByCommerceId($commerceId);
 
-                    $product->rules()->sync(array($rule => array('attribute_type_id' => $productForm['attribute_type']['id'])));
-                }
+        if (!$branches->isEmpty()) {
+
+            $productBranch = array();
+
+            foreach ($branches as $branch) {
+
+                $productBranch[] = $branch->id;
+            }
+
+            $product->branches()->sync($productBranch);
+        }
+
+        return true;
+    }
+
+    private function syncAttributes($productForm, $product) {
+
+        if (isset($productForm['attribute_type'])) {
+
+            if (isset($productForm['attribute_type']['attr'])) {
+
+                $product->attributes()->sync($productForm['attribute_type']['attr']);
             } else {
 
-                //$res['error'] = 'Para asignar reglas hace falta el tipo de atributo';
+                \DB::rollback();
+                $this->validator->errors = 'Faltan atributos';
                 return false;
+            }
+
+            if (isset($productForm['attribute_type']['rules'])) {
+
+                if (isset($productForm['attribute_type']['id'])) {
+
+                    foreach ($productForm['attribute_type']['rules'] as $rule) {
+
+                        $product->rules()->sync(array($rule => array('attribute_type_id' => $productForm['attribute_type']['id'])));
+                    }
+                } else {
+
+                    \DB::rollback();
+                    $this->validator->errors = 'Para asignar reglas hace falta el tipo de atributo';
+                    return false;
+                }
             }
         }
 

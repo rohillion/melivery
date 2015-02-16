@@ -79,4 +79,11 @@ class Product extends Eloquent {
         return $this->hasManyThrough('AttributeOrderProduct', 'OrderProduct', 'product_id', 'order_product_id');
     }
     
+    /**
+     * ProductPrice relationship
+     */
+    public function productPrice() {
+        return $this->hasMany('ProductPrice', 'product_id')->orderBy('price', 'asc');
+    }
+    
 }

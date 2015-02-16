@@ -9,13 +9,12 @@
             <div class="container">
                 <h3>
                     <?php echo Lang::get('segment.product.name.plural') . ' publicados'; ?>
-                    <a href="product/create" class="pull-right btn btn-success btn-flat">
+                    <!--<a href="product/create" class="pull-right btn btn-success btn-flat">
                         <i class="fa fa-edit"></i> 
-                        <?php echo Lang::get('common.action.edit') . ' ' . Lang::get('segment.product.title.menu'); ?>
-                    </a>
-                    <a id="showProductForm" href="#productForm" class="pull-right btn btn-primary btn-flat">
-                        <i class="fa fa-plus"></i> 
-                        <?php echo Lang::get('common.action.create') . ' ' . Lang::get('segment.product.name.single'); ?>
+                    <?php echo Lang::get('common.action.edit') . ' ' . Lang::get('segment.product.title.menu'); ?>
+                    </a>-->
+                    <a id="showProductForm" href="#productForm" class="pull-right btn btn-primary btn-flat" data-loading-text="Cargando...">
+                        <?php echo Lang::get('common.action.add') . ' ' . Lang::get('segment.product.name.single'); ?>
                     </a>
                 </h3>
             </div>
@@ -96,7 +95,7 @@
 
                                                     <div style="overflow: hidden;">
                                                         <h3 class="product-title truncate pull-left" title="<?php echo $product->tags->tag_name ?>"><?php echo $product->tags->tag_name ?></h3>
-                                                        <h3 class="pull-right"><?php echo ' $' . $product->price; ?></h3>
+                                                        <h3 class="pull-right"><?php echo $product->productPrice->count() > 1 ? 'Desde' : ''; echo ' $'.$product->productPrice[0]->price; ?></h3>
                                                     </div>
 
                                                     <div class="clearfix">
@@ -162,7 +161,7 @@
 
         </section><!-- /.content -->
 
-        <div id="product-form-fixed" class="shown">
+        <div id="product-form-fixed">
 
             <div class="container">
 
@@ -176,10 +175,10 @@
 
                             <div class="row">
                                 <div class="col-xs-6">
-                                    <label class="sublabel text-muted" for="">Cant. M&iacute;nima <i class="fa fa-info-circle"></i></label>
+                                    <label class="sublabel text-muted" for="">Cant. M&iacute;nima <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Cantidad m&iacute;nima de opciones que puede elegir el comensal. Por ejemplo, para gustos de helado, si se establece un m&iacute;nimo de 2, el comensal deber&aacute; elegir al menos dos gustos."></i></label>
                                 </div>
                                 <div class="col-xs-6">
-                                    <label class="sublabel text-muted" for="">Cant. M&aacute;xima <i class="fa fa-info-circle"></i></label>
+                                    <label class="sublabel text-muted" for="">Cant. M&aacute;xima <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Cantidad m&aacute;xima de opciones que puede elegir el comensal. Por ejemplo, para gustos de helado, si se establece un m&aacute;ximo de 6, el comensal podr&aacute; elegir hasta seis gustos."></i></label>
                                 </div>
                             </div>
 
@@ -199,7 +198,7 @@
                                     <label class="sublabel text-muted" for="">Nombre</label>
                                 </div>
                                 <div class="col-xs-5">
-                                    <label class="sublabel text-muted" for="">Precio adicional <i class="fa fa-info-circle"></i></label>
+                                    <label class="sublabel text-muted" for="">Precio adicional <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Precio adicional para una opci&oacute;n en particular. Por ejemplo, los barquillos para helado pueden costar $5 extra sobre el precio base del helado."></i></label>
                                 </div>
                             </div>
 
@@ -222,7 +221,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="selected-attributes-panel"></div>
                         </div>
 
@@ -230,10 +229,10 @@
 
                     <div id="price-size-row-model" class="overflow-hidden price-size-row hidden form-group">
                         <div class="col-xs-6">
-                            <input placeholder="Ej. Mediano" class="form-control" type="text" name="size"/>
+                            <input placeholder="Ej. Mediano" class="form-control" type="text" name="multiprice[size][]"/>
                         </div>
                         <div class="col-xs-5">
-                            <input placeholder="Valor" class="form-control" type="text" name="price"/>
+                            <input placeholder="Valor" class="form-control" type="text" name="multiprice[price][]"/>
                         </div>
                         <div class="pull-left text-right">
                             <button type="button" class="btn btn-link remove-price-size"><i class="fa fa-close text-danger"></i></button>
@@ -295,10 +294,10 @@
                             <div id="price-size" class="row">
                                 <div class="overflow-hidden price-size-row form-group">
                                     <div class="col-xs-6">
-                                        <input placeholder="Ej. Mediano" class="form-control" type="text" name="multisize[]"/>
+                                        <input placeholder="Ej. Mediano" class="form-control" type="text" name="multiprice[size][]"/>
                                     </div>
                                     <div class="col-xs-5">
-                                        <input placeholder="Valor" class="form-control" type="text" name="multiprice[]"/>
+                                        <input placeholder="Valor" class="form-control" type="text" name="multiprice[price][]"/>
                                     </div>
                                     <div class="pull-left text-right">
                                         <button type="button" class="btn btn-link remove-price-size"><i class="fa fa-close text-danger"></i></button>

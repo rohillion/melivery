@@ -9,6 +9,7 @@ use Attribute;
 use AttributeType;
 use AttributeSubcategory;
 use Product;
+use ProductPrice;
 use Commerce;
 use Customer;
 use Branch;
@@ -32,6 +33,7 @@ use App\Repository\Attribute\EloquentAttribute;
 use App\Repository\AttributeType\EloquentAttributeType;
 use App\Repository\AttributeSubcategory\EloquentAttributeSubcategory;
 use App\Repository\Product\EloquentProduct;
+use App\Repository\ProductPrice\EloquentProductPrice;
 use App\Repository\Commerce\EloquentCommerce;
 use App\Repository\Customer\EloquentCustomer;
 use App\Repository\Branch\EloquentBranch;
@@ -112,6 +114,7 @@ class RepositoryServiceProvider extends ServiceProvider {
         });
 
         $this->product($app);
+        $this->productPrice($app);
         $this->commerce($app);
         $this->customer($app);
         $this->branch($app);
@@ -136,6 +139,16 @@ class RepositoryServiceProvider extends ServiceProvider {
             );
 
             return $product;
+        });
+    }
+    
+    private function productPrice($app) {
+        $app->bind('App\Repository\ProductPrice\ProductPriceInterface', function($app) {
+            $productPrice = new EloquentProductPrice(
+                    new ProductPrice
+            );
+
+            return $productPrice;
         });
     }
 

@@ -25,6 +25,8 @@ use App\Service\Form\AccountController\Verification\VerificationForm;
 use App\Service\Form\AccountController\Verification\VerificationValidator;
 use App\Service\Form\ProductController\ProductForm;
 use App\Service\Form\ProductController\ProductValidator;
+use App\Service\Form\ProductPrice\ProductPriceForm;
+use App\Service\Form\ProductPrice\ProductPriceValidator;
 use App\Service\Form\Commerce\CommerceForm;
 use App\Service\Form\Commerce\CommerceValidator;
 use App\Service\Form\Customer\CustomerForm;
@@ -126,6 +128,7 @@ class FormServiceProvider extends ServiceProvider {
         $this->reset($app);
         $this->verification($app);
         $this->product($app);
+        $this->productPrice($app);
         $this->commerce($app);
         $this->customer($app);
         $this->branch($app);
@@ -178,7 +181,16 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\ProductController\ProductForm', function($app) {
 
             return new ProductForm(
-                    new ProductValidator($app['validator']), $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Repository\Branch\BranchInterface')
+                    new ProductValidator($app['validator']), $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Service\Form\ProductPrice\ProductPriceForm'), $app->make('App\Repository\Branch\BranchInterface')
+            );
+        });
+    }
+    
+    private function productPrice($app) {
+        $app->bind('App\Service\Form\ProductPrice\ProductPriceForm', function($app) {
+
+            return new ProductPriceForm(
+                    new ProductPriceValidator($app['validator']), $app->make('App\Repository\ProductPrice\ProductPriceInterface'), $app->make('App\Repository\Product\ProductInterface')
             );
         });
     }

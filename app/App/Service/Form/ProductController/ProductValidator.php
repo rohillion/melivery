@@ -13,7 +13,8 @@ class ProductValidator extends LaravelValidator implements ValidableInterface {
      * @var array
      */
     protected $rules = array(
-        'price' => 'required|numeric|price',
+        /*'price' => 'required_without:multiprice|numeric|price',
+        'multiprice' => 'required_without:price',*/
         'id_commerce' => 'required|numeric|exists:commerce,id',
         'id_category' => 'required|numeric|exists:category,id',
         'subcategory_id' => 'required|numeric|exists:subcategory,id',

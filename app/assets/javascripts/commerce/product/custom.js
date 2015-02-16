@@ -73,19 +73,26 @@ var custom = {
         $('#showProductForm').on('click', function() {
 
             if (!storage.data.isSet('categories')) {
+
+                var btn = $(this).button('loading');
+
                 main.run('../ajax/category', function(res) {
+
+                    btn.button('reset');
 
                     if (res.status) {
 
-                        //storage.data.get('assignments').indexOf(orderId) === -1;
-
                         storage.data.set('categories', res.categories);
+                        $('#category').trigger('change');
+                        $('#product-form-fixed').toggleClass('shown');
+                        custom.tooltips();
                     }
 
                 });
-            }
+            } else {
 
-            $('#product-form-fixed').toggleClass('shown');
+                $('#product-form-fixed').toggleClass('shown');
+            }
 
             return false;
         });
@@ -105,7 +112,7 @@ var custom = {
             }
 
             subcategory.find('option:first-child').attr('selected', 'selected');
-            //subcategory.chage();
+            subcategory.trigger('change');
         });
 
         $('#subcategory').on('change', function() {
@@ -126,6 +133,8 @@ var custom = {
             for (var i in attributes) {
                 custom.attributeTypeahead(attributes[i]);
             }
+
+            custom.tooltips();
         });
 
         $('#multisize').on('change', function() {
@@ -234,6 +243,8 @@ var custom = {
                 tagTypeahead.typeahead('val', '');
             }
         });
+
+        tagTypeahead.typeahead('val', '');
 
     },
     tagSuggestions: function() {
@@ -388,16 +399,19 @@ var custom = {
             var attributePanel = $(this).closest('.attribute-panel'),
                     attributeTypeahead = attributePanel.find('.attributeTypeahead'),
                     attributeAditionalPrice = attributePanel.find('.attributeAditionalPrice'),
+                    selectedAttribute = attributePanel.find('.selectedAttribute'),
                     selectedAttributesPanel = attributePanel.find('.selected-attributes-panel'),
-                    aditionalPrice = attributeAditionalPrice.val().length > 0 ? ' + $' + attributeAditionalPrice.val() : '' ;
+                    aditionalPrice = attributeAditionalPrice.val().length > 0 ? ' + $' + attributeAditionalPrice.val() : '';
 
 
-            var attribute = $('<h4><div class="label label-success">' + attributeTypeahead.typeahead('val') + aditionalPrice + '</div></h4>');
+            var attribute = $('<h4><div class="label label-success">' + attributeTypeahead.typeahead('val') + aditionalPrice + '</div><input type="hidden" name="attribute_type[attr][]" value="' + selectedAttribute.val() + '"/></h4>');
+
 
             selectedAttributesPanel.append(attribute);
 
             attributeTypeahead.typeahead('val', '');
             attributeAditionalPrice.val('');
+            selectedAttribute.val('');
         });
 
     },
@@ -449,5 +463,8 @@ var custom = {
 
         });
 
+    },
+    tooltips: function() {
+        $('[data-toggle="tooltip"]').tooltip();
     }
 }

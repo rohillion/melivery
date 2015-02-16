@@ -28,7 +28,7 @@ class ProductController extends BaseController {
 
         //$data['productCategories'] = $this->product->listProductCategoriesByCommerceId(Session::get('user.id_commerce'));
 
-        $branch = $this->branch->find(Session::get('user.branch_id'), ['*'], ['products.categories.subcategories', 'products.tags', 'products.attributes.attribute_types']);
+        $branch = $this->branch->find(Session::get('user.branch_id'), ['*'], ['products.categories.subcategories', 'products.tags', 'products.attributes.attribute_types', 'products.productPrice.productPriceSize']);
 
         foreach ($branch->products as $product) {
             $data['productsByCategory'][$product->categories->category_name]['data'] = $product->categories;
