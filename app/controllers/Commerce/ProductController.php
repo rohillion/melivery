@@ -5,6 +5,7 @@ use App\Service\Form\ProductController\productForm;
 use App\Repository\Product\ProductInterface;
 use App\Repository\Category\CategoryInterface;
 use App\Repository\Branch\BranchInterface;
+use App\Repository\Rule\RuleInterface;
 
 class ProductController extends BaseController {
 
@@ -12,21 +13,27 @@ class ProductController extends BaseController {
     protected $productForm;
     protected $category;
     protected $branch;
+    protected $rule;
 
-    public function __construct(BranchInterface $branch, ProductInterface $product, productForm $productForm, CategoryInterface $category) {
+    public function __construct(BranchInterface $branch, ProductInterface $product, productForm $productForm, CategoryInterface $category, RuleInterface $rule) {
         $this->product = $product;
         $this->productForm = $productForm;
         $this->category = $category;
         $this->branch = $branch;
+        $this->rule = $rule;
     }
 
     public function index() {
 
-        $data['productsByCategory'] = array();
+        $data['productsByCategory'] = $data['rules'] = array();
 
         $data['categories'] = $this->category->all(['*'], [], ['active' => 1]);
-
-        //$data['productCategories'] = $this->product->listProductCategoriesByCommerceId(Session::get('user.id_commerce'));
+        
+        $rules = $this->rule->all(['*'], ['rule_type'], ['active' => 1]);
+        
+        foreach ($rules as $rule) {
+            $data['rules'][$rule->rule_type->rule_type_name][] = $rule;
+        }
 
         $branch = $this->branch->find(Session::get('user.branch_id'), ['*'], ['products.categories.subcategories', 'products.tags', 'products.attributes.attribute_types', 'products.productPrice.productPriceSize']);
 
@@ -34,8 +41,6 @@ class ProductController extends BaseController {
             $data['productsByCategory'][$product->categories->category_name]['data'] = $product->categories;
             $data['productsByCategory'][$product->categories->category_name]['products'][] = $product;
         }
-
-        //$data['products'] = $this->productForm->allByCommerceId(Session::get('user.id_commerce'));
 
         return View::make("commerce.product.index", $data);
     }
@@ -61,7 +66,7 @@ class ProductController extends BaseController {
      * POST /product/category
      */
     public function store() {
-
+        
         $product = $this->productForm->save(Input::all());
 
         if ($product) {

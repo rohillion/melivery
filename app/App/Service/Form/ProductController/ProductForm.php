@@ -90,8 +90,14 @@ class ProductForm extends AbstractForm {
         if (!$this->syncBranches($product, $commerceId))
             return false;
 
-        if (!$this->syncAttributes($productForm, $product))
-            return false;
+        if (isset($input['attribute_type'])) {
+            if (!$this->syncAttributes($product, $input))
+                return false;
+
+            if (!$this->syncRules($product, $input))
+                return false;
+        }
+
 
         \DB::commit();
         // End transaction
@@ -212,35 +218,40 @@ class ProductForm extends AbstractForm {
         return true;
     }
 
-    private function syncAttributes($productForm, $product) {
+    private function syncAttributes($product, $input) {
 
-        if (isset($productForm['attribute_type'])) {
+        foreach ($input['attribute_type']['attr'] as $attrTypeId => $attrItems) {
 
-            if (isset($productForm['attribute_type']['attr'])) {
+            if (isset($attrItems)) {
 
-                $product->attributes()->sync($productForm['attribute_type']['attr']);
+                foreach ($attrItems as $attrId => $price) {
+
+                    $attrToSync[$attrId] = ['aditional_price' => $price];
+                }
+
+                $product->attributes()->sync($attrToSync);
             } else {
 
                 \DB::rollback();
                 $this->validator->errors = 'Faltan atributos';
                 return false;
             }
+        }
 
-            if (isset($productForm['attribute_type']['rules'])) {
 
-                if (isset($productForm['attribute_type']['id'])) {
+        return true;
+    }
 
-                    foreach ($productForm['attribute_type']['rules'] as $rule) {
+    private function syncRules($product, $input) {
 
-                        $product->rules()->sync(array($rule => array('attribute_type_id' => $productForm['attribute_type']['id'])));
-                    }
-                } else {
+        foreach ($input['attribute_type']['rule'] as $attrTypeId => $rules) {
 
-                    \DB::rollback();
-                    $this->validator->errors = 'Para asignar reglas hace falta el tipo de atributo';
-                    return false;
-                }
+            foreach ($rules as $rule) {
+
+                $rulesToSync[$rule] = ['attribute_type_id' => $attrTypeId];
             }
+            
+            $product->rules()->sync($rulesToSync);
         }
 
         return true;

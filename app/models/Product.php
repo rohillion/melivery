@@ -41,7 +41,7 @@ class Product extends Eloquent {
      * Category relationship
      */
     public function attributes() {
-        return $this->belongsToMany('Attribute', 'attribute_product','id_product','id_attribute');
+        return $this->belongsToMany('Attribute', 'attribute_product','id_product','id_attribute')->withPivot('aditional_price');
     }
     
     /**

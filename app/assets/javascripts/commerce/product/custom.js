@@ -124,7 +124,6 @@ var custom = {
 
             tags = storage.data.get('categories')[category.val()].active_subcategories[subcategory.val()].active_tags_with_custom;
             attributes = storage.data.get('categories')[category.val()].active_subcategories[subcategory.val()].active_attributes_with_custom;
-            console.log(attributes);
 
             custom.tagTypeahead(tags);
 
@@ -169,7 +168,7 @@ var custom = {
             var trigger = $(this),
                     form = $('#productForm');
 
-            trigger.button('loading');
+            //trigger.button('loading');
 
             main.sendFormPost(form.attr('action'), form.serializeArray(), function(res) {
 
@@ -177,7 +176,7 @@ var custom = {
                     console.log(res);
                 }
 
-                trigger.button('reset');
+                //trigger.button('reset');
                 main.notify(res);
 
             });
@@ -193,7 +192,7 @@ var custom = {
         suggestions.empty();
 
         for (var i in tags) {
-            suggestions.append('<div id="' + tags[i].id + '" data-name="' + tags[i].tag_name + '" class="tt-suggestion"><p style="white-space: normal;">' + tags[i].tag_name + '</p></div>');
+            suggestions.append('<div data-id="' + tags[i].id + '" data-name="' + tags[i].tag_name + '" class="tt-suggestion"><p style="white-space: normal;">' + tags[i].tag_name + '</p></div>');
         }
 
         suggestions.hover(
@@ -278,7 +277,7 @@ var custom = {
 
         $(document).on('click', '#tagSuggestions .tt-suggestion', function() {
             tagTypeahead.typeahead('val', $(this).attr('data-name'));
-            tag.val($(this).attr('id'));
+            tag.val($(this).attr('data-id'));
             custom.tagSelected = true;
             defaultSuggestions.hide();
         });
@@ -288,18 +287,21 @@ var custom = {
 
         var model = $('#attribute-panel-model');
 
-        model.clone().appendTo('#attribute-panel-container').attr('id', 'attrtype_' + attributes.attribute_type.id).removeClass('hidden').find('.attribute-type-name').text(Lang.get('segment.attribute_type.item.' + attributes.attribute_type.d_attribute_type));
+        model.clone().appendTo('#attribute-panel-container').attr('id', attributes.attribute_type.id).removeClass('hidden').find('.attribute-type-name').text(Lang.get('segment.attribute_type.item.' + attributes.attribute_type.d_attribute_type));
 
-        var attrtype = $('#attrtype_' + attributes.attribute_type.id),
+        var attrtype = $('#' + attributes.attribute_type.id),
                 attributeTypeahead = attrtype.find('.attributeTypeahead'),
                 selectedAttribute = attrtype.find('.selectedAttribute'),
                 defaultSuggestion = attrtype.find('.defaultSuggestion'),
                 suggestions = defaultSuggestion.find('.tt-suggestions');
+        
+        attrtype.find('.rule-min').attr('name','attribute_type[rule][' + attributes.attribute_type.id + '][]');
+        attrtype.find('.rule-max').attr('name','attribute_type[rule][' + attributes.attribute_type.id + '][]');
 
         suggestions.empty();
 
         for (var i in attributes.attribute_list) {
-            suggestions.append('<div id="' + attributes.attribute_list[i].id + '" data-name="' + attributes.attribute_list[i].attribute_name + '" class="tt-suggestion"><p style="white-space: normal;">' + attributes.attribute_list[i].attribute_name + '</p></div>');
+            suggestions.append('<div data-id="' + attributes.attribute_list[i].id + '" data-name="' + attributes.attribute_list[i].attribute_name + '" class="tt-suggestion"><p style="white-space: normal;">' + attributes.attribute_list[i].attribute_name + '</p></div>');
         }
 
         suggestions.hover(
@@ -390,7 +392,7 @@ var custom = {
                     selectedAttribute = defaultSuggestions.prev('.selectedAttribute');
 
             attributeTypeahead.typeahead('val', $(this).attr('data-name'));
-            selectedAttribute.val($(this).attr('id'));
+            selectedAttribute.val($(this).attr('data-id'));
             custom.tagSelected = true;
             defaultSuggestions.hide();
         });
@@ -404,7 +406,7 @@ var custom = {
                     aditionalPrice = attributeAditionalPrice.val().length > 0 ? ' + $' + attributeAditionalPrice.val() : '';
 
 
-            var attribute = $('<h4><div class="label label-success">' + attributeTypeahead.typeahead('val') + aditionalPrice + '</div><input type="hidden" name="attribute_type[attr][]" value="' + selectedAttribute.val() + '"/></h4>');
+            var attribute = $('<h4><div class="label label-success">' + attributeTypeahead.typeahead('val') + aditionalPrice + '</div><input type="hidden" name="attribute_type[attr][' + attributePanel.attr('id') + '][' + selectedAttribute.val() + ']" value="' + attributeAditionalPrice.val() + '"/></h4>');
 
 
             selectedAttributesPanel.append(attribute);

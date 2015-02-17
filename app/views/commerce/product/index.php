@@ -95,7 +95,10 @@
 
                                                     <div style="overflow: hidden;">
                                                         <h3 class="product-title truncate pull-left" title="<?php echo $product->tags->tag_name ?>"><?php echo $product->tags->tag_name ?></h3>
-                                                        <h3 class="pull-right"><?php echo $product->productPrice->count() > 1 ? 'Desde' : ''; echo ' $'.$product->productPrice[0]->price; ?></h3>
+                                                        <h3 class="pull-right"><?php
+                                                            echo $product->productPrice->count() > 1 ? 'Desde' : '';
+                                                            echo ' $' . $product->productPrice[0]->price;
+                                                            ?></h3>
                                                     </div>
 
                                                     <div class="clearfix">
@@ -107,23 +110,22 @@
                                                             foreach ($product->attributes as $attributeProduct) {
                                                                 $attributes[$attributeProduct->attribute_types->d_attribute_type]['attributes'][$attributeProduct->id]['id'] = $attributeProduct->id;
                                                                 $attributes[$attributeProduct->attribute_types->d_attribute_type]['attributes'][$attributeProduct->id]['attribute_name'] = $attributeProduct->attribute_name;
+                                                                $attributes[$attributeProduct->attribute_types->d_attribute_type]['attributes'][$attributeProduct->id]['aditional_price'] = $attributeProduct->pivot->aditional_price;
                                                             }
                                                             ?>
 
                                                             <?php foreach ($attributes as $attributeTypeName => $attributeType) { ?>
 
-                                                                <h5><?php echo $attributeTypeName; ?></h5>
+                                                                <h5><?php echo Lang::get('segment.attribute_type.item.' . $attributeTypeName); ?></h5>
 
                                                                 <div style="height: 60px;overflow: auto;" class="well well-sm">
                                                                     <?php foreach ($attributeType['attributes'] as $attribute) { ?>
 
-                                                                        <span class="label label-default" ><?php echo $attribute['attribute_name']; ?></span>
+                                                                        <span class="label label-default" ><?php echo $attribute['attribute_name']; ?> <?php echo $attribute['aditional_price'] > 0 ? ' + $' . $attribute['aditional_price'] : ''; ?></span>
 
                                                                     <?php } ?>
                                                                 </div>
                                                             <?php } ?>
-
-
 
                                                         <?php } ?>
 
@@ -185,10 +187,23 @@
                             <div class="row">
                                 <div class="overflow-hidden form-group">
                                     <div class="col-xs-6">
-                                        <input placeholder="Valor" class="form-control" type="text"/>
+                                        <select class="form-control rule-min">
+                                            
+                                            <option value="0">No hay m&iacute;nimo</option><!-- TODO. Lang. -->
+                                            
+                                            <?php foreach ($rules['min_limit'] as $rule) { ?>
+                                                <option value="<?php echo $rule->id;?>"><?php echo $rule->rule_value;?></option><!-- TODO. Lang. -->
+                                            <?php } ?>
+                                                
+                                        </select>
                                     </div>
                                     <div class="col-xs-6">
-                                        <input placeholder="Valor" class="form-control" type="text"/>
+                                        <select class="form-control rule-max">
+                                            <option value="0">No hay m&aacute;ximo</option><!-- TODO. Lang. -->
+                                            <?php foreach ($rules['max_limit'] as $rule) { ?>
+                                                <option value="<?php echo $rule->id;?>"><?php echo $rule->rule_value;?></option><!-- TODO. Lang. -->
+                                            <?php } ?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
