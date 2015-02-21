@@ -247,11 +247,11 @@ class ProductForm extends AbstractForm {
         foreach ($input['attribute_type']['rule'] as $attrTypeId => $rules) {
 
             foreach ($rules as $rule) {
-
-                $rulesToSync[$rule] = ['attribute_type_id' => $attrTypeId];
+                if($rule)
+                    $rulesToSync[$rule] = ['attribute_type_id' => $attrTypeId];
             }
-            
-            $product->rules()->sync($rulesToSync);
+            if(isset($rulesToSync))
+                $product->rules()->sync($rulesToSync);
         }
 
         return true;

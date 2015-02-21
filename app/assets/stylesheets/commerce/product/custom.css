@@ -82,8 +82,17 @@ body {
     text-transform: capitalize;
 }
 
-.tt-empty-suggestions{
+.tt-empty-suggestions, .suggestion-header{
     padding: 0 15px;
+}
+
+.suggestion-header{
+    
+}
+
+.tt-partial-empty{
+    padding-top: 10px;
+    border-top:1px solid #ccc;
 }
 
 .sublabel{

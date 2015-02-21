@@ -19,22 +19,21 @@ class CustomTagController extends BaseController {
 
         $input['tag_name'] = strtolower(Input::get('tag'));
         $input['subcategory_id'] = Input::get('subcategory');
-        $input['commerce_id'] = Auth::user()->id_commerce;
+        $input['commerce_id'] = Session::get('user.id_commerce');
         $input['active'] = 1;
 
-        if ($this->tag->save($input)) {
+        $tag = $this->tag->save($input);
+
+        if ($tag) {
             // Success!
             return Response::json(
                             array(
                                 'status' => 'success',
-                                'message' => Lang::get('segment.tag.message.success.store')
+                                'message' => Lang::get('segment.tag.message.success.store'),
+                                'tag' => $tag->toJson()
                             )
             );
         }
-        
-        /*foreach($this->tag->errors() as $msg){
-            $erros
-        }*/
 
         return Response::json(
                         array(

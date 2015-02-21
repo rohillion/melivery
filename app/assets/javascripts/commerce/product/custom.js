@@ -97,7 +97,7 @@ var custom = {
             return false;
         });
 
-        $('#category').on('change', function() {
+        $('#category').on('change', function(e) {
 
             var category = $(this),
                     subcategory = $('#subcategory'),
@@ -115,7 +115,7 @@ var custom = {
             subcategory.trigger('change');
         });
 
-        $('#subcategory').on('change', function() {
+        $('#subcategory').on('change', function(e) {
 
             var category = $('#category'),
                     subcategory = $(this),
@@ -144,6 +144,10 @@ var custom = {
                 $('#singleprice').show();
                 $('#multiprice').hide();
             }
+        });
+
+        $(document).on('click', '#addTag', function() {
+            custom.addTag();
         });
 
         $('#add-price-size').on('click', function() {
@@ -202,7 +206,7 @@ var custom = {
             $(this).removeClass('tt-cursor');
         });
 
-        tagTypeahead.typeahead('destroy');
+        tagTypeahead.typeahead('destroy'); 
 
         // constructs the suggestion engine
         var tagsMatch = new Bloodhound({
@@ -223,10 +227,17 @@ var custom = {
         {
             name: 'tags',
             displayKey: 'tag_name',
-            source: tagsMatch.ttAdapter(),
+            source: function(query, cb) {
+                tagsMatch.get(query, function(suggestions) {
+                    cb(suggestions);
+                    suggestions.length === 1 && suggestions[0].tag_name === query.trim() ? $('.tt-empty-suggestions').hide() : $('.tt-empty-suggestions').show();
+                });
+            },
             templates: {
-                empty: Handlebars.compile('<div class="tt-empty-suggestions"><p class="text-muted text-center">No existe la etiqueta <strong>{{query}}</strong></p><button class="btn btn-success btn-block btn-md btn-flat">Crear etiqueta</button></div>'),
-                suggestion: Handlebars.compile('<p>{{tag_name}}</p>')
+                empty: Handlebars.compile('<div class="tt-empty-suggestions"><p class="text-muted text-center">No existe la etiqueta <strong>{{query}}</strong></p><button id="addTag" type="button" class="btn btn-success btn-block btn-md btn-flat">Crear etiqueta</button></div>'),
+                suggestion: Handlebars.compile('<p>{{tag_name}}</p>'),
+                footer: Handlebars.compile('{{#unless isEmpty}}<div class="tt-empty-suggestions tt-partial-empty"><p class="text-muted text-center">No existe la etiqueta <strong>{{query}}</strong></p><button id="addTag" type="button" class="btn btn-success btn-block btn-md btn-flat">Crear etiqueta</button></div>{{/unless}}'),
+                header: Handlebars.compile('{{#unless isEmpty}}<p class="suggestion-header text-muted">Coincidencias:</p>{{/unless}}')
             }
 
         }).on('typeahead:selected', function(event, obj) {
@@ -236,7 +247,7 @@ var custom = {
             var e = $.Event("keydown");
             e.which = 40; // # Down arrow
             tagTypeahead.trigger(e);
-        }).on('typeahead:closed', function(event, obj) {
+        }).on('typeahead:closed', function(event) {
             if (!custom.tagSelected) {
                 tag.val('');
                 tagTypeahead.typeahead('val', '');
@@ -294,9 +305,9 @@ var custom = {
                 selectedAttribute = attrtype.find('.selectedAttribute'),
                 defaultSuggestion = attrtype.find('.defaultSuggestion'),
                 suggestions = defaultSuggestion.find('.tt-suggestions');
-        
-        attrtype.find('.rule-min').attr('name','attribute_type[rule][' + attributes.attribute_type.id + '][]');
-        attrtype.find('.rule-max').attr('name','attribute_type[rule][' + attributes.attribute_type.id + '][]');
+
+        attrtype.find('.rule-min').attr('name', 'attribute_type[rule][' + attributes.attribute_type.id + '][]');
+        attrtype.find('.rule-max').attr('name', 'attribute_type[rule][' + attributes.attribute_type.id + '][]');
 
         suggestions.empty();
 
@@ -468,5 +479,25 @@ var custom = {
     },
     tooltips: function() {
         $('[data-toggle="tooltip"]').tooltip();
+    },
+    addTag: function() {
+        var typeahead = $('#tagName'),
+                category = $('#category'),
+                subcategory = $('#subcategory'),
+                tag = $('#tag');
+
+        main.sendFormPost('/tag', {tag: typeahead.typeahead('val'), subcategory: subcategory.val()}, function(res) {
+
+            if (res.status) {
+                custom.tagSelected = true;
+                var newTag = JSON.parse(res.tag);
+                storage.push('categories.' + category.val() + '.active_subcategories.' + subcategory.val() + '.active_tags_with_custom', newTag);
+                category.trigger('change');
+                typeahead.typeahead('val', newTag.tag_name);
+                tag.val(newTag.id);
+            }
+
+            main.notify(res);
+        });
     }
 }
