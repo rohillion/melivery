@@ -14,7 +14,7 @@ class Country extends Eloquent {
      *
      * @var string
      */
-    protected $fillable = array();
+    protected $fillable = array('country_name','country_code','active');
     
     /**
      * City relationship
@@ -28,6 +28,13 @@ class Country extends Eloquent {
      */
     public function users() {
         return $this->hasMany('User', 'country_id');
+    }
+    
+    /**
+     * Category relationship
+     */
+    public function categories() {
+        return $this->hasMany('Category', 'country_id');
     }
 
 }

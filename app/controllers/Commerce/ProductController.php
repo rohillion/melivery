@@ -4,6 +4,7 @@
 use App\Service\Form\ProductController\productForm;
 use App\Repository\Product\ProductInterface;
 use App\Repository\Category\CategoryInterface;
+use App\Repository\Country\CountryInterface;
 use App\Repository\Branch\BranchInterface;
 use App\Repository\Rule\RuleInterface;
 
@@ -12,13 +13,15 @@ class ProductController extends BaseController {
     protected $product;
     protected $productForm;
     protected $category;
+    protected $country;
     protected $branch;
     protected $rule;
 
-    public function __construct(BranchInterface $branch, ProductInterface $product, productForm $productForm, CategoryInterface $category, RuleInterface $rule) {
+    public function __construct(BranchInterface $branch, ProductInterface $product, productForm $productForm, CategoryInterface $category, CountryInterface $country, RuleInterface $rule) {
         $this->product = $product;
         $this->productForm = $productForm;
         $this->category = $category;
+        $this->country = $country;
         $this->branch = $branch;
         $this->rule = $rule;
     }
@@ -26,9 +29,9 @@ class ProductController extends BaseController {
     public function index() {
 
         $data['productsByCategory'] = $data['rules'] = array();
-
-        $data['categories'] = $this->category->all(['*'], [], ['active' => 1]);
         
+        $data['categories'] = $this->category->all(['*'], [], ['country_id' => Session::get('user.country_id'), 'active' => 1]);
+
         $rules = $this->rule->all(['*'], ['rule_type'], ['active' => 1]);
         
         foreach ($rules as $rule) {

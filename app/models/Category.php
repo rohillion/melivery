@@ -49,5 +49,12 @@ class Category extends Eloquent {
         $ids = \DB::table('attribute_category')->where('id_category', '=', $this->id)->lists('id_attribute');
         return \Attribute::whereNotIn('id', $ids)->get();
     }
+    
+    /**
+     * Country relationship
+     */
+    public function countries() {
+        return $this->belongsTo('Country', 'country_id');
+    }
 
 }

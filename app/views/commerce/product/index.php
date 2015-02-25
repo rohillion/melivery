@@ -268,7 +268,7 @@
                         <div class="form-group">
                             <label for="subcategory">Subcategor&iacute;a</label>
                             <select class="form-control" id="subcategory" name="subcategory">
-                                <option value="0">Otros</option><!-- TODO. Lang. -->
+                                <!-- <option value="0">Otros</option><!-- TODO. Lang. -->
                             </select>
                         </div>
 

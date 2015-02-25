@@ -20,7 +20,7 @@ class AjaxCategoryController extends BaseController {
         );
 
 
-        $categories = $this->category->all(['*'], ['activeSubcategories.activeTagsWithCustom', 'activeSubcategories.activeAttributesWithCustom.attribute_types'], ['active' => 1]);
+        $categories = $this->category->all(['*'], ['activeSubcategories.activeTagsWithCustom', 'activeSubcategories.activeAttributesWithCustom.attribute_types'], ['country_id' => Session::get('user.country_id'), 'active' => 1]);
 
         if (!$categories->isEmpty()) {
 

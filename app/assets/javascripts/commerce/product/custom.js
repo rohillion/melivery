@@ -492,7 +492,7 @@ var custom = {
                 custom.tagSelected = true;
                 var newTag = JSON.parse(res.tag);
                 storage.push('categories.' + category.val() + '.active_subcategories.' + subcategory.val() + '.active_tags_with_custom', newTag);
-                category.trigger('change');
+                subcategory.trigger('change');
                 typeahead.typeahead('val', newTag.tag_name);
                 tag.val(newTag.id);
             }

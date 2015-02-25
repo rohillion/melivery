@@ -76,13 +76,12 @@ Class CommonEvents {
 
     static function setLocation() {
 
-        $domainTLD = self::get_tld();
+        $domainTLD = self::get_tld(); //.com.xx
 
-        $tld = explode('.', substr($domainTLD[1], 1)); //.com.xx
+        $tld = explode('.', substr($domainTLD[1], 1)); //.xx
 
-        if (!Session::get('location')) {
+        if (!Session::get('location'))
             Session::put('location', ['country' => end($tld), 'tld' => $domainTLD[1]]);
-        }
 
         return true;
     }
