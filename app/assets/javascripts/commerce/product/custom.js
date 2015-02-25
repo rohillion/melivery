@@ -149,6 +149,10 @@ var custom = {
         $(document).on('click', '#addTag', function() {
             custom.addTag();
         });
+        
+        $(document).on('click', '#addAttribute', function() {
+            custom.addAttribute();
+        });
 
         $('#add-price-size').on('click', function() {
             $('#price-size-row-model').clone().appendTo('#price-size').removeAttr('id').removeClass('hidden');
@@ -345,8 +349,11 @@ var custom = {
             displayKey: 'attribute_name',
             source: attributesMatch.ttAdapter(),
             templates: {
-                empty: Handlebars.compile('<div class="tt-empty-suggestions"><p class="text-muted text-center">No existe la etiqueta <strong>{{query}}</strong></p><button class="btn btn-success btn-block btn-md btn-flat">Crear etiqueta</button></div>'),
-                suggestion: Handlebars.compile('<p>{{attribute_name}}</p>')
+                empty: Handlebars.compile('<div class="tt-empty-suggestions"><p class="text-muted text-center">No existe la etiqueta <strong>{{query}}</strong></p><button id="addAttribute" type="button" class="btn btn-success btn-block btn-md btn-flat">Crear etiqueta</button></div>'),
+                suggestion: Handlebars.compile('<p>{{attribute_name}}</p>'),
+                footer: Handlebars.compile('{{#unless isEmpty}}<div class="tt-empty-suggestions tt-partial-empty"><p class="text-muted text-center">No existe la etiqueta <strong>{{query}}</strong></p><button id="addTag" type="button" class="btn btn-success btn-block btn-md btn-flat">Crear etiqueta</button></div>{{/unless}}'),
+                header: Handlebars.compile('{{#unless isEmpty}}<p class="suggestion-header text-muted">Coincidencias:</p>{{/unless}}')
+            
             }
 
         }).on('typeahead:selected', function(event, obj) {
@@ -419,61 +426,11 @@ var custom = {
 
             var attribute = $('<h4><div class="label label-success">' + attributeTypeahead.typeahead('val') + aditionalPrice + '</div><input type="hidden" name="attribute_type[attr][' + attributePanel.attr('id') + '][' + selectedAttribute.val() + ']" value="' + attributeAditionalPrice.val() + '"/></h4>');
 
-
             selectedAttributesPanel.append(attribute);
 
             attributeTypeahead.typeahead('val', '');
             attributeAditionalPrice.val('');
             selectedAttribute.val('');
-        });
-
-    },
-    categoryTypeahead: function() {
-
-        // constructs the suggestion engine
-        var categories = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('category_name'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            remote: {
-                url: '../ajax/category/find?query=%QUERY',
-                filter: function(data) {
-                    // Map the remote source JSON array to a JavaScript array
-                    if (data.status) {
-                        return $.map(data.categories, function(category) {
-                            return {id: category.id, name: category.category_name};
-                        });
-                    }
-
-                    return {};
-
-                }
-            },
-            limit: 30
-        });
-
-        // kicks off the loading/processing of `local` and `prefetch`
-        categories.initialize();
-
-        $('#category').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 0
-        },
-        {
-            name: 'categories',
-            displayKey: 'name',
-            source: categories.ttAdapter(),
-            templates: {
-                empty: [
-                    '<div class="tt-empty-message">',
-                    'No hemos podido encontrar una ciudad con ese parámetro de búsqueda',
-                    '</div>'
-                ].join('\n'),
-                suggestion: Handlebars.compile('<p><strong>{{name}}</strong></p>')
-            }
-
-        }).on('typeahead:selected', function(event, obj) {
-
         });
 
     },
@@ -495,6 +452,24 @@ var custom = {
                 subcategory.trigger('change');
                 typeahead.typeahead('val', newTag.tag_name);
                 tag.val(newTag.id);
+            }
+
+            main.notify(res);
+        });
+    },
+    addAttribute: function() {
+        var typeahead = $('#attribute-panel-container .attributeName'),
+                category = $('#category'),
+                subcategory = $('#subcategory');
+
+        main.sendFormPost('/attribute', {attribute: typeahead.typeahead('val'), subcategory: subcategory.val()}, function(res) {
+
+            if (res.status) {
+                custom.attributeSelected = true;
+                var newAttribute = JSON.parse(res.attribute);
+                storage.push('categories.' + category.val() + '.active_subcategories.' + subcategory.val() + '.active_attributes_with_custom', newAttribute);
+                subcategory.trigger('change');
+                typeahead.typeahead('val', newAttribute.tag_name);
             }
 
             main.notify(res);
