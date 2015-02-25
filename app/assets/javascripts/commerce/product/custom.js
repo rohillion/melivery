@@ -457,8 +457,9 @@ var custom = {
             main.notify(res);
         });
     },
-    addAttribute: function() {
-        var typeahead = $('#attribute-panel-container .attributeName'),
+    addAttribute: function(element) {
+        
+        var typeahead = element.closest('.attribute-panel').find('.attributeTypeahead '),
                 category = $('#category'),
                 subcategory = $('#subcategory');
 
