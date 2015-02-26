@@ -156,5 +156,14 @@ body {
     display: inline-block;
 }
 
+.selected-attributes-panel .btn-link{
+    padding-left: 5px;
+    color: #fff;
+}
+
+.selected-attributes-panel .btn-link:hover{
+    color: #444;
+}
+
 /***** scroll control *****/
 

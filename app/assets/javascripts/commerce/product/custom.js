@@ -162,6 +162,10 @@ var custom = {
             if ($(".price-size-row").not("#price-size-row-model").length > 1)
                 $(this).closest('.price-size-row').remove();
         });
+        
+        $(document).on('click', '.remove-attribute', function() {
+            $(this).closest('h4').remove();
+        });
 
         if ($('#multisize').is(':checked')) {
             $('#singleprice').hide();
@@ -429,7 +433,7 @@ var custom = {
                     aditionalPrice = attributeAditionalPrice.val().length > 0 ? ' + $' + attributeAditionalPrice.val() : '';
 
 
-            var attribute = $('<h4><div class="label label-success">' + attributeTypeahead.typeahead('val') + aditionalPrice + '</div><input type="hidden" name="attribute_type[attr][' + attributePanel.attr('id') + '][' + selectedAttribute.val() + ']" value="' + attributeAditionalPrice.val() + '"/></h4>');
+            var attribute = $('<h4><div class="label label-success">' + attributeTypeahead.typeahead('val') + aditionalPrice + '<a class="btn-link remove-attribute"><i class="fa fa-close"></i></a></div><input type="hidden" name="attribute_type[attr][' + attributePanel.attr('id') + '][' + selectedAttribute.val() + ']" value="' + attributeAditionalPrice.val() + '"/></h4>');
 
             selectedAttributesPanel.append(attribute);
 
