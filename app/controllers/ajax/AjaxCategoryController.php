@@ -38,7 +38,7 @@ class AjaxCategoryController extends BaseController {
                         foreach ($subcategory->activeAttributesWithCustom as $attribute) {
 
                             $data[$category->id]['active_subcategories'][$subcategory->id]['active_attributes_with_custom'][$attribute->attribute_types->id]['attribute_type'] = $attribute->attribute_types->toArray();
-                            $data[$category->id]['active_subcategories'][$subcategory->id]['active_attributes_with_custom'][$attribute->attribute_types->id]['attribute_list'][$attribute->id] = $attribute->toArray();
+                            $data[$category->id]['active_subcategories'][$subcategory->id]['active_attributes_with_custom'][$attribute->attribute_types->id]['attribute_list'][] = $attribute->toArray();
                         }
                     }
                 }

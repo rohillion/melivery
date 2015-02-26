@@ -129,6 +129,12 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         "as" => "commerce.customtag.create",
         "uses" => "CustomTagController@store"
     ]);
+    
+    Route::post("/attribute", [
+        'before' => 'csrf',
+        "as" => "commerce.customattribute.create",
+        "uses" => "CustomAttributeController@store"
+    ]);
 
     Route::get("/profile", [
         "as" => "commerce.profile",

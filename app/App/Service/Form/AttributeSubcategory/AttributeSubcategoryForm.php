@@ -28,20 +28,17 @@ class AttributeSubcategoryForm extends AbstractForm {
     public function save(array $input) {
 
         foreach ($input as $subcategory => $attributes) {
-            
+
             foreach ($attributes as $attribute) {
 
                 $insert['id_subcategory'] = $subcategory;
                 $insert['id_attribute'] = $attribute;
 
-                if (!$this->valid($insert)) {
+                if (!$this->valid($insert))
                     return false;
-                }
 
-                //$input['tags'] = $this->processTags($input['tags']);
                 $this->attributeSubcategory->create($insert);
             }
-            
         }
 
         return true;

@@ -149,9 +149,9 @@ var custom = {
         $(document).on('click', '#addTag', function() {
             custom.addTag();
         });
-        
+
         $(document).on('click', '#addAttribute', function() {
-            custom.addAttribute();
+            custom.addAttribute($(this));
         });
 
         $('#add-price-size').on('click', function() {
@@ -210,7 +210,7 @@ var custom = {
             $(this).removeClass('tt-cursor');
         });
 
-        tagTypeahead.typeahead('destroy'); 
+        tagTypeahead.typeahead('destroy');
 
         // constructs the suggestion engine
         var tagsMatch = new Bloodhound({
@@ -347,13 +347,18 @@ var custom = {
         {
             name: 'attributes',
             displayKey: 'attribute_name',
-            source: attributesMatch.ttAdapter(),
+            source: function(query, cb) {
+                attributesMatch.get(query, function(suggestions) {
+                    cb(suggestions);
+                    suggestions.length === 1 && suggestions[0].attribute_name === query.trim() ? $('.tt-empty-suggestions').hide() : $('.tt-empty-suggestions').show();
+                });
+            },
             templates: {
                 empty: Handlebars.compile('<div class="tt-empty-suggestions"><p class="text-muted text-center">No existe la etiqueta <strong>{{query}}</strong></p><button id="addAttribute" type="button" class="btn btn-success btn-block btn-md btn-flat">Crear etiqueta</button></div>'),
                 suggestion: Handlebars.compile('<p>{{attribute_name}}</p>'),
                 footer: Handlebars.compile('{{#unless isEmpty}}<div class="tt-empty-suggestions tt-partial-empty"><p class="text-muted text-center">No existe la etiqueta <strong>{{query}}</strong></p><button id="addTag" type="button" class="btn btn-success btn-block btn-md btn-flat">Crear etiqueta</button></div>{{/unless}}'),
                 header: Handlebars.compile('{{#unless isEmpty}}<p class="suggestion-header text-muted">Coincidencias:</p>{{/unless}}')
-            
+
             }
 
         }).on('typeahead:selected', function(event, obj) {
@@ -411,7 +416,7 @@ var custom = {
 
             attributeTypeahead.typeahead('val', $(this).attr('data-name'));
             selectedAttribute.val($(this).attr('data-id'));
-            custom.tagSelected = true;
+            custom.attributeSelected = true;
             defaultSuggestions.hide();
         });
 
@@ -458,19 +463,26 @@ var custom = {
         });
     },
     addAttribute: function(element) {
-        
-        var typeahead = element.closest('.attribute-panel').find('.attributeTypeahead '),
+
+        var attributeTypePanel = element.closest('.attribute-panel'),
+                typeahead = attributeTypePanel.find('.attributeTypeahead'),
                 category = $('#category'),
                 subcategory = $('#subcategory');
 
-        main.sendFormPost('/attribute', {attribute: typeahead.typeahead('val'), subcategory: subcategory.val()}, function(res) {
+        main.sendFormPost('/attribute', {attribute_name: typeahead.typeahead('val'), attribute_type_id: attributeTypePanel.attr('id'), subcategory: subcategory.val()}, function(res) {
 
             if (res.status) {
+                
+                var selectedAttributes = attributeTypePanel.find('.selected-attributes-panel').html();
+                
                 custom.attributeSelected = true;
                 var newAttribute = JSON.parse(res.attribute);
-                storage.push('categories.' + category.val() + '.active_subcategories.' + subcategory.val() + '.active_attributes_with_custom', newAttribute);
+                storage.push('categories.' + category.val() + '.active_subcategories.' + subcategory.val() + '.active_attributes_with_custom.' + attributeTypePanel.attr('id') + '.attribute_list', newAttribute);
                 subcategory.trigger('change');
-                typeahead.typeahead('val', newAttribute.tag_name);
+                
+                attributeTypePanel = $('#'+attributeTypePanel.attr('id'));
+                attributeTypePanel.find('.attributeTypeahead').typeahead('val', newAttribute.attribute_name);
+                attributeTypePanel.find('.selected-attributes-panel').html(selectedAttributes);
             }
 
             main.notify(res);

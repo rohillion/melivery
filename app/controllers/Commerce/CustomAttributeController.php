@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\MessageBag;
 use App\Service\Form\Attribute\AttributeForm;
-use App\Service\Form\AttributeType\AttributeSubcategoryForm;
+use App\Service\Form\AttributeSubcategory\AttributeSubcategoryForm;
 
 class CustomAttributeController extends BaseController {
 
@@ -25,38 +24,47 @@ class CustomAttributeController extends BaseController {
         $input['subcategory_id'] = Input::get('subcategory');
 
         // Start transaction
-        beginTransaction();
+        DB::beginTransaction();
 
         $attribute = $this->attribute->save($input);
 
         if ($attribute) {
-            
+
             // Proceed with attribute => subcategory relation
             $attributeSubcategory[$input['subcategory_id']] = array($attribute->id);
 
             $attributeBySubcategory = $this->attributeSubcategory->save($attributeSubcategory);
 
             if (!$attributeBySubcategory) {
-                // If success commit
-                rollbackTransaction();
-            } else {
-                // Else commit the queries
-                commitTransaction();
-            }
 
-            return Response::json(
-                            array(
-                                'status' => 'success',
-                                'message' => Lang::get('segment.attribute.message.success.store')
-                            )
-            );
+                // If success commit
+                DB::rollback();
+
+                return Response::json(
+                                array(
+                                    'status' => 'error',
+                                    'message' => $this->attributeSubcategory->errors()
+                                )
+                );
+            } else {
+
+                // Else commit the queries
+                DB::commit();
+
+                return Response::json(
+                                array(
+                                    'status' => 'success',
+                                    'message' => Lang::get('segment.attribute.message.success.store'),
+                                    'attribute' => $attribute->toJson()
+                                )
+                );
+            }
         }
 
         return Response::json(
                         array(
                             'status' => 'error',
-                            'message' => $this->attribute->errors(),
-                            'input' => Redirect::with_input()
+                            'message' => $this->attribute->errors()
                         )
         );
     }

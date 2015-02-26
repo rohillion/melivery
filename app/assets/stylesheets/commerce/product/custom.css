@@ -87,7 +87,7 @@ body {
 }
 
 .suggestion-header{
-    
+
 }
 
 .tt-partial-empty{
@@ -144,6 +144,10 @@ body {
 }
 .attribute-panel .defaultSuggestion{
     bottom: 45px;
+}
+.attribute-panel .tt-dropdown-menu{
+    top: inherit!important;
+    bottom: 100%;
 }
 
 .selected-attributes-panel h4{

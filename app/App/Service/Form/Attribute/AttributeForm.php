@@ -14,7 +14,7 @@ class AttributeForm extends AbstractForm {
      * @var \App\Repository\Attribute\AttributeInterface
      */
     protected $attribute;
-    
+
     public function __construct(ValidableInterface $validator, AttributeInterface $attribute) {
         parent::__construct($validator);
         $this->attribute = $attribute;
@@ -37,9 +37,8 @@ class AttributeForm extends AbstractForm {
      */
     public function save(array $input) {
 
-        if (!$this->valid($input)) {
+        if (!$this->valid($input))
             return false;
-        }
 
         //$input['tags'] = $this->processTags($input['tags']);
         return $this->attribute->create($input);
@@ -52,14 +51,13 @@ class AttributeForm extends AbstractForm {
      */
     public function update($id, array $input) {
 
-        if (!$this->valid($input, $id)) {
+        if (!$this->valid($input, $id))
             return false;
-        }
 
         //$input['tags'] = $this->processTags($input['tags']);
         return $this->attribute->edit($id, $input);
     }
-    
+
     /**
      * Update an existing product
      *
