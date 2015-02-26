@@ -42,8 +42,8 @@ class CustomAttributeController extends BaseController {
 
                 return Response::json(
                                 array(
-                                    'status' => 'error',
-                                    'message' => $this->attributeSubcategory->errors()
+                                    'status' => FALSE,
+                                    'message' => $this->attributeSubcategory->errors()->all()
                                 )
                 );
             } else {
@@ -53,7 +53,7 @@ class CustomAttributeController extends BaseController {
 
                 return Response::json(
                                 array(
-                                    'status' => 'success',
+                                    'status' => TRUE,
                                     'message' => Lang::get('segment.attribute.message.success.store'),
                                     'attribute' => $attribute->toJson()
                                 )
@@ -63,8 +63,8 @@ class CustomAttributeController extends BaseController {
 
         return Response::json(
                         array(
-                            'status' => 'error',
-                            'message' => $this->attribute->errors()
+                            'status' => FALSE,
+                            'message' => $this->attribute->errors()->all()
                         )
         );
     }

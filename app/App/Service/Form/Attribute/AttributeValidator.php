@@ -14,7 +14,7 @@ class AttributeValidator extends LaravelValidator implements ValidableInterface 
      */
     protected $rules = array(
         'id_attribute_type' => 'required|numeric|exists:attribute_type,id',
-        'attribute_name' => 'required|max:100|unique:attribute',
+        'attribute_name' => 'required|max:100',
     );
 
 }

@@ -40,7 +40,6 @@ class AttributeForm extends AbstractForm {
         if (!$this->valid($input))
             return false;
 
-        //$input['tags'] = $this->processTags($input['tags']);
         return $this->attribute->create($input);
     }
 
@@ -54,7 +53,6 @@ class AttributeForm extends AbstractForm {
         if (!$this->valid($input, $id))
             return false;
 
-        //$input['tags'] = $this->processTags($input['tags']);
         return $this->attribute->edit($id, $input);
     }
 
