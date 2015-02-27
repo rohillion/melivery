@@ -8,12 +8,9 @@
         <section class="content-header content-header-fixed">
             <div class="container">
                 <h3>
-                    <?php echo Lang::get('segment.product.name.plural') . ' publicados'; ?>
-                    <!--<a href="product/create" class="pull-right btn btn-success btn-flat">
-                        <i class="fa fa-edit"></i> 
-                    <?php echo Lang::get('common.action.edit') . ' ' . Lang::get('segment.product.title.menu'); ?>
-                    </a>-->
-                    <a id="showProductForm" href="#productForm" class="pull-right btn btn-primary btn-flat" data-loading-text="Cargando...">
+                    <span class="section-title" data-addproduct="<?php echo Lang::get('common.action.add') . ' ' . Lang::get('segment.product.name.single'); ?>" data-publishedproduct="<?php echo Lang::get('segment.product.name.plural') . ' publicados'; ?>" ><?php echo Lang::get('segment.product.name.plural') . ' publicados'; ?></span>
+
+                    <a id="showProductForm" href="#productForm" class="pull-right btn btn-success btn-flat" data-loading-text="Cargando..." data-close-text="Cerrar">
                         <?php echo Lang::get('common.action.add') . ' ' . Lang::get('segment.product.name.single'); ?>
                     </a>
                 </h3>
@@ -254,7 +251,7 @@
                         </div>
                     </div>
 
-                    <form id="productForm" method="post" action="<?php echo URL::action('ProductController@store') ?>">
+                    <form id="productForm" method="post" action="<?php echo URL::action('ProductController@store') ?>" enctype="multipart/form-data">
 
                         <div class="form-group">
                             <label for="category">Categor&iacute;a</label>
@@ -273,7 +270,7 @@
                         </div>
 
                         <div class="form-group" style="position:relative;">
-                            <label for="tag">Nombre, sabor o tama&ntilde;o</label>
+                            <label for="tag">Nombre</label>
                             <input id="tagName" placeholder="Ej. Empanada de carne, 1/2 Kilo de helado" class="form-control" type="text" name="tagName"/>
                             <input id="tag" name="tag" type="hidden"/>
 
@@ -282,6 +279,11 @@
                                     <span class="tt-suggestions" style="display: block;"></span>
                                 </div>
                             </div>
+                        </div>
+                        
+                        <div class="form-group" style="position:relative;">
+                            <label for="image">Foto</label>
+                            <input id="image" class="form-control" type="file" name="image"/>
                         </div>
 
                         <div class="form-group">
@@ -332,7 +334,6 @@
 
                 </section>
 
-                <button id="cancelProduct" type="button" class="btn btn-link"><i title="Cancelar" class="fa fa-close fa-2x"></i></button><!--TODO. Lang-->
                 <button id="saveProduct" type="button" class="btn btn-success btn-md btn-flat" data-loading-text="Guardando...">Guardar</button>
 
             </div>

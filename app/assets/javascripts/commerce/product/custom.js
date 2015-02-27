@@ -65,6 +65,22 @@ var custom = {
         }
 
     },
+    toggleHeadState: function(btn) {
+        
+        var title = $(".section-title");
+        
+        if ($('#product-form-fixed').hasClass('shown')) {
+            btn.button('close');
+            btn.addClass('btn-danger');
+            btn.removeClass('btn-success');
+            title.text(title.data('addproduct'));
+        } else {
+            btn.button('reset');
+            btn.addClass('btn-success');
+            btn.removeClass('btn-danger');
+            title.text(title.data('publishedproduct'));
+        }
+    },
     productForm: function() {
 
         if (storage.data.isSet('categories'))
@@ -72,13 +88,13 @@ var custom = {
 
         $('#showProductForm').on('click', function() {
 
+            var btn = $(this);
+
             if (!storage.data.isSet('categories')) {
 
-                var btn = $(this).button('loading');
+                btn.button('loading');
 
                 main.run('../ajax/category', function(res) {
-
-                    btn.button('reset');
 
                     if (res.status) {
 
@@ -88,10 +104,12 @@ var custom = {
                         custom.tooltips();
                     }
 
+                    custom.toggleHeadState(btn);
                 });
             } else {
 
                 $('#product-form-fixed').toggleClass('shown');
+                custom.toggleHeadState(btn);
             }
 
             return false;
@@ -162,7 +180,7 @@ var custom = {
             if ($(".price-size-row").not("#price-size-row-model").length > 1)
                 $(this).closest('.price-size-row').remove();
         });
-        
+
         $(document).on('click', '.remove-attribute', function() {
             $(this).closest('h4').remove();
         });
@@ -180,7 +198,7 @@ var custom = {
             var trigger = $(this),
                     form = $('#productForm');
 
-            //trigger.button('loading');
+            trigger.button('loading');
 
             main.sendFormPost(form.attr('action'), form.serializeArray(), function(res) {
 
@@ -188,7 +206,7 @@ var custom = {
                     console.log(res);
                 }
 
-                //trigger.button('reset');
+                trigger.button('reset');
                 main.notify(res);
 
             });
@@ -476,15 +494,15 @@ var custom = {
         main.sendFormPost('/attribute', {attribute_name: typeahead.typeahead('val'), attribute_type_id: attributeTypePanel.attr('id'), subcategory: subcategory.val()}, function(res) {
 
             if (res.status) {
-                
+
                 var selectedAttributes = attributeTypePanel.find('.selected-attributes-panel').html();
-                
+
                 custom.attributeSelected = true;
                 var newAttribute = JSON.parse(res.attribute);
                 storage.push('categories.' + category.val() + '.active_subcategories.' + subcategory.val() + '.active_attributes_with_custom.' + attributeTypePanel.attr('id') + '.attribute_list', newAttribute);
                 subcategory.trigger('change');
-                
-                attributeTypePanel = $('#'+attributeTypePanel.attr('id'));
+
+                attributeTypePanel = $('#' + attributeTypePanel.attr('id'));
                 attributeTypePanel.find('.attributeTypeahead').typeahead('val', newAttribute.attribute_name);
                 attributeTypePanel.find('.selected-attributes-panel').html(selectedAttributes);
             }

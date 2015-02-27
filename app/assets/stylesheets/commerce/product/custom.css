@@ -50,7 +50,7 @@ body {
     left: 0;
     right: 0;
     top: 142px;
-    background: rgba(255, 255, 255, 0.8);
+    background: #fff;
 }
 #product-form-fixed.shown{
     transform: translateY(0%);

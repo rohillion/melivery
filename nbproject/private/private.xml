@@ -2,17 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/commerce/product/custom.js</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/ProductPrice/ProductPriceForm.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/models/ProductPriceSize.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/controllers/Commerce/ProductController.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/FormServiceProvider.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/product/index.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/ProductController/ProductForm.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/assets/stylesheets/commerce/product/custom.css</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/models/ProductPrice.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/ProductPrice/ProductPriceValidator.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
