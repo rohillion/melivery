@@ -123,6 +123,12 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         'before' => 'csrf',
         "uses" => "ProductController@store"
     ]);
+    
+    Route::post("/product/image", [
+        'before' => 'csrf',
+        "as" => "commerce.product.imagetmp",
+        "uses" => "ProductController@imagetmp"
+    ]);
 
     Route::post("/tag", [
         'before' => 'csrf',

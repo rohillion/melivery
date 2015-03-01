@@ -12,6 +12,9 @@ use Illuminate\Filesystem\Filesystem;
 
 class ProductForm extends AbstractForm {
 
+    const IMAGE = '/upload/product_image/';
+    const IMAGETMP = '/upload/product_image_tmp/';
+
     /**
      * Product repository
      *
@@ -141,27 +144,17 @@ class ProductForm extends AbstractForm {
         return $this->product->edit($id, $input);
     }
 
-    private function savePhoto($directoryPhotoPath, $product, $productForm) {
+    public function savePhoto($image) {
 
-        $Filesystem = new Filesystem();
+        $imagePath = public_path() . self::IMAGETMP;
+        $imageName = md5(\Session::get('user.id_commerce')) . '.' . 'jpg';
 
-        $productPhotoPath = $directoryPhotoPath . $product->id;
+        $image->move($imagePath, $imageName);
 
-        if (!$Filesystem->exists($productPhotoPath)) {
+        $fitImg = \Image::make($imagePath . '/' . $imageName)->fit(360, 240);
+        $fitImg->save($imagePath . '/' . $imageName);
 
-            $Filesystem->makeDirectory($productPhotoPath);
-        }
-
-        $productPhotoName = str_random(10) . '.' . $productForm['file']->getClientOriginalExtension();
-
-        $productForm['file']->move($productPhotoPath, $productPhotoName);
-
-        $fitImg = \Image::make($productPhotoPath . '/' . $productPhotoName)->fit(360, 240);
-        $fitImg->save($productPhotoPath . '/' . $productPhotoName);
-
-        $this->update($product->id, ['image' => $productPhotoName]);
-
-        return true;
+        return self::IMAGETMP . $imageName;
     }
 
     private function syncPrices($product, $input) {
@@ -220,24 +213,26 @@ class ProductForm extends AbstractForm {
 
     private function syncAttributes($product, $input) {
 
-        foreach ($input['attribute_type']['attr'] as $attrTypeId => $attrItems) {
+        if (isset($input['attribute_type']['attr'])) {
 
-            if (isset($attrItems)) {
+            foreach ($input['attribute_type']['attr'] as $attrTypeId => $attrItems) {
 
-                foreach ($attrItems as $attrId => $price) {
+                if (isset($attrItems)) {
 
-                    $attrToSync[$attrId] = ['aditional_price' => $price];
+                    foreach ($attrItems as $attrId => $price) {
+
+                        $attrToSync[$attrId] = ['aditional_price' => $price];
+                    }
+
+                    $product->attributes()->sync($attrToSync);
+                } else {
+
+                    \DB::rollback();
+                    $this->validator->errors = 'Faltan atributos';
+                    return false;
                 }
-
-                $product->attributes()->sync($attrToSync);
-            } else {
-
-                \DB::rollback();
-                $this->validator->errors = 'Faltan atributos';
-                return false;
             }
         }
-
 
         return true;
     }
@@ -247,10 +242,10 @@ class ProductForm extends AbstractForm {
         foreach ($input['attribute_type']['rule'] as $attrTypeId => $rules) {
 
             foreach ($rules as $rule) {
-                if($rule)
+                if ($rule)
                     $rulesToSync[$rule] = ['attribute_type_id' => $attrTypeId];
             }
-            if(isset($rulesToSync))
+            if (isset($rulesToSync))
                 $product->rules()->sync($rulesToSync);
         }
 

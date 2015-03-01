@@ -185,20 +185,20 @@
                                 <div class="overflow-hidden form-group">
                                     <div class="col-xs-6">
                                         <select class="form-control rule-min">
-                                            
+
                                             <option value="0">No hay m&iacute;nimo</option><!-- TODO. Lang. -->
-                                            
+
                                             <?php foreach ($rules['min_limit'] as $rule) { ?>
-                                                <option value="<?php echo $rule->id;?>"><?php echo $rule->rule_value;?></option><!-- TODO. Lang. -->
+                                                <option value="<?php echo $rule->id; ?>"><?php echo $rule->rule_value; ?></option><!-- TODO. Lang. -->
                                             <?php } ?>
-                                                
+
                                         </select>
                                     </div>
                                     <div class="col-xs-6">
                                         <select class="form-control rule-max">
                                             <option value="0">No hay m&aacute;ximo</option><!-- TODO. Lang. -->
                                             <?php foreach ($rules['max_limit'] as $rule) { ?>
-                                                <option value="<?php echo $rule->id;?>"><?php echo $rule->rule_value;?></option><!-- TODO. Lang. -->
+                                                <option value="<?php echo $rule->id; ?>"><?php echo $rule->rule_value; ?></option><!-- TODO. Lang. -->
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -280,10 +280,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group" style="position:relative;">
                             <label for="image">Foto</label>
-                            <input id="image" class="form-control" type="file" name="image"/>
+                            <input id="image" class="form-control" type="file" name="image" data-path="<?php echo URL::route('commerce.product.imagetmp'); ?>"/>
                         </div>
 
                         <div class="form-group">
@@ -332,9 +332,34 @@
 
                 <section class="col-xs-8" id="product-preview-container">
 
-                </section>
+                    <div id="frontPreview" class="col-xs-6 col-xs-offset-3">
 
-                <button id="saveProduct" type="button" class="btn btn-success btn-md btn-flat" data-loading-text="Guardando...">Guardar</button>
+                        <!-- general form elements -->
+                        <div class="box box-solid">
+
+                            <img data-src="holder.js/100%" alt="100%" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" style="width: 100%; display: block;">
+
+                            <div class="box-body">
+
+                                <div class="caption">
+
+                                    <div style="overflow: hidden;">
+                                        <h3 class="product-title truncate pull-left" title="Nuevo plato">El nuevo plato</h3>
+                                        <h3 class="pull-right"> $0</h3>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div><!-- /.box -->
+
+                    </div>
+                    
+                    <div class="col-xs-6 col-xs-offset-3">
+                        <button id="saveProduct" type="button" class="btn btn-success btn-md btn-flat btn-block" data-loading-text="Guardando...">Guardar</button>
+                    </div>
+                </section>
 
             </div>
         </div>

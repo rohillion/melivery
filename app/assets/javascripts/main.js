@@ -25,7 +25,7 @@ var main = {
         });
     },
     sendFormPost: function (target, formData, callback) {
-
+        console.log(formData);
         $.ajax({
             type: 'post',
             url: target,

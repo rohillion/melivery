@@ -110,5 +110,31 @@ class ProductController extends BaseController {
                         ->withErrors($this->category->errors())
                         ->with('status', 'error');
     }
+    
+    /**
+     * Upload product image
+     * POST /product/image
+     */
+    public function imagetmp() {
+        
+        $image = $this->productForm->savePhoto(Input::file('image'));
+
+        if ($image) {
+            // Success!
+            return Response::json(array(
+                        'status' => TRUE,
+                        'type' => 'success',
+                        'message' => Lang::get('segment.image.message.success.store'),
+                        'image' => $image)
+            );
+        }
+
+        // Error!
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->productForm->errors()->all())
+        );
+    }
 
 }

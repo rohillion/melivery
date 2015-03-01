@@ -108,7 +108,7 @@ body {
     padding-right: 0;
 }
 
-#saveProduct, #cancelProduct{
+#cancelProduct{
     position: absolute;
 }
 #saveProduct{
@@ -165,5 +165,8 @@ body {
     color: #444;
 }
 
+#product-preview-container{
+    padding-top: 15vh;
+}
 /***** scroll control *****/
 
