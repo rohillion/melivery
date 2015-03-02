@@ -1,4 +1,6 @@
 var custom = {
+    tagTypeahedInit: false,
+    tagsMatch: null,
     tagSelected: false,
     attributeSelected: false,
     init: function() {
@@ -158,6 +160,14 @@ var custom = {
             custom.uploadImage($(this));
         });
 
+        $('#price').on('keyup', function() {
+            custom.drawPreview();
+        });
+        
+        $(document).on('keyup', '[name*="multiprice[price]"]',function() {
+            custom.drawPreview();
+        });
+
         $('#multisize').on('change', function() {
             if ($(this).is(':checked')) {
                 $('#singleprice').hide();
@@ -166,6 +176,17 @@ var custom = {
                 $('#singleprice').show();
                 $('#multiprice').hide();
             }
+            custom.drawPreview();
+        });
+
+        $('#add-price-size').on('click', function() {
+            $('#price-size-row-model').clone().appendTo('#price-size').removeAttr('id').removeClass('hidden');
+        });
+        
+        $(document).on('click', '.remove-price-size', function() {
+            if ($(".price-size-row").not("#price-size-row-model").length > 1)
+                $(this).closest('.price-size-row').remove();
+            custom.drawPreview();
         });
 
         $(document).on('click', '#addTag', function() {
@@ -174,15 +195,6 @@ var custom = {
 
         $(document).on('click', '#addAttribute', function() {
             custom.addAttribute($(this));
-        });
-
-        $('#add-price-size').on('click', function() {
-            $('#price-size-row-model').clone().appendTo('#price-size').removeAttr('id').removeClass('hidden');
-        });
-
-        $(document).on('click', '.remove-price-size', function() {
-            if ($(".price-size-row").not("#price-size-row-model").length > 1)
-                $(this).closest('.price-size-row').remove();
         });
 
         $(document).on('click', '.remove-attribute', function() {
@@ -207,7 +219,7 @@ var custom = {
             main.sendFormPost(form.attr('action'), form.serializeArray(), function(res) {
 
                 if (res.status) {
-                    console.log(res);
+                    console.log(res);//TODO.
                 }
 
                 trigger.button('reset');
@@ -236,10 +248,8 @@ var custom = {
             $(this).removeClass('tt-cursor');
         });
 
-        tagTypeahead.typeahead('destroy');
-
         // constructs the suggestion engine
-        var tagsMatch = new Bloodhound({
+        custom.tagsMatch = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('tag_name'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             // `states` is an array of state names defined in "The Basics"
@@ -248,45 +258,48 @@ var custom = {
             })
         });
 
-        tagsMatch.initialize();
+        custom.tagsMatch.initialize();
 
-        tagTypeahead.typeahead({
-            hint: false,
-            highlight: true
-        },
-        {
-            name: 'tags',
-            displayKey: 'tag_name',
-            source: function(query, cb) {
-                tagsMatch.get(query, function(suggestions) {
-                    cb(suggestions);
-                    suggestions.length === 1 && suggestions[0].tag_name === query.trim() ? $('.tt-empty-suggestions').hide() : $('.tt-empty-suggestions').show();
-                });
+        if (!custom.tagTypeahedInit) {
+            tagTypeahead.typeahead({
+                hint: false,
+                highlight: true
             },
-            templates: {
-                empty: Handlebars.compile('<div class="tt-empty-suggestions"><p class="text-muted text-center">No existe la etiqueta <strong>{{query}}</strong></p><button id="addTag" type="button" class="btn btn-success btn-block btn-md btn-flat">Crear etiqueta</button></div>'),
-                suggestion: Handlebars.compile('<p>{{tag_name}}</p>'),
-                footer: Handlebars.compile('{{#unless isEmpty}}<div class="tt-empty-suggestions tt-partial-empty"><p class="text-muted text-center">No existe la etiqueta <strong>{{query}}</strong></p><button id="addTag" type="button" class="btn btn-success btn-block btn-md btn-flat">Crear etiqueta</button></div>{{/unless}}'),
-                header: Handlebars.compile('{{#unless isEmpty}}<p class="suggestion-header text-muted">Coincidencias:</p>{{/unless}}')
-            }
+            {
+                name: 'tags',
+                displayKey: 'tag_name',
+                source: function(query, cb) {
+                    custom.tagsMatch.get(query, function(suggestions) {
+                        cb(suggestions);
+                        suggestions.length === 1 && suggestions[0].tag_name === query.trim() ? $('.tt-empty-suggestions').hide() : $('.tt-empty-suggestions').show();
+                    });
+                },
+                templates: {
+                    empty: Handlebars.compile('<div class="tt-empty-suggestions"><p class="text-muted text-center">No existe la etiqueta <strong>{{query}}</strong></p><button id="addTag" type="button" class="btn btn-success btn-block btn-md btn-flat">Crear etiqueta</button></div>'),
+                    suggestion: Handlebars.compile('<p>{{tag_name}}</p>'),
+                    footer: Handlebars.compile('{{#unless isEmpty}}<div class="tt-empty-suggestions tt-partial-empty"><p class="text-muted text-center">No existe la etiqueta <strong>{{query}}</strong></p><button id="addTag" type="button" class="btn btn-success btn-block btn-md btn-flat">Crear etiqueta</button></div>{{/unless}}'),
+                    header: Handlebars.compile('{{#unless isEmpty}}<p class="suggestion-header text-muted">Coincidencias:</p>{{/unless}}')
+                }
 
-        }).on('typeahead:selected', function(event, obj) {
-            tag.val(obj.id);
-            custom.tagSelected = true;
-        }).on('typeahead:opened', function(event, obj) {
-            var e = $.Event("keydown");
-            e.which = 40; // # Down arrow
-            tagTypeahead.trigger(e);
-        }).on('typeahead:closed', function(event) {
-            if (!custom.tagSelected) {
-                tag.val('');
-                tagTypeahead.typeahead('val', '');
-            }
-            custom.drawPreview();
-        });
+            }).on('typeahead:selected', function(event, obj) {
+                tag.val(obj.id);
+                custom.tagSelected = true;
+            }).on('typeahead:opened', function(event, obj) {
+                var e = $.Event("keydown");
+                e.which = 40; // # Down arrow
+                tagTypeahead.trigger(e);
+            }).on('typeahead:closed', function(event) {
+                if (!custom.tagSelected) {
+                    tag.val('');
+                    tagTypeahead.typeahead('val', '');
+                }
+                custom.drawPreview();
+            });
+
+            custom.tagTypeahedInit = true;
+        }
 
         tagTypeahead.typeahead('val', '');
-
     },
     tagSuggestions: function() {
 
@@ -322,6 +335,7 @@ var custom = {
             tag.val($(this).attr('data-id'));
             custom.tagSelected = true;
             defaultSuggestions.hide();
+            custom.drawPreview();
         });
 
     },
@@ -534,9 +548,35 @@ var custom = {
     drawPreview: function() {
 
         var form = $('#productForm'),
-            preview = $('#frontPreview');
+                preview = $('#frontPreview'),
+                tag = $('#tagName').val(),
+                price = $('#price').val(),
+                multisize = $('#multisize'),
+                multiprice = $('#multiprice');
 
-        preview.find('.product-title').text(form.find('#tagName').val());
+        preview.find('.product-title').text(tag.length > 0 ? tag : 'Nuevo producto');
+
+        if (multisize.is(':checked')) {
+
+            var priceFields = multiprice.find('[name*="multiprice[price]"]'),
+                    prices = [];
+
+            $.each(priceFields, function(i, priceField) {
+                var val = $(priceField).val();
+                if (val.length > 0)
+                    prices[i] = val;
+            });
+
+            prices.sort(function(a, b) {
+                return a - b;
+            });
+
+            preview.find('.product-price').text(prices.length > 0 ? 'Desde $' + prices[0] : '$0');
+
+        } else {
+
+            preview.find('.product-price').text(price.length > 0 ? '$' + price : '$0');
+        }
 
     }
 }

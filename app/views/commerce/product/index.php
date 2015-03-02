@@ -344,8 +344,8 @@
                                 <div class="caption">
 
                                     <div style="overflow: hidden;">
-                                        <h3 class="product-title truncate pull-left" title="Nuevo plato">El nuevo plato</h3>
-                                        <h3 class="pull-right"> $0</h3>
+                                        <h3 class="product-title truncate pull-left" title="Nuevo plato">Nuevo producto</h3>
+                                        <h3 class="product-price pull-right"> $0</h3>
                                     </div>
 
                                 </div>
