@@ -4,6 +4,7 @@ namespace App\Service\Form\OrderStatus;
 
 use App\Service\Validation\ValidableInterface;
 use App\Repository\OrderStatus\OrderStatusInterface;
+use App\Repository\Order\OrderInterface;
 use App\Service\Form\AbstractForm;
 
 class OrderStatusForm extends AbstractForm {
@@ -15,8 +16,9 @@ class OrderStatusForm extends AbstractForm {
      */
     protected $orderstatus;
 
-    public function __construct(ValidableInterface $validator, OrderStatusInterface $orderstatus) {
+    public function __construct(ValidableInterface $validator, OrderStatusInterface $orderstatus, OrderInterface $order) {
         parent::__construct($validator);
+        $this->order = $order;
         $this->orderstatus = $orderstatus;
     }
 
@@ -35,25 +37,33 @@ class OrderStatusForm extends AbstractForm {
      *
      * @return boolean
      */
-    public function save($order) {
+    public function save($input) {
 
-        $input = array(
-            "order_id" => $order->id,
-            "status_id" => $order->status_id
-        );
+        $order = $this->order->find($input['order_id'], ['*'], [], ['branch_id' => \Session::get('user.branch_id')]);
 
-        if (!$this->valid($input)) {
+        if (is_null($order)) {
+            $this->messageBag->add('error', 'El pedido en cuestion no existe. Por favor intentelo nuevamente.'); //TODO. Soporte Lang.
+            $this->validator->errors = $this->messageBag;
             return false;
         }
-        
+
+        $inputValidate = array(
+            "order_id" => $order->id,
+            "status_id" => $input['status_id']
+        );
+
+        if (!$this->valid($inputValidate))
+            return false;
+
+
         //Start transaction
         \DB::beginTransaction();
 
-        $orderstatus = $this->orderstatus->create($input);
+        $orderstatus = $this->orderstatus->create($inputValidate);
 
-        switch ($input['status_id']) {
+        switch ($inputValidate['status_id']) {
 
-            case 1://Pending
+            case \Config::get('cons.order_status.pending')://Pending
 
                 $sended = \Notification::send('branch_' . $order->branch_id, 'order', ['order' => 'new']);
 
@@ -67,29 +77,27 @@ class OrderStatusForm extends AbstractForm {
 
                 break;
 
-            case 2://Progress
+            case \Config::get('cons.order_status.progress')://Progress
 
                 break;
 
-            case 3://Ready
-                
+            case \Config::get('cons.order_status.ready')://Ready
                 // TODO. SI es comida para la barra se debe notificar inmediatamente al comensal, de lo contrario, se notifica cuando el repartidor es despachado.
-
                 //$order->branch_dealer()->attach($order->branch_dealer_id);
 
                 break;
 
-            case 4://Done
+            case \Config::get('cons.order_status.done')://Done
 
                 break;
 
-            case 5://Canceled
+            case \Config::get('cons.order_status.canceled')://Canceled
 
                 $orderstatus->motive()->attach($order->motive_id, array('observations' => $order->observations));
 
                 break;
         }
-        
+
         \DB::commit();
         // End transaction
 
@@ -107,7 +115,6 @@ class OrderStatusForm extends AbstractForm {
             return false;
         }
 
-        //$input['tags'] = $this->processTags($input['tags']);
         return $this->orderstatus->edit($id, $input);
     }
 

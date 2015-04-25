@@ -1,7 +1,7 @@
 <?php
 
 //use Illuminate\Support\MessageBag;
-use App\Service\Form\ProductController\productForm;
+use App\Service\Form\Product\ProductForm;
 use App\Repository\Product\ProductInterface;
 use App\Repository\Category\CategoryInterface;
 use App\Repository\Country\CountryInterface;
@@ -17,7 +17,7 @@ class ProductController extends BaseController {
     protected $branch;
     protected $rule;
 
-    public function __construct(BranchInterface $branch, ProductInterface $product, productForm $productForm, CategoryInterface $category, CountryInterface $country, RuleInterface $rule) {
+    public function __construct(BranchInterface $branch, ProductInterface $product, ProductForm $productForm, CategoryInterface $category, CountryInterface $country, RuleInterface $rule) {
         $this->product = $product;
         $this->productForm = $productForm;
         $this->category = $category;

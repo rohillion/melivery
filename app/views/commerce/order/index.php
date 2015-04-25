@@ -9,17 +9,8 @@
             <div class="container">
                 <h3 class="pull-left">
                     <?php echo Lang::get('segment.order.name.plural'); ?>
-
                 </h3>
-                <div class="form-medium pull-right">
-                    <!--<label for="commerceName" class="col-lg-4 control-label">Nombre</label>-->
-                    <select class="form-control">
-                        <?php foreach ($user->branches as $branch) { ?>
-                            <option <?php echo $branch->id == Session::get('user.branch_id') ? 'selected' : '' ?>><?php echo $branch->street ?></option>
-                        <?php } ?>
-                    </select>
-                    <form method="post"></form>
-                </div>
+                <button id="toggleHistory" class="btn btn-success btn-flat" type="button">Ver Historial</button>
             </div>
         </section>
 
@@ -45,11 +36,51 @@
                     </div>
                 <?php } ?>
 
+                <?php if (!is_null($orders)) { ?>
 
-                <!-- left column -->
-                <section  id="order-panel" class="col-sm-8">
+                    <section id="order-history-fixed" class="col-sm-2">
 
-                    <?php if (!is_null($orders)) { ?>
+                        <?php if (isset($orders['history']) && !is_null($orders['history'])) { ?>
+
+                            <div class="form-group">
+                                <div class="input-group" style="background-color: white">
+                                    <span class="input-group-addon" style="padding-right: 0;border: none;background-color: inherit;">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                    <input type="text" class="form-control" style="border:none;"/>
+                                </div>
+                            </div>
+
+                            <section id="order-history" class="row">
+
+                                <?php foreach ($orders['history'] as $order) { ?>
+
+                                    <div class="order-helper" data-id="<?php echo $order['id'] ?>" data-client="<?php echo $order['user']['name'] ?>" data-paycash="<?php echo $order['cash']['paycash']; ?>">
+                                        <i class="fa fa-paperclip"></i>
+                                        <div class="box box-<?php echo $order['status_id'] == Config::get('cons.order_status.done') ? 'success' : 'danger'; ?> order-helper-client">
+                                            <div class="client-name"><?php echo $order['user']['name'] ?></div>
+                                            <div class="order-change">
+                                                Total <strong>$<?php echo $order['total'] ?></strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <?php } ?>
+
+                                <?php //include 'pending.php'; ?>
+
+                            </section>
+
+                        <?php } else { ?>
+
+                            <div class="text-center">No hay pedidos en el historial.</div><!-- TODO. Lang support -->
+
+                        <?php } ?>
+
+                    </section>
+
+                    <!-- left column -->
+                    <section  id="order-panel" class="col-sm-8">
 
                         <section id="order-progress">
 
@@ -81,16 +112,15 @@
                             </section>
                         </div>
 
-                    <?php } else { ?>
+                    </section><!--/.col (left) -->
 
-                        <section>
-                            <div class="well well-sm text-center">Aun no tienes pedidos para visualizar.</div>
-                        </section>
+                <?php } else { ?>
 
-                    <?php } ?>
+                    <section class="col-sm-8">
+                        <div class="well well-sm text-center">Aun no tienes pedidos para visualizar.</div>
+                    </section><!--/.col (left) -->
 
-                </section><!--/.col (left) -->
-
+                <?php } ?>
                 <!-- right column -->
                 <section id="dealer-panel" class="col-sm-4 hidden-xs">
                     <?php if (!$dealers->isEmpty()) { ?>
@@ -119,7 +149,7 @@
                                             <div class="order-helper" data-id="<?php echo $order->id ?>" data-paycash="<?php echo $order->cash->paycash ?>">
                                                 <i class="fa fa-paperclip"></i>
                                                 <div class="box box-solid order-helper-client">
-                                                    
+
                                                     <div class="client-name">
                                                         <?php echo $order->user->name ?> 
                                                     </div>
@@ -159,6 +189,34 @@
             </div><!-- /.row (main row) -->
 
         </section><!-- /.content -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="changeOrderTypeModal" tabindex="-1" role="dialog" aria-labelledby="changeOrderTypeModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Cambiar el tipo de entrega de este pedido</h4><!-- /.TODO. Soporte Lang -->
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            Este pedido es <strong>Para Retirar</strong> por mostrador y se cambiara a <strong>Delivery</strong>. Por favor, si lo sabe, ingrese el monto con el que abonará el comensal, de lo contrario deje el campo en blanco.
+                        </div>
+
+                        <form method="post" id="" action="<?php echo URL::route('commerce.order.type', $order['id']) ?>">
+                            <div class="form-group">
+                                <label for="changeOrderType_paycash" class="control-label">Monto con el que se abonará:</label>
+                                <input id="changeOrderType_paycash" class="form-control" type="text"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="changeOrderType_cancel" type="button" class="btn btn-default" data-dismiss="modal">Matener el tipo de entrega como esta</button>
+                        <button id="changeOrderType_success" type="button" class="btn btn-primary" form="">Cambiar el tipo de entrega a Delivery</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <?php echo View::make('footer'); ?>
 

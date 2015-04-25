@@ -67,22 +67,22 @@ class BranchDealerForm extends AbstractForm {
         if (!$dealer)
             return false;
 
-        /*foreach ($dealer->orders as $order) {//TODO. Notificar al comensal en caso de ser necesario.
+        /* foreach ($dealer->orders as $order) {//TODO. Notificar al comensal en caso de ser necesario.
 
-            $sended = \Notification::send('customer_' . $order->id, 'order', ['order' => 'delivered']);
+          $sended = \Notification::send('customer_' . $order->id, 'order', ['order' => 'delivered']);
 
-            if (!$sended) {
+          if (!$sended) {
 
-                \Mail::send('emails.notification.order_receive', [], function($message) {
+          \Mail::send('emails.notification.order_receive', [], function($message) {
 
-                    $message->to('rohillion@hotmail.com', 'Jose Lopez')->subject('Pedido de Melivery');
-                });
-            }
-        }*/
+          $message->to('rohillion@hotmail.com', 'Jose Lopez')->subject('Pedido de Melivery');
+          });
+          }
+          } */
 
         return $dealer;
     }
-    
+
     public function undispatch($dealer) {
 
         $input = array(
@@ -100,14 +100,19 @@ class BranchDealerForm extends AbstractForm {
     }
 
     public function report($dealer) {
-        
+
         $dealer = $this->undispatch($dealer);
 
         foreach ($dealer->orders as $order) {
 
-            $order->status_id = 4;
+            $input = array(
+                'order_id' => $order->id,
+                'status_id' => \Config::get('cons.order_status.done'),
+                'motive_id' => false,
+                'observations' => false
+            );
 
-            if (!$this->orderstatus->save($order)) {
+            if (!$this->orderstatus->save($input)) {
                 $this->validator->errors = $this->orderstatus->errors();
                 return false;
             }

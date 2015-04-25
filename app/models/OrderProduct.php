@@ -14,7 +14,7 @@ class OrderProduct extends Eloquent {
      * 
      * @var array 
      */
-    protected $fillable = array('product_id','product_qty','order_id');
+    protected $fillable = array('branch_product_id','branch_product_price_id','product_qty','order_id');
     
     /**
      * Order relationship
@@ -28,6 +28,20 @@ class OrderProduct extends Eloquent {
      */
     public function product() {
         return $this->belongsTo('Product', 'product_id');
+    }
+    
+    /**
+     * BranchProduct relationship
+     */
+    public function branch_product() {
+        return $this->belongsTo('BranchProduct', 'branch_product_id');
+    }
+    
+    /**
+     * BranchProductPrice relationship
+     */
+    public function branch_product_price() {
+        return $this->belongsTo('BranchProductPrice', 'branch_product_price_id');
     }
     
     /**

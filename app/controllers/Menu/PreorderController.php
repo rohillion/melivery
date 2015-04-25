@@ -19,20 +19,38 @@ class PreorderController extends BaseController {
         $this->preorder = $preorder;
     }
 
+    public function show() {
+
+        $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
+
+        $data['orders'] = $this->preorder->all(Session::get('orders'));
+
+        $view = View::make($viewPath, $data);
+
+        $orders = $view->render();
+        // Success!
+        return Response::json(array(
+                    'status' => TRUE,
+                    'type' => 'success',
+                    'message' => Lang::get('segment.product.message.success.store'),
+                    'basket' => $orders)
+        );
+    }
+
     public function store() {
-        
+
         $queue = CommonEvents::getLastAction();
         
         //check if queue data when came from login
-        if($queue && $queue['action'] == Route::getCurrentRoute()->getAction()['controller']){
-            
-            CommonEvents::setLastAction(FALSE);//Delete last attempt action;
+        if ($queue && $queue['action'] == Route::getCurrentRoute()->getAction()['controller']) {
+
+            CommonEvents::setLastAction(FALSE); //Delete last attempt action;
             $payWith = $queue['post'];
-        }else{
-            
-            $payWith = Input::only('pay','amount');
+        } else {
+
+            $payWith = Input::only('pay', 'amount');
         }
-        
+
         $order = $this->preorder->process(Session::get('user.id'), Session::get('orders'), $payWith);
 
         if ($order) {
@@ -51,38 +69,115 @@ class PreorderController extends BaseController {
     public function confirm() {
 
         $data['orders'] = $this->preorder->all(Session::get('orders'));
-        
-        return View::make('menu.preorder.confirm',$data);
+
+        return View::make('menu.preorder.confirm', $data);
     }
 
     public function addItem() {
 
-        $productForm = Input::get('product');
+        $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
 
-        $res = $this->preorder->add($productForm);
+        $basket = $this->preorder->add(Input::all());
 
-        return Redirect::to(Request::server('HTTP_REFERER'));
+        if ($basket) {
+
+            $data['orders'] = $this->preorder->all($basket);
+
+            $view = View::make($viewPath, $data);
+
+            $orders = $view->render();
+            // Success!
+            return Response::json(array(
+                        'status' => TRUE,
+                        'type' => 'success',
+                        'message' => $this->preorder->messages()->all(),
+                        'basket' => $orders)
+            );
+        }
+
+        // Error!
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->preorder->errors()->all())
+        );
     }
 
-    public function configItem() {
+    public function configQty() {
 
-        $productForm = Input::get('product');
+        $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
 
-        $res = $this->preorder->config($productForm);
+        $input = array(
+            'branch' => Input::get('branch'),
+            'item' => Input::get('item'),
+            'qty' => Input::get('qty')
+        );
 
-        return Redirect::to(Request::server('HTTP_REFERER'));
+        $basket = $this->preorder->configQty($input);
+
+        $data['orders'] = $this->preorder->all($basket);
+
+        $view = View::make($viewPath, $data);
+
+        $orders = $view->render();
+        // Success!
+        return Response::json(array(
+                    'status' => TRUE,
+                    'type' => 'success',
+                    'message' => Lang::get('segment.product.message.success.config'),
+                    'basket' => $orders)
+        );
+    }
+    
+    public function configAttr() {
+
+        $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
+
+        $input = array(
+            'branch' => Input::get('branch'),
+            'item' => Input::get('item'),
+            'attr' => Input::get('attr')
+        );
+
+        $basket = $this->preorder->configAttr($input);
+
+        $data['orders'] = $this->preorder->all($basket);
+
+        $view = View::make($viewPath, $data);
+
+        $orders = $view->render();
+        // Success!
+        return Response::json(array(
+                    'status' => TRUE,
+                    'type' => 'success',
+                    'message' => Lang::get('segment.product.message.success.config'),
+                    'basket' => $orders)
+        );
     }
 
     public function removeItem() {
+
+        $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
 
         $input = array(
             'branch' => Input::get('branch'),
             'item' => Input::get('item')
         );
 
-        $res = $this->preorder->remove($input);
+        $basket = $this->preorder->remove($input);
 
-        return Redirect::to(Request::server('HTTP_REFERER'));
+        $data['orders'] = $this->preorder->all($basket);
+
+        $view = View::make($viewPath, $data);
+
+        $orders = $view->render();
+        // Success!
+        return Response::json(array(
+                    'status' => TRUE,
+                    'type' => 'success',
+                    'message' => Lang::get('segment.product.message.success.remove'),
+                    'basket' => $orders)
+        );
     }
 
 }

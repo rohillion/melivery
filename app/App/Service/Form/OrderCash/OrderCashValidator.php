@@ -14,7 +14,6 @@ class OrderCashValidator extends LaravelValidator implements ValidableInterface 
      */
     protected $rules = array(
         "order_id" => 'required|numeric|exists:order,id',
-        "total" => 'required|price',
         "paycash" => 'required|price',
         "change" => 'required|price',
     );

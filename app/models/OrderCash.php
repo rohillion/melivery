@@ -14,7 +14,7 @@ class OrderCash extends Eloquent {
      * 
      * @var array 
      */
-    protected $fillable = array('order_id', 'total', 'paycash', 'change');
+    protected $fillable = array('order_id', 'paycash', 'change');
 
     public function setCreatedAtAttribute($value) {
         // to Disable created_at

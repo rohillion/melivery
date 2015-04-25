@@ -9,12 +9,14 @@ use Attribute;
 use AttributeType;
 use AttributeSubcategory;
 use Product;
-use ProductPrice;
+use BranchProductPrice;
 use Commerce;
 use Customer;
 use Branch;
 use BranchDealer;
+use BranchUser;
 use BranchArea;
+use BranchProduct;
 use Tag;
 use Rule;
 use RuleType;
@@ -33,12 +35,14 @@ use App\Repository\Attribute\EloquentAttribute;
 use App\Repository\AttributeType\EloquentAttributeType;
 use App\Repository\AttributeSubcategory\EloquentAttributeSubcategory;
 use App\Repository\Product\EloquentProduct;
-use App\Repository\ProductPrice\EloquentProductPrice;
+use App\Repository\BranchProductPrice\EloquentBranchProductPrice;
 use App\Repository\Commerce\EloquentCommerce;
 use App\Repository\Customer\EloquentCustomer;
 use App\Repository\Branch\EloquentBranch;
 use App\Repository\BranchDealer\EloquentBranchDealer;
+use App\Repository\BranchUser\EloquentBranchUser;
 use App\Repository\BranchArea\EloquentBranchArea;
+use App\Repository\BranchProduct\EloquentBranchProduct;
 use App\Repository\Tag\EloquentTag;
 use App\Repository\Rule\EloquentRule;
 use App\Repository\RuleType\EloquentRuleType;
@@ -114,12 +118,14 @@ class RepositoryServiceProvider extends ServiceProvider {
         });
 
         $this->product($app);
-        $this->productPrice($app);
+        $this->branchProductPrice($app);
         $this->commerce($app);
         $this->customer($app);
         $this->branch($app);
         $this->branchDealer($app);
+        $this->branchUser($app);
         $this->branchArea($app);
+        $this->branchProduct($app);
         $this->tag($app);
         $this->rule($app);
         $this->ruletype($app);
@@ -142,13 +148,13 @@ class RepositoryServiceProvider extends ServiceProvider {
         });
     }
     
-    private function productPrice($app) {
-        $app->bind('App\Repository\ProductPrice\ProductPriceInterface', function($app) {
-            $productPrice = new EloquentProductPrice(
-                    new ProductPrice
+    private function branchProductPrice($app) {
+        $app->bind('App\Repository\BranchProductPrice\BranchProductPriceInterface', function($app) {
+            $branchProductPrice = new EloquentBranchProductPrice(
+                    new BranchProductPrice
             );
 
-            return $productPrice;
+            return $branchProductPrice;
         });
     }
 
@@ -192,6 +198,16 @@ class RepositoryServiceProvider extends ServiceProvider {
         });
     }
     
+    private function branchUser($app) {
+        $app->bind('App\Repository\BranchUser\BranchUserInterface', function($app) {
+            $branchUser = new EloquentBranchUser(
+                    new BranchUser
+            );
+
+            return $branchUser;
+        });
+    }
+    
     private function branchArea($app) {
         $app->bind('App\Repository\BranchArea\BranchAreaInterface', function($app) {
             $branchArea = new EloquentBranchArea(
@@ -199,6 +215,16 @@ class RepositoryServiceProvider extends ServiceProvider {
             );
 
             return $branchArea;
+        });
+    }
+    
+    private function branchProduct($app) {
+        $app->bind('App\Repository\BranchProduct\BranchProductInterface', function($app) {
+            $branchProduct = new EloquentBranchProduct(
+                    new BranchProduct
+            );
+
+            return $branchProduct;
         });
     }
 

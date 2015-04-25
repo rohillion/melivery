@@ -16,71 +16,74 @@
         <div class="navbar-collapse collapse" id="navbar-main">
 
             <?php if (Session::has('user.id')) { ?>
-                <?php if (Session::get('user.id_user_type') == 2) {//2 = commerce user ?>
+                <?php if (Session::get('user.id_user_type') == Config::get('cons.user_type.commerce')) { ?>
                     <ul class="nav navbar-nav">
 
                         <li>
-                            <a href="/order"><?php echo Lang::get('segment.order.title.main_menu'); ?></a>
+                            <a href="<?php echo URL::route('commerce.order') ?>"><?php echo Lang::get('segment.order.title.main_menu'); ?></a>
                         </li>
 
                         <li>
-                            <a href="/product"><?php echo Lang::get('segment.product.title.main_menu'); ?></a>
+                            <a href="<?php echo URL::route('commerce.product') ?>"><?php echo Lang::get('segment.product.title.main_menu'); ?></a>
                         </li>
 
                         <li>
-                            <a href="/profile"><?php echo Lang::get('segment.profile.title.main_menu'); ?></a>
+                            <a href="<?php echo URL::route('commerce.profile') ?>"><?php echo Lang::get('segment.profile.title.main_menu'); ?></a>
                         </li>
-                        
+
                         <li>
-                            <a href="/branch"><?php echo Lang::get('segment.branch.title.main_menu'); ?></a>
+                            <a href="<?php echo URL::route('commerce.branch') ?>"><?php echo Lang::get('segment.branch.title.main_menu'); ?></a>
                         </li>
 
                     </ul>
+                <?php } elseif (Session::get('user.id_user_type') == Config::get('cons.user_type.customer')) { ?>
+
+                    <ul class="nav navbar-nav">
+
+                        <li>
+                            <a href="<?php echo URL::route('customer') ?>"><?php echo Lang::get('common.label.my_orders'); ?></a>
+                        </li>
+
+                    </ul>
+
                 <?php } ?>
             <?php } ?>
 
             <div class="navbar-right">
                 <ul class="nav navbar-nav">
 
-                    <?php if (Auth::check()) { ?>
-                        <!-- User Account: style can be found in dropdown.less -->
-                        <li class="dropdown user user-menu">
+                    <?php if (Session::has('user.id')) { ?>
+                        <li class="dropdown">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <i class="glyphicon glyphicon-user"></i>
-                                <span><?php echo Session::get('user')['name'] ?> <i class="caret"></i></span>
+                                <i class="fa fa-user"></i>
+                                <span><?php echo Session::get('user.name') ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <!-- User image -->
-                                <li class="user-header bg-light-blue">
-                                    <img alt="User Image" class="img-circle" src="/assets/avatar3.png">
-                                    <p>
-                                        Jane Doe - Web Developer
-                                        <small>Member since Nov. 2012</small>
-                                    </p>
-                                </li>
-                                <!-- Menu Body -->
-                                <li class="user-body">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </li>
-                                <!-- Menu Footer-->
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a class="btn btn-default btn-flat" href="#">Profile</a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a class="btn btn-default btn-flat" href="<?php echo URL::route('logout') ?>">Sign out</a>
-                                    </div>
+                                <li role="presentation">
+                                    <a href="<?php echo URL::route('logout') ?>">Sign out</a>
                                 </li>
                             </ul>
                         </li>
+                        <?php
+                        $BranchUserEloquent = new App\Repository\BranchUser\EloquentBranchUser(new BranchUser);
+                        $branchUsers = $BranchUserEloquent->all(['*'], ['branch'], ['user_id' => Session::get('user.id')]);
+                        ?>
+                        <?php if ($branchUsers->count() > 1) { ?>
+                            <li class="dropdown">
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <i class="fa fa-home"></i>
+                                    <span><i class="caret"></i></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li role="presentation" class="dropdown-header">Cambiar sucursal:</li>
+                                    <?php foreach ($branchUsers as $branchUser) { ?>
+                                        <li role="presentation">
+                                            <a href="<?php echo URL::route('commerce.branch.current',$branchUser->id) ?>"><?php echo $branchUser->branch->street; ?> <?php echo $branchUser->branch->id == Session::get('user.branch_id') ? '<i class="fa fa-check"></i>' : '' ?></a>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            </li>
+                        <?php } ?>
                     <?php } else { ?>
                         <li>
                             <a href="<?php echo URL::route('login') ?>">Iniciar Sesi&oacute;n</a>

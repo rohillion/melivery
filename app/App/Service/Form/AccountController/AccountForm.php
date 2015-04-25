@@ -3,12 +3,16 @@
 namespace App\Service\Form\AccountController;
 
 use App\Service\Validation\ValidableInterface;
+use App\Repository\BranchUser\BranchUserInterface;
 use App\Service\Form\AbstractForm;
 
 class AccountForm extends AbstractForm {
 
-    public function __construct(ValidableInterface $validator) {
+    private $branchUser;
+
+    public function __construct(ValidableInterface $validator, BranchUserInterface $branchUser) {
         parent::__construct($validator);
+        $this->branchUser = $branchUser;
     }
 
     public function login($input) {
@@ -47,10 +51,12 @@ class AccountForm extends AbstractForm {
             return \URL::route(\Session::get('user.dashboard'));
         }
 
-        return ['error' => 'Usuario o clave inválidos'];
+        return ['error' => 'Usuario o clave inválidos']; //TODO. lang support
     }
 
-    public function setSession($user) {
+    private function setSession($user) {
+
+
 
         \Session::put('user.id', $user->id);
         \Session::put('user.name', $user->name);
@@ -60,6 +66,15 @@ class AccountForm extends AbstractForm {
         \Session::put('user.verified', $user->verified);
         \Session::put('user.id_commerce', $user->id_commerce);
         \Session::put('user.country_id', $user->country_id);
+
+         //if Commerce related User then load current branch
+        if ($user->id_user_type != \Config::get('cons.user_type.admin') && $user->id_user_type != \Config::get('cons.user_type.customer')) {
+            $branchUser = $this->branchUser->first(['*'], [], [
+                'user_id' => $user->id,
+                'current' => 1
+            ]); //TODO. Validar en caso de que retorne vacio.
+            \Session::put('user.branch_id', $branchUser->branch_id);
+        }
 
         return true;
     }

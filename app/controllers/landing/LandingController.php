@@ -1,23 +1,23 @@
 <?php
 
+use App\Repository\Product\ProductInterface;
+use App\Repository\Category\CategoryInterface;
 use App\Repository\Commerce\CommerceInterface;
-use App\Repository\Branch\BranchInterface;
 use App\Service\Form\Preorder\PreorderForm;
+use App\Repository\Branch\BranchInterface;
 
-class LandingController extends BaseController {
+class LandingController extends PreorderController {
 
-    protected $commerce;
     protected $branch;
-    protected $preorder;
 
-    public function __construct(CommerceInterface $commerce, BranchInterface $branch, PreorderForm $preorder) {
-        $this->commerce = $commerce;
+    public function __construct(BranchInterface $branch, ProductInterface $product, CategoryInterface $category, CommerceInterface $commerce, PreorderForm $preorder) {
+        parent::__construct($product, $category, $commerce, $preorder);
         $this->branch = $branch;
-        $this->preorder = $preorder;
     }
 
     public function index($commerceName) {
-
+        
+        
         $branchId = Input::get('branch');
 
         $commerce = $this->commerce->findByName($commerceName);
@@ -31,11 +31,11 @@ class LandingController extends BaseController {
                 if (!$branchId)
                     $branchId = $branches[0]->id;
 
-                $branch = $this->branch->find($branchId, ['*'], ['products.categories.subcategories', 'products.tags'], ['commerce_id' => $commerce->id]);
+                $branch = $this->branch->find($branchId, ['*'], ['branchProducts.product.categories.subcategories', 'branchProducts.product.tags', 'branchProducts.prices.size'], ['commerce_id' => $commerce->id]);
 
-                foreach ($branch->products as $product) {
-                        $data['productByCategory'][$product->categories->category_name]['data'] = $product->categories;
-                        $data['productByCategory'][$product->categories->category_name]['products'][] = $product;
+                foreach ($branch->branchProducts as $branchProduct) {
+                        $data['productByCategory'][$branchProduct->product->categories->category_name]['data'] = $branchProduct->product->categories;
+                        $data['productByCategory'][$branchProduct->product->categories->category_name]['products'][] = $branchProduct;
                 }
                 
                 if (!$branch)

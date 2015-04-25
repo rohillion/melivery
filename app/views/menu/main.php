@@ -451,17 +451,8 @@
 
         <!-- Dependecies -->
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geocoding"></script>
-        <script src="/assets/application.js" type="text/javascript"></script>
 
-        <!-- Custom -->
-        <script src="/assets/menu.js" type="text/javascript"></script>
-
-        <script type="text/javascript">
-            $(document).ready(function() {
-                main.init();
-                menu.init();
-            });
-        </script>
+        <?php echo View::make('footer'); ?>
 
     </body>
 </html>

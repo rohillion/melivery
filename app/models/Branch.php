@@ -29,6 +29,20 @@ class Branch extends Eloquent {
     public function products() {
         return $this->belongsToMany('Product', 'branch_product', 'branch_id', 'product_id');
     }
+    
+    /**
+     * BranchProduct relationship. Just Active = 1.
+     */
+    public function branchProducts() {
+        return $this->hasMany('BranchProduct', 'branch_id')->where(['active'=>1]);
+    }
+    
+    /**
+     * BranchProduct relationship. All, active and inactive.
+     */
+    public function branchProductsAll() {
+        return $this->hasMany('BranchProduct', 'branch_id');
+    }
 
     /**
      * User relationship

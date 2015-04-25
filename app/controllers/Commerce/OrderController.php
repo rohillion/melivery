@@ -30,16 +30,6 @@ class OrderController extends BaseController {
 
         $data['user'] = $this->user->find(Session::get('user.id'), ['*'], ['branches']);
 
-        $branch = Input::get('branch_id');
-
-        if ($branch) {
-
-            Session::put('user.branch_id', $branch);
-        } else {
-
-            Session::put('user.branch_id', $data['user']->branches[0]->id); //TODO si no hay sucursales cargadas no se puede ingresar al panel de ordenes.
-        }
-
         $data['orders'] = $this->orderForm->allGroupByStatus(Session::get('user.branch_id'));
 
         $dealers = $this->branchDealer->all(['*'], [], ['branch_id' => Session::get('user.branch_id')]);
@@ -65,13 +55,18 @@ class OrderController extends BaseController {
             "estimated" => Input::get('estimated')
         );
 
-        $order = $this->orderForm->update($id, $input, Session::get('user.branch_id'));
+        $order = $this->orderForm->update($id, $input);
 
         if ($order) {
 
-            $order->status_id = 2; //TODO. hacer de esto una constante. 2 = progress
+            $inputStatus = array(
+                'order_id' => $order->id,
+                'status_id' => Config::get('cons.order_status.progress'),
+                'motive_id' => false,
+                'observations' => false
+            );
 
-            if ($this->orderstatus->save($order)) {
+            if ($this->orderstatus->save($inputStatus)) {
                 // Success!
                 return Redirect::to('/order')
                                 ->withSuccess(Lang::get('segment.order.message.success.edit'))
@@ -80,13 +75,13 @@ class OrderController extends BaseController {
 
             return Redirect::to('/order')
                             ->withInput()
-                            ->withErrors($this->orderstatus->errors())
+                            ->withErrors($this->orderstatus->errors()->all())
                             ->with('status', 'error');
         }
 
         return Redirect::to('/order')
                         ->withInput()
-                        ->withErrors($this->orderForm->errors())
+                        ->withErrors($this->orderForm->errors()->all())
                         ->with('status', 'error');
     }
 
@@ -96,28 +91,55 @@ class OrderController extends BaseController {
      */
     public function changeStatus($order_id, $status_id) {
 
-        $order = $this->order->find($order_id, ['*'], [], ['branch_id' => Session::get('user.branch_id')]);
+        $input = array(
+            'order_id' => $order_id,
+            'status_id' => $status_id,
+            'motive_id' => Input::get('motive'),
+            'observations' => Input::get('observations')
+        );
 
-        if (!is_null($order)) {
-
-            $order->status_id = $status_id;
-            $order->motive_id = Input::get('motive');
-            //$order->branch_dealer_id = Input::get('dealer');
-            $order->observations = Input::get('observations');
-
-            if ($this->orderstatus->save($order)) {
-                // Success!
-                return Response::json(array(
-                            'status' => TRUE,
-                            'type' => 'success')
-                );
-            }
+        if ($this->orderstatus->save($input)) {
+            // Success!
+            return Response::json(array(
+                        'status' => TRUE,
+                        'type' => 'success')
+            );
         }
 
         return Response::json(array(
                     'status' => FALSE,
                     'type' => 'error',
                     'message' => $this->orderstatus->errors()->all())
+        );
+    }
+
+    /**
+     * Update order status
+     * POST /order/{order_id}/status
+     */
+    public function changeType($order_id) {
+        
+        $input = array(
+            'order_id'=>$order_id,
+            'paycash'=>Input::get('paycash')
+        );
+
+        $order = $this->orderForm->changeType($input);
+
+        if ($order) {
+            // Success!
+            return Response::json(array(
+                        'status' => TRUE,
+                        'type' => 'success',
+                        'order' => $order)
+            );
+        }
+
+
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->orderForm->errors()->all())
         );
     }
 
@@ -189,7 +211,7 @@ class OrderController extends BaseController {
                     'message' => $this->branchDealer->errors()->all())
         );
     }
-    
+
     /**
      * Update order status
      * POST /order/{order_id}/status
@@ -234,7 +256,7 @@ class OrderController extends BaseController {
                             'type' => 'success',
                             'message' => Lang::get('dealer.report.success'),
                             'orders' => $dealer->orders->toArray()
-                        )
+                                )
                 );
             }
         }

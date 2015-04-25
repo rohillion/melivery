@@ -30,10 +30,10 @@ body {
 .nav>li {
     padding: 0;
 }
-.nav>li>a {
+.nav>li>a, .nav>li>label {
     color: #000;
 }
-.nav>li.active>a {
+.nav>li.active>a, .nav>li.active>label {
     color: #fff;
 }
 .nav>li>a:hover, .nav>li>a:focus {
@@ -78,6 +78,39 @@ body {
     width: 100%;
 }
 
+#productForm{
+    position: absolute;
+    overflow-y: auto;
+    overflow-x: hidden;
+    top: 25px;
+    left: 15px;
+    right: 15px;
+    bottom: 85px;
+}
+
+.confPanel{
+    transition: all 500ms ease-in-out 0s;
+    transform: translateX(110%);
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.confPanel.current{
+    transform: translateX(0%);
+}
+
+.confPanel.ready{
+    transform: translateX(-110%);
+}
+
+.bottom-action{
+    bottom: 0;
+    position: absolute;
+    left: 15px;
+    right: 15px;
+}
+
 #category, #subcategory{
     text-transform: capitalize;
 }
@@ -101,6 +134,10 @@ body {
 
 .overflow-hidden {
     overflow: hidden;
+}
+
+#add-price-size{
+    padding-left: 0;
 }
 
 .price-size-row .btn, .add-attribute{
@@ -143,12 +180,13 @@ body {
     cursor: pointer;
 }
 .attribute-panel .defaultSuggestion{
-    bottom: 45px;
+    top: 25px;
+    left: 15px;
 }
-.attribute-panel .tt-dropdown-menu{
+/*.attribute-panel .tt-dropdown-menu{
     top: inherit!important;
     bottom: 100%;
-}
+}*/
 
 .selected-attributes-panel h4{
     line-height: normal;

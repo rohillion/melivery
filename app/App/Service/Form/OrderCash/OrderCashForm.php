@@ -29,7 +29,6 @@ class OrderCashForm extends AbstractForm {
 
         $input = array(
             "order_id" => $order->id,
-            "total" => $order->total,
             "paycash" => $order->paycash,
             "change" => $order->change,
         );

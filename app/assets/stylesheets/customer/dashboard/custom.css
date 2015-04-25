@@ -1,0 +1,156 @@
+/*****************************/
+/*       Customer Dash       */
+/*****************************/
+
+#order-pending{
+    padding-top: 15px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    min-height: 200px;
+    transition: all 500ms ease-in-out 0s;
+    height: 100%;
+    overflow: auto;
+}
+
+#order-pending-fixed.shown{
+    transform: translateY(0%);
+}
+
+.time-order{
+    font-size: 13px;
+    margin-right: 6px;
+}
+
+.grab-order{
+    font-size: 20px;
+    opacity: 0.5;
+    color: #999;
+    position: absolute;
+    width: 50px;
+    top: 5px;
+    left: 50%;
+    margin-left: -25px;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+}
+
+.order-body{
+    margin: 0;
+}
+
+.order-item{
+    padding: 15px 0 0;
+    border: none;
+}
+.order-item:first-child{
+    padding-top: 0;
+}
+
+.order-item-head{
+    overflow: hidden;
+}
+
+.order-item-head p:first-child{
+    max-width: 85%;
+    margin: 0;
+}
+
+.table > tbody.order-body > tr > td{
+    border: none;
+}
+
+.order-body .order-product-name td{
+    padding-bottom:0px;
+}
+
+.order-body .order-product-attributes td{
+    padding:0px 5px 10px 5px;
+}
+
+.order-body .order-item-attributes .label{
+    font-weight: bold;
+    font-size: 13px;
+    color: #5bc0de;
+    font-style: italic;
+}
+
+#order-ready .box:last-of-type{
+    margin:0px;
+}
+
+.badge.no-background {
+    color: #000;
+    background-color: inherit;
+}
+
+.order-helper{
+    position: relative;
+    float: left;
+    z-index: 970;
+    margin-right: 8px;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+}
+
+.order-helper:last-of-type{
+    margin-right: 0px;
+}
+
+.order-helper i{
+    font-size: 1.5em;
+    z-index: 1;
+    position: absolute;
+    top: -2px;
+    left: -5px;
+}
+
+.order-helper .box{
+    padding: 5px 15px;
+    margin: 0;
+}
+
+#dealer-panel, #dealer-panel .box{
+    position: inherit;
+}
+
+#dealer-panel .box-body{
+    min-height: 50px;
+    overflow: hidden;
+}
+
+#dealer-panel .ui-droppable{
+    overflow: hidden;
+}
+
+.ui-draggable-dragging .order-helper-client ,.order-helper .order-helper-client {
+    position: relative!important;
+    width: 101%;
+}
+
+.progress-order{
+    transition: all 1000ms cubic-bezier(0.68, -0.25, 0.265, 1.55);
+}
+
+.progress-order.archive{
+    transform: translateX(-130%);
+}
+
+.progress-order .client-name{
+    cursor: pointer;
+    border-bottom: 1px dotted;
+}
+
+.box .box-header a.text-primary {
+    color: #428bca;
+}
+
+.order-helper .client-name{
+    font-size: 16px;
+    /*border-bottom: 1px dotted;*/
+}
+
+.order-helper .order-change{
+    font-size: 13px;
+}
+
+/***** Customer Dash *****/

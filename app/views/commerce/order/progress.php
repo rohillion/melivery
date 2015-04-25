@@ -1,6 +1,6 @@
 <?php foreach ($orders['progress'] as $order) { ?>
 
-    <div class="progress-order box box-solid" data-id="<?php echo $order['id']; ?>" data-client="<?php echo $order['user']['name']; ?>" data-paycash="<?php echo $order['cash']['paycash']; ?>" data-change="<?php echo $order['cash']['change']; ?>">
+<div class="progress-order box box-solid" data-id="<?php echo $order['id']; ?>" data-client="<?php echo $order['user']['name']; ?>" data-id="<?php echo $order['id']; ?>" data-delivery="<?php echo $order['delivery']; ?>" data-paycash="<?php echo !is_null($order['cash']['paycash'])? $order['cash']['paycash'] : $order['total']; ?>" data-change="<?php echo !is_null($order['cash']['change'])? $order['cash']['change'] : 0; ?>">
 
         <div class="box-header">
             <h3 class="col-xs-12 box-title">
@@ -46,12 +46,12 @@
 
                         <?php foreach ($order['order_products'] as $orderProduct) { ?>
 
-                            <?php $productTotal = $orderProduct['product']['price'] * $orderProduct['product_qty'] ?>
+                            <?php $productTotal = $orderProduct['branch_product_price']['price'] * $orderProduct['product_qty'] ?>
 
                             <li class="order-item list-group-item">
 
                                 <div class="order-item-head">
-                                    <p class="pull-left"><?php echo $orderProduct['product']['tags']['tag_name'] ?> </p>
+                                    <p class="pull-left"><?php echo $orderProduct['branch_product']['product']['tags']['tag_name'] ?> </p>
                                     <p style="margin-left:5px;" class="pull-left"><strong> x <?php echo $orderProduct['product_qty'] ?></strong></p></span>
                                     <p class="pull-right"><span class="badge no-background pull-right">$<?php echo $productTotal; ?></span></p>
                                 </div>
@@ -87,7 +87,7 @@
             <div class="box-body clearfix">
                 <div class="row">
                     <div class="col-sm-4 col-sm-offset-8 col-md-3 col-md-offset-9">
-                        <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$<?php echo $order['cash']['total']; ?></span></p>
+                        <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$<?php echo $order['total']; ?></span></p>
                     </div>
                 </div>
             </div>
@@ -96,10 +96,10 @@
                 <div class="row">
                     <div class="hidden-xs col-sm-2">
                         <span data-toggle="tooltip" data-placement="auto" title="Cancelado">
-                            <a data-order="<?php echo $order['id']; ?>" href="#" class="cancel-order-id fa fa-circle text-danger" data-toggle="modal" data-target="#reject-motive"></a>
+                            <a data-order="<?php echo $order['id']; ?>" href="#" class="cancel-order-id fa fa-circle text-danger dot-button" data-toggle="modal" data-target="#reject-motive"></a>
                         </span>
                         <span data-toggle="tooltip" data-placement="auto" title="Entregado">
-                            <a data-order="<?php echo $order['id']; ?>" data-status="4" style="margin-left:10px;" href="#" class="done-order fa fa-circle text-success"></a>
+                            <a data-order="<?php echo $order['id']; ?>" data-status="4" style="margin-left:10px;" href="#" class="done-order fa fa-circle text-success dot-button"></a>
                         </span>
                     </div>
                     <div class="col-sm-4 col-sm-offset-6 col-md-3 col-md-offset-7">
@@ -114,14 +114,14 @@
                 <div class="row">
                     <div class="hidden-xs col-sm-2">
                         <span data-toggle="tooltip" data-placement="auto" title="Cancelado" >
-                            <a data-order="<?php echo $order['id']; ?>" href="#" class="cancel-order-id fa fa-circle text-danger" data-toggle="modal" data-target="#reject-motive"></a>
+                            <a data-order="<?php echo $order['id']; ?>" href="#" class="cancel-order-id fa fa-circle text-danger dot-button" data-toggle="modal" data-target="#reject-motive"></a>
                         </span>
                         <span data-toggle="tooltip" data-placement="auto" title="Entregado" >
-                            <a data-order="<?php echo $order['id']; ?>" data-status="4" style="margin-left:10px;" href="#" class="done-order fa fa-circle text-success"></a>
+                            <a data-order="<?php echo $order['id']; ?>" data-status="4" style="margin-left:10px;" href="#" class="done-order fa fa-circle text-success dot-button"></a>
                         </span>
                     </div>
                     <div class="col-sm-4 col-sm-offset-6 col-md-3 col-md-offset-7">
-                        <p class="clearfix" style="margin:0;">Total <span class="badge bg-yellow pull-right">$<?php echo $order['cash']['total']; ?></span></p>
+                        <p class="clearfix" style="margin:0;">Total <span class="badge bg-yellow pull-right">$<?php echo $order['total']; ?></span></p>
                     </div>
                 </div>
             </div>

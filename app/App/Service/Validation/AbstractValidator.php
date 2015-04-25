@@ -28,7 +28,7 @@ abstract class AbstractValidator {
     /**
      * Custom Messages
      *
-     * @var array
+     * @var NULL
      */
     protected $messages = array();
 
@@ -58,6 +58,17 @@ abstract class AbstractValidator {
      */
     public function errors() {
         return $this->errors;
+    }
+    
+    /**
+     * Return messages
+     *
+     * @return array
+     */
+    public function messages(\Illuminate\Support\MessageBag $messages = NULL) {
+        if(!is_null($messages))
+            $this->messages = $messages;
+        return $this->messages;
     }
 
     /**

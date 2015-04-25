@@ -15,6 +15,7 @@ return array(
 
     "label" => array(
         "save" => "Guardar",
+        "my_orders" => "Mis pedidos",
     ),
     "action" => array(
         "create" => "Crear",

@@ -39,6 +39,11 @@ abstract class RepositoryAbstract implements RepositoryInterface {
         return $this->whereMatch($where)->with($entities)->get($columns);
     }
 
+    public function first(array $columns = array('*'), array $entities = array(), array $where = array()) {
+
+        return $this->whereMatch($where)->with($entities)->first($columns);
+    }
+    
     public function find($id, array $columns = array('*'), array $entities = array(), array $where = array()) {
 
         return $this->whereMatch($where)->with($entities)->find($id, $columns);

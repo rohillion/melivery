@@ -24,5 +24,12 @@ interface ValidableInterface {
    * @return array
    */
   public function errors();
+  
+  /**
+   * Messages
+   *
+   * @return array
+   */
+  public function messages(\Illuminate\Support\MessageBag $messages = NULL);
  
 }

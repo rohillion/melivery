@@ -23,10 +23,8 @@ use App\Service\Form\AccountController\Reset\ResetForm;
 use App\Service\Form\AccountController\Reset\ResetValidator;
 use App\Service\Form\AccountController\Verification\VerificationForm;
 use App\Service\Form\AccountController\Verification\VerificationValidator;
-use App\Service\Form\ProductController\ProductForm;
-use App\Service\Form\ProductController\ProductValidator;
-use App\Service\Form\ProductPrice\ProductPriceForm;
-use App\Service\Form\ProductPrice\ProductPriceValidator;
+use App\Service\Form\Product\ProductForm;
+use App\Service\Form\Product\ProductValidator;
 use App\Service\Form\Commerce\CommerceForm;
 use App\Service\Form\Commerce\CommerceValidator;
 use App\Service\Form\Customer\CustomerForm;
@@ -39,8 +37,14 @@ use App\Service\Form\BranchPhone\BranchPhoneForm;
 use App\Service\Form\BranchPhone\BranchPhoneValidator;
 use App\Service\Form\BranchArea\BranchAreaForm;
 use App\Service\Form\BranchArea\BranchAreaValidator;
+use App\Service\Form\BranchProduct\BranchProductForm;
+use App\Service\Form\BranchProduct\BranchProductValidator;
+use App\Service\Form\BranchProductPrice\BranchProductPriceForm;
+use App\Service\Form\BranchProductPrice\BranchProductPriceValidator;
 use App\Service\Form\BranchDealer\BranchDealerForm;
 use App\Service\Form\BranchDealer\BranchDealerValidator;
+use App\Service\Form\BranchUser\BranchUserForm;
+use App\Service\Form\BranchUser\BranchUserValidator;
 use App\Service\Form\TagController\TagForm;
 use App\Service\Form\TagController\TagValidator;
 use App\Service\Form\Rule\RuleForm;
@@ -120,7 +124,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\AccountController\AccountForm', function($app) {
 
             return new AccountForm(
-                    new AccountValidator($app['validator'])
+                    new AccountValidator($app['validator']), $app->make('App\Repository\BranchUser\BranchUserInterface')
             );
         });
 
@@ -128,14 +132,16 @@ class FormServiceProvider extends ServiceProvider {
         $this->reset($app);
         $this->verification($app);
         $this->product($app);
-        $this->productPrice($app);
         $this->commerce($app);
         $this->customer($app);
         $this->branch($app);
         $this->branchOpening($app);
         $this->branchPhone($app);
         $this->branchArea($app);
+        $this->branchProduct($app);
+        $this->branchProductPrice($app);
         $this->branchDealer($app);
+        $this->branchUser($app);
         $this->tag($app);
         $this->rule($app);
         $this->ruletype($app);
@@ -178,19 +184,10 @@ class FormServiceProvider extends ServiceProvider {
     }
 
     private function product($app) {
-        $app->bind('App\Service\Form\ProductController\ProductForm', function($app) {
+        $app->bind('App\Service\Form\Product\ProductForm', function($app) {
 
             return new ProductForm(
-                    new ProductValidator($app['validator']), $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Service\Form\ProductPrice\ProductPriceForm'), $app->make('App\Repository\Branch\BranchInterface')
-            );
-        });
-    }
-    
-    private function productPrice($app) {
-        $app->bind('App\Service\Form\ProductPrice\ProductPriceForm', function($app) {
-
-            return new ProductPriceForm(
-                    new ProductPriceValidator($app['validator']), $app->make('App\Repository\ProductPrice\ProductPriceInterface'), $app->make('App\Repository\Product\ProductInterface')
+                    new ProductValidator($app['validator']), $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Repository\BranchProduct\BranchProductInterface')
             );
         });
     }
@@ -249,11 +246,38 @@ class FormServiceProvider extends ServiceProvider {
         });
     }
     
+    private function branchProduct($app) {
+        $app->bind('App\Service\Form\BranchProduct\BranchProductForm', function($app) {
+
+            return new BranchProductForm(
+                    new BranchProductValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Repository\BranchProduct\BranchProductInterface'), $app->make('App\Repository\BranchProductPrice\BranchProductPriceInterface'), $app->make('App\Service\Form\Product\ProductForm'), $app->make('App\Service\Form\BranchProductPrice\BranchProductPriceForm')
+            );
+        });
+    }
+    
+    private function branchProductPrice($app) {
+        $app->bind('App\Service\Form\BranchProductPrice\BranchProductPriceForm', function($app) {
+
+            return new BranchProductPriceForm(
+                    new BranchProductPriceValidator($app['validator']), $app->make('App\Repository\BranchProductPrice\BranchProductPriceInterface'), $app->make('App\Repository\Product\ProductInterface')
+            );
+        });
+    }
+    
     private function branchDealer($app) {
         $app->bind('App\Service\Form\BranchDealer\BranchDealerForm', function($app) {
 
             return new BranchDealerForm(
                     new BranchDealerValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Repository\BranchDealer\BranchDealerInterface'), $app->make('App\Service\Form\OrderStatus\OrderStatusForm')
+            );
+        });
+    }
+    
+    private function branchUser($app) {
+        $app->bind('App\Service\Form\BranchUser\BranchUserForm', function($app) {
+
+            return new BranchUserForm(
+                    new BranchUserValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Repository\BranchUser\BranchUserInterface')
             );
         });
     }
@@ -298,7 +322,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\Preorder\PreorderForm', function($app) {
 
             return new PreorderForm(
-                    new PreorderValidator($app['validator']), $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Repository\Category\CategoryInterface'), $app->make('App\Repository\Commerce\CommerceInterface'), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Service\Form\Order\OrderForm'), $app->make('App\Service\Form\OrderCash\OrderCashForm'), $app->make('App\Service\Form\OrderStatus\OrderStatusForm'), $app->make('App\Service\Form\OrderProduct\OrderProductForm'), $app->make('App\Service\Form\AttributeOrderProduct\AttributeOrderProductForm')
+                    new PreorderValidator($app['validator']), $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Repository\BranchProduct\BranchProductInterface'), $app->make('App\Repository\BranchProductPrice\BranchProductPriceInterface'), $app->make('App\Repository\Category\CategoryInterface'), $app->make('App\Repository\Commerce\CommerceInterface'), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Service\Form\Order\OrderForm'), $app->make('App\Service\Form\OrderCash\OrderCashForm'), $app->make('App\Service\Form\OrderStatus\OrderStatusForm'), $app->make('App\Service\Form\OrderProduct\OrderProductForm'), $app->make('App\Service\Form\AttributeOrderProduct\AttributeOrderProductForm')
             );
         });
     }
@@ -307,7 +331,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\Order\OrderForm', function($app) {
 
             return new OrderForm(
-                    new OrderValidator($app['validator']), $app->make('App\Repository\Order\OrderInterface'), $app->make('App\Repository\BranchDealer\BranchDealerInterface')
+                    new OrderValidator($app['validator']), $app->make('App\Repository\Order\OrderInterface'), $app->make('App\Repository\BranchDealer\BranchDealerInterface'), $app->make('App\Service\Form\OrderCash\OrderCashForm')
             );
         });
     }
@@ -316,7 +340,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\OrderStatus\OrderStatusForm', function($app) {
 
             return new OrderStatusForm(
-                    new OrderStatusValidator($app['validator']), $app->make('App\Repository\OrderStatus\OrderStatusInterface')
+                    new OrderStatusValidator($app['validator']), $app->make('App\Repository\OrderStatus\OrderStatusInterface'), $app->make('App\Repository\Order\OrderInterface')
             );
         });
     }

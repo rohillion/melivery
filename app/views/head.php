@@ -26,7 +26,7 @@ if (!CommonEvents::isSubdomain() && Request::segment(1)) {
     $dir = NULL;
 } else {
 
-    $dir = Request::segment(1) ? '/' . Request::segment(1) : $assetDir;
+    $dir = Request::segment(1) ? '/' . Request::segment(1) : '/' . $assetDir;
 }
 
 $channel = $name == 'commerce' ? "branch_".Session::get('user.branch_id') : "user_".Session::get('user.id');

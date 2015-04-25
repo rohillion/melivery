@@ -23,11 +23,28 @@ App::before(function($request) {
 
         CommonEvents::setLocation();
     }
+    
+    /*if($_SERVER['REQUEST_METHOD']=== 'OPTIONS'){
+        $statusCode = 204;
+        
+        $headers = [
+            'Acces-Control-Allow-Origin' => 'http://melivery.dev.ar',
+            'Access-Control-Allow-Methods'=>'GET, POST, OPTIONS',
+            'Access-Control-Allow-Headers'=>'Origin, Content-Type, Accept, Authorization, X-Requested-With',
+            'Acces-Control-Allow-Credentials'=>'true'
+        ];
+        
+        return Response::make(null,$statusCode,$headers);
+    }*/
 });
 
 
 App::after(function($request, $response) {
-    //
+    /*$response->headers->set('Acces-Control-Allow-Origin','http://melivery.dev.ar');
+    $response->headers->set('Access-Control-Allow-Headers','Origin, Content-Type, Accept, Authorization, X-Requested-With');
+    $response->headers->set('Access-Control-Allow-Methods','GET','POST','OPTIONS');
+    $response->headers->set('Acces-Control-Allow-Credentials','true');
+    return $response;*/
 });
 
 /*

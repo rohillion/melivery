@@ -41,7 +41,6 @@ class OrderProductForm extends AbstractForm {
             return false;
         }
 
-        //$input['tags'] = $this->processTags($input['tags']);
         return $this->orderproduct->create($input);
     }
 

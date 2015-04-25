@@ -309,7 +309,7 @@ body{
 }*/
 
 .btn.btn-link{
-    box-shadow:inherit;
+    box-shadow:none;
 }
 
 .btn.btn-link.width-padding{
@@ -618,9 +618,56 @@ body{
     display: none;
 }
 
+@media (min-width: 768px){
+    #order-paper.affix {
+        width: 282px;
+    }
+}
+@media (min-width: 992px){
+    #order-paper.affix {
+        width: 293px;
+    }
+}
+@media (min-width: 1200px){
+    #order-paper.affix {
+        width: 262px;
+    }
+}
+
 .margin-less{margin: 0;}
 
 .radio-inline label{
     font-weight: normal;
     cursor: pointer;
+}
+
+label.selectable{
+    cursor: pointer;
+    display: block;
+    padding: 10px 15px;
+}
+
+label.reset{
+    margin: 0;
+    font-weight: normal;
+}
+
+.block{
+    display: block;
+}
+
+.dot-button.text-danger, .dot-button.text-danger:focus{
+    color: #f44336;
+}
+
+.dot-button.text-success, .dot-button.text-success:focus{
+    color: #4caf50;
+}
+
+.dot-button.text-warning, .dot-button.text-warning:focus{
+    color: #f39c12;
+}
+
+.dot-button.text-info, .dot-button.text-info:focus{
+    color: #00c0ef;
 }

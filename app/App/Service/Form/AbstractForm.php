@@ -32,6 +32,15 @@ abstract class AbstractForm {
     public function errors() {
         return $this->validator->errors();
     }
+    
+    /**
+     * Return any validation errors
+     *
+     * @return array
+     */
+    public function messages() {
+        return $this->validator->messages();
+    }
 
     /**
      * Test if form validator passes

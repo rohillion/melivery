@@ -14,7 +14,7 @@ class Order extends Eloquent {
      * 
      * @var array 
      */
-    protected $fillable = array('branch_id','user_id','estimated','delivery');
+    protected $fillable = array('branch_id','user_id','estimated','delivery','total');
     
     /**
      * Branch relationship

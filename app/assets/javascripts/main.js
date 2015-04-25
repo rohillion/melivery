@@ -25,7 +25,6 @@ var main = {
         });
     },
     sendFormPost: function (target, formData, callback) {
-        console.log(formData);
         $.ajax({
             type: 'post',
             url: target,
@@ -40,6 +39,19 @@ var main = {
     run: function (target, callback) {
 
         $.ajax({
+            url: target,
+            dataType: "json",
+            cache:false
+        }).done(function (res) {
+
+            if (typeof callback == 'function')
+                callback(res);
+        });
+    },
+    post: function (target, callback) {
+
+        $.ajax({
+            type:'post',
             url: target,
             dataType: "json"
         }).done(function (res) {
@@ -99,14 +111,6 @@ var main = {
             color: "#ffff99"
         }, 2000);
     },
-    /*scrollTo: function(element, callback) {
-     
-     var container = $('body');
-     
-     container.animate({
-     scrollTop: element.offset().top
-     }, 1000, 'swing', callback);
-     },*/
     scrollTo: function (element, offsetTopFix, callback) {
 
         if (location.pathname.replace(/^\//, '') == element.pathname.replace(/^\//, '') && location.hostname == element.hostname) {
@@ -271,7 +275,7 @@ var main = {
 
         var popoverOld = false;
 
-        $(document).on('click', 'body', function (e) {
+        $(document).on('mousedown', 'html', function (e) {
 
             if ($('.popover').has(e.target).length === 0) {
 

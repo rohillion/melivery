@@ -6,6 +6,7 @@ use Illuminate\Support\MessageBag;
 use App\Service\Validation\ValidableInterface;
 use App\Repository\Order\OrderInterface;
 use App\Repository\BranchDealer\BranchDealerInterface;
+use App\Service\Form\OrderCash\OrderCashForm;
 use App\Service\Form\AbstractForm;
 
 class OrderForm extends AbstractForm {
@@ -16,12 +17,14 @@ class OrderForm extends AbstractForm {
      * @var \App\Repository\Order\OrderInterface
      */
     protected $order;
+    protected $orderCashForm;
     protected $branchDealer;
     protected $messageBag;
 
-    public function __construct(ValidableInterface $validator, OrderInterface $order, BranchDealerInterface $branchDealer) {
+    public function __construct(ValidableInterface $validator, OrderInterface $order, BranchDealerInterface $branchDealer, OrderCashForm $orderCashForm) {
         parent::__construct($validator);
         $this->order = $order;
+        $this->orderCashForm = $orderCashForm;
         $this->branchDealer = $branchDealer;
         $this->messageBag = new MessageBag();
     }
@@ -36,7 +39,10 @@ class OrderForm extends AbstractForm {
         $orderStatus = array(
             "pending" => NULL,
             "progress" => NULL,
-            "ready" => NULL
+            "ready" => NULL,
+            "done" => NULL,
+            "canceled" => NULL,
+            "not_delivered" => NULL
         );
 
         $orders = $this->order->allByBranchId($branch_id);
@@ -45,7 +51,11 @@ class OrderForm extends AbstractForm {
 
             foreach ($orders as $order) {
 
-                $orderStatus[$order->status_name][$order->id] = $order->toArray();
+                if ($order->status_id == \Config::get('cons.order_status.pending') || $order->status_id == \Config::get('cons.order_status.progress')) {
+                    $orderStatus[$order->status_name][$order->id] = $order->toArray();
+                } else {
+                    $orderStatus['history'][$order->id] = $order->toArray();
+                }
             }
         }
 
@@ -81,13 +91,14 @@ class OrderForm extends AbstractForm {
      *
      * @return boolean
      */
-    public function update($id, array $input, $branchId) {
+    public function update($id, array $input) {
 
-        $order = $this->order->find($id, ['*'], [], ['branch_id' => $branchId]);
+        $order = $this->order->find($id, ['*'], [], ['branch_id' => \Session::get('user.branch_id')]);
 
         $input["branch_id"] = $order->branch_id;
         $input["user_id"] = $order->user_id;
         $input["delivery"] = $order->delivery;
+        $input["total"] = $order->total;
 
         if (!$this->valid($input, $id)) {
             return false;
@@ -117,6 +128,54 @@ class OrderForm extends AbstractForm {
     public function changeStatus($id, array $input) {
 
         return $this->order->edit($id, $input);
+    }
+
+    /**
+     * Create an new order
+     *
+     * @return boolean
+     */
+    public function changeType($input) {
+
+        $order = $this->order->find($input['order_id'], ['*'], [], ['branch_id' => \Session::get('user.branch_id')]);
+
+        if (is_null($order)) {
+            $this->messageBag->add('error', 'El pedido en cuestion no existe. Por favor intentelo nuevamente.'); //TODO. Soporte Lang.
+            $this->validator->errors = $this->messageBag;
+            return false;
+        }
+
+        $delivery = !$order->delivery;
+        
+        //Start transaction
+        \DB::beginTransaction();
+
+        $order = $this->order->edit($order->id, array('delivery' => $delivery));
+
+        if ($delivery) {
+            
+            $payCashAmount = $input['paycash'] ? $input['paycash'] : $order->total;
+
+            if (!($payCashAmount >= $order->total)) {
+                $this->validator->errors = new MessageBag(['paycash' => 'El monto con el que abonará el pedido debe ser mayor o igual al valor total de la comanda.']);
+                return false;
+            }
+
+            $order->paycash = $payCashAmount;
+            $order->change = $payCashAmount - $order->total;
+
+            $orderCash = $this->orderCashForm->save($order);
+            
+            if (!$orderCash) {
+                \DB::rollback();
+                $this->validator->errors = $this->orderCashForm->errors();
+                return false;
+            }
+        }
+
+        \DB::commit();
+        
+        return $order;
     }
 
     /**
@@ -186,6 +245,10 @@ class OrderForm extends AbstractForm {
                 $this->messageBag->add('error', 'Ha ocurrido un error. Por favor refresque el navegador e intentelo nuevamente.'); //TODO. Soporte Lang.
                 $this->validator->errors = $this->messageBag;
             }
+        } else {
+            \Log::error('OrderForm:dettachDealer: No dealer assigned for that order.');
+            $this->messageBag->add('error', 'No dealer assigned for that order.'); //TODO. Soporte Lang.
+            $this->validator->errors = $this->messageBag;
         }
 
         return false;

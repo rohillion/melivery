@@ -114,20 +114,38 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         "uses" => "ProductController@index"
     ]);
 
-    Route::get("/product/create/{category_id?}", [
-        "as" => "commerce.product.create",
-        "uses" => "ProductController@create"
-    ]);
-
     Route::post("/product", [
         'before' => 'csrf',
         "uses" => "ProductController@store"
     ]);
-    
+
     Route::post("/product/image", [
         'before' => 'csrf',
         "as" => "commerce.product.imagetmp",
         "uses" => "ProductController@imagetmp"
+    ]);
+
+    Route::get("/product/{product_id}", [
+        'before' => 'csrf',
+        "as" => "commerce.product.view",
+        "uses" => "ProductController@view"
+    ]);
+
+    Route::post("/product/{product_id}", [
+        'before' => 'csrf',
+        "uses" => "ProductController@update"
+    ]);
+
+    Route::post("/product/{product_id}/delete", [
+        'before' => 'csrf',
+        "as" => "commerce.product.delete",
+        "uses" => "ProductController@delete"
+    ]);
+
+    Route::post("/product/{product_id}/status", [
+        'before' => 'csrf',
+        "as" => "commerce.product.changestatus",
+        "uses" => "ProductController@changeStatus"
     ]);
 
     Route::post("/tag", [
@@ -135,7 +153,7 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         "as" => "commerce.customtag.create",
         "uses" => "CustomTagController@store"
     ]);
-    
+
     Route::post("/attribute", [
         'before' => 'csrf',
         "as" => "commerce.customattribute.create",
@@ -170,12 +188,12 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
     ]);
 
     //Route::resource('branch', 'BranchController');
-    
+
     Route::get("/branch", [
-        "as" => "commerce.branch.index",
+        "as" => "commerce.branch",
         "uses" => "BranchController@index"
     ]);
-    
+
     Route::post("/branch", [
         'before' => 'csrf',
         "uses" => "BranchController@store"
@@ -185,32 +203,32 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         "as" => "commerce.branch.create",
         "uses" => "BranchController@create"
     ]);
-    
+
     Route::post("/branch/{branch_id}/delivery", [
         'before' => 'csrf',
         "uses" => "BranchController@delivery"
     ]);
-    
+
     Route::post("/branch/{branch_id}/pickup", [
         'before' => 'csrf',
         "uses" => "BranchController@pickup"
     ]);
-    
+
     Route::post("/branch/{branch_id}/opening", [
         'before' => 'csrf',
         "uses" => "BranchController@opening"
     ]);
-    
+
     Route::post("/branch/{branch_id}/area", [
         'before' => 'csrf',
         "uses" => "BranchController@areaCreate"
     ]);
-    
+
     Route::post("/branch/{branch_id}/area/{area_id}", [
         'before' => 'csrf',
         "uses" => "BranchController@areaUpdate"
     ]);
-    
+
     Route::delete("/branch/{branch_id}/area/{area_id}", [
         'before' => 'csrf',
         "uses" => "BranchController@areaDelete"
@@ -230,14 +248,19 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         'before' => 'csrf',
         "uses" => "BranchController@destroy"
     ]);
-    
+
     Route::post("/branch/{branch_id}", [
         'before' => 'csrf',
         "uses" => "BranchController@update"
     ]);
+    
+    Route::get("/branch/{branch_user_id}/current", [
+        "as" => "commerce.branch.current",
+        "uses" => "BranchController@setCurrent"
+    ]);
 
     Route::get("/order", [
-        "as" => "commerce.commerce.order",
+        "as" => "commerce.order",
         "uses" => "OrderController@index"
     ]);
 
@@ -246,6 +269,12 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         "uses" => "OrderController@update"
     ]);
 
+    Route::get("/order/{order_id}/type", [
+        'before' => 'csrf',
+        "as" => "commerce.order.type",
+        "uses" => "OrderController@changeType"
+    ]);
+    
     Route::get("/order/{order_id}/status/{status_id}", [
         'before' => 'csrf',
         "uses" => "OrderController@changeStatus"
@@ -279,11 +308,11 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
     Route::get("/ajax/city/find/", [
         "uses" => "AjaxCityController@find"
     ]);
-    
+
     Route::get("/ajax/category", [
         "uses" => "AjaxCategoryController@index"
     ]);
-    
+
     Route::get("/ajax/category/find/", [
         "uses" => "AjaxCategoryController@find"
     ]);
@@ -402,9 +431,27 @@ Route::group(array('domain' => 'menu.melivery' . $tld), function() {
         "uses" => "PreorderController@configItem"
     ]);
 
+    Route::post("/preorder/qty", [
+        'before' => 'csrf',
+        "as" => "menu.preorder.qty",
+        "uses" => "PreorderController@configQty"
+    ]);
+
+    Route::post("/preorder/attr", [
+        'before' => 'csrf',
+        "as" => "menu.preorder.attr",
+        "uses" => "PreorderController@configAttr"
+    ]);
+
     Route::get("/preorder/remove", [
         "as" => "menu.preorder.remove",
         "uses" => "PreorderController@removeItem"
+    ]);
+
+    Route::get("/preorder/show", [
+        "before" => 'csrf',
+        "as" => "menu.preorder.show",
+        "uses" => "PreorderController@show"
     ]);
 
     Route::get("/{category?}/{page?}", [
@@ -427,4 +474,34 @@ Route::get("/position", [
 Route::get("/{commerce}", [
     "as" => "landing",
     "uses" => "LandingController@index"
+]);
+
+Route::post("/preorder/add", [
+    "before" => 'csrf',
+    "as" => "preorder.add",
+    "uses" => "LandingController@addItem"
+]);
+
+Route::post("/preorder/qty", [
+    'before' => 'csrf',
+    "as" => "preorder.qty",
+    "uses" => "LandingController@configQty"
+]);
+
+Route::post("/preorder/attr", [
+    'before' => 'csrf',
+    "as" => "preorder.attr",
+    "uses" => "LandingController@configAttr"
+]);
+
+Route::get("/preorder/remove", [
+    "before" => 'csrf',
+    "as" => "preorder.remove",
+    "uses" => "LandingController@removeItem"
+]);
+
+Route::get("/preorder/show", [
+    "before" => 'csrf',
+    "as" => "preorder.show",
+    "uses" => "LandingController@show"
 ]);

@@ -56,9 +56,7 @@ class BranchForm extends AbstractForm {
      */
     public function save(array $input) {
 
-        $user = \Auth::user();
-
-        $input['commerce_id'] = $user->id_commerce;
+        $input['commerce_id'] = \Session::get('user.id_commerce');
         $input['city_id'] = $input['city'];
 
         if (!$this->valid($input)) {
@@ -87,6 +85,15 @@ class BranchForm extends AbstractForm {
             $this->validator->errors = $this->branchPhone->errors();
             return false;
         }
+        
+        // Branch Admin User--------
+        $branchUser = $this->branchUser->save($branch, \Session::get('user.id'));
+
+        if (!$branchUser) {
+            \DB::rollback();
+            $this->validator->errors = $this->branchUser->errors();
+            return false;
+        }
 
         // Branch static map position Google API
         $this->staticMap($input, $branch);
@@ -104,7 +111,7 @@ class BranchForm extends AbstractForm {
      */
     public function update($id, array $input) {
 
-        $commerceId = \Auth::user()->id_commerce;
+        $commerceId = \Session::get('user.id_commerce');
 
         //validate Branch by Commerce ID.
         if (is_null($this->branch->findByCommerceId($id, $commerceId))) {

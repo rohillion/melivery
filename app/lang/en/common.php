@@ -15,6 +15,7 @@ return array(
 
     "label" => array(
         "save" => "Save",
+        "my_orders" => "My orders",
     ),
     "placeholder" => array(
         "name" => "Write a name",

@@ -14,6 +14,8 @@ interface RepositoryInterface {
 
     public function all(array $columns = array('*'), array $entities = array(), array $where = array());
 
+    public function first(array $columns = array('*'), array $entities = array(), array $where = array());
+    
     public function find($id, array $columns = array('*'), array $entities = array(), array $where = array());
 
     public function destroy($ids);

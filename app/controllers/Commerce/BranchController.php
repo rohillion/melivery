@@ -4,6 +4,7 @@ use App\Repository\Branch\BranchInterface;
 use App\Service\Form\Branch\BranchForm;
 use App\Service\Form\BranchArea\BranchAreaForm;
 use App\Service\Form\BranchOpening\BranchOpeningForm;
+use App\Service\Form\BranchUser\BranchUserForm;
 use App\Repository\City\CityInterface;
 
 class BranchController extends BaseController {
@@ -12,13 +13,15 @@ class BranchController extends BaseController {
     protected $branchForm;
     protected $branchAreaForm;
     protected $branchOpeningForm;
+    protected $branchUserForm;
     protected $city;
 
-    public function __construct(BranchInterface $branch, BranchForm $branchForm, BranchAreaForm $branchAreaForm, BranchOpeningForm $branchOpeningForm, CityInterface $city) {
+    public function __construct(BranchInterface $branch, BranchForm $branchForm, BranchAreaForm $branchAreaForm, BranchOpeningForm $branchOpeningForm, BranchUserForm $branchUserForm, CityInterface $city) {
         $this->branch = $branch;
         $this->branchForm = $branchForm;
         $this->branchAreaForm = $branchAreaForm;
         $this->branchOpeningForm = $branchOpeningForm;
+        $this->branchUserForm = $branchUserForm;
         $this->city = $city;
     }
 
@@ -148,7 +151,7 @@ class BranchController extends BaseController {
                     'message' => $this->branchForm->errors()->all())
         );
     }
-    
+
     /**
      * Edit branch pickup field
      * POST /branch/{branch_id}/pickup
@@ -176,7 +179,7 @@ class BranchController extends BaseController {
                     'message' => $this->branchForm->errors()->all())
         );
     }
-    
+
     /**
      * Edit branch opening hours
      * POST /branch/{branch_id}/opening
@@ -184,7 +187,7 @@ class BranchController extends BaseController {
     public function opening($branch_id) {
 
         $input['days'] = Input::get('days');
-        
+
         // Branch Opening Hours--------
         $branchOpening = $this->branchOpeningForm->save($branch_id, $input['days']);
 
@@ -262,7 +265,7 @@ class BranchController extends BaseController {
                     'message' => $this->branchAreaForm->errors()->all())
         );
     }
-    
+
     /**
      * Update branch delivery area
      * POST /branch/area/$areaId
@@ -285,6 +288,19 @@ class BranchController extends BaseController {
                     'type' => 'error',
                     'message' => $this->branchAreaForm->errors()->all())
         );
+    }
+
+    /**
+     * Update BranchUser current
+     * GET /branch/$branch_user_id/current
+     */
+    public function setCurrent($branch_user_id) {
+
+        $this->branchUserForm->setCurrent($branch_user_id);
+
+        return Redirect::to(Request::server('HTTP_REFERER'))
+                            ->withSuccess(Lang::get('segment.order.message.success.save'))//TODO. Lang support
+                            ->with('status', 'success');
     }
 
 }

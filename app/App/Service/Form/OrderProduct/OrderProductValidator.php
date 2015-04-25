@@ -14,8 +14,9 @@ class OrderProductValidator extends LaravelValidator implements ValidableInterfa
      */
     protected $rules = array(
         'order_id' => 'required|numeric|exists:order,id',
-        'product_id' => 'required|numeric|exists:product,id',
-        'product_qty' => 'required|numeric|min:0'
+        'branch_product_id' => 'required|numeric|exists:branch_product,id',
+        'product_qty' => 'required|numeric|min:0',
+        'branch_product_price_id' => 'required|numeric|exists:branch_product_price,id'
     );
 
 }
