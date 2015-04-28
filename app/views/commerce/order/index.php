@@ -46,11 +46,11 @@
                         <?php if (isset($orders['history']) && !is_null($orders['history'])) { ?>
 
                             <div class="form-group">
-                                <div class="input-group" style="background-color: white">
+                                <div data-toggle="tooltip" data-placement="auto" data-original-title="Cliente, repartidor o producto" class="input-group" style="background-color: white">
                                     <span class="input-group-addon" style="padding-right: 0;border: none;background-color: inherit;">
                                         <i class="fa fa-search"></i>
                                     </span>
-                                    <input type="text" class="form-control" style="border:none;"/>
+                                    <input id="historyLiveSearch" type="text" class="form-control" style="border:none;" placeholder="Filtrar"/>
                                 </div>
                             </div>
 
@@ -106,7 +106,7 @@
 
                                 <?php } else { ?>
 
-                                    <div class="text-center">No hay pedidos pendientes.</div>
+                                    <!--<div class="text-center">No hay pedidos pendientes.</div>-->
 
                                 <?php } ?>
 
@@ -132,7 +132,7 @@
 
                             <div class="box box-solid" data-dealer-id="<?php echo $dealer->id ?>">
                                 <div class="box-header">
-                                    <h3 class="box-title"><?php echo $dealer->dealer_name ?> <i class="pull-right fa fa-lightbulb-o"></i></h3>
+                                    <h3 class="box-title"><?php echo $dealer->dealer_name ?> <!--<i class="pull-right fa fa-lightbulb-o"></i>TODO. Lightbulb filter--></h3>
 
                                     <?php $hiddenDispatch = $dealer->orders->isEmpty() ? 'hidden' : ($dealer->dispatched ? 'hidden' : ''); ?>
                                     <a data-dealer="<?php echo $dealer->id ?>" class="<?php echo $hiddenDispatch; ?> dispatch btn btn-link pull-right text-primary">Enviar</a>
@@ -232,7 +232,7 @@
                             Este pedido es <strong>Para Retirar</strong> por mostrador y se cambiara a <strong>Delivery</strong>. Por favor, ingrese el monto con el que abonará el comensal, de lo contrario deje el campo en blanco.
                         </div>
 
-                        <form method="post" id="" action="<?php echo URL::route('commerce.order.type', $order['id']) ?>">
+                        <form method="post" id="" action="">
                             <div class="form-group">
                                 <label for="changeOrderType_paycash" class="control-label">Monto con el que se abonará:</label>
                                 <input id="changeOrderType_paycash" class="form-control" type="text"/>

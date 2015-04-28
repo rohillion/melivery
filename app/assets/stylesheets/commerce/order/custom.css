@@ -220,11 +220,15 @@
     transform: translateY(-200%);
 }
 
+.new-pending{
+    transform: translateY(200%);
+}
+
 .progress-order.archive, .new-history{
     transform: translateX(-200%);
 }
 
-.progress-order .client-name{
+#order-panel .client-name{
     cursor: pointer;
     border-bottom: 1px dotted;
 }

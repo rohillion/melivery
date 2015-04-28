@@ -4,7 +4,7 @@ Class Notification {
 
     static function send($channel, $event, $message) {
         
-        return true;//TODO. remover esta linea.
+        //return true;//TODO. remover esta linea.
         
         $pusher = new Pusher(Config::get('pusher.app_key'), Config::get('pusher.app_secret'), Config::get('pusher.app_id'));
 

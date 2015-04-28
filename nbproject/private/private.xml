@@ -3,17 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/history.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/routes.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/views/landing/main.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/assets/stylesheets/commerce/order/custom.css</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/models/Order.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/index.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/libraries/Notification.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/progress.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/controllers/Commerce/OrderController.php</file>
-            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/OrderStatus/OrderStatusForm.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Repository/Order/EloquentOrder.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/head.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/lang/es/order.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/commerce/order/custom.js</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/history.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/routes.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/assets/stylesheets/commerce/order/custom.css</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/main.js</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/index.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/controllers/Commerce/OrderController.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/OrderStatus/OrderStatusForm.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/models/BranchDealer.php</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/assets/javascripts/menu/custom.js</file>
+            <file>file:/C:/xampp/htdocs/melivery/app/App/Service/Form/Order/OrderForm.php</file>
             <file>file:/C:/xampp/htdocs/melivery/app/views/commerce/order/pending.php</file>
         </group>
     </open-files>

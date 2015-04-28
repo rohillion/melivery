@@ -21,7 +21,7 @@ var custom = {
 
         var estimatedTime, minutes, newtime, range = 30, pendingPanel = $('#order-pending'), progressPanel = $('#order-progress'), historyPanel = $('#order-history');
 
-        $('.decreaseEstimated').on('click', function () {
+        $(document).on('click', '.decreaseEstimated', function () {
             estimatedTime = $(this).closest('.btn-group-justified').find('.estimatedTime');
             if ($(estimatedTime[0]).val() > 10) {
                 $.each(estimatedTime, function (i) {
@@ -32,7 +32,7 @@ var custom = {
             }
         });
 
-        $('.increaseEstimated').on('click', function () {
+        $(document).on('click', '.increaseEstimated', function () {
             estimatedTime = $(this).closest('.btn-group-justified').find('.estimatedTime');
             if ($(estimatedTime[2]).val() < 120) {
                 $.each(estimatedTime, function (i) {
@@ -43,7 +43,7 @@ var custom = {
             }
         });
 
-        $('.estimatedTime').on('click', function () {
+        $(document).on('click', '.estimatedTime', function () {
             main.sendFormPost($('#estimatedTimeAction').attr('action'), $.param({
                 'estimated': $(this).val()
             }), function (res) {
@@ -59,6 +59,7 @@ var custom = {
                                 progressPanel.find('.new-progress').removeClass('new-progress');
                                 custom.draggable();
                                 main.tooltip();
+                                custom.popover();
                             }, 200);
                         }
                     });
@@ -68,13 +69,13 @@ var custom = {
             });
         });
 
-        $('.rejectOrder').on('click', function () {
-            
+        $(document).on('click', '.rejectOrder', function () {
+
             var orderId = this.dataset.orderid;
 
             custom.archiveOrder(orderId, 5, function () {
 
-                main.run('/order/' + orderId + '/card?history=1', function (res) {
+                main.run('/order/' + orderId + '/card?panel=history', function (res) {
                     if (res.status) {
                         historyPanel.prepend(res.orderCard);
                         setTimeout(function () {
@@ -84,33 +85,52 @@ var custom = {
                 });
 
             }, this.dataset.motiveid);
-            
+
             return false;
         });
     },
     orderEntry: function () {
 
-        var url = window.location.pathname.substr(1, window.location.pathname.length), section = url !== null ? url : 'dashboard';
+        var url = window.location.pathname.substr(1, window.location.pathname.length),
+                section = url !== null ? url : 'dashboard';
+
+        var orderPendingWrapper = $('#order-pending-fixed'),
+                pendingPanel = orderPendingWrapper.find('#order-pending');
+
         // Enable pusher logging - don't include this in production
-        /*Pusher.log = function(message) {
-         if (window.console && window.console.log) {
-         window.console.log(message);
-         }
-         };
-         var pusher = new Pusher('69f2f7efe77c2c0c9cae');
-         var channel = pusher.subscribe(chnl);
-         channel.bind('order', function(data) {
-         
-         if (section !== 'order') {
-         
-         main.notify({
-         message: 'Ha entrado un nuevo pedido!'
-         });
-         } else {
-         
-         location.reload();
-         }
-         });TODO. Pusher*/
+        Pusher.log = function (message) {
+            if (window.console && window.console.log) {
+                window.console.log(message);
+            }
+        };
+        var pusher = new Pusher('69f2f7efe77c2c0c9cae');
+        var channel = pusher.subscribe(chnl);
+        channel.bind('order', function (data) {
+
+            if (section !== 'order') {
+
+                main.notify({
+                    message: 'Ha entrado un nuevo pedido!'
+                });
+            } else {
+
+                main.run('/order/' + data.order + '/card?panel=pending', function (res) {
+                    if (res.status) {
+
+                        pendingPanel.append(res.orderCard);
+
+                        setTimeout(function () {
+                            pendingPanel.find('.new-pending').removeClass('new-pending');
+                            if (!orderPendingWrapper.is('.shown'))
+                                orderPendingWrapper.addClass('shown');
+                        }, 200);
+                    }
+                });
+
+                //$('#togglePendingPanel').click();
+                //location.reload();
+            }
+        });
     },
     orderTimer: function () {
 
@@ -161,10 +181,15 @@ var custom = {
 
     },
     togglePendingPanel: function () {
+        
+        var fixedPanel = $('#order-pending-fixed');
 
         $('#togglePendingPanel').on('click', function () {
-            $('#order-pending-fixed').toggleClass('shown');
+            fixedPanel.toggleClass('shown');
         });
+
+        if ($('#order-pending').find('.pending-order').length > 0)
+            fixedPanel.toggleClass('shown');
     },
     draggable: function () {
 
@@ -277,12 +302,12 @@ var custom = {
 
                     remove = true;
                     var orderId = $(ui.item).attr('data-id');
-                    custom.detachDealerOrder(orderId, function () {
-
-                        remove = false;
+                    custom.removeOrderHelperFromDealer(orderId, function () {
+                        custom.detachDealerOrder(orderId, function () {
+                            remove = false;
+                        });
                     });
                 }
-
             },
             start: function () {
 
@@ -344,8 +369,7 @@ var custom = {
             e.preventDefault();
             var orderId = this.dataset.order;
             custom.archiveOrder(orderId, 4, function () {
-
-                custom.detachDealerOrder(orderId);
+                custom.removeOrderHelperFromDealer(orderId);
             });
         });
     },
@@ -362,7 +386,7 @@ var custom = {
             var orderId = this.dataset.order;
             custom.archiveOrder(orderId, 5, function () {
 
-                custom.detachDealerOrder(orderId);
+                custom.removeOrderHelperFromDealer(orderId);
             }, rejectModal.find('[name="motive"]').val());
         });
     },
@@ -433,26 +457,33 @@ var custom = {
     },
     detachDealerOrder: function (orderId, callback) {
 
-        var dealerOrder = $('#dealer-panel').find('[data-id="' + orderId + '"]');
-        if (dealerOrder.length > 0) {
+        main.run('/order/' + orderId + '/dealer/remove', function (res) {
 
+            if (res.status) {
+
+                storage.removeElement('assignments', orderId);
+                if (typeof callback === 'function')
+                    callback(res);
+            } else {
+
+                main.notify(res);
+            }
+
+        });
+
+    },
+    removeOrderHelperFromDealer: function (orderId, _callback) {
+
+        var dealerOrder = $('#dealer-panel').find('[data-id="' + orderId + '"]');
+
+        if (dealerOrder.length > 0) {
             dealerOrder.remove();
             custom.toggleDealerActionButtons();
-            main.run('/order/' + orderId + '/dealer/remove', function (res) {
-
-                if (res.status) {
-
-                    storage.removeElement('assignments', orderId);
-                    if (typeof callback === 'function')
-                        callback(res);
-                } else {
-
-                    main.notify(res);
-                }
-
-            });
+            if (typeof _callback === 'function')
+                _callback();
         }
 
+        return true;
     },
     toggleDealerActionButtons: function () {
 
@@ -499,6 +530,21 @@ var custom = {
                 history.css('position', 'inherit').addClass('shown');
             }
 
+        });
+
+        $("#historyLiveSearch").keyup(function () {
+            var str = $(this).val();
+            $(".history-order").each(function (index, item) {
+                if (str) {
+                    if (!$(this).attr("data-dealer").match(new RegExp(str, "i")) && !$(this).attr("data-client").match(new RegExp(str, "i")) && !$(this).attr("data-products").match(new RegExp(str, "i"))) {
+                        $(this).hide();
+                    } else {
+                        $(this).show();
+                    }
+                } else {
+                    $(".history-order").show();
+                }
+            });
         });
     }
 }

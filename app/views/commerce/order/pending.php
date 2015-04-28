@@ -1,4 +1,4 @@
-<div class="pending-order box box-solid" data-id="<?php echo $order->id; ?>" data-client="<?php echo $order->user->name; ?>" data-id="<?php echo $order->id; ?>" data-delivery="<?php echo $order->delivery; ?>" data-paycash="<?php echo!is_null($order->cash) ? $order->cash->paycash : $order->total; ?>" data-change="<?php echo!is_null($order->cash) ? $order->cash->change : 0; ?>">
+<div class="pending-order box box-solid <?php echo isset($order->new) ? 'new-pending' : '' ?>" data-id="<?php echo $order->id; ?>" data-client="<?php echo $order->user->name; ?>" data-id="<?php echo $order->id; ?>" data-delivery="<?php echo $order->delivery; ?>" data-paycash="<?php echo!is_null($order->cash) ? $order->cash->paycash : $order->total; ?>" data-change="<?php echo!is_null($order->cash) ? $order->cash->change : 0; ?>">
 
     <div class="box-header">
         <h3 class="col-xs-12 box-title">
@@ -17,8 +17,8 @@
             <span class="client-name popover-trigger"><?php echo $order->user->name; ?></span>
 
             <div class="hidden">
-                <div><i class="fa fa-phone"></i> 4328-9807</div>
-                <div><i class="fa fa-home"></i> Paraguay 914 4D</div>
+                <div><i class="fa fa-phone"></i> <?php echo $order->user->customer->phone; ?></div>
+                <div><i class="fa fa-home"></i> <?php echo $order->user->customer->address; ?></div>
             </div>
 
             <div class="time-order pull-right">

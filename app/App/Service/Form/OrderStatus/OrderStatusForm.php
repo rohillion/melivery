@@ -60,7 +60,7 @@ class OrderStatusForm extends AbstractForm {
 
             case \Config::get('cons.order_status.pending')://Pending
 
-                $sended = \Notification::send('branch_' . $order->branch_id, 'order', ['order' => 'new']);
+                $sended = \Notification::send('branch_' . $order->branch_id, 'order', ['order' => $order->id]);
 
                 if (!$sended) {
 

@@ -17,17 +17,17 @@
             <span class="client-name popover-trigger"><?php echo $order->user->name; ?></span>
 
             <div class="hidden">
-                <div><i class="fa fa-phone"></i> 4328-9807</div>
-                <div><i class="fa fa-home"></i> Paraguay 914 4D</div>
+                <div><i class="fa fa-phone"></i> <?php echo $order->user->customer->phone; ?></div>
+                <div><i class="fa fa-home"></i> <?php echo $order->user->customer->address; ?></div>
             </div>
 
             <div class="grab-order text-center fa fa-ellipsis-h"></div>
 
             <div class="time-order pull-right">
-                <span data-toggle="tooltip" data-placement="auto" title="Hora de entrada">
+                <span data-toggle="tooltip" data-placement="auto" title="Hora de entrada"><!--TODO Lang-->
                     <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order->updated_at)); ?> - 
                 </span>
-                <span data-toggle="tooltip" data-placement="auto" title="Transcurrido">
+                <span data-toggle="tooltip" data-placement="auto" title="Transcurrido"><!--TODO Lang-->
                     <?php echo CommonEvents::humanTiming(strtotime($order->updated_at)); ?>
                 </span>
             </div>
