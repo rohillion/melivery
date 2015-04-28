@@ -15,6 +15,78 @@ var custom = {
         this.dispatchDealer();
         this.reportDealer();
         this.historyPanel();
+        this.estimationControl();
+    },
+    estimationControl: function () {
+
+        var estimatedTime, minutes, newtime, range = 30, pendingPanel = $('#order-pending'), progressPanel = $('#order-progress'), historyPanel = $('#order-history');
+
+        $('.decreaseEstimated').on('click', function () {
+            estimatedTime = $(this).closest('.btn-group-justified').find('.estimatedTime');
+            if ($(estimatedTime[0]).val() > 10) {
+                $.each(estimatedTime, function (i) {
+                    minutes = parseInt($(estimatedTime[i]).val()) - range;
+                    newtime = minutes > 60 ? Math.floor((minutes / 60)) + 'h:' + ((minutes % 60 === 0) ? '00' : minutes % 60) : minutes;
+                    $(estimatedTime[i]).val(minutes).attr('title', newtime + ' minutes').text(newtime + 'm');//TODO. Lang
+                });
+            }
+        });
+
+        $('.increaseEstimated').on('click', function () {
+            estimatedTime = $(this).closest('.btn-group-justified').find('.estimatedTime');
+            if ($(estimatedTime[2]).val() < 120) {
+                $.each(estimatedTime, function (i) {
+                    minutes = parseInt($(estimatedTime[i]).val()) + range;
+                    newtime = minutes > 60 ? Math.floor((minutes / 60)) + 'h:' + ((minutes % 60 === 0) ? '00' : minutes % 60) : minutes;
+                    $(estimatedTime[i]).val(minutes).attr('title', newtime + ' minutes').text(newtime + 'm');//TODO. Lang
+                });
+            }
+        });
+
+        $('.estimatedTime').on('click', function () {
+            main.sendFormPost($('#estimatedTimeAction').attr('action'), $.param({
+                'estimated': $(this).val()
+            }), function (res) {
+
+                if (res.status) {
+
+                    pendingPanel.find('[data-id="' + res.order.id + '"]').addClass('archive');
+
+                    main.run('/order/' + res.order.id + '/card', function (res) {
+                        if (res.status) {
+                            progressPanel.prepend(res.orderCard);
+                            setTimeout(function () {
+                                progressPanel.find('.new-progress').removeClass('new-progress');
+                                custom.draggable();
+                                main.tooltip();
+                            }, 200);
+                        }
+                    });
+                }
+
+                main.notify(res);
+            });
+        });
+
+        $('.rejectOrder').on('click', function () {
+            
+            var orderId = this.dataset.orderid;
+
+            custom.archiveOrder(orderId, 5, function () {
+
+                main.run('/order/' + orderId + '/card?history=1', function (res) {
+                    if (res.status) {
+                        historyPanel.prepend(res.orderCard);
+                        setTimeout(function () {
+                            historyPanel.find('.new-history').removeClass('new-history');
+                        }, 200);
+                    }
+                });
+
+            }, this.dataset.motiveid);
+            
+            return false;
+        });
     },
     orderEntry: function () {
 
@@ -90,8 +162,8 @@ var custom = {
     },
     togglePendingPanel: function () {
 
-        $('#order-pending-fixed').on('click', function () {
-            $(this).toggleClass('shown');
+        $('#togglePendingPanel').on('click', function () {
+            $('#order-pending-fixed').toggleClass('shown');
         });
     },
     draggable: function () {
@@ -163,12 +235,12 @@ var custom = {
                                 custom.changeOrderType(orderId, function (res) {
 
                                     $('#order-panel').find('[data-id="' + res.order.id + '"]').attr('data-paycash', res.order.paycash).attr('data-change', res.order.change).attr('data-delivery', res.order.delivery);
-                                    helper.find('.order-change strong').text('$'+res.order.change);
+                                    helper.find('.order-change strong').text('$' + res.order.change);
                                     helper.attr('data-paycash', res.order.paycash);
 
                                     custom.toggleDealerActionButtons();
                                     custom.attachDealerOrder(orderId, dealerId);
-                                    
+
                                     $('#changeOrderType_cancel').off();
                                     $('#changeOrderTypeModal').modal('hide');
                                 });
@@ -238,11 +310,11 @@ var custom = {
             }
         });
     },
-    archiveOrder: function (orderId, statusId, callback) {
+    archiveOrder: function (orderId, statusId, callback, motiveId) {
 
-        main.sendForm('/order/' + orderId + '/status/' + statusId, $.param({
-            'motive': $('#reject-form [name="motive"]').val()
-        }), function (res) {
+        var params = typeof motiveId != 'undefined' ? $.param({'motive': motiveId}) : $.param({});
+
+        main.sendForm('/order/' + orderId + '/status/' + statusId, params, function (res) {
 
             if (res.status) {
 
@@ -257,14 +329,17 @@ var custom = {
     },
     orderRemove: function () {
 
-        $('.progress-order').on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function (e) {
-            if ($(e.target).is('.progress-order'))
+        $(document).on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", '.progress-order, .pending-order', function (e) {
+            if ($(e.target).is('.archive'))
                 $(this).remove();
+
+            if (!$('#order-pending-fixed').find('.pending-order').length > 0)
+                $('#order-pending-fixed').removeClass('shown');
         });
     },
     orderDonde: function () {
 
-        $('.done-order').on('click', function (e) {
+        $(document).on('click', '.done-order', function (e) {
 
             e.preventDefault();
             var orderId = this.dataset.order;
@@ -288,7 +363,7 @@ var custom = {
             custom.archiveOrder(orderId, 5, function () {
 
                 custom.detachDealerOrder(orderId);
-            });
+            }, rejectModal.find('[name="motive"]').val());
         });
     },
     popover: function () {

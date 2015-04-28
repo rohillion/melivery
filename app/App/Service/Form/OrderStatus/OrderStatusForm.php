@@ -2,6 +2,7 @@
 
 namespace App\Service\Form\OrderStatus;
 
+use Illuminate\Support\MessageBag;
 use App\Service\Validation\ValidableInterface;
 use App\Repository\OrderStatus\OrderStatusInterface;
 use App\Repository\Order\OrderInterface;
@@ -14,10 +15,12 @@ class OrderStatusForm extends AbstractForm {
      *
      * @var \App\Repository\OrderStatus\OrderStatusInterface
      */
+    protected $messageBag;
     protected $orderstatus;
 
     public function __construct(ValidableInterface $validator, OrderStatusInterface $orderstatus, OrderInterface $order) {
         parent::__construct($validator);
+        $this->messageBag = new MessageBag();
         $this->order = $order;
         $this->orderstatus = $orderstatus;
     }
@@ -37,31 +40,23 @@ class OrderStatusForm extends AbstractForm {
      *
      * @return boolean
      */
-    public function save($input) {
+    public function save($order, $status) {
 
-        $order = $this->order->find($input['order_id'], ['*'], [], ['branch_id' => \Session::get('user.branch_id')]);
-
-        if (is_null($order)) {
-            $this->messageBag->add('error', 'El pedido en cuestion no existe. Por favor intentelo nuevamente.'); //TODO. Soporte Lang.
-            $this->validator->errors = $this->messageBag;
-            return false;
-        }
-
-        $inputValidate = array(
+        $input = array(
             "order_id" => $order->id,
-            "status_id" => $input['status_id']
+            "status_id" => $status['status_id']
         );
 
-        if (!$this->valid($inputValidate))
+        if (!$this->valid($input))
             return false;
 
 
         //Start transaction
         \DB::beginTransaction();
 
-        $orderstatus = $this->orderstatus->create($inputValidate);
+        $orderstatus = $this->orderstatus->create($input);
 
-        switch ($inputValidate['status_id']) {
+        switch ($input['status_id']) {
 
             case \Config::get('cons.order_status.pending')://Pending
 
@@ -93,7 +88,7 @@ class OrderStatusForm extends AbstractForm {
 
             case \Config::get('cons.order_status.canceled')://Canceled
 
-                $orderstatus->motive()->attach($order->motive_id, array('observations' => $order->observations));
+                $orderstatus->motive()->attach($status['motive_id'], array('observations' => $status['observations']));
 
                 break;
         }
@@ -104,6 +99,24 @@ class OrderStatusForm extends AbstractForm {
         return $orderstatus;
     }
 
+    /**
+     * Update an existing orderstatus
+     *
+     * @return boolean
+     */
+    public function changeStatus(array $input) {
+
+        $order = $this->order->find($input['order_id'], ['*'], [], ['branch_id' => \Session::get('user.branch_id')]);
+
+        if (is_null($order)) {
+            $this->messageBag->add('error', 'El pedido en cuestion no existe. Por favor intentelo nuevamente.'); //TODO. Soporte Lang.
+            $this->validator->errors = $this->messageBag;
+            return false;
+        }
+
+        return $this->save($order, $input);
+    }
+    
     /**
      * Update an existing orderstatus
      *

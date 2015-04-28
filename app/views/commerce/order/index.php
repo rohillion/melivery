@@ -7,10 +7,13 @@
 
         <section class="content-header content-header-fixed">
             <div class="container">
-                <h3 class="pull-left">
+                <h3>
                     <?php echo Lang::get('segment.order.name.plural'); ?>
+                    <button id="togglePendingPanel" class="btn btn-success btn-flat pull-right" type="button">Comandas pendientes</button>
+                    <a id="toggleHistory" class="btn btn-link pull-right" data-toggle="tooltip" data-placement="auto" data-original-title="Historial" title="Historial">
+                        <i class="fa fa-history"></i>
+                    </a>
                 </h3>
-                <button id="toggleHistory" class="btn btn-success btn-flat" type="button">Ver Historial</button>
             </div>
         </section>
 
@@ -53,21 +56,11 @@
 
                             <section id="order-history" class="row">
 
-                                <?php foreach ($orders['history'] as $order) { ?>
-
-                                    <div class="order-helper" data-id="<?php echo $order['id'] ?>" data-client="<?php echo $order['user']['name'] ?>" data-paycash="<?php echo $order['cash']['paycash']; ?>">
-                                        <i class="fa fa-paperclip"></i>
-                                        <div class="box box-<?php echo $order['status_id'] == Config::get('cons.order_status.done') ? 'success' : 'danger'; ?> order-helper-client">
-                                            <div class="client-name"><?php echo $order['user']['name'] ?></div>
-                                            <div class="order-change">
-                                                Total <strong>$<?php echo $order['total'] ?></strong>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                <?php } ?>
-
-                                <?php //include 'pending.php'; ?>
+                                <?php
+                                foreach ($orders['history'] as $order) {
+                                    include 'history.php';
+                                }
+                                ?>
 
                             </section>
 
@@ -86,7 +79,11 @@
 
                             <?php if (!is_null($orders['progress'])) { ?>
 
-                                <?php include 'progress.php'; ?>
+                                <?php foreach ($orders['progress'] as $order) { ?>
+
+                                    <?php include 'progress.php'; ?>
+
+                                <?php } ?>
 
                             <?php } else { ?>
 
@@ -101,7 +98,11 @@
 
                                 <?php if (!is_null($orders['pending'])) { ?>
 
-                                    <?php include 'pending.php'; ?>
+                                    <?php foreach ($orders['pending'] as $order) { ?>
+
+                                        <?php include 'pending.php'; ?>
+
+                                    <?php } ?>
 
                                 <?php } else { ?>
 
@@ -190,6 +191,34 @@
 
         </section><!-- /.content -->
 
+        <!-- Reject Modal -->
+        <div class="modal fade" id="reject-motive" tabindex="-1" role="dialog" aria-labelledby="reject-motiveLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form method="post" id="reject-form" class="form-large">
+                            <div class="form-group">
+                                <label style="padding-bottom:0;" for="branchPickup" class="col-xs-4 control-label">Motivo:</label>
+                                <select name="motive" class="form-control">
+                                    <option value="1">Ya cerramos.</option>
+                                    <option value="2">No es posible cocinar el/los producto/s.</option>
+                                    <option value="3">El delivery no llega al domicilio.</option>
+                                    <option value="4">No se puede entregar el pedido (Falta de personal).</option>
+                                    <option value="6">Sin suministros (luz,agua,gas).</option>
+                                    <option value="8">Nadie lo recibi&oacute;.</option>
+                                    <option value="7">Otros.</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primary cancel-order" data-status="5" type="button" form="reject-form">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal -->
         <div class="modal fade" id="changeOrderTypeModal" tabindex="-1" role="dialog" aria-labelledby="changeOrderTypeModalLabel" aria-hidden="true" data-backdrop="static">
             <div class="modal-dialog modal-md">
@@ -200,7 +229,7 @@
                     <div class="modal-body">
 
                         <div class="form-group">
-                            Este pedido es <strong>Para Retirar</strong> por mostrador y se cambiara a <strong>Delivery</strong>. Por favor, si lo sabe, ingrese el monto con el que abonará el comensal, de lo contrario deje el campo en blanco.
+                            Este pedido es <strong>Para Retirar</strong> por mostrador y se cambiara a <strong>Delivery</strong>. Por favor, ingrese el monto con el que abonará el comensal, de lo contrario deje el campo en blanco.
                         </div>
 
                         <form method="post" id="" action="<?php echo URL::route('commerce.order.type', $order['id']) ?>">

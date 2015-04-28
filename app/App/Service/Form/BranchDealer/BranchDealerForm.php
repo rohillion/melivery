@@ -106,13 +106,12 @@ class BranchDealerForm extends AbstractForm {
         foreach ($dealer->orders as $order) {
 
             $input = array(
-                'order_id' => $order->id,
                 'status_id' => \Config::get('cons.order_status.done'),
                 'motive_id' => false,
                 'observations' => false
             );
 
-            if (!$this->orderstatus->save($input)) {
+            if (!$this->orderstatus->save($order, $input)) {
                 $this->validator->errors = $this->orderstatus->errors();
                 return false;
             }

@@ -27,6 +27,7 @@ use OrderProduct;
 use Country;
 use City;
 use State;
+use Motive;
 
 use App\Repository\User\EloquentUser;
 use App\Repository\Category\EloquentCategory;
@@ -55,6 +56,7 @@ use App\Repository\City\EloquentCity;
 use App\Repository\City\CacheDecorator;
 use App\Repository\State\EloquentState;
 use App\Repository\State\StateCacheDecorator;
+use App\Repository\Motive\EloquentMotive;
 
 use App\Service\Cache\LaravelCache;
 use Illuminate\Support\ServiceProvider;
@@ -136,6 +138,7 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->country($app);
         $this->city($app);
         $this->state($app);
+        $this->motive($app);
     }
 
     private function product($app) {
@@ -333,6 +336,21 @@ class RepositoryServiceProvider extends ServiceProvider {
             return new StateCacheDecorator(
                     $state, new LaravelCache($app['cache'], 'state')
             );
+        });
+    }
+    
+    private function motive($app) {
+        $app->bind('App\Repository\Motive\MotiveInterface', function($app) {
+
+            $motive = new EloquentMotive(
+                    new Motive
+            );
+            
+            return $motive;
+
+            /*return new StateCacheDecorator(
+                    $state, new LaravelCache($app['cache'], 'state')
+            );*/
         });
     }
 

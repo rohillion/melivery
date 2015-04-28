@@ -104,7 +104,7 @@ class PreorderForm extends AbstractForm {
         \DB::beginTransaction();
 
         foreach ($productsByBranch as $branchId => $products) {
-            
+
             //Order
 
             $delivery = 0;
@@ -138,15 +138,14 @@ class PreorderForm extends AbstractForm {
             }
 
             //OrderStatus
-            
+
             $inputStatus = array(
-                'order_id' => $order->id,
                 'status_id' => \Config::get('cons.order_status.pending'),
                 'motive_id' => false,
                 'observations' => false
             );
 
-            $orderStatus = $this->orderstatus->save($inputStatus);
+            $orderStatus = $this->orderstatus->save($order, $inputStatus);
 
             if (!$orderStatus) {
                 \DB::rollback();
@@ -191,7 +190,7 @@ class PreorderForm extends AbstractForm {
 
                 $total = $total + $branchProductPrice->price * $product['qty'];
             }
-            
+
             $order->total = $total;
             $order->save();
             //OrderCash

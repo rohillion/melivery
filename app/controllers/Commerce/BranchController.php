@@ -113,12 +113,12 @@ class BranchController extends BaseController {
 
         if ($this->branchForm->delete($id)) {
             // Success!
-            return Redirect::route('commerce.branch.index')
+            return Redirect::route('commerce.branch')
                             ->withSuccess(Lang::get('segment.branch.message.success.delete'))
                             ->with('status', 'success');
         }
 
-        return Redirect::route('commerce.branch.index')
+        return Redirect::route('commerce.branch')
                         ->withInput()
                         ->withErrors($this->branchForm->errors())
                         ->with('status', 'error');

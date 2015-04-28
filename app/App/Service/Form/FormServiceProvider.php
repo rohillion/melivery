@@ -214,7 +214,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\Branch\BranchForm', function($app) {
 
             return new BranchForm(
-                    new BranchValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Service\Form\BranchOpening\BranchOpeningForm'), $app->make('App\Service\Form\BranchPhone\BranchPhoneForm'), $app->make('App\Service\Form\BranchArea\BranchAreaForm'), $app->make('App\Service\Form\BranchDealer\BranchDealerForm'), $app->make('App\Repository\Product\ProductInterface')
+                    new BranchValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Service\Form\BranchOpening\BranchOpeningForm'), $app->make('App\Service\Form\BranchPhone\BranchPhoneForm'), $app->make('App\Service\Form\BranchArea\BranchAreaForm'), $app->make('App\Service\Form\BranchDealer\BranchDealerForm'), $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Service\Form\BranchUser\BranchUserForm')
             );
         });
     }

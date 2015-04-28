@@ -275,6 +275,12 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         "uses" => "OrderController@changeType"
     ]);
     
+    Route::get("/order/{order_id}/card", [
+        'before' => 'csrf',
+        "as" => "commerce.order.card",
+        "uses" => "OrderController@card"
+    ]);
+    
     Route::get("/order/{order_id}/status/{status_id}", [
         'before' => 'csrf',
         "uses" => "OrderController@changeStatus"

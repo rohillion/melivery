@@ -52,9 +52,9 @@ class OrderForm extends AbstractForm {
             foreach ($orders as $order) {
 
                 if ($order->status_id == \Config::get('cons.order_status.pending') || $order->status_id == \Config::get('cons.order_status.progress')) {
-                    $orderStatus[$order->status_name][$order->id] = $order->toArray();
+                    $orderStatus[$order->status_name][$order->id] = $order;
                 } else {
-                    $orderStatus['history'][$order->id] = $order->toArray();
+                    $orderStatus['history'][$order->id] = $order;
                 }
             }
         }
@@ -100,9 +100,8 @@ class OrderForm extends AbstractForm {
         $input["delivery"] = $order->delivery;
         $input["total"] = $order->total;
 
-        if (!$this->valid($input, $id)) {
+        if (!$this->valid($input, $id))
             return false;
-        }
 
         $this->order->edit($id, $input);
 
@@ -146,14 +145,14 @@ class OrderForm extends AbstractForm {
         }
 
         $delivery = !$order->delivery;
-        
+
         //Start transaction
         \DB::beginTransaction();
 
         $order = $this->order->edit($order->id, array('delivery' => $delivery));
 
         if ($delivery) {
-            
+
             $payCashAmount = $input['paycash'] ? $input['paycash'] : $order->total;
 
             if (!($payCashAmount >= $order->total)) {
@@ -165,7 +164,7 @@ class OrderForm extends AbstractForm {
             $order->change = $payCashAmount - $order->total;
 
             $orderCash = $this->orderCashForm->save($order);
-            
+
             if (!$orderCash) {
                 \DB::rollback();
                 $this->validator->errors = $this->orderCashForm->errors();
@@ -174,7 +173,7 @@ class OrderForm extends AbstractForm {
         }
 
         \DB::commit();
-        
+
         return $order;
     }
 

@@ -80,7 +80,7 @@
 }
 
 #order-pending{
-    padding-top: 15px;
+    padding-top: 30px;
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     min-height: 200px;
@@ -91,6 +91,10 @@
 
 #order-pending-fixed.shown{
     transform: translateY(0%);
+}
+
+.rejectOrder{
+    
 }
 
 .time-order{
@@ -208,11 +212,15 @@
     width: 100%;
 }
 
-.progress-order{
+.progress-order, .pending-order, .history-order{
     transition: all 1000ms cubic-bezier(0.68, -0.25, 0.265, 1.55);
 }
 
-.progress-order.archive{
+.pending-order.archive, .new-progress{
+    transform: translateY(-200%);
+}
+
+.progress-order.archive, .new-history{
     transform: translateX(-200%);
 }
 
@@ -251,7 +259,7 @@
 
 #order-history {
     max-height: 60vh;
-    overflow: auto;
+    /*overflow: auto;*/
     padding-left: 15px;
     padding-right: 15px;
 }

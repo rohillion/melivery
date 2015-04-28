@@ -1,145 +1,153 @@
-<?php foreach ($orders['pending'] as $order) { ?>
+<div class="pending-order box box-solid" data-id="<?php echo $order->id; ?>" data-client="<?php echo $order->user->name; ?>" data-id="<?php echo $order->id; ?>" data-delivery="<?php echo $order->delivery; ?>" data-paycash="<?php echo!is_null($order->cash) ? $order->cash->paycash : $order->total; ?>" data-change="<?php echo!is_null($order->cash) ? $order->cash->change : 0; ?>">
 
-    <!-- general form elements -->
-    <div class="entry-order box box-solid">
+    <div class="box-header">
+        <h3 class="col-xs-12 box-title">
 
-        <div class="box-header">
-            <h3 class="col-xs-12 box-title">
+            <?php
+            if ($order->delivery) {
+                $title = 'Para delivery';
+                $icon = 'arrow-up';
+            } else {
+                $title = 'Para retirar';
+                $icon = 'arrow-down';
+            }
+            ?>
 
-                <?php
-                if ($order['delivery']){
-                    $title = 'Viaja';
-                    $icon = 'plane';
-                }else{
-                    $title = 'Barra';
-                    $icon = 'home';
-                }
-                ?>
+            <i data-toggle="tooltip" data-placement="auto" title="<?php echo $title ?>" class="fa fa-<?php echo $icon ?>"></i> 
+            <span class="client-name popover-trigger"><?php echo $order->user->name; ?></span>
 
-                <i title="<?php echo $title?>" class="fa fa-<?php echo $icon?>"></i> <?php echo $order['user']['name']; ?>
+            <div class="hidden">
+                <div><i class="fa fa-phone"></i> 4328-9807</div>
+                <div><i class="fa fa-home"></i> Paraguay 914 4D</div>
+            </div>
 
-                <span class="pull-right" title="Hora de entrada y tiempo transcurrido">
-                    <i class="fa fa-clock-o"></i> <?php echo date("H:i", strtotime($order['created_at'])); ?> - <span class="elapsed-time"></span>
+            <div class="time-order pull-right">
+                <span data-toggle="tooltip" data-placement="auto" title="Hora de entrada">
+                    <i class="fa fa-clock-o"></i> <?php echo CommonEvents::humanTiming(strtotime($order->created_at)); ?>
                 </span>
-                <input type="hidden" value="<?php echo date("Y-m-d H:i:s", strtotime($order['created_at'])); ?>" class="order-entry-time"/>
-            </h3>
-        </div>
-
-        <div class="box-body">
-
-            <div class="commerce-order">
-
-                <div class="commerce-order-products">
-
-                    <ul class="order-body list-group">
-
-                        <?php foreach ($order['order_products'] as $orderProduct) { ?>
-
-                            <li class="order-item list-group-item">
-
-                                <div class="order-item-head">
-                                    <p class="pull-left"><?php echo $orderProduct['branch_product']['product']['tags']['tag_name'] ?></p>
-                                    <span class="badge pull-right">x <?php echo $orderProduct['product_qty'] ?></span>
-                                </div>
-
-                                <?php if (!empty($orderProduct['attributes_order_product'])) { ?>
-
-                                    <div class="order-item-attributes">
-                                        <?php foreach ($orderProduct['attributes_order_product'] as $attributeOrderProduct) { ?>
-
-                                            <span class="label">
-                                                <?php echo $attributeOrderProduct['attributes']['attribute_name']; ?>
-                                            </span>
-
-                                        <?php } ?>
-                                    </div>
-
-                                <?php } ?>
-
-                            </li>
-
-                        <?php } ?>
-
-                    </ul>
-
-                </div>
-
             </div>
-
-        </div>
-
-        <div class="box-footer">
-
-            <div class="">
-                <div class="btn-group btn-group-justified">
-
-                    <div class="btn-group">
-                        <button form="estimated-20" type="submit" class="btn btn-success">20m</button>
-                    </div>
-
-                    <div class="btn-group">
-                        <button form="estimated-30" type="submit" class="btn btn-success">30m</button>
-                    </div>
-
-                    <div class="btn-group">
-                        <button form="estimated-40" type="submit" class="btn btn-success">40m</button>
-                    </div>
-
-                </div>
-            </div>
-
-            <form id="estimated-20" method="post" action="<?php echo URL::action('OrderController@update', $order['id']) ?>">
-                <input type="hidden" name="estimated" value="20" />
-                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-            </form>
-
-            <form id="estimated-30" method="post" action="<?php echo URL::action('OrderController@update', $order['id']) ?>">
-                <input type="hidden" name="estimated" value="30" />
-                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-            </form>
-
-            <form id="estimated-40" method="post" action="<?php echo URL::action('OrderController@update', $order['id']) ?>">
-                <input type="hidden" name="estimated" value="40" />
-                <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-            </form>
-
-            <div class="reject-button">
-                <button form="reject" type="button" class="btn btn-default btn-flat btn-block" data-toggle="modal" data-target="#reject-motive-<?php echo $order['id'] ?>">No realizable</button>
-            </div>
-
-            <span class="clearfix"></span>
-
-        </div>
-
-    </div><!-- /.box -->
-
-    <!-- Modal -->
-    <div class="modal fade" id="reject-motive-<?php echo $order['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="reject-motiveLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form method="post" id="reject-form-<?php echo $order['id'] ?>" class="form-large" action="<?php echo URL::action('OrderController@changeStatus', $order['id']) ?>">
-                        <div class="form-group">
-                            <label style="padding-bottom:0;" for="branchPickup" class="col-xs-4 control-label">Motivo:</label>
-                            <select name="motive" class="form-control">
-                                <option value="1">Ya cerramos.</option>
-                                <option value="2">No es posible cocinar el/los producto/s.</option>
-                                <option value="3">El delivery no llega al domicilio.</option>
-                                <option value="4">No se puede entregar el pedido (Falta de personal).</option>
-                                <option value="5">Sin suministros (luz,agua,gas).</option>
-                                <option value="6">Otros.</option>
-                            </select>
-                        </div>
-                        <input type="hidden" name="status" value="5">
-                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Si es posible realizar este pedido</button>
-                    <button type="submit" class="btn btn-primary" form="reject-form-<?php echo $order['id'] ?>">Cancelar el pedido y notificar el comensal</button>
-                </div>
-            </div>
-        </div>
+        </h3>
     </div>
 
-<?php } ?>
+    <div class="box-body">
+
+        <div class="commerce-order">
+
+            <div class="commerce-order-products">
+
+                <ul class="order-body list-group">
+
+                    <?php foreach ($order->order_products as $orderProduct) { ?>
+
+                        <?php $productTotal = $orderProduct->branch_product_price->price * $orderProduct->product_qty ?>
+
+                        <li class="order-item list-group-item">
+
+                            <div class="order-item-head">
+                                <p class="pull-left"><?php echo $orderProduct->branch_product->product->tags->tag_name ?> </p>
+                                <p style="margin-left:5px;" class="pull-left"><strong> x <?php echo $orderProduct->product_qty ?></strong></p></span>
+                                <p class="pull-right"><span class="badge no-background pull-right">$<?php echo $productTotal; ?></span></p>
+                            </div>
+
+                            <?php if (!empty($orderProduct->attributes_order_product)) { ?>
+
+                                <div class="order-item-attributes">
+                                    <?php foreach ($orderProduct->attributes_order_product as $attributeOrderProduct) { ?>
+
+                                        <span class="label">
+                                            <?php echo $attributeOrderProduct->attributes->attribute_name; ?>
+                                        </span>
+
+                                    <?php } ?>
+                                </div>
+
+                            <?php } ?>
+
+                        </li>
+
+                    <?php } ?>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <?php if ($order->delivery) { ?>
+
+        <div class="box-body clearfix">
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-8 col-md-3 col-md-offset-9">
+                    <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$<?php echo $order->total; ?></span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-body clearfix">
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-6 col-md-3 col-md-offset-9">
+                    <p class="clearfix" style="margin:0;">Paga con <span class="badge bg-yellow pull-right">$<?php echo $order->cash->paycash; ?></span></p>
+                </div>
+            </div>
+        </div>
+
+    <?php } else { ?>
+
+        <div class="box-body clearfix">
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-6 col-md-3 col-md-offset-9">
+                    <p class="clearfix" style="margin:0;">Total <span class="badge bg-yellow pull-right">$<?php echo $order->total; ?></span></p>
+                </div>
+            </div>
+        </div>
+
+    <?php } ?>
+
+    <div class="box-footer">
+
+        <div class="form-group">
+            <div class="btn-group btn-group-justified">
+
+                <div class="btn-group">
+                    <button title="Less time" type="button" class="btn btn-flat decreaseEstimated"><i class="fa fa-minus-circle"></i></button>
+                </div>
+
+                <div class="btn-group">
+                    <button  title="10 minutes" form="estimated-1" type="submit" class="btn btn-success btn-flat estimatedTime" value="10">10m</button>
+                </div>
+
+                <div class="btn-group">
+                    <button title="20 minutes" form="estimated-2" type="submit" class="btn btn-success btn-flat estimatedTime" value="20">20m</button>
+                </div>
+
+                <div class="btn-group">
+                    <button title="30 minutes" form="estimated-3" type="submit" class="btn btn-success btn-flat estimatedTime" value="30">30m</button>
+                </div>
+
+                <div class="btn-group">
+                    <button title="More time" type="button" class="btn btn-flat increaseEstimated"><i class="fa fa-plus-circle"></i></button>
+                </div>
+
+            </div>
+        </div>
+
+        <form id="estimatedTimeAction" action="<?php echo URL::action('OrderController@update', $order->id) ?>"></form>
+
+        <div>
+            <div class="dropup" style="position: relative;">
+                <button id="motives-<?php echo $order->id ?>" class="btn btn-link btn-sm btn-flat dropdown-toggle" data-toggle="dropdown" aria-expanded="true" type="button">No realizable <span class="caret"></span></button>
+                <ul class="dropdown-menu dropup" role="menu" aria-labelledby="motives-<?php echo $order->id ?>">
+                    <?php foreach ($motives as $motive) { ?>
+                        <li role="presentation"><a class="rejectOrder" data-motiveid="<?php echo $motive->id ?>" data-orderid="<?php echo $order->id ?>" role="menuitem" tabindex="-1" href="#"><?php echo Lang::get('order.motives.'.$motive->motive_name.'.motive_description')?></a></li>
+                    <?php } ?>
+                </ul>
+            </div><!-- /input-group -->
+        </div>
+
+        <span class="clearfix"></span>
+
+    </div>
+
+</div><!-- /.box -->

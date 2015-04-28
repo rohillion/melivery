@@ -8,6 +8,7 @@ use App\Service\Form\BranchOpening\BranchOpeningForm;
 use App\Service\Form\BranchPhone\BranchPhoneForm;
 use App\Service\Form\BranchArea\BranchAreaForm;
 use App\Service\Form\BranchDealer\BranchDealerForm;
+use App\Service\Form\BranchUser\BranchUserForm;
 use App\Repository\Product\ProductInterface;
 use App\Service\Form\AbstractForm;
 use Illuminate\Support\MessageBag;
@@ -25,16 +26,18 @@ class BranchForm extends AbstractForm {
     protected $branchPhone;
     protected $branchArea;
     protected $branchDealer;
+    protected $branchUser;
     protected $product;
     protected $messageBag;
 
-    public function __construct(ValidableInterface $validator, BranchInterface $branch, BranchOpeningForm $branchOpening, BranchPhoneForm $branchPhone, BranchAreaForm $branchArea, BranchDealerForm $branchDealer, ProductInterface $product) {
+    public function __construct(ValidableInterface $validator, BranchInterface $branch, BranchOpeningForm $branchOpening, BranchPhoneForm $branchPhone, BranchAreaForm $branchArea, BranchDealerForm $branchDealer, ProductInterface $product, BranchUserForm $branchUser) {
         parent::__construct($validator);
         $this->branch = $branch;
         $this->branchOpening = $branchOpening;
         $this->branchPhone = $branchPhone;
         $this->branchArea = $branchArea;
         $this->branchDealer = $branchDealer;
+        $this->branchUser = $branchUser;
         $this->product = $product;
         $this->messageBag = new MessageBag();
     }

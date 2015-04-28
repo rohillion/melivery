@@ -6,6 +6,7 @@ use App\Service\Form\Order\OrderForm;
 use App\Service\Form\OrderStatus\OrderStatusForm;
 use App\Repository\User\UserInterface;
 use App\Repository\BranchDealer\BranchDealerInterface;
+use App\Repository\Motive\MotiveInterface;
 use App\Service\Form\BranchDealer\BranchDealerForm;
 
 class OrderController extends BaseController {
@@ -16,14 +17,16 @@ class OrderController extends BaseController {
     protected $user;
     protected $branchDealer;
     protected $branchDealerForm;
+    protected $motive;
 
-    public function __construct(OrderInterface $order, OrderForm $orderForm, OrderStatusForm $orderstatus, UserInterface $user, BranchDealerInterface $branchDealer, BranchDealerForm $branchDealerForm) {
+    public function __construct(OrderInterface $order, OrderForm $orderForm, OrderStatusForm $orderstatus, UserInterface $user, BranchDealerInterface $branchDealer, BranchDealerForm $branchDealerForm, MotiveInterface $motive) {
         $this->order = $order;
         $this->orderForm = $orderForm;
         $this->orderstatus = $orderstatus;
         $this->user = $user;
         $this->branchDealer = $branchDealer;
         $this->branchDealerForm = $branchDealerForm;
+        $this->motive = $motive;
     }
 
     public function index() {
@@ -41,6 +44,8 @@ class OrderController extends BaseController {
         }
 
         $data['dealers'] = $dealerCollection;
+
+        $data['motives'] = $this->motive->all(['*'], [], ['active' => 1]);
 
         return View::make('commerce.order.index', $data);
     }
@@ -60,29 +65,33 @@ class OrderController extends BaseController {
         if ($order) {
 
             $inputStatus = array(
-                'order_id' => $order->id,
                 'status_id' => Config::get('cons.order_status.progress'),
                 'motive_id' => false,
                 'observations' => false
             );
 
-            if ($this->orderstatus->save($inputStatus)) {
+            if ($this->orderstatus->save($order, $inputStatus)) {
                 // Success!
-                return Redirect::to('/order')
-                                ->withSuccess(Lang::get('segment.order.message.success.edit'))
-                                ->with('status', 'success');
+                return Response::json(array(
+                            'status' => TRUE,
+                            'type' => 'success',
+                            'message' => 'Se ha notificado al comensal. Tiempo estimado: ' . $order->estimated . 'm',
+                            'order' => $order)
+                );
             }
 
-            return Redirect::to('/order')
-                            ->withInput()
-                            ->withErrors($this->orderstatus->errors()->all())
-                            ->with('status', 'error');
+            return Response::json(array(
+                        'status' => FALSE,
+                        'type' => 'error',
+                        'message' => $this->orderstatus->errors()->all())
+            );
         }
 
-        return Redirect::to('/order')
-                        ->withInput()
-                        ->withErrors($this->orderForm->errors()->all())
-                        ->with('status', 'error');
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->orderForm->errors()->all())
+        );
     }
 
     /**
@@ -98,7 +107,7 @@ class OrderController extends BaseController {
             'observations' => Input::get('observations')
         );
 
-        if ($this->orderstatus->save($input)) {
+        if ($this->orderstatus->changeStatus($input)) {
             // Success!
             return Response::json(array(
                         'status' => TRUE,
@@ -118,10 +127,10 @@ class OrderController extends BaseController {
      * POST /order/{order_id}/status
      */
     public function changeType($order_id) {
-        
+
         $input = array(
-            'order_id'=>$order_id,
-            'paycash'=>Input::get('paycash')
+            'order_id' => $order_id,
+            'paycash' => Input::get('paycash')
         );
 
         $order = $this->orderForm->changeType($input);
@@ -259,6 +268,38 @@ class OrderController extends BaseController {
                                 )
                 );
             }
+        }
+
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->branchDealer->errors()->all())
+        );
+    }
+
+    /**
+     * Get order card html
+     * GET /order/{order_id}/card
+     */
+    public function card($order_id) {
+
+        $order = $this->order->find($order_id, ['*'], ['user', 'order_products.branch_product.product.tags', 'order_products.branch_product_price.size', 'order_products.attributes_order_product.attributes', 'cash'], ['branch_id' => Session::get('user.branch_id')]);
+        $order->new = true;
+
+        if (!is_null($order)) {
+            // Success!
+
+            $viewPath = Input::get('history') ? 'commerce.order.history' : 'commerce.order.progress';
+            
+            $view = View::make($viewPath, array('order' => $order));
+
+            $orderCard = $view->render();
+
+            return Response::json(array(
+                        'status' => TRUE,
+                        'type' => 'success',
+                        'orderCard' => $orderCard)
+            );
         }
 
         return Response::json(array(
