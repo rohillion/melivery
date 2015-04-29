@@ -115,15 +115,15 @@
                 </div>
 
                 <div class="btn-group">
-                    <button  title="10 minutes" form="estimated-1" type="submit" class="btn btn-success btn-flat estimatedTime" value="10">10m</button>
+                    <button  title="10 minutes" form="estimated-1" type="submit" class="btn btn-success btn-flat estimatedTime" value="10" data-action="<?php echo URL::action('OrderController@update', $order->id) ?>">10m</button>
                 </div>
 
                 <div class="btn-group">
-                    <button title="20 minutes" form="estimated-2" type="submit" class="btn btn-success btn-flat estimatedTime" value="20">20m</button>
+                    <button title="20 minutes" form="estimated-2" type="submit" class="btn btn-success btn-flat estimatedTime" value="20" data-action="<?php echo URL::action('OrderController@update', $order->id) ?>">20m</button>
                 </div>
 
                 <div class="btn-group">
-                    <button title="30 minutes" form="estimated-3" type="submit" class="btn btn-success btn-flat estimatedTime" value="30">30m</button>
+                    <button title="30 minutes" form="estimated-3" type="submit" class="btn btn-success btn-flat estimatedTime" value="30" data-action="<?php echo URL::action('OrderController@update', $order->id) ?>">30m</button>
                 </div>
 
                 <div class="btn-group">
@@ -132,8 +132,6 @@
 
             </div>
         </div>
-
-        <form id="estimatedTimeAction" action="<?php echo URL::action('OrderController@update', $order->id) ?>"></form>
 
         <div>
             <div class="dropup" style="position: relative;">

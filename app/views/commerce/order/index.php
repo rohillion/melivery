@@ -66,7 +66,19 @@
 
                         <?php } else { ?>
 
-                            <div class="text-center">No hay pedidos en el historial.</div><!-- TODO. Lang support -->
+                            <div class="form-group hidden liveSearch">
+                                <div data-toggle="tooltip" data-placement="auto" data-original-title="Cliente, repartidor o producto" class="input-group" style="background-color: white">
+                                    <span class="input-group-addon" style="padding-right: 0;border: none;background-color: inherit;">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                    <input id="historyLiveSearch" type="text" class="form-control" style="border:none;" placeholder="Filtrar"/>
+                                </div>
+                            </div>
+
+                            <section id="order-history" class="row">
+                                <div class="text-center no-data">No hay pedidos en el historial.</div><!-- TODO. Lang support -->
+                            </section>
+
 
                         <?php } ?>
 
@@ -79,6 +91,8 @@
 
                             <?php if (!is_null($orders['progress'])) { ?>
 
+                                <div class="well well-sm text-center no-data hidden">No hay pedidos en marcha.</div>
+
                                 <?php foreach ($orders['progress'] as $order) { ?>
 
                                     <?php include 'progress.php'; ?>
@@ -87,7 +101,7 @@
 
                             <?php } else { ?>
 
-                                <div class="well well-sm text-center">No hay pedidos en marcha.</div>
+                                <div class="well well-sm text-center no-data">No hay pedidos en marcha.</div>
 
                             <?php } ?>
 

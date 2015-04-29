@@ -217,7 +217,7 @@
 }
 
 .pending-order.archive, .new-progress{
-    transform: translateY(-200%);
+    transform: translateY(-100vh);
 }
 
 .new-pending{

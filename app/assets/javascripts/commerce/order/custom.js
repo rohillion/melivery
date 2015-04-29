@@ -19,7 +19,7 @@ var custom = {
     },
     estimationControl: function () {
 
-        var estimatedTime, minutes, newtime, range = 30, pendingPanel = $('#order-pending'), progressPanel = $('#order-progress'), historyPanel = $('#order-history');
+        var estimatedTime, minutes, newtime, range = 30, pendingPanel = $('#order-pending'), progressPanel = $('#order-progress');
 
         $(document).on('click', '.decreaseEstimated', function () {
             estimatedTime = $(this).closest('.btn-group-justified').find('.estimatedTime');
@@ -44,7 +44,7 @@ var custom = {
         });
 
         $(document).on('click', '.estimatedTime', function () {
-            main.sendFormPost($('#estimatedTimeAction').attr('action'), $.param({
+            main.sendFormPost(this.dataset.action, $.param({
                 'estimated': $(this).val()
             }), function (res) {
 
@@ -54,6 +54,12 @@ var custom = {
 
                     main.run('/order/' + res.order.id + '/card', function (res) {
                         if (res.status) {
+
+                            var noData = progressPanel.find('.no-data');
+
+                            if (noData.length > 0)
+                                noData.addClass('hidden');
+
                             progressPanel.prepend(res.orderCard);
                             setTimeout(function () {
                                 progressPanel.find('.new-progress').removeClass('new-progress');
@@ -77,10 +83,7 @@ var custom = {
 
                 main.run('/order/' + orderId + '/card?panel=history', function (res) {
                     if (res.status) {
-                        historyPanel.prepend(res.orderCard);
-                        setTimeout(function () {
-                            historyPanel.find('.new-history').removeClass('new-history');
-                        }, 200);
+                        custom.addHistoryCard(res);
                     }
                 });
 
@@ -181,7 +184,7 @@ var custom = {
 
     },
     togglePendingPanel: function () {
-        
+
         var fixedPanel = $('#order-pending-fixed');
 
         $('#togglePendingPanel').on('click', function () {
@@ -342,7 +345,6 @@ var custom = {
         main.sendForm('/order/' + orderId + '/status/' + statusId, params, function (res) {
 
             if (res.status) {
-
                 $('#order-panel').find('[data-id="' + orderId + '"]').addClass('archive');
                 if (typeof callback === 'function')
                     callback(res);
@@ -355,8 +357,10 @@ var custom = {
     orderRemove: function () {
 
         $(document).on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", '.progress-order, .pending-order', function (e) {
-            if ($(e.target).is('.archive'))
+            if ($(e.target).is('.archive')) {
                 $(this).remove();
+                custom.toggleNoData();
+            }
 
             if (!$('#order-pending-fixed').find('.pending-order').length > 0)
                 $('#order-pending-fixed').removeClass('shown');
@@ -369,14 +373,19 @@ var custom = {
             e.preventDefault();
             var orderId = this.dataset.order;
             custom.archiveOrder(orderId, 4, function () {
-                custom.removeOrderHelperFromDealer(orderId);
+                main.run('/order/' + orderId + '/card?panel=history', function (res) {
+                    if (res.status) {
+                        custom.addHistoryCard(res);
+                        custom.removeOrderHelperFromDealer(orderId);
+                    }
+                });
             });
         });
     },
     orderCanceled: function () {
 
         var rejectModal = $('#reject-motive');
-        $('.cancel-order-id').on('click', function () {
+        $(document).on('click', '.cancel-order-id', function () {
             rejectModal.find('.cancel-order').attr('data-order', this.dataset.order);
         });
         $('.cancel-order').on('click', function (e) {
@@ -386,9 +395,43 @@ var custom = {
             var orderId = this.dataset.order;
             custom.archiveOrder(orderId, 5, function () {
 
-                custom.removeOrderHelperFromDealer(orderId);
+                main.run('/order/' + orderId + '/card?panel=history', function (res) {
+                    if (res.status) {
+                        custom.addHistoryCard(res);
+                        custom.removeOrderHelperFromDealer(orderId);
+                    }
+                });
+
+
             }, rejectModal.find('[name="motive"]').val());
         });
+    },
+    addHistoryCard: function (res) {
+
+        var historyPanel = $('#order-history'), 
+                noData = historyPanel.find('.no-data');
+
+        if (noData.length > 0) {
+            noData.hide();
+            $('.liveSearch').removeClass('hidden');
+        }
+
+        historyPanel.prepend(res.orderCard);
+        setTimeout(function () {
+            historyPanel.find('.new-history').removeClass('new-history');
+        }, 200);
+        
+        return true;
+
+    },
+    toggleNoData: function () {
+        var progressPanel = $('#order-progress');
+
+        if (progressPanel.find('.progress-order').length < 1) {
+            progressPanel.find('.no-data').removeClass('hidden');
+        } else {
+            progressPanel.find('.no-data').addClass('hidden');
+        }
     },
     popover: function () {
         $(".client-name").popover({

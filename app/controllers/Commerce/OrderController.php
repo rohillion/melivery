@@ -283,7 +283,7 @@ class OrderController extends BaseController {
      */
     public function card($order_id) {
 
-        $order = $this->order->find($order_id, ['*'], ['user', 'order_products.branch_product.product.tags', 'order_products.branch_product_price.size', 'order_products.attributes_order_product.attributes', 'cash', 'branch_dealer'], ['branch_id' => Session::get('user.branch_id')]);
+        $order = $this->order->findWithMaxStatus($order_id, Session::get('user.branch_id'));
         $order->new = true;
 
         if (!is_null($order)) {
