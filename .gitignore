@@ -5,7 +5,7 @@ composer.lock
 .env.php
 .DS_Store
 Thumbs.db
-/nbproject
+/nbproject/*
 /app/storage/cache/asset-pipeline
 /public/upload/branch_image/*
 /public/upload/product_image/*
