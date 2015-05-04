@@ -39,24 +39,24 @@ return array(
     ),
     'day' => array(
         "short" => array(
+            "0" => 'do',
             "1" => 'lu',
             "2" => 'ma',
             "3" => 'mi',
             "4" => 'ju',
             "5" => 'vi',
             "6" => 's&aacute;',
-            "7" => 'do',
-            "8" => 'fe',
+            "7" => 'fe',
         ),
         "long" => array(
+            "0" => 'domingo',
             "1" => 'lunes',
             "2" => 'martes',
             "3" => 'mi&eacute;rcoles',
             "4" => 'jueves',
             "5" => 'viernes',
             "6" => 's&aacute;bado',
-            "7" => 'domingo',
-            "8" => 'feriados',
+            "7" => 'feriados',
         )
     )
 );

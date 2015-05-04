@@ -53,16 +53,10 @@ Class CommonEvents {
     }
 
     static function dayArray($type = 'long') {
-        return array(
-            1 => Lang::get('common.day.' . $type . '.1'),
-            2 => Lang::get('common.day.' . $type . '.2'),
-            3 => Lang::get('common.day.' . $type . '.3'),
-            4 => Lang::get('common.day.' . $type . '.4'),
-            5 => Lang::get('common.day.' . $type . '.5'),
-            6 => Lang::get('common.day.' . $type . '.6'),
-            7 => Lang::get('common.day.' . $type . '.7'),
-            8 => Lang::get('common.day.' . $type . '.8')
-        );
+        for ($i = 0; $i <= 7; $i++) {
+            $days[$i] = Lang::get('common.day.' . $type . '.'.$i);
+        }
+        return $days;
     }
 
     static function get_tld() {

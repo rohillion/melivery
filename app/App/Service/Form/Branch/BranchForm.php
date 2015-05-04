@@ -10,6 +10,7 @@ use App\Service\Form\BranchArea\BranchAreaForm;
 use App\Service\Form\BranchDealer\BranchDealerForm;
 use App\Service\Form\BranchUser\BranchUserForm;
 use App\Repository\Product\ProductInterface;
+use App\Service\Form\User\UserForm;
 use App\Service\Form\AbstractForm;
 use Illuminate\Support\MessageBag;
 use Illuminate\Filesystem\Filesystem;
@@ -28,9 +29,10 @@ class BranchForm extends AbstractForm {
     protected $branchDealer;
     protected $branchUser;
     protected $product;
+    protected $userForm;
     protected $messageBag;
 
-    public function __construct(ValidableInterface $validator, BranchInterface $branch, BranchOpeningForm $branchOpening, BranchPhoneForm $branchPhone, BranchAreaForm $branchArea, BranchDealerForm $branchDealer, ProductInterface $product, BranchUserForm $branchUser) {
+    public function __construct(ValidableInterface $validator, BranchInterface $branch, BranchOpeningForm $branchOpening, BranchPhoneForm $branchPhone, BranchAreaForm $branchArea, BranchDealerForm $branchDealer, ProductInterface $product, BranchUserForm $branchUser, UserForm $userForm) {
         parent::__construct($validator);
         $this->branch = $branch;
         $this->branchOpening = $branchOpening;
@@ -39,6 +41,7 @@ class BranchForm extends AbstractForm {
         $this->branchDealer = $branchDealer;
         $this->branchUser = $branchUser;
         $this->product = $product;
+        $this->userForm = $userForm;
         $this->messageBag = new MessageBag();
     }
 
@@ -88,7 +91,7 @@ class BranchForm extends AbstractForm {
             $this->validator->errors = $this->branchPhone->errors();
             return false;
         }
-        
+
         // Branch Admin User--------
         $branchUser = $this->branchUser->save($branch, \Session::get('user.id'));
 
@@ -100,6 +103,9 @@ class BranchForm extends AbstractForm {
 
         // Branch static map position Google API
         $this->staticMap($input, $branch);
+
+        // Set Step 2 "branch_create" completed
+        $this->userForm->step(\Session::get('user.id'), \Config::get('cons.steps.branch_create.id'));
 
         \DB::commit();
         // End transaction
@@ -173,7 +179,7 @@ class BranchForm extends AbstractForm {
      */
     public function delete($id) {
 
-        $commerceId = \Auth::user()->id_commerce;
+        $commerceId = \Session::get('user.id_commerce');
 
         //validate Branch by Commerce ID.
         if (is_null($this->branch->findByCommerceId($id, $commerceId))) {
@@ -184,11 +190,17 @@ class BranchForm extends AbstractForm {
 
         if ($this->branch->destroy($id)) {
 
+            $branches = $this->branch->all(['*'], [], ['commerce_id' => $commerceId]);
+            if ($branches->isEmpty())
+                $this->userForm->undoneStep(\Session::get('user.id'), \Config::get('cons.steps.branch_create.id'));
+
             $directoryPhotoPath = public_path() . '/upload/branch_image/';
 
             $Filesystem = new Filesystem();
             $Filesystem->deleteDirectory($directoryPhotoPath . $id);
         }
+
+        return true;
     }
 
     /**
@@ -373,7 +385,7 @@ class BranchForm extends AbstractForm {
             $this->validator->errors = $this->messageBag;
             return false;
         }
-        
+
         return $this->branch->edit($branch_id, $input);
     }
 

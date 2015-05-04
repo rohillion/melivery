@@ -108,6 +108,38 @@ Route::filter('verif', function() {
 
 /*
   |--------------------------------------------------------------------------
+  | Commerce_name Filter
+  |--------------------------------------------------------------------------
+  |
+  | The "commerce_name" filter is mandatory for a user of type "commerce".
+  | To acomplished this step, the user needs to set up a name for the commerce.
+  |
+ */
+
+Route::filter('commerce_name', function() {
+    $step = Session::get('user.steps.'.Config::get('cons.steps.commerce_name.id'));
+    if (!$step || $step['done'] != 1)
+        return Redirect::route('commerce.profile');
+});
+
+/*
+  |--------------------------------------------------------------------------
+  | Branch_create Filter
+  |--------------------------------------------------------------------------
+  |
+  | The "branch_create" filter is mandatory for a user of type "commerce".
+  | To acomplished this step, the user needs to create a branch.
+  |
+ */
+
+Route::filter('branch_create', function() {
+    $step = Session::get('user.steps.'.Config::get('cons.steps.branch_create.id'));
+    if (!$step || $step['done'] != 1)
+        return Redirect::route('commerce.branch.create');
+});
+
+/*
+  |--------------------------------------------------------------------------
   | Queue Filter
   |--------------------------------------------------------------------------
   |

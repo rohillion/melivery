@@ -14,10 +14,10 @@ var custom = {
 
             if ($(e.target).is('#brandUrl')) {
 
-                url = $(this).val($(this).val().trim().toLowerCase().replace(/ /g, '')).val();
+                url = $(this).val($(this).val().trim().toLowerCase().replace(/[^\w]/gi, '')).val();
             } else {
 
-                url = $(this).val().trim().toLowerCase().replace(/ /g, '');
+                url = $(this).val().trim().toLowerCase().replace(/[^\w]/gi, '');
             }
 
             brandUrl.val(url);

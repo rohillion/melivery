@@ -30,18 +30,7 @@ class ProfileController extends BaseController {
         $input['commerce_name'] = Input::get('name');
         $input['commerce_url'] = Input::get('url');
 
-        if ($this->commerce->update(Auth::user()->id_commerce, $input)) {
-
-            if (Input::has('address')) {
-
-                if (!$this->branch->save(Input::all())) {
-
-                    return Redirect::to('/profile')
-                                    ->withInput()
-                                    ->withErrors($this->branch->errors())
-                                    ->with('status', 'error');
-                }
-            }
+        if ($this->commerce->update(Session::get('user.id_commerce'), $input)) {
 
             // Success!
             return Redirect::to('/profile')

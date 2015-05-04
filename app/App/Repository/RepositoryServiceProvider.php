@@ -28,6 +28,8 @@ use Country;
 use City;
 use State;
 use Motive;
+use Process;
+use Step;
 
 use App\Repository\User\EloquentUser;
 use App\Repository\Category\EloquentCategory;
@@ -57,6 +59,8 @@ use App\Repository\City\CacheDecorator;
 use App\Repository\State\EloquentState;
 use App\Repository\State\StateCacheDecorator;
 use App\Repository\Motive\EloquentMotive;
+use App\Repository\Process\EloquentProcess;
+use App\Repository\Step\EloquentStep;
 
 use App\Service\Cache\LaravelCache;
 use Illuminate\Support\ServiceProvider;
@@ -139,6 +143,8 @@ class RepositoryServiceProvider extends ServiceProvider {
         $this->city($app);
         $this->state($app);
         $this->motive($app);
+        $this->process($app);
+        $this->step($app);
     }
 
     private function product($app) {
@@ -347,6 +353,36 @@ class RepositoryServiceProvider extends ServiceProvider {
             );
             
             return $motive;
+
+            /*return new StateCacheDecorator(
+                    $state, new LaravelCache($app['cache'], 'state')
+            );*/
+        });
+    }
+    
+    private function process($app) {
+        $app->bind('App\Repository\Process\ProcessInterface', function($app) {
+
+            $process = new EloquentProcess(
+                    new Process
+            );
+            
+            return $process;
+
+            /*return new StateCacheDecorator(
+                    $state, new LaravelCache($app['cache'], 'state')
+            );*/
+        });
+    }
+    
+    private function step($app) {
+        $app->bind('App\Repository\Step\StepInterface', function($app) {
+
+            $step = new EloquentStep(
+                    new Step
+            );
+            
+            return $step;
 
             /*return new StateCacheDecorator(
                     $state, new LaravelCache($app['cache'], 'state')

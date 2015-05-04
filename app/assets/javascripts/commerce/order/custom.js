@@ -14,6 +14,7 @@ var custom = {
         this.popover();
         this.dispatchDealer();
         this.reportDealer();
+        this.addDealer();
         this.historyPanel();
         this.estimationControl();
     },
@@ -408,7 +409,7 @@ var custom = {
     },
     addHistoryCard: function (res) {
 
-        var historyPanel = $('#order-history'), 
+        var historyPanel = $('#order-history'),
                 noData = historyPanel.find('.no-data');
 
         if (noData.length > 0) {
@@ -420,7 +421,7 @@ var custom = {
         setTimeout(function () {
             historyPanel.find('.new-history').removeClass('new-history');
         }, 200);
-        
+
         return true;
 
     },
@@ -468,11 +469,70 @@ var custom = {
                     custom.cleanDealer(dealerId);
                     for (var i in res.orders) {
                         $('#order-panel').find('[data-id="' + res.orders[i].id + '"]').addClass('archive');
+                        main.run('/order/' + res.orders[i].id + '/card?panel=history', function (res) {
+                            if (res.status) {
+                                custom.addHistoryCard(res);
+                            }
+                        });
                     }
                 }
 
                 main.notify(res);
             });
+        });
+    },
+    addDealer: function () {
+
+        var dealerBox = $('#dealers'),
+                dealerModel = $('#dealerPanelModel'),
+                addDealerButton = $('#addDealer'),
+                newDealer;
+
+        addDealerButton.on('click', function () {
+            newDealer = dealerModel.clone();
+            dealerBox.append(newDealer);
+            newDealer.find('.newDealerName').text('Repartidor ' + parseInt(dealerBox.find('.dealer').length + 1)).focus();//TODO. Lang support.
+            addDealerButton.hide();
+        });
+
+        $(document).on('click', '#dealers .saveDealer ', function () {
+
+            main.sendFormPost('/dealer', $.param({
+                'name': $('#dealers .newDealerName').text()
+            }), function (res) {
+
+                if (res.status) {
+
+                    var newDealer = $('#dealers #dealerPanelModel');
+
+                    newDealer.find('.saveDealer').parent().remove();
+                    newDealer.find('.newDealerName').attr('contenteditable', false).removeClass('newDealerName');
+                    newDealer.find('.dispatch').attr('data-dealer', res.dealer.id);
+                    newDealer.find('.report').attr('data-dealer', res.dealer.id);
+                    newDealer.addClass('dealer');
+                    newDealer.attr('data-dealer-id', res.dealer.id);
+                    newDealer.attr('id', '');
+
+                    custom.draggable();
+
+                    addDealerButton.show();
+                }
+
+                main.notify(res);
+            });
+
+        });
+
+        $(document).on('click', '#dealers .cancelDealer ', function () {
+            dealerBox.find('#dealerPanelModel').remove();
+            addDealerButton.show();
+        });
+
+        $(document).on('focusout', '#dealers .newDealerName', function () {
+
+            if ($(this).text().length < 1)
+                $(this).text('Repartidor ' + parseInt(dealerBox.find('.dealer').length + 1));
+
         });
     },
     cleanDealer: function (dealerId) {

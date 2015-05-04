@@ -5,6 +5,7 @@ namespace App\Service\Form\Commerce;
 use Illuminate\Support\MessageBag;
 use App\Service\Validation\ValidableInterface;
 use App\Repository\Commerce\CommerceInterface;
+use App\Service\Form\User\UserForm;
 use App\Service\Form\AbstractForm;
 
 class CommerceForm extends AbstractForm {
@@ -15,10 +16,12 @@ class CommerceForm extends AbstractForm {
      * @var \App\Repository\Commerce\CommerceInterface
      */
     protected $commerce;
+    protected $userForm;
 
-    public function __construct(ValidableInterface $validator, CommerceInterface $commerce) {
+    public function __construct(ValidableInterface $validator, CommerceInterface $commerce, UserForm $userForm) {
         parent::__construct($validator);
         $this->commerce = $commerce;
+        $this->userForm = $userForm;
         $this->messageBag = new MessageBag();
     }
 
@@ -58,8 +61,12 @@ class CommerceForm extends AbstractForm {
             return false;
         }
 
-        //$input['tags'] = $this->processTags($input['tags']);
-        return $this->commerce->edit($id, $input);
+        $commerce = $this->commerce->edit($id, $input);
+
+        if ($commerce)
+            $this->userForm->step(\Session::get('user.id'), \Config::get('cons.steps.commerce_name.id'));
+
+        return $commerce;
     }
 
     /**

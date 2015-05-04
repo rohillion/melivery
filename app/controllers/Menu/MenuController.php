@@ -47,18 +47,36 @@ class MenuController extends BaseController {
 
             $position = Cookie::get('position');
 
-            $method = Input::get('method') ? Input::get('method') : 'delivery';
+            $method = Session::get('delivery') ? 'delivery' : 'pickup';
 
             $filters = array(
                 'id_category' => $category->id,
                 'subcategory_id' => Input::get('subcategory'),
-                'tag_id' => Input::get('tag')
+                'tag_id' => Input::get('tag'),
+                'sort' => Input::get('sort')
+            );
+            
+            $sort = array(
+                'by' => Input::get('sort','price'),
+                'order'=> Input::get('order','asc')
             );
 
-            $data = array_merge($data, $this->menu->products($position, $method, $filters, $items));
+            $data['products'] = $this->menu->products($position, $method, $filters, $items, $sort);
+
         }
         
         return View::make('menu.main', $data);
+    }
+    
+    public function changeType($delivery){
+        
+        if($delivery){
+            Session::put('delivery', TRUE);
+        }else{
+            Session::put('delivery', FALSE);
+        }
+        
+        return Redirect::back();
     }
 
 }

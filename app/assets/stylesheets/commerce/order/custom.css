@@ -207,6 +207,12 @@
     overflow: hidden;
 }
 
+#dealerPanelModel .box-title span {
+  display: block;
+  min-height: 16px;
+  min-width: 16px;
+}
+
 .ui-draggable-dragging .order-helper-client ,.order-helper .order-helper-client {
     position: relative!important;
     width: 100%;

@@ -43,10 +43,10 @@
                                 <?php $productTotal = $branchProduct->price->price * $branchProduct->qty ?>
 
                                 <tr>
-                                    <td><a class="removeBasket" href="<?php echo URL::route('preorder.remove') ?>?branch=<?php echo $branchId ?>&item=<?php echo $productIndex ?>"><i class="fa fa-trash-o" title="Quitar"></i></a></td>
+                                    <td><a class="removeBasket" href="<?php echo URL::route('menu.preorder.remove') ?>?branch=<?php echo $branchId ?>&item=<?php echo $productIndex ?>"><i class="fa fa-trash-o" title="Quitar"></i></a></td>
                                     <td><?php echo $branchProduct->product->tags->tag_name ?></td>
                                     <td>
-                                        <select class="qty" data-action="<?php echo URL::route('preorder.qty') ?>?branch=<?php echo $branchId ?>&item=<?php echo $productIndex ?>">
+                                        <select class="qty" data-action="<?php echo URL::route('menu.preorder.qty') ?>?branch=<?php echo $branchId ?>&item=<?php echo $productIndex ?>">
                                             <?php for ($i = 1; $i <= 150; $i++) { ?>
                                                 <option <?php echo $i == $branchProduct->qty ? 'selected="selected"' : '' ?> value="<?php echo $i ?>"><?php echo $i ?></option>
                                             <?php } ?>
@@ -66,6 +66,7 @@
                                                 $productAttributes = NULL;
 
                                                 foreach ($branchProduct->product->attributes as $attribute) {
+
                                                     $productAttributes[$attribute->attribute_types->id]['attribute_type_name'] = $attribute->attribute_types->d_attribute_type;
                                                     $productAttributes[$attribute->attribute_types->id]['attributes'][$attribute->id]['id'] = $attribute->id;
                                                     $productAttributes[$attribute->attribute_types->id]['attributes'][$attribute->id]['attribute_name'] = $attribute->attribute_name;
@@ -108,7 +109,7 @@
                                                         </div>
 
                                                         <div class="panel-body">
-                                                            <form id="form-<?php echo $productIndex . $branchProduct->id ?>" method="post" action="<?php echo URL::route('preorder.attr') ?>">
+                                                            <form id="form-<?php echo $productIndex . $branchProduct->id ?>" method="post" action="<?php echo URL::route('menu.preorder.attr') ?>">
 
                                                                 <input name="branch" type="hidden" value="<?php echo $branchId ?>">
                                                                 <input name="item" type="hidden" value="<?php echo $productIndex ?>">

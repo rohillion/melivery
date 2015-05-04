@@ -41,5 +41,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
             
             return $this->hasOne('Customer', 'user_id');
         }
+        
+        /**
+	 * Step relation
+	 */
+        public function steps(){
+            
+            return $this->belongsToMany('Step', 'step_user','user_id','step_id')->withPivot('done','active');
+        }
 
 }

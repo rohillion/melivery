@@ -39,7 +39,6 @@ class AccountForm extends AbstractForm {
 
                 case '3':
                     \Session::put('user.dashboard', 'customer');
-
                     break;
             }
 
@@ -57,7 +56,6 @@ class AccountForm extends AbstractForm {
     private function setSession($user) {
 
 
-
         \Session::put('user.id', $user->id);
         \Session::put('user.name', $user->name);
         \Session::put('user.email', $user->email);
@@ -67,14 +65,24 @@ class AccountForm extends AbstractForm {
         \Session::put('user.id_commerce', $user->id_commerce);
         \Session::put('user.country_id', $user->country_id);
 
-         //if Commerce related User then load current branch
+        foreach ($user->steps as $step) {
+            \Session::put('user.steps.' . $step->id, array(
+                'done' => $step->pivot->done
+            ));
+        }
+
+        //if Commerce related User then load current branch
         if ($user->id_user_type != \Config::get('cons.user_type.admin') && $user->id_user_type != \Config::get('cons.user_type.customer')) {
             $branchUser = $this->branchUser->first(['*'], [], [
                 'user_id' => $user->id,
                 'current' => 1
-            ]); //TODO. Validar en caso de que retorne vacio.
-            \Session::put('user.branch_id', $branchUser->branch_id);
+            ]);
+            
+            if(!is_null($branchUser))
+                \Session::put('user.branch_id', $branchUser->branch_id);
         }
+
+
 
         return true;
     }

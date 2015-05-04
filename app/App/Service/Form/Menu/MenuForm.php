@@ -2,6 +2,7 @@
 
 namespace App\Service\Form\Menu;
 
+use App\Repository\BranchProduct\BranchProductInterface;
 use App\Repository\Product\ProductInterface;
 use App\Repository\Category\CategoryInterface;
 use App\Repository\Commerce\CommerceInterface;
@@ -13,10 +14,12 @@ class MenuForm {
      *
      */
     protected $product;
+    protected $branchProduct;
     protected $category;
     protected $commerce;
 
-    public function __construct(ProductInterface $product, CategoryInterface $category, CommerceInterface $commerce) {
+    public function __construct(ProductInterface $product, CategoryInterface $category, CommerceInterface $commerce, BranchProductInterface $branchProduct) {
+        $this->branchProduct = $branchProduct;
         $this->product = $product;
         $this->category = $category;
         $this->commerce = $commerce;
@@ -27,26 +30,12 @@ class MenuForm {
      *
      * @return boolean
      */
-    public function products($position, $method, $filters, $items = 10) {
+    public function products($position, $method, $filters, $items = 10, $sort) {
 
-        if ($position) {
+        if ($position && $method == 'delivery')
+            return $this->branchProduct->allByPosition($position, $filters, $items, $sort);
 
-            if ($method == 'pickup') {
-
-                $products['pickupProducts'] = $this->product->allActive($filters, $items);
-            } else {
-
-                $products['deliveryProducts'] = $this->product->allByPosition($position, $filters, $items);
-
-                if ($products['deliveryProducts']->isEmpty())
-                    $products['pickupProducts'] = $this->product->allActive($filters, $items = 3);
-            }
-        } else {
-
-            $products['pickupProducts'] = $this->product->allActive($filters, $items);
-        }
-
-        return $products;
+        return $this->branchProduct->allActive($filters, $items, $sort);
     }
 
 }

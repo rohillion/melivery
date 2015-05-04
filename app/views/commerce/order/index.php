@@ -140,65 +140,96 @@
                 <section id="dealer-panel" class="col-sm-4 hidden-xs">
                     <?php if (!$dealers->isEmpty()) { ?>
 
-                        <?php foreach ($dealers as $dealer) { ?>
+                        <div id="dealers">
+                            <?php foreach ($dealers as $dealer) { ?>
 
-                            <?php $dealerTotal = 0 ?>
+                                <?php $dealerTotal = 0 ?>
 
-                            <div class="box box-solid" data-dealer-id="<?php echo $dealer->id ?>">
-                                <div class="box-header">
-                                    <h3 class="box-title"><?php echo $dealer->dealer_name ?> <!--<i class="pull-right fa fa-lightbulb-o"></i>TODO. Lightbulb filter--></h3>
+                                <div class="box box-solid dealer" data-dealer-id="<?php echo $dealer->id ?>">
+                                    <div class="box-header">
+                                        <h3 class="box-title"><?php echo $dealer->dealer_name ?> <!--<i class="pull-right fa fa-lightbulb-o"></i>TODO. Lightbulb filter--></h3>
 
-                                    <?php $hiddenDispatch = $dealer->orders->isEmpty() ? 'hidden' : ($dealer->dispatched ? 'hidden' : ''); ?>
-                                    <a data-dealer="<?php echo $dealer->id ?>" class="<?php echo $hiddenDispatch; ?> dispatch btn btn-link pull-right text-primary">Enviar</a>
+                                        <?php $hiddenDispatch = $dealer->orders->isEmpty() ? 'hidden' : ($dealer->dispatched ? 'hidden' : ''); ?>
+                                        <a data-dealer="<?php echo $dealer->id ?>" class="<?php echo $hiddenDispatch; ?> dispatch btn btn-link pull-right text-primary">Enviar</a>
 
-                                    <?php $hiddenReport = $dealer->dispatched ? '' : 'hidden'; ?>
-                                    <a data-dealer="<?php echo $dealer->id ?>" class="<?php echo $hiddenReport; ?> report btn btn-link pull-right text-primary">Entregado</a>
-                                </div>
+                                        <?php $hiddenReport = $dealer->dispatched ? '' : 'hidden'; ?>
+                                        <a data-dealer="<?php echo $dealer->id ?>" class="<?php echo $hiddenReport; ?> report btn btn-link pull-right text-primary">Entregado</a>
+                                    </div>
 
-                                <div class="box-body bg-warning">
+                                    <div class="box-body bg-warning">
 
-                                    <?php if (!$dealer->orders->isEmpty()) { ?>
+                                        <?php if (!$dealer->orders->isEmpty()) { ?>
 
-                                        <?php foreach ($dealer->orders as $order) { ?>
+                                            <?php foreach ($dealer->orders as $order) { ?>
 
-                                            <div class="order-helper" data-id="<?php echo $order->id ?>" data-paycash="<?php echo $order->cash->paycash ?>">
-                                                <i class="fa fa-paperclip"></i>
-                                                <div class="box box-solid order-helper-client">
+                                                <div class="order-helper" data-id="<?php echo $order->id ?>" data-paycash="<?php echo $order->cash->paycash ?>">
+                                                    <i class="fa fa-paperclip"></i>
+                                                    <div class="box box-solid order-helper-client">
 
-                                                    <div class="client-name">
-                                                        <?php echo $order->user->name ?> 
-                                                    </div>
+                                                        <div class="client-name">
+                                                            <?php echo $order->user->name ?> 
+                                                        </div>
 
-                                                    <div class="order-change">
-                                                        Cambio
-                                                        <strong>$<?php echo $order->cash->change ?></strong>
+                                                        <div class="order-change">
+                                                            Cambio
+                                                            <strong>$<?php echo $order->cash->change ?></strong>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <?php $dealerTotal = $dealerTotal + $order->cash->paycash ?>
+                                                <?php $dealerTotal = $dealerTotal + $order->cash->paycash ?>
+
+                                            <?php } ?>
 
                                         <?php } ?>
-
-                                    <?php } ?>
-                                </div>
-
-
-                                <div class="box-footer">
-                                    <div class="dealer-total">
-                                        <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$<?php echo $dealerTotal; ?></span></p>
                                     </div>
+
+                                    <div class="box-footer">
+                                        <div class="dealer-total">
+                                            <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$<?php echo $dealerTotal; ?></span></p>
+                                        </div>
+                                    </div>
+
                                 </div>
 
-                            </div>
-
-                        <?php } ?>
+                            <?php } ?>
+                        </div>
 
                     <?php } else { ?>
 
-                        <div class="well well-sm text-center">No hay repartidores cargados.</div>
+                        <div class="well well-sm text-center no-data">No hay repartidores cargados.</div>
 
                     <?php } ?>
+
+                    <div class="hidden">
+                        <div id="dealerPanelModel" class="box box-solid" data-dealer-id="">
+                            <div class="box-header">
+                                <h3 class="box-title">
+                                    <span class="newDealerName" contenteditable="true"></span>
+                                    <!--<i class="pull-right fa fa-lightbulb-o"></i>TODO. Lightbulb filter-->
+                                </h3>
+
+                                <a data-dealer="" class="dispatch btn btn-link pull-right text-primary hidden">Enviar</a>
+                                <a data-dealer="" class="hidden report btn btn-link pull-right text-primary">Entregado</a>
+
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-link saveDealer">Guardar</button>
+                                    <button type="button" class="btn btn-link cancelDealer">Cancelar</button>
+                                </div>
+                            </div>
+
+                            <div class="box-body bg-warning ui-sortable"></div>
+
+                            <div class="box-footer">
+                                <div class="dealer-total">
+                                    <p class="clearfix" style="margin:0;">Total <span class="badge no-background pull-right">$0</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="addDealer" type="button" class="btn btn-success btn-flat btn-block">Agregar repartidor.</button>
+
                 </section><!--/.col (right) -->
 
             </div><!-- /.row (main row) -->

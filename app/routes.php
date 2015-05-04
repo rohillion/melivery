@@ -97,68 +97,202 @@ Route::group(array('domain' => 'admin.melivery' . $tld, "before" => "auth|admin"
 //COMMERCE -------------------------------------------------------------
 Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|verif|commerce"), function() {
 
-    Route::get("/", [
-        "as" => "commerce",
-        "uses" => "CommerceController@index"
-    ]);
+    Route::group(array("before" => "commerce_name"), function() {
 
-    Route::get("/dashboard", [
-        "as" => "commerce",
-        "uses" => "CommerceController@index"
-    ]);
+        Route::group(array("before" => "branch_create"), function() {
 
-    //Route::resource('product', 'ProductController');
+            Route::get("/", [
+                "as" => "commerce",
+                "uses" => "CommerceController@index"
+            ]);
 
-    Route::get("/product", [
-        "as" => "commerce.product",
-        "uses" => "ProductController@index"
-    ]);
+            Route::get("/dashboard", [
+                "as" => "commerce",
+                "uses" => "CommerceController@index"
+            ]);
 
-    Route::post("/product", [
-        'before' => 'csrf',
-        "uses" => "ProductController@store"
-    ]);
+            //Route::resource('product', 'ProductController');
 
-    Route::post("/product/image", [
-        'before' => 'csrf',
-        "as" => "commerce.product.imagetmp",
-        "uses" => "ProductController@imagetmp"
-    ]);
+            Route::get("/product", [
+                "as" => "commerce.product",
+                "uses" => "ProductController@index"
+            ]);
 
-    Route::get("/product/{product_id}", [
-        'before' => 'csrf',
-        "as" => "commerce.product.view",
-        "uses" => "ProductController@view"
-    ]);
+            Route::post("/product", [
+                'before' => 'csrf',
+                "uses" => "ProductController@store"
+            ]);
 
-    Route::post("/product/{product_id}", [
-        'before' => 'csrf',
-        "uses" => "ProductController@update"
-    ]);
+            Route::post("/product/image", [
+                'before' => 'csrf',
+                "as" => "commerce.product.imagetmp",
+                "uses" => "ProductController@imagetmp"
+            ]);
 
-    Route::post("/product/{product_id}/delete", [
-        'before' => 'csrf',
-        "as" => "commerce.product.delete",
-        "uses" => "ProductController@delete"
-    ]);
+            Route::get("/product/{product_id}", [
+                'before' => 'csrf',
+                "as" => "commerce.product.view",
+                "uses" => "ProductController@view"
+            ]);
 
-    Route::post("/product/{product_id}/status", [
-        'before' => 'csrf',
-        "as" => "commerce.product.changestatus",
-        "uses" => "ProductController@changeStatus"
-    ]);
+            Route::post("/product/{product_id}", [
+                'before' => 'csrf',
+                "uses" => "ProductController@update"
+            ]);
 
-    Route::post("/tag", [
-        'before' => 'csrf',
-        "as" => "commerce.customtag.create",
-        "uses" => "CustomTagController@store"
-    ]);
+            Route::post("/product/{product_id}/delete", [
+                'before' => 'csrf',
+                "as" => "commerce.product.delete",
+                "uses" => "ProductController@delete"
+            ]);
 
-    Route::post("/attribute", [
-        'before' => 'csrf',
-        "as" => "commerce.customattribute.create",
-        "uses" => "CustomAttributeController@store"
-    ]);
+            Route::post("/product/{product_id}/status", [
+                'before' => 'csrf',
+                "as" => "commerce.product.changestatus",
+                "uses" => "ProductController@changeStatus"
+            ]);
+
+            Route::post("/tag", [
+                'before' => 'csrf',
+                "as" => "commerce.customtag.create",
+                "uses" => "CustomTagController@store"
+            ]);
+
+            Route::post("/attribute", [
+                'before' => 'csrf',
+                "as" => "commerce.customattribute.create",
+                "uses" => "CustomAttributeController@store"
+            ]);
+
+            Route::get("/order", [
+                "as" => "commerce.order",
+                "uses" => "OrderController@index"
+            ]);
+
+            Route::post("/order/{order_id}", [
+                'before' => 'csrf',
+                "uses" => "OrderController@update"
+            ]);
+
+            Route::get("/order/{order_id}/type", [
+                'before' => 'csrf',
+                "as" => "commerce.order.type",
+                "uses" => "OrderController@changeType"
+            ]);
+
+            Route::get("/order/{order_id}/card", [
+                'before' => 'csrf',
+                "as" => "commerce.order.card",
+                "uses" => "OrderController@card"
+            ]);
+
+            Route::get("/order/{order_id}/status/{status_id}", [
+                'before' => 'csrf',
+                "uses" => "OrderController@changeStatus"
+            ]);
+
+            Route::get("/order/{order_id}/dealer/remove", [
+                'before' => 'csrf',
+                "uses" => "OrderController@dettachDealer"
+            ]);
+
+            Route::get("/order/{order_id}/dealer/{dealer_id}", [
+                'before' => 'csrf',
+                "uses" => "OrderController@attachDealer"
+            ]);
+
+            Route::get("/order/{dealer_id}/dispatch", [
+                'before' => 'csrf',
+                "uses" => "OrderController@dispatch"
+            ]);
+
+            Route::get("/order/{dealer_id}/undispatch", [
+                'before' => 'csrf',
+                "uses" => "OrderController@undispatch"
+            ]);
+
+            Route::post("/dealer", [
+                "as" => "commerce.dealer",
+                'before' => 'csrf',
+                "uses" => "DealerController@save"
+            ]);
+
+            Route::get("/order/{dealer_id}/report", [
+                'before' => 'csrf',
+                "uses" => "OrderController@report"
+            ]);
+
+            Route::get("/branch", [
+                "as" => "commerce.branch",
+                "uses" => "BranchController@index"
+            ]);
+
+            Route::post("/branch/{branch_id}/delivery", [
+                'before' => 'csrf',
+                "uses" => "BranchController@delivery"
+            ]);
+
+            Route::post("/branch/{branch_id}/pickup", [
+                'before' => 'csrf',
+                "uses" => "BranchController@pickup"
+            ]);
+
+            Route::post("/branch/{branch_id}/opening", [
+                'before' => 'csrf',
+                "uses" => "BranchController@opening"
+            ]);
+
+            Route::post("/branch/{branch_id}/area", [
+                'before' => 'csrf',
+                "uses" => "BranchController@areaCreate"
+            ]);
+
+            Route::post("/branch/{branch_id}/area/{area_id}", [
+                'before' => 'csrf',
+                "uses" => "BranchController@areaUpdate"
+            ]);
+
+            Route::delete("/branch/{branch_id}/area/{area_id}", [
+                'before' => 'csrf',
+                "uses" => "BranchController@areaDelete"
+            ]);
+
+            Route::get("/branch/{branch_id}/edit", [
+                "as" => "commerce.branch.edit",
+                "uses" => "BranchController@edit"
+            ]);
+
+            Route::put("/branch/{branch_id}", [
+                'before' => 'csrf',
+                "uses" => "BranchController@update"
+            ]);
+
+            Route::delete("/branch/{branch_id}", [
+                'before' => 'csrf',
+                "uses" => "BranchController@destroy"
+            ]);
+
+            Route::post("/branch/{branch_id}", [
+                'before' => 'csrf',
+                "uses" => "BranchController@update"
+            ]);
+
+            Route::get("/branch/{branch_user_id}/current", [
+                "as" => "commerce.branch.current",
+                "uses" => "BranchController@setCurrent"
+            ]);
+        });
+
+        Route::post("/branch", [
+            'before' => 'csrf',
+            "uses" => "BranchController@store"
+        ]);
+
+        Route::get("/branch/create", [
+            "as" => "commerce.branch.create",
+            "uses" => "BranchController@create"
+        ]);
+    });
 
     Route::get("/profile", [
         "as" => "commerce.profile",
@@ -185,130 +319,6 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
         "as" => "commerce.profile.cover",
         'before' => 'csrf',
         "uses" => "ProfileController@cover"
-    ]);
-
-    //Route::resource('branch', 'BranchController');
-
-    Route::get("/branch", [
-        "as" => "commerce.branch",
-        "uses" => "BranchController@index"
-    ]);
-
-    Route::post("/branch", [
-        'before' => 'csrf',
-        "uses" => "BranchController@store"
-    ]);
-
-    Route::get("/branch/create", [
-        "as" => "commerce.branch.create",
-        "uses" => "BranchController@create"
-    ]);
-
-    Route::post("/branch/{branch_id}/delivery", [
-        'before' => 'csrf',
-        "uses" => "BranchController@delivery"
-    ]);
-
-    Route::post("/branch/{branch_id}/pickup", [
-        'before' => 'csrf',
-        "uses" => "BranchController@pickup"
-    ]);
-
-    Route::post("/branch/{branch_id}/opening", [
-        'before' => 'csrf',
-        "uses" => "BranchController@opening"
-    ]);
-
-    Route::post("/branch/{branch_id}/area", [
-        'before' => 'csrf',
-        "uses" => "BranchController@areaCreate"
-    ]);
-
-    Route::post("/branch/{branch_id}/area/{area_id}", [
-        'before' => 'csrf',
-        "uses" => "BranchController@areaUpdate"
-    ]);
-
-    Route::delete("/branch/{branch_id}/area/{area_id}", [
-        'before' => 'csrf',
-        "uses" => "BranchController@areaDelete"
-    ]);
-
-    Route::get("/branch/{branch_id}/edit", [
-        "as" => "commerce.branch.edit",
-        "uses" => "BranchController@edit"
-    ]);
-
-    Route::put("/branch/{branch_id}", [
-        'before' => 'csrf',
-        "uses" => "BranchController@update"
-    ]);
-
-    Route::delete("/branch/{branch_id}", [
-        'before' => 'csrf',
-        "uses" => "BranchController@destroy"
-    ]);
-
-    Route::post("/branch/{branch_id}", [
-        'before' => 'csrf',
-        "uses" => "BranchController@update"
-    ]);
-    
-    Route::get("/branch/{branch_user_id}/current", [
-        "as" => "commerce.branch.current",
-        "uses" => "BranchController@setCurrent"
-    ]);
-
-    Route::get("/order", [
-        "as" => "commerce.order",
-        "uses" => "OrderController@index"
-    ]);
-
-    Route::post("/order/{order_id}", [
-        'before' => 'csrf',
-        "uses" => "OrderController@update"
-    ]);
-
-    Route::get("/order/{order_id}/type", [
-        'before' => 'csrf',
-        "as" => "commerce.order.type",
-        "uses" => "OrderController@changeType"
-    ]);
-    
-    Route::get("/order/{order_id}/card", [
-        'before' => 'csrf',
-        "as" => "commerce.order.card",
-        "uses" => "OrderController@card"
-    ]);
-    
-    Route::get("/order/{order_id}/status/{status_id}", [
-        'before' => 'csrf',
-        "uses" => "OrderController@changeStatus"
-    ]);
-
-    Route::get("/order/{order_id}/dealer/remove", [
-        'before' => 'csrf',
-        "uses" => "OrderController@dettachDealer"
-    ]);
-
-    Route::get("/order/{order_id}/dealer/{dealer_id}", [
-        'before' => 'csrf',
-        "uses" => "OrderController@attachDealer"
-    ]);
-
-    Route::get("/order/{dealer_id}/dispatch", [
-        'before' => 'csrf',
-        "uses" => "OrderController@dispatch"
-    ]);
-
-    Route::get("/order/{dealer_id}/undispatch", [
-        'before' => 'csrf',
-        "uses" => "OrderController@undispatch"
-    ]);
-
-    Route::get("/order/{dealer_id}/report", [
-        'before' => 'csrf',
-        "uses" => "OrderController@report"
     ]);
 
     Route::get("/ajax/city/find/", [
@@ -458,6 +468,12 @@ Route::group(array('domain' => 'menu.melivery' . $tld), function() {
         "before" => 'csrf',
         "as" => "menu.preorder.show",
         "uses" => "PreorderController@show"
+    ]);
+
+    Route::get("/delivery/{type}", [
+        //"before" => 'csrf',
+        "as" => "menu.change",
+        "uses" => "MenuController@changeType"
     ]);
 
     Route::get("/{category?}/{page?}", [

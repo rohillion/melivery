@@ -39,8 +39,13 @@ class BranchUserForm extends AbstractForm {
         if (!$this->valid($input)) {
             return false;
         }
+        
+        $branchUser = $this->branchUser->create($input);
+        
+        if($branchUser)
+            $this->setCurrent($branchUser->id);
 
-        return $this->branchUser->create($input);
+        return $branchUser;
     }
 
     public function setCurrent($branchUserId) {
@@ -52,14 +57,15 @@ class BranchUserForm extends AbstractForm {
         ]);
 
         $new = $this->branchUser->find($branchUserId, ['*'], [], [
-            'user_id' => \Session::get('user.id'),
-            'current' => 0
+            'user_id' => \Session::get('user.id')
         ]);
 
-        if (!is_null($last) && !is_null($new)) {
+        if (!is_null($last)) {
             $last->current = 0;
             $last->save();
-
+        }
+        
+        if (!is_null($new)) {
             $new->current = 1;
             $new->save();
             

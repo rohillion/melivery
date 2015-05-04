@@ -1,3 +1,3 @@
 /* Preorder bundle */
-//= require ../custom.js
+//= require ../menu.js
 //= require custom.js

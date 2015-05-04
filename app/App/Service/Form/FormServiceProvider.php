@@ -196,7 +196,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\Commerce\CommerceForm', function($app) {
 
             return new CommerceForm(
-                    new CommerceValidator($app['validator']), $app->make('App\Repository\Commerce\CommerceInterface')
+                    new CommerceValidator($app['validator']), $app->make('App\Repository\Commerce\CommerceInterface'), $app->make('App\Service\Form\User\UserForm')
             );
         });
     }
@@ -214,7 +214,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\Branch\BranchForm', function($app) {
 
             return new BranchForm(
-                    new BranchValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Service\Form\BranchOpening\BranchOpeningForm'), $app->make('App\Service\Form\BranchPhone\BranchPhoneForm'), $app->make('App\Service\Form\BranchArea\BranchAreaForm'), $app->make('App\Service\Form\BranchDealer\BranchDealerForm'), $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Service\Form\BranchUser\BranchUserForm')
+                    new BranchValidator($app['validator']), $app->make('App\Repository\Branch\BranchInterface'), $app->make('App\Service\Form\BranchOpening\BranchOpeningForm'), $app->make('App\Service\Form\BranchPhone\BranchPhoneForm'), $app->make('App\Service\Form\BranchArea\BranchAreaForm'), $app->make('App\Service\Form\BranchDealer\BranchDealerForm'), $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Service\Form\BranchUser\BranchUserForm'), $app->make('App\Service\Form\User\UserForm')
             );
         });
     }
@@ -313,7 +313,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\Menu\MenuForm', function($app) {
 
             return new MenuForm(
-                    $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Repository\Category\CategoryInterface'), $app->make('App\Repository\Commerce\CommerceInterface')
+                    $app->make('App\Repository\Product\ProductInterface'), $app->make('App\Repository\Category\CategoryInterface'), $app->make('App\Repository\Commerce\CommerceInterface'), $app->make('App\Repository\BranchProduct\BranchProductInterface')
             );
         });
     }

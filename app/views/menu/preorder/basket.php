@@ -58,6 +58,7 @@
                                                         $productAttributes[$attribute->attribute_types->id]['attribute_type_name'] = $attribute->attribute_types->d_attribute_type;
                                                         $productAttributes[$attribute->attribute_types->id]['attributes'][$attribute->id]['id'] = $attribute->id;
                                                         $productAttributes[$attribute->attribute_types->id]['attributes'][$attribute->id]['attribute_name'] = $attribute->attribute_name;
+                                                        $productAttributes[$attribute->attribute_types->id]['attributes'][$attribute->id]['aditional_price'] = $attribute->pivot->aditional_price;
                                                         $productAttributes[$attribute->attribute_types->id]['attributes'][$attribute->id]['multiple'] = $attribute->attribute_types->multiple;
                                                     }
 
@@ -104,7 +105,14 @@
                                                                     <?php foreach ($attribute_type['attributes'] as $attribute) { ?>
 
                                                                         <label class="checkbox-inline">
-                                                                            <input <?php echo!is_null($branchProduct->attr) && in_array($attribute['id'], $branchProduct->attr) ? "checked" : '' ?> name="attr[]" data-attr="attr-<?php echo $productIndex ?><?php echo $branchProduct->id ?><?php echo $attribute['id'] ?>" type="checkbox" value="<?php echo $attribute['id'] ?>" autocomplete="off" class="product-attr"/> <?php echo $attribute['attribute_name'] ?>
+                                                                            <?php
+                                                                            $checked = '';
+                                                                            if(!is_null($branchProduct->attr) && in_array($attribute['id'], $branchProduct->attr)){
+                                                                                $checked = "checked" ;
+                                                                                $total = $total + $attribute['aditional_price'];
+                                                                            }
+                                                                            ?>
+                                                                            <input <?php echo $checked;?> name="attr[]" data-attr="attr-<?php echo $productIndex ?><?php echo $branchProduct->id ?><?php echo $attribute['id'] ?>" type="checkbox" value="<?php echo $attribute['id'] ?>" autocomplete="off" class="product-attr"/> <?php echo $attribute['attribute_name'] . (($attribute['aditional_price']!= NULL)? ' +$'.$attribute['aditional_price'] : '') ?>
                                                                         </label>
 
                                                                     <?php } ?>

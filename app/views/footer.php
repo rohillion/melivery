@@ -25,7 +25,7 @@ if (!CommonEvents::isSubdomain() && Request::segment(1)) {
     $dir = NULL;
 } else {
 
-    $dir = Request::segment(1) ? '/' . Request::segment(1) : '/' . $assetDir;
+    $dir = Request::segment(1) && ($name != 'menu' || Request::segment(1) == 'preorder') ? '/' . Request::segment(1) : '/' . $assetDir;
 }
 ?>
 

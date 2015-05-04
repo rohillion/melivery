@@ -104,6 +104,54 @@ class UserForm extends AbstractForm {
         return $this->user->edit($id, $input);
     }
 
+    /**
+     * Attach Step to an existing user
+     *
+     * @return boolean
+     */
+    public function step($user_id, $step_id) {
+
+        $step = \Session::get('user.steps.' . $step_id);
+
+        if (!$step) {
+
+            $user = $this->user->find($user_id);
+
+            if (!is_null($user)) {
+
+                $user->steps()->attach($step_id, array('done' => 1));
+                \Session::put('user.steps.' . $step_id, array(
+                    'done' => 1
+                ));
+            }
+        }
+
+        return $step;
+    }
+
+    /**
+     * Undone Step of an existing user
+     *
+     * @return boolean
+     */
+    public function undoneStep($user_id, $step_id) {
+
+        $step = \Session::get('user.steps.' . $step_id);
+
+        if ($step) {
+
+            $user = $this->user->find($user_id);
+
+            if (!is_null($user)) {
+
+                $user->steps()->detach($step_id);
+                \Session::forget('user.steps.' . $step_id);
+            }
+        }
+
+        return $step;
+    }
+
     public function setSession($user) {
 
         \Session::put('user.id', $user->id);
