@@ -169,7 +169,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\AccountController\Reset\ResetForm', function($app) {
 
             return new ResetForm(
-                    new ResetValidator($app['validator'])
+                    new ResetValidator($app['validator']), $app->make('App\Repository\User\UserInterface')
             );
         });
     }
@@ -178,7 +178,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\AccountController\Verification\VerificationForm', function($app) {
 
             return new VerificationForm(
-                    new VerificationValidator($app['validator']), $app->make('App\Repository\User\UserInterface'), $app->make('App\Repository\Commerce\CommerceInterface')
+                    new VerificationValidator($app['validator']), $app->make('App\Repository\User\UserInterface'), $app->make('App\Repository\Commerce\CommerceInterface'), $app->make('App\Service\Form\AccountController\AccountForm')
             );
         });
     }

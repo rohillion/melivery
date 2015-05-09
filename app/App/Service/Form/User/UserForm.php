@@ -73,7 +73,6 @@ class UserForm extends AbstractForm {
 
         $input['password'] = \Hash::make($input['password']);
 
-        //$input['tags'] = $this->processTags($input['tags']);
         $user = $this->user->create($input);
 
         if ($user) {
@@ -152,7 +151,7 @@ class UserForm extends AbstractForm {
         return $step;
     }
 
-    public function setSession($user) {
+    /*public function setSession($user) {
 
         \Session::put('user.id', $user->id);
         \Session::put('user.email', $user->email);
@@ -162,6 +161,6 @@ class UserForm extends AbstractForm {
         \Session::put('user.id_commerce', $user->id_commerce);
 
         return true;
-    }
+    }*/
 
 }

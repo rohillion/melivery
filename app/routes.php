@@ -12,13 +12,6 @@
  */
 $tld = CommonEvents::get_tld()[1];
 
-Route::get('/twilio', [
-    "uses" => "TwilioController@index"
-]);
-
-Route::post("/twilio", [
-    "uses" => "TwilioController@send"
-]);
 /* Route::group(array('domain' => 'admin.melivery'.$tld, "before" => "auth|admin"), function() {
   return Redirect::intended();
   }); */
@@ -404,7 +397,7 @@ Route::group(array('domain' => 'account.melivery' . $tld), function() {
         "uses" => "AccountController@doRequest"
     ]);
 
-    Route::get("/reset/{code?}", [
+    Route::get("/reset", [
         "as" => "reset",
         "uses" => "AccountController@reset"
     ]);

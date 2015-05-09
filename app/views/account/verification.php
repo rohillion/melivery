@@ -42,7 +42,7 @@
             <form action="<?php echo URL::route('verification'); ?>" method="post">
                 <div class="body bg-gray">
                     <div class="form-group">
-                        <input type="text" name="vcode" class="form-control" placeholder="C&oacute;digo"/>
+                        <input type="text" name="vcode" class="form-control" placeholder="C&oacute;digo" value="<?php echo Input::old('vcode')?>"/>
                     </div>
                 </div>
                 <div class="footer">                                                               

@@ -3,12 +3,18 @@
 namespace App\Service\Form\AccountController\Reset;
 
 use App\Service\Validation\ValidableInterface;
+use App\Repository\User\UserInterface;
 use App\Service\Form\AbstractForm;
+use Illuminate\Support\MessageBag;
 
 class ResetForm extends AbstractForm {
 
-    public function __construct(ValidableInterface $validator) {
+    private $user;
+
+    public function __construct(ValidableInterface $validator, UserInterface $user) {
         parent::__construct($validator);
+        $this->user = $user;
+        $this->messageBag = new MessageBag();
     }
 
     public function save($input) {
@@ -16,7 +22,9 @@ class ResetForm extends AbstractForm {
         if (!$this->valid($input))
             return false;
 
-        $res = array();
+        $input['token'] = \Password::getToken(array('mobile' => $input['mobile']), $input['code']);
+
+        unset($input['code']);
 
         $response = \Password::reset($input, function($user, $password) {
                     $user->password = \Hash::make($password);
@@ -28,11 +36,14 @@ class ResetForm extends AbstractForm {
             case \Password::INVALID_PASSWORD:
             case \Password::INVALID_TOKEN:
             case \Password::INVALID_USER:
-                //return Redirect::back()->with('error', Lang::get($response));
-                $res['error'] = $response;
+                $this->messageBag->add('error', $response); //TODO. Soporte Lang.
+                $this->validator->errors = $this->messageBag;
+                $res = false;
+                break;
 
             case \Password::PASSWORD_RESET:
-                $res['success'] = 'Su clave ha sido cambiada. Por favor inicie sesión con su nueva clave.';
+                $res = 'Su clave ha sido cambiada. Por favor inicie sesión con su nueva clave.';
+                break;
         }
 
         return $res;

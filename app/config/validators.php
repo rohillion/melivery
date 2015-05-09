@@ -17,3 +17,12 @@ Validator::extend('minutes', function($attribute, $value) {
 Validator::extend('price', function($attribute, $value) {
     return preg_match('/^\d+([\,]\d+)*([\.]\d+)?$/', $value);
 });
+
+Validator::extend('mobileIE', function($attribute, $value) {
+    return preg_match('/^\+353\d{2}[0-9]{7}/', $value);
+});
+
+//Mobile 12 numbers
+/*Validator::extend('mobile', function($attribute, $value) {
+    return preg_match('/^\+\d{3}\d{2}[0-9]{7}/', $value);
+});*/

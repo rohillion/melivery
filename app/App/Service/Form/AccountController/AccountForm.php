@@ -17,8 +17,6 @@ class AccountForm extends AbstractForm {
 
     public function login($input) {
 
-        $res = array();
-
         if (!$this->valid($input))
             return ['error' => $this->validator->errors()];
 
@@ -53,8 +51,7 @@ class AccountForm extends AbstractForm {
         return ['error' => 'Usuario o clave inválidos']; //TODO. lang support
     }
 
-    private function setSession($user) {
-
+    public function setSession($user) {
 
         \Session::put('user.id', $user->id);
         \Session::put('user.name', $user->name);
@@ -82,9 +79,6 @@ class AccountForm extends AbstractForm {
                 \Session::put('user.branch_id', $branchUser->branch_id);
         }
 
-
-
         return true;
     }
-
 }

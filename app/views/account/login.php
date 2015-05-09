@@ -42,7 +42,7 @@
             <form action="login" method="post">
                 <div class="body bg-gray">
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control" placeholder="Email"/>
+                        <input type="text" name="mobile" class="form-control" placeholder="Tu movil" value="<?php echo Input::old('mobile'); ?>"/>
                     </div>
                     <div class="form-group">
                         <input type="password" name="password" class="form-control" placeholder="Password"/>

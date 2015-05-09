@@ -42,11 +42,11 @@
             <form action="<?php echo URL::route('request'); ?>" method="post">
                 <div class="body bg-gray">
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control" placeholder="Email" value="<?php echo Input::old('email'); ?>"/>
+                        <input type="text" name="mobile" class="form-control" placeholder="Tu m&oacute;vil" value="<?php echo Input::old('mobile'); ?>"/>
                     </div>
                 </div>
                 <div class="footer">                                                               
-                    <button type="submit" class="btn bg-olive btn-block">Cambiar clave</button>
+                    <button type="submit" class="btn bg-olive btn-block">Env&iacute;enme el c&oacute;digo</button>
                 </div>
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             </form>

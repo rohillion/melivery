@@ -42,7 +42,7 @@
             <form action="<?php echo URL::route('reset'); ?>" method="post">
                 <div class="body bg-gray">
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control" placeholder="Email"/>
+                        <input type="text" name="code" class="form-control" placeholder="C&oacute;digo" value="<?php echo Input::old('code'); ?>"/>
                     </div>
                     <div class="form-group">
                         <input type="password" name="password" class="form-control" placeholder="Nueva Clave"/>
@@ -54,7 +54,7 @@
                 <div class="footer">                                                               
                     <button type="submit" class="btn bg-olive btn-block">Guardar clave</button>
                 </div>
-                <input type="hidden" name="token" value="<?php echo $token; ?>">
+                <input type="hidden" name="mobile" value="+353874689450<?php //echo Input::old('mobile'); ?>">
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             </form>
 

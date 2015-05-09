@@ -155,5 +155,9 @@ Class CommonEvents {
             return $numberOfUnits . ' ' . $text . (($numberOfUnits > 1) ? 's' : '');
         }
     }
+    
+    static function getRandomCode(){
+        return str_shuffle(rand(100000, 999999));
+    }
 
 }

@@ -9,7 +9,7 @@
             <div class="container">
                 <h3>
                     <?php echo Lang::get('segment.order.name.plural'); ?>
-                    <button id="togglePendingPanel" class="btn btn-success btn-flat pull-right" type="button">Comandas pendientes</button>
+                    <!--<button id="togglePendingPanel" class="btn btn-success btn-flat pull-right" type="button">Comandas pendientes</button>-->
                     <a id="toggleHistory" class="btn btn-link pull-right" data-toggle="tooltip" data-placement="auto" data-original-title="Historial" title="Historial">
                         <i class="fa fa-history"></i>
                     </a>
@@ -138,9 +138,10 @@
                 <?php } ?>
                 <!-- right column -->
                 <section id="dealer-panel" class="col-sm-4 hidden-xs">
-                    <?php if (!$dealers->isEmpty()) { ?>
+                    <div id="dealers">
 
-                        <div id="dealers">
+                        <?php if (!$dealers->isEmpty()) { ?>
+
                             <?php foreach ($dealers as $dealer) { ?>
 
                                 <?php $dealerTotal = 0 ?>
@@ -193,13 +194,15 @@
                                 </div>
 
                             <?php } ?>
-                        </div>
 
-                    <?php } else { ?>
 
-                        <div class="well well-sm text-center no-data">No hay repartidores cargados.</div>
+                        <?php } else { ?>
 
-                    <?php } ?>
+                            <div class="well well-sm text-center no-data">No hay repartidores cargados.</div>
+
+                        <?php } ?>
+
+                    </div>
 
                     <div class="hidden">
                         <div id="dealerPanelModel" class="box box-solid" data-dealer-id="">

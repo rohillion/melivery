@@ -29,7 +29,7 @@ class AccountController extends BaseController {
 
     public function doLogin() {
 
-        $res = $this->account->login(Input::only('email', 'password'));
+        $res = $this->account->login(Input::only('mobile', 'password'));
 
         if (!isset($res['error'])) {
 
@@ -75,7 +75,7 @@ class AccountController extends BaseController {
      */
     public function doSignup() {
 
-        $input = Input::only('name', 'email', 'password', 'account_type');
+        $input = Input::only('name', 'mobile', 'password', 'account_type');
 
         $res = $this->user->save($input, true);
 
@@ -132,58 +132,41 @@ class AccountController extends BaseController {
 
     public function doRequest() {
 
-        $input = Input::only("email");
+        $input = Input::only("mobile");
 
-        $res = $this->request->remind($input);
+        $request = $this->request->remind($input);
 
-        if (!isset($res['error']) && $res) {
+        if ($request) {
 
-            return Redirect::route("request")
-                            ->withSuccess($res['success']);
-        } else {
-
-            $error = isset($res['error']) ? $res['error'] : $this->request->errors();
+            return Redirect::route("reset")
+                            ->withInput($input)
+                            ->withSuccess('Hemos enviado el codigo de recuperacion de clave.');
         }
 
         return Redirect::route("request")
                         ->withInput($input)
-                        ->withErrors($error);
+                        ->withErrors($this->request->errors()->all());
     }
 
-    public function reset($token = null) {
-
-        if (is_null($token))
-            App::abort(404);
-
-        $data = [
-            "token" => $token
-        ];
-
-        return View::make("account.reset", $data);
+    public function reset() {
+        return View::make("account.reset");
     }
 
     public function doReset() {
 
-        $token = Input::get("token");
-
         $input = Input::only(
-                        'email', 'password', 'password_confirmation', 'token'
+                        'mobile', 'password', 'password_confirmation', 'code'
         );
 
         $res = $this->reset->save($input);
 
-        if (!isset($res['error']) && $res) {
+        if ($res)
+            return Redirect::route("login")->withSuccess($res);
 
-            return Redirect::route("login")
-                            ->withSuccess($res['success']);
-        } else {
 
-            $error = isset($res['error']) ? $res['error'] : $this->reset->errors();
-        }
-
-        return Redirect::to(URL::route("reset") . '/' . $token)
+        return Redirect::route("reset")
                         ->withInput($input)
-                        ->withErrors($error);
+                        ->withErrors($this->reset->errors()->all());
     }
 
     public function logout() {

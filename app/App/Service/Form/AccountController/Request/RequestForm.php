@@ -11,7 +11,7 @@ class RequestForm extends AbstractForm {
         parent::__construct($validator);
     }
 
-    public function remind($input) {
+    /*public function remind($input) {
 
         if (!$this->valid($input))
             return false;
@@ -33,6 +33,14 @@ class RequestForm extends AbstractForm {
         }
 
         return $res;
+    }*/
+    
+    public function remind($input) {
+        
+        if (!$this->valid($input))
+            return false;
+
+        return \Password::remind($input);
     }
 
 }

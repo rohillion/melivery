@@ -486,13 +486,15 @@ var custom = {
         var dealerBox = $('#dealers'),
                 dealerModel = $('#dealerPanelModel'),
                 addDealerButton = $('#addDealer'),
-                newDealer;
+                newDealer,
+                nodata = dealerBox.find('.no-data');
 
         addDealerButton.on('click', function () {
             newDealer = dealerModel.clone();
             dealerBox.append(newDealer);
             newDealer.find('.newDealerName').text('Repartidor ' + parseInt(dealerBox.find('.dealer').length + 1)).focus();//TODO. Lang support.
             addDealerButton.hide();
+            nodata.hide();
         });
 
         $(document).on('click', '#dealers .saveDealer ', function () {
@@ -524,6 +526,10 @@ var custom = {
         });
 
         $(document).on('click', '#dealers .cancelDealer ', function () {
+
+            if (!dealerBox.find('.dealer').length > 0)
+                nodata.show();
+            
             dealerBox.find('#dealerPanelModel').remove();
             addDealerButton.show();
         });

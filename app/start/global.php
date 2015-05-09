@@ -102,26 +102,6 @@ require app_path() . '/filters.php';
  */
 require app_path() . '/config/validators.php';
 
-/*
-  |--------------------------------------------------------------------------
-  | Require The Custom constants File
-  |--------------------------------------------------------------------------
-  |
-  | xxx
-  |
- */
-require app_path() . '/config/constants.php';//TODO. Agregar constantes aqui
-
-/*
-  |--------------------------------------------------------------------------
-  | Require The Custom Timezone File
-  |--------------------------------------------------------------------------
-  |
-  | xxx
-  |
- */
-require app_path() . '/config/timezone.php';
-
 if (!Session::has('delivery')) {
 
     if (Cookie::get('position')) {

@@ -13,7 +13,7 @@ class AccountValidator extends LaravelValidator implements ValidableInterface {
      * @var array
      */
     protected $rules = array(
-        'email' => 'required|email',
+        'mobile' => 'required|mobileIE',
         'password' => 'required'
     );
 

@@ -13,8 +13,8 @@ class ResetValidator extends LaravelValidator implements ValidableInterface {
      * @var array
      */
     protected $rules = array(
-        'email' => 'required|email',
-        'token' => 'required|alpha_num|size:40'
+        'mobile' => 'required|mobileIE',
+        'code' => 'required|digits:6'
     );
 
 }

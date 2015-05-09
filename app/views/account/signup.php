@@ -45,8 +45,12 @@
                         <input type="text" name="name" class="form-control" placeholder="Tu nombre" value="<?php echo Input::old('name'); ?>"/>
                     </div>
 
+                    <!--<div class="form-group">
+                        <input type="text" name="email" class="form-control" placeholder="Tu email" value="<?php //echo Input::old('email'); ?>"/>
+                    </div>-->
+                    
                     <div class="form-group">
-                        <input type="text" name="email" class="form-control" placeholder="Tu email" value="<?php echo Input::old('email'); ?>"/>
+                        <input type="text" name="mobile" class="form-control" placeholder="Tu m&oacute;vil" value="<?php echo Input::old('mobile'); ?>"/>
                     </div>
 
                     <div class="form-group">
