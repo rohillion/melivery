@@ -55,7 +55,7 @@ class AccountForm extends AbstractForm {
 
         \Session::put('user.id', $user->id);
         \Session::put('user.name', $user->name);
-        \Session::put('user.email', $user->email);
+        \Session::put('user.mobile', $user->mobile);
         \Session::put('user.id_user_type', $user->id_user_type);
         \Session::put('user.active', $user->active);
         \Session::put('user.verified', $user->verified);

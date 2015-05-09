@@ -23,6 +23,8 @@ use App\Service\Form\AccountController\Reset\ResetForm;
 use App\Service\Form\AccountController\Reset\ResetValidator;
 use App\Service\Form\AccountController\Verification\VerificationForm;
 use App\Service\Form\AccountController\Verification\VerificationValidator;
+use App\Service\Form\AccountController\Settings\SettingsForm;
+use App\Service\Form\AccountController\Settings\SettingsValidator;
 use App\Service\Form\Product\ProductForm;
 use App\Service\Form\Product\ProductValidator;
 use App\Service\Form\Commerce\CommerceForm;
@@ -131,6 +133,7 @@ class FormServiceProvider extends ServiceProvider {
         $this->request($app);
         $this->reset($app);
         $this->verification($app);
+        $this->settings($app);
         $this->product($app);
         $this->commerce($app);
         $this->customer($app);
@@ -179,6 +182,15 @@ class FormServiceProvider extends ServiceProvider {
 
             return new VerificationForm(
                     new VerificationValidator($app['validator']), $app->make('App\Repository\User\UserInterface'), $app->make('App\Repository\Commerce\CommerceInterface'), $app->make('App\Service\Form\AccountController\AccountForm')
+            );
+        });
+    }
+    
+    private function settings($app) {
+        $app->bind('App\Service\Form\AccountController\Settings\SettingsForm', function($app) {
+
+            return new SettingsForm(
+                    new SettingsValidator($app['validator']), $app->make('App\Repository\User\UserInterface'), $app->make('App\Service\Form\AccountController\AccountForm')
             );
         });
     }

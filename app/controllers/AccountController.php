@@ -6,6 +6,7 @@ use App\Service\Form\AccountController\AccountForm;
 use App\Service\Form\AccountController\Request\RequestForm;
 use App\Service\Form\AccountController\Reset\ResetForm;
 use App\Service\Form\AccountController\Verification\VerificationForm;
+use App\Service\Form\AccountController\Settings\SettingsForm;
 
 class AccountController extends BaseController {
 
@@ -14,13 +15,15 @@ class AccountController extends BaseController {
     protected $request;
     protected $reset;
     protected $verification;
+    protected $settings;
 
-    public function __construct(UserForm $user, AccountForm $account, RequestForm $request, ResetForm $reset, VerificationForm $verification) {
+    public function __construct(UserForm $user, AccountForm $account, RequestForm $request, ResetForm $reset, VerificationForm $verification, SettingsForm $settings) {
         $this->user = $user;
         $this->account = $account;
         $this->request = $request;
         $this->reset = $reset;
         $this->verification = $verification;
+        $this->settings = $settings;
     }
 
     public function login() {
@@ -173,6 +176,42 @@ class AccountController extends BaseController {
         Auth::logout();
         Session::flush();
         return Redirect::route("login");
+    }
+
+    public function settings() {
+        return View::make("account.settings");
+    }
+
+    public function profile() {
+
+        $input = Input::only('name', 'mobile');
+
+        $user = $this->settings->updateProfile($input);
+
+        if ($user)
+            return Redirect::route("account.settings")
+                            ->withSuccess('Los datos han sido actualizados.');
+
+
+        return Redirect::route("account.settings")
+                        ->withInput($input)
+                        ->withErrors($this->settings->errors()->all());
+    }
+
+    public function password() {
+
+        $input = Input::only('password', 'newpassword', 'confirm');
+        
+        $user = $this->settings->updatePassword($input);
+
+        if ($user)
+            return Redirect::route("account.settings")
+                            ->withSuccess('La clave ha sido actualizada.');
+
+
+        return Redirect::route("account.settings")
+                        ->withInput($input)
+                        ->withErrors($this->settings->errors()->all());
     }
 
     public function missingMethod($parameters = array()) {

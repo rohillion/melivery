@@ -99,7 +99,6 @@ class UserForm extends AbstractForm {
             return false;
         }
 
-        //$input['tags'] = $this->processTags($input['tags']);
         return $this->user->edit($id, $input);
     }
 

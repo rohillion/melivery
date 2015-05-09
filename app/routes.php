@@ -383,6 +383,21 @@ Route::group(array('domain' => 'account.melivery' . $tld), function() {
             'before' => 'csrf',
             "uses" => "AccountController@doVerification"
         ]);
+        
+        Route::get("/settings", [
+            "as" => "account.settings",
+            "uses" => "AccountController@settings"
+        ]);
+        Route::post("/settings/profile", [
+            'before' => 'csrf',
+            "as" => "account.settings.profile",
+            "uses" => "AccountController@profile"
+        ]);
+        Route::post("/settings/password", [
+            'before' => 'csrf',
+            "as" => "account.settings.password",
+            "uses" => "AccountController@password"
+        ]);
     });
 
 
