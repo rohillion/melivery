@@ -1,3 +1,4 @@
+/vendor
 /bootstrap/compiled.php
 composer.phar
 composer.lock
@@ -10,4 +11,3 @@ Thumbs.db
 /public/upload/branch_image/*
 /public/upload/product_image/*
 /public/upload/product_image_tmp/*
-/vendor/*
