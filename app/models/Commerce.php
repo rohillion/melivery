@@ -1,7 +1,20 @@
 <?php
 
-class Commerce extends Eloquent {
+use Laravel\Cashier\BillableTrait;
+use Laravel\Cashier\BillableInterface;
 
+class Commerce extends Eloquent implements BillableInterface {
+
+    use BillableTrait;
+    
+    
+    /**
+     * To let Stripe know the customer don't need a credit card to subscribe.
+     *
+     * @var string
+     */
+    protected $cardUpFront = false;
+    
     /**
      * The database table used by the model.
      *

@@ -30,7 +30,8 @@
         "App\\Service\\Form\\FormServiceProvider",
         "Codesleeve\\AssetPipeline\\AssetPipelineServiceProvider",
         "Intervention\\Image\\ImageServiceProvider",
-        "JsLocalization\\JsLocalizationServiceProvider"
+        "JsLocalization\\JsLocalizationServiceProvider",
+        "Laravel\\Cashier\\CashierServiceProvider"
     ],
     "eager": [
         "Illuminate\\Cookie\\CookieServiceProvider",
@@ -44,7 +45,8 @@
         "App\\Service\\Form\\FormServiceProvider",
         "Codesleeve\\AssetPipeline\\AssetPipelineServiceProvider",
         "Intervention\\Image\\ImageServiceProvider",
-        "JsLocalization\\JsLocalizationServiceProvider"
+        "JsLocalization\\JsLocalizationServiceProvider",
+        "Laravel\\Cashier\\CashierServiceProvider"
     ],
     "deferred": {
         "artisan": "Illuminate\\Foundation\\Providers\\ArtisanServiceProvider",

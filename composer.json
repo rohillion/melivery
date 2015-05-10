@@ -7,8 +7,9 @@
 		"laravel/framework": "4.2.*",
                 "codesleeve/asset-pipeline": "dev-master",
                 "intervention/image": "2.*",
-                "pusher/pusher-php-server": "dev-master",
-                "twilio/sdk": "dev-master",
+                "pusher/pusher-php-server": "2.*",
+                "twilio/sdk": "4.1.*",
+                "laravel/cashier": "~3.0",
                 "andywer/js-localization": "dev-master"
 	},
 	"autoload": {

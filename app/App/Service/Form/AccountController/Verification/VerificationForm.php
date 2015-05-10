@@ -35,11 +35,11 @@ class VerificationForm extends AbstractForm {
 
           \Session::put('user.verification', true);
           }); */
-        
+
         \Session::put('user.verification', true);
 
         $res = \SMS::send($user->mobile, \Config::get('twilio.TWILIO_NUMBER'), 'Tu código de verificación Melivery es ' . $user->verified);
-        
+
         return $res;
     }
 
@@ -60,14 +60,10 @@ class VerificationForm extends AbstractForm {
 
             $user = $this->user->edit($user->id, $toEdit);
 
-            /*$data['email'] = $user->email;
-
-            \Mail::send('emails.auth.welcome', $data, function($message) use ($user) {
-
-                $message->to($user->email, $user->email)->subject('Bienvenido a Melivery!');
-            });*/
             \Session::forget('user.verification');
             
+            \Billing::createCustomer($user);
+
             $this->accountForm->setSession($user);
 
             return \URL::route(\Session::get('user.dashboard'));

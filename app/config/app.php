@@ -111,7 +111,8 @@ return array(
         'App\Service\Form\FormServiceProvider',
         'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
         'Intervention\Image\ImageServiceProvider',
-        'JsLocalization\JsLocalizationServiceProvider'
+        'JsLocalization\JsLocalizationServiceProvider',
+        'Laravel\Cashier\CashierServiceProvider'
     ),
     /*
       |--------------------------------------------------------------------------
