@@ -64,7 +64,7 @@ Route::filter('auth', function($route) {
             return Response::make('Unauthorized', 401);
         } else {
             CommonEvents::setLastAction($route,Input::all());
-            return Redirect::route('login');
+            return Redirect::route('account.login');
         }
     }
 });
@@ -103,7 +103,7 @@ Route::filter('guest', function() {
 
 Route::filter('verif', function() {
     if (Auth::user()->verified != 1)
-        return Redirect::route('verification');
+        return Redirect::route('account.verification');
 });
 
 /*

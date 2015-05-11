@@ -87,10 +87,10 @@
                         <?php } ?>
                     <?php } else { ?>
                         <li>
-                            <a href="<?php echo URL::route('login') ?>">Iniciar Sesi&oacute;n</a>
+                            <a href="<?php echo URL::route('account.login') ?>">Iniciar Sesi&oacute;n</a>
                         </li>
                         <li>
-                            <a href="<?php echo URL::route('signup') ?>">Registrarme</a>
+                            <a href="<?php echo URL::route('account.signup') ?>">Registrarme</a>
                         </li>
                     <?php } ?>
                 </ul>

@@ -1157,9 +1157,9 @@ body > .header .logo .icon {
 -----------------------------------------------------------------
 */
 .form-control {
-    -webkit-border-radius: 0px !important;
-    -moz-border-radius: 0px !important;
-    border-radius: 0px !important;
+    -webkit-border-radius: 3px !important;
+    -moz-border-radius: 3px !important;
+    border-radius: 3px !important;
     box-shadow: none;
 }
 .form-control:focus {
@@ -2422,7 +2422,7 @@ Component: timeline
 */
 .form-box {
     width: 360px;
-    margin: 90px auto 0 auto;
+    margin: 20px auto 0 auto;
 }
 .form-box .header {
     -webkit-border-top-left-radius: 4px;
@@ -2454,10 +2454,6 @@ Component: timeline
 .form-box .body > .form-group,
 .form-box .footer > .form-group {
     margin-top: 20px;
-}
-.form-box .body > .form-group > input,
-.form-box .footer > .form-group > input {
-    border: #fff;
 }
 .form-box .body > .btn,
 .form-box .footer > .btn {

@@ -9,7 +9,7 @@ Class Billing {
         if (!is_null($user->id_commerce)) {
             $commerce = Commerce::find($user->id_commerce);
             $commerce->trial_ends_at = Carbon\Carbon::now()->addDays(365);
-            $commerce->subscription('freemium')->create(NULL, [
+            $commerce->subscription('premium')->create(NULL, [
                 'description' => $user->mobile
             ]);
             

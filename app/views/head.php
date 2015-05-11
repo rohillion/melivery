@@ -29,7 +29,7 @@ if (!CommonEvents::isSubdomain() && Request::segment(1)) {
     $dir = Request::segment(1) ? '/' . Request::segment(1) : '/' . $assetDir;
 }
 
-$channel = $name == 'commerce' ? "branch_".Session::get('user.branch_id') : "user_".Session::get('user.id');
+$channel = $name == 'commerce' ? (Session::get('user.branch_id')? "branch_".Session::get('user.branch_id') : NULL) : (Session::get('user.id')? "user_".Session::get('user.id') : NULL);
 ?>
 <head>
     <meta charset="UTF-8">
@@ -41,10 +41,8 @@ $channel = $name == 'commerce' ? "branch_".Session::get('user.branch_id') : "use
     <link href="/assets/application.css" rel="stylesheet" type="text/css" />
     <link href="/assets/<?php echo $name ?><?php echo $dir; ?>/bundle.css" rel="stylesheet" type="text/css" />
 
+    <?php if(!is_null($channel)){?>
     <script src="//js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
-    
-    <script type="text/javascript">
-        var chnl = '<?php echo $channel?>';
-    </script>
-    
+    <script type="text/javascript">var chnl = '<?php echo $channel?>';</script>
+    <?php }?>
 </head>

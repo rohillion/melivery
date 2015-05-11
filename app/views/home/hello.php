@@ -1,4 +1,4 @@
-<div id="hello-wrapper" class="<?php echo!Cookie::get('position') ? 'show' : ''; ?>">
+<div id="hello-wrapper" class="<?php echo!Cookie::get('position') ? 'show' : ''; ?> presentation-bg">
     <!-- Main content -->
     <section class="container container-with-padding-top">
 

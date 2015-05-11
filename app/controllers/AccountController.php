@@ -39,7 +39,7 @@ class AccountController extends BaseController {
             return Redirect::to($res);
         }
 
-        return Redirect::route("login")
+        return Redirect::route("account.login")
                         ->withInput(Input::except('password'))
                         ->withErrors($res['error']);
     }
@@ -84,12 +84,12 @@ class AccountController extends BaseController {
 
         if ($res) {
 
-            return Redirect::route('verification')
+            return Redirect::route('account.verification')
                             ->withSuccess(Lang::get('segment.attribute.message.success.store'))
                             ->with('status', 'success');
         }
 
-        return Redirect::route('signup')
+        return Redirect::route('account.signup')
                         ->withInput()
                         ->withErrors($this->user->errors())
                         ->with('status', 'error');
@@ -122,7 +122,7 @@ class AccountController extends BaseController {
             return Redirect::to($res);
         }
 
-        return Redirect::route('verification')
+        return Redirect::route('account.verification')
                         ->withInput()
                         ->withErrors($res['error'])
                         ->with('status', 'error');
@@ -141,12 +141,12 @@ class AccountController extends BaseController {
 
         if ($request) {
 
-            return Redirect::route("reset")
+            return Redirect::route("account.reset")
                             ->withInput($input)
                             ->withSuccess('Hemos enviado el codigo de recuperacion de clave.');
         }
 
-        return Redirect::route("request")
+        return Redirect::route("account.request")
                         ->withInput($input)
                         ->withErrors($this->request->errors()->all());
     }
@@ -164,10 +164,10 @@ class AccountController extends BaseController {
         $res = $this->reset->save($input);
 
         if ($res)
-            return Redirect::route("login")->withSuccess($res);
+            return Redirect::route("account.login")->withSuccess($res);
 
 
-        return Redirect::route("reset")
+        return Redirect::route("account.reset")
                         ->withInput($input)
                         ->withErrors($this->reset->errors()->all());
     }
@@ -175,7 +175,7 @@ class AccountController extends BaseController {
     public function logout() {
         Auth::logout();
         Session::flush();
-        return Redirect::route("login");
+        return Redirect::route("account.login");
     }
 
     public function settings() {

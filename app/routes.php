@@ -347,12 +347,12 @@ Route::group(array('domain' => 'account.melivery' . $tld), function() {
     Route::group(['before' => 'guest'], function() {
 
         Route::get("/", [
-            "as" => "login",
+            "as" => "account.login",
             "uses" => "AccountController@login"
         ]);
 
         Route::get("/login", [
-            "as" => "login",
+            "as" => "account.login",
             "uses" => "AccountController@login"
         ]);
 
@@ -362,7 +362,7 @@ Route::group(array('domain' => 'account.melivery' . $tld), function() {
         ]);
 
         Route::get("/signup", [
-            "as" => "signup",
+            "as" => "account.signup",
             "uses" => "AccountController@signup"
         ]);
 
@@ -375,7 +375,7 @@ Route::group(array('domain' => 'account.melivery' . $tld), function() {
     Route::group(['before' => 'auth'], function() {
 
         Route::get("/verification", [
-            "as" => "verification",
+            "as" => "account.verification",
             "uses" => "AccountController@verification"
         ]);
 
@@ -402,24 +402,24 @@ Route::group(array('domain' => 'account.melivery' . $tld), function() {
 
 
     Route::get("/request", [
-        "as" => "request",
+        "as" => "account.request",
         "uses" => "AccountController@request"
     ]);
 
     Route::post("/request", [
         'before' => 'csrf',
-        "as" => "request",
+        "as" => "account.request",
         "uses" => "AccountController@doRequest"
     ]);
 
     Route::get("/reset", [
-        "as" => "reset",
+        "as" => "account.reset",
         "uses" => "AccountController@reset"
     ]);
 
     Route::post("/reset", [
         'before' => 'csrf',
-        "as" => "reset",
+        "as" => "account.reset",
         "uses" => "AccountController@doReset"
     ]);
 
