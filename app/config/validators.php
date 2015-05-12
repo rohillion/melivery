@@ -22,6 +22,10 @@ Validator::extend('mobileIE', function($attribute, $value) {
     return preg_match('/^\+353\d{2}[0-9]{7}/', $value);
 });
 
+Validator::extend('mobileAR', function($attribute, $value) {
+    return preg_match('/^\+54[1-9]{1}[0-9]{9}$/', $value);
+});
+
 //Mobile 12 numbers
 /*Validator::extend('mobile', function($attribute, $value) {
     return preg_match('/^\+\d{3}\d{2}[0-9]{7}/', $value);
