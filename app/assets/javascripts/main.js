@@ -41,7 +41,7 @@ var main = {
         $.ajax({
             url: target,
             dataType: "json",
-            cache:false
+            cache: false
         }).done(function (res) {
 
             if (typeof callback == 'function')
@@ -51,7 +51,7 @@ var main = {
     post: function (target, callback) {
 
         $.ajax({
-            type:'post',
+            type: 'post',
             url: target,
             dataType: "json"
         }).done(function (res) {
@@ -344,5 +344,28 @@ var main = {
             clearTimeout(timer);
             timer = setTimeout(callback, ms);
         };
-    }()
+    }(),
+    mobileFormat: function () {
+
+        var input = $('.mobileFormat'),
+                output = input.next();
+
+        input.intlTelInput({
+            nationalMode: true,
+            utilsScript: "assets/plugins/intlTelInput/utils.js",
+            utilsScriptOnLoad: function () {
+                if (input.length > 0)
+                    input.keyup();
+            },
+            defaultCountry: input.data('code'),
+        });
+
+       
+        input.on("keyup", function () {
+            var intlNumber = input.intlTelInput("getNumber");
+            if (intlNumber) {
+                output.val(intlNumber);
+            }
+        });
+    }
 }

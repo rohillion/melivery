@@ -16,6 +16,8 @@ class AccountForm extends AbstractForm {
     }
 
     public function login($input) {
+        
+        $this->validator->rules['mobile'] = "required|mobile_".\Session::get('location.country');
 
         if (!$this->valid($input))
             return ['error' => $this->validator->errors()];

@@ -1,3 +1,3 @@
 /* Signup bundle */
-//= require plugins/intlTelInput/intlTelInput.min.js
+//= require plugins/intlTelInput/intlTelInput.js
 //= require custom.js

@@ -18,11 +18,11 @@ Validator::extend('price', function($attribute, $value) {
     return preg_match('/^\d+([\,]\d+)*([\.]\d+)?$/', $value);
 });
 
-Validator::extend('mobileIE', function($attribute, $value) {
+Validator::extend('mobile_ie', function($attribute, $value) {
     return preg_match('/^\+353\d{2}[0-9]{7}/', $value);
 });
 
-Validator::extend('mobileAR', function($attribute, $value) {
+Validator::extend('mobile_ar', function($attribute, $value) {
     return preg_match('/^\+54[1-9]{1}[0-9]{9}$/', $value);
 });
 

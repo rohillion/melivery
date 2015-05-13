@@ -31,7 +31,8 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" name="mobile" class="form-control" placeholder="Tu m&oacute;vil" value="<?php echo Input::old('mobile'); ?>"/>
+                        <input type="text" class="form-control mobileFormat" placeholder="<?php echo Config::get('cons.mobile.'.Session::get('location.country')); ?>" value="<?php echo Input::old('mobile'); ?>" data-code="<?php echo Session::get('location.country'); ?>"/>
+                        <input name="mobile" type="hidden"/>
                     </div>
 
                     <div class="form-group">
