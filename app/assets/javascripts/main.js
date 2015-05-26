@@ -361,10 +361,12 @@ var main = {
         });
 
        
-        input.on("keyup", function () {
+        input.on("keyup change input", function () {
             var intlNumber = input.intlTelInput("getNumber");
             if (intlNumber) {
                 output.val(intlNumber);
+            }else{
+                output.val('');
             }
         });
     }

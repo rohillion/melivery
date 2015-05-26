@@ -99,7 +99,7 @@ class AdminAttributeController extends BaseController {
      * Create attribute form processing
      * POST /admin/attribute
      */
-    public function changeStatus() {
+    public function status() {
 
         //$input = array_merge(Input::all(), array('user_id' => 1));
         $input['active'] = Input::get('status');

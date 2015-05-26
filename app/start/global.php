@@ -52,11 +52,11 @@ App::error(function(Exception $exception, $code) {
         case 403:
             return Response::view('error.403', array(), 403);
 
-        /*case 404:
+        case 404:
             return Response::view('error.404', array(), 404);
 
         case 500:
-            return Response::view('error.500', array(), 500);*/
+            return Response::view('error.503', array(), 503);
 
         default:
             Log::error($exception);

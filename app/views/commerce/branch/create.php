@@ -8,12 +8,12 @@
         <section class="content-header content-header-fixed">
             <div class="container">
                 <h3>
-                    <?php echo Lang::get('segment.branch.title.create'); ?>
+                    <?php echo Lang::get('common.action.config') . ' ' . Lang::get('segment.branch.name.single'); ?>
 
                     <?php if (isset($branch)) { ?>
                         <button id="deleteBranch" form="deleteBranchForm" type="submit" class="btn btn-danger btn-flat pull-right">
                             <i class="fa fa-trash-o"></i>
-                            <?php echo 'Eliminar esta sucursal'; //TODO. Lang. echo Lang::get('common.action.edit') . ' ' . Lang::get('segment.product.title.menu'); ?>
+                            <?php echo Lang::get('common.action.remove') . ' ' . Lang::get('segment.branch.name.single'); ?>
                         </button>
                     <?php } ?>
                 </h3>

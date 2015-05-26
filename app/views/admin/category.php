@@ -21,12 +21,12 @@
     <div class="box box-primary">
 
         <div class="box-header">
-            <h3 class="box-title"><?php echo Lang::get('segment.category.title.add_category') ?></h3>
+            <h3 class="box-title"><?php echo Lang::get('segment.category.title.categories') ?></h3>
         </div><!-- /.box-header -->
         <!-- form start -->
 
         <div class="box-body">
-            <form role="form" method="post" action="category">
+            <form role="form" method="post" action="<?php echo URL::route('admin.category.create') ?>">
                 <?php
                 if ($errors->has('category_name')) {
                     $category_name_error = 'has-error';
@@ -60,7 +60,7 @@
                             <tr>
                                 <td><?php echo $category->id; ?>.</td>
                                 <td>
-                                    <form method="post" action="category/<?php echo $category->id; ?>">
+                                    <form method="post" action="<?php echo URL::route('admin.category.update', $category->id) ?>">
                                         <div class="col-lg-6">
                                             <div class="input-group">
                                                 <input type="text" name="category_name" class="form-control input-sm" value="<?php echo $category->category_name; ?>"/>
@@ -69,7 +69,6 @@
                                                 </span>
                                             </div><!-- /input-group -->
                                         </div>
-
                                         <input type="hidden" name="_method" value="PUT"/>
                                     </form>
                                 </td>
@@ -77,7 +76,7 @@
                                 <?php if ($category->active) { ?>
                                     <td><span class="badge bg-green">Activo</span></td>
                                     <td>
-                                        <form method="post" action="category/status">
+                                        <form method="post" action="<?php echo URL::route('admin.category.status') ?>">
                                             <input type="hidden" name="category_id" value="<?php echo $category->id; ?>"/>
                                             <input type="hidden" name="status" value="0"/>
                                             <button type="submit" class="btn btn-sm btn-default btn-flat">Desactivar</button>
@@ -86,7 +85,7 @@
                                 <?php } else { ?>
                                     <td><span class="badge bg-red">Inactivo</span></td>
                                     <td>
-                                        <form method="post" action="category/status">
+                                        <form method="post" action="<?php echo URL::route('admin.category.status') ?>">
                                             <input type="hidden" name="category_id" value="<?php echo $category->id; ?>"/>
                                             <input type="hidden" name="status" value="1"/>
                                             <button type="submit" class="btn btn-sm btn-default btn-flat">Activar</button>
@@ -95,7 +94,7 @@
                                 <?php } ?>
 
                                 <td>
-                                    <form method="post" action="<?php echo URL::to('category', $category->id) ?>">
+                                    <form method="post" action="<?php echo URL::route('admin.category.delete', $category->id) ?>">
                                         <input type="hidden" name="_method" value="DELETE"/>
                                         <button type="submit" class="btn btn-sm btn-default btn-flat">Remover</button>
                                     </form>

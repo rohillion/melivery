@@ -76,7 +76,7 @@
                             </div>
 
                             <section id="order-history" class="row">
-                                <div class="text-center no-data">No hay pedidos en el historial.</div><!-- TODO. Lang support -->
+                                <div class="text-center no-data"><?php echo Lang::get('segment.order.messages.empty.history'); ?></div>
                             </section>
 
 
@@ -272,24 +272,24 @@
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Cambiar el tipo de entrega de este pedido</h4><!-- /.TODO. Soporte Lang -->
+                        <h4 class="modal-title"><?php echo Lang::get('segment.order.modal.change_order_type.title') ?></h4>
                     </div>
                     <div class="modal-body">
 
                         <div class="form-group">
-                            Este pedido es <strong>Para Retirar</strong> por mostrador y se cambiara a <strong>Delivery</strong>. Por favor, ingrese el monto con el que abonará el comensal, de lo contrario deje el campo en blanco.
+                            <?php echo Lang::get('segment.order.modal.change_order_type.body') ?>
                         </div>
 
                         <form method="post" id="" action="">
                             <div class="form-group">
-                                <label for="changeOrderType_paycash" class="control-label">Monto con el que se abonará:</label>
+                                <label for="changeOrderType_paycash" class="control-label"><?php echo Lang::get('segment.order.modal.change_order_type.label.paycash') ?></label>
                                 <input id="changeOrderType_paycash" class="form-control" type="text"/>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button id="changeOrderType_cancel" type="button" class="btn btn-default" data-dismiss="modal">Matener el tipo de entrega como esta</button>
-                        <button id="changeOrderType_success" type="button" class="btn btn-primary" form="">Cambiar el tipo de entrega a Delivery</button>
+                        <button id="changeOrderType_cancel" type="button" class="btn btn-default" data-dismiss="modal"><?php echo Lang::get('segment.order.modal.change_order_type.action.dismiss') ?></button>
+                        <button id="changeOrderType_success" type="button" class="btn btn-primary" form=""><?php echo Lang::get('segment.order.modal.change_order_type.action.accept') ?></button>
                     </div>
                 </div>
             </div>

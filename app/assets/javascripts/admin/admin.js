@@ -9,20 +9,13 @@ var admin = {
             content: function() {
                 return $(this).next().html();
             },
-            placement: 'bottom'
+            placement: 'bottom',
+            container: 'body',
+            trigger: 'manual'
         });
 
-        $('.popover-trigger').click(function(e) {
+        /*$('.popover-trigger').click(function(e) {
             e.stopPropagation();
-        });
-
-        $(document).on('click', function(e) {
-
-            if ($('.popover').has(e.target).length == 0) {
-                $('.popover-trigger').popover('hide');
-            }
-        });
+        });*/
     }
 }
-
-admin.init();

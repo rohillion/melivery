@@ -16,7 +16,7 @@ class AdminSubcategoryController extends BaseController {
 
     public function index() {
 
-        $data['subcategories'] = $this->subcategory->all('*',['categories']);
+        $data['subcategories'] = $this->subcategory->all(['*'],['categories']);
         $data['categories'] = $this->category->all();
         
         return View::make('admin.main', $data);
@@ -95,7 +95,7 @@ class AdminSubcategoryController extends BaseController {
      * Create subcategory form processing
      * POST /admin/subcategory
      */
-    public function changeStatus() {
+    public function status() {
 
         //$input = array_merge(Input::all(), array('user_id' => 1));
         $input['active'] = Input::get('status');

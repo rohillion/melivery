@@ -80,7 +80,7 @@ class AdminCategoryController extends BaseController {
                             ->with('status', 'success');
         } else {
 
-            return Redirect::to('/subcategory')
+            return Redirect::to('/category')
                             ->withInput()
                             ->withErrors($this->category->errors())
                             ->with('status', 'error');
@@ -91,7 +91,7 @@ class AdminCategoryController extends BaseController {
      * Create category form processing
      * POST /admin/category
      */
-    public function changeStatus() {
+    public function status() {
 
         //$input = array_merge(Input::all(), array('user_id' => 1));
         $input['active'] = Input::get('status');

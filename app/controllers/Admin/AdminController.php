@@ -11,9 +11,10 @@ class AdminController extends BaseController {
     }
 
     public function index() {
+        return Redirect::route('admin');
+    }
 
-        //$data['attributes'] = $this->attribute->all(['*'], ['attribute_types']);
-
+    public function dashboard() {
         return View::make('admin.main');
     }
 

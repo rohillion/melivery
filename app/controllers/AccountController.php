@@ -25,6 +25,10 @@ class AccountController extends BaseController {
         $this->verification = $verification;
         $this->settings = $settings;
     }
+    
+    public function index() {
+        return Redirect::route('account.login');
+    }
 
     public function login() {
         return View::make("account.login");

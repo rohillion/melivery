@@ -24,63 +24,152 @@ Route::group(array('domain' => 'admin.melivery' . $tld, "before" => "auth|admin"
 
     Route::get("/dashboard", [
         "as" => "admin",
-        "uses" => "AdminController@index"
+        "uses" => "AdminController@dashboard"
     ]);
 
     /* Category */
+    Route::get("/category", [
+        "as" => "admin.category",
+        "uses" => "AdminCategoryController@index"
+    ]);
+
+    Route::post("/category", [
+        "as" => "admin.category.create",
+        "uses" => "AdminCategoryController@store"
+    ]);
+
+    Route::put("/category/{id}", [
+        "as" => "admin.category.update",
+        "uses" => "AdminCategoryController@update"
+    ]);
+
+    Route::delete("/category/{id}", [
+        "as" => "admin.category.delete",
+        "uses" => "AdminCategoryController@destroy"
+    ]);
+
     Route::post("/category/status", [
-        "as" => "category.changeStatus",
-        "uses" => "AdminCategoryController@changeStatus"
+        "as" => "admin.category.status",
+        "uses" => "AdminCategoryController@status"
     ]);
 
-    Route::resource('category', 'AdminCategoryController');
-
-    /* Category */
+    /* Subcategory */
+    Route::get("/subcategory", [
+        "as" => "admin.subcategory",
+        "uses" => "AdminSubcategoryController@index"
+    ]);
+    Route::post("/subcategory", [
+        "as" => "admin.subcategory.create",
+        "uses" => "AdminSubcategoryController@store"
+    ]);
+    Route::put("/subcategory/{id}", [
+        "as" => "admin.subcategory.update",
+        "uses" => "AdminSubcategoryController@update"
+    ]);
+    Route::delete("/subcategory/{id}", [
+        "as" => "admin.subcategory.delete",
+        "uses" => "AdminSubcategoryController@destroy"
+    ]);
     Route::post("/subcategory/status", [
-        "as" => "category.changeStatus",
-        "uses" => "AdminSubcategoryController@changeStatus"
+        "as" => "admin.subcategory.status",
+        "uses" => "AdminSubcategoryController@status"
     ]);
-
-    Route::resource('subcategory', 'AdminSubcategoryController');
 
     /* Attribute */
-    Route::post("/attribute/status", [
-        "as" => "attribute.changeStatus",
-        "uses" => "AdminAttributeController@changeStatus"
+    Route::get("/attribute", [
+        "as" => "admin.attribute",
+        "uses" => "AdminAttributeController@index"
     ]);
-
-    Route::resource('attribute', 'AdminAttributeController');
+    Route::post("/attribute", [
+        "as" => "admin.attribute.create",
+        "uses" => "AdminAttributeController@store"
+    ]);
+    Route::put("/attribute/{id}", [
+        "as" => "admin.attribute.update",
+        "uses" => "AdminAttributeController@update"
+    ]);
+    Route::delete("/attribute/{id}", [
+        "as" => "admin.attribute.delete",
+        "uses" => "AdminAttributeController@destroy"
+    ]);
+    Route::post("/attribute/status", [
+        "as" => "admin.attribute.status",
+        "uses" => "AdminAttributeController@status"
+    ]);
 
     /* Attribute Type */
     Route::post("/attributetype/status", [
-        "as" => "attributetype.changeStatus",
+        "as" => "admin.attributetype.changeStatus",
         "uses" => "AdminAttributeTypeController@changeStatus"
     ]);
 
     Route::resource('attributetype', 'AdminAttributeTypeController');
 
     /* Attribute Subcategory */
-    Route::resource('attribute_subcategory', 'AdminAttributeSubcategoryController');
-
-    /* Tag */
-    Route::post("/tag/status", [
-        "as" => "tag.changeStatus",
-        "uses" => "TagController@changeStatus"
+    Route::get("/attribute_subcategory", [
+        "as" => "admin.attribute_subcategory",
+        "uses" => "AdminAttributeSubcategoryController@index"
+    ]);
+    Route::post("/attribute_subcategory", [
+        "as" => "admin.attribute_subcategory.create",
+        "uses" => "AdminAttributeSubcategoryController@store"
+    ]);
+    Route::put("/attribute_subcategory/{id}", [
+        "as" => "admin.attribute_subcategory.update",
+        "uses" => "AdminAttributeSubcategoryController@update"
+    ]);
+    Route::delete("/attribute_subcategory/{id}", [
+        "as" => "admin.attribute_subcategory.delete",
+        "uses" => "AdminAttributeSubcategoryController@destroy"
     ]);
 
-    Route::resource('tag', 'TagController');
+    /* Tag */
+    Route::get("/tag", [
+        "as" => "admin.tag",
+        "uses" => "TagController@index"
+    ]);
+    Route::post("/tag", [
+        "as" => "admin.tag.create",
+        "uses" => "TagController@store"
+    ]);
+    Route::put("/tag/{id}", [
+        "as" => "admin.tag.update",
+        "uses" => "TagController@update"
+    ]);
+    Route::delete("/tag/{id}", [
+        "as" => "admin.tag.delete",
+        "uses" => "TagController@destroy"
+    ]);
+    Route::post("/tag/status", [
+        "as" => "admin.tag.status",
+        "uses" => "TagController@status"
+    ]);
 
     /* Rule */
+    Route::get("/rule", [
+        "as" => "admin.rule",
+        "uses" => "RuleController@index"
+    ]);
+    Route::post("/rule", [
+        "as" => "admin.rule.create",
+        "uses" => "RuleController@store"
+    ]);
+    Route::put("/rule/{id}", [
+        "as" => "admin.rule.update",
+        "uses" => "RuleController@update"
+    ]);
+    Route::delete("/rule/{id}", [
+        "as" => "admin.rule.delete",
+        "uses" => "RuleController@destroy"
+    ]);
     Route::post("/rule/status", [
-        "as" => "rule.changeStatus",
+        "as" => "admin.rule.changeStatus",
         "uses" => "RuleController@changeStatus"
     ]);
 
-    Route::resource('rule', 'RuleController');
-
     /* Rule Type */
     Route::post("/ruletype/status", [
-        "as" => "ruletype.changeStatus",
+        "as" => "admin.ruletype.changeStatus",
         "uses" => "RuleTypeController@changeStatus"
     ]);
 
@@ -103,8 +192,6 @@ Route::group(array('domain' => 'commerce.melivery' . $tld, "before" => "auth|ver
                 "as" => "commerce",
                 "uses" => "CommerceController@index"
             ]);
-
-            //Route::resource('product', 'ProductController');
 
             Route::get("/product", [
                 "as" => "commerce.product",
@@ -347,8 +434,8 @@ Route::group(array('domain' => 'account.melivery' . $tld), function() {
     Route::group(['before' => 'guest'], function() {
 
         Route::get("/", [
-            "as" => "account.login",
-            "uses" => "AccountController@login"
+            "as" => "account.index",
+            "uses" => "AccountController@index"
         ]);
 
         Route::get("/login", [
@@ -383,7 +470,7 @@ Route::group(array('domain' => 'account.melivery' . $tld), function() {
             'before' => 'csrf',
             "uses" => "AccountController@doVerification"
         ]);
-        
+
         Route::get("/settings", [
             "as" => "account.settings",
             "uses" => "AccountController@settings"
@@ -501,37 +588,39 @@ Route::get("/position", [
 ]);
 
 //COMMERCE LANDING -------------------------------------------------
-Route::get("/{commerce}", [
-    "as" => "landing",
-    "uses" => "LandingController@index"
-]);
+Route::group(array('domain' => 'melivery' . $tld), function() {
+    Route::get("/{commerce}", [
+        "as" => "landing",
+        "uses" => "LandingController@index"
+    ]);
 
-Route::post("/preorder/add", [
-    "before" => 'csrf',
-    "as" => "preorder.add",
-    "uses" => "LandingController@addItem"
-]);
+    Route::post("/preorder/add", [
+        "before" => 'csrf',
+        "as" => "preorder.add",
+        "uses" => "LandingController@addItem"
+    ]);
 
-Route::post("/preorder/qty", [
-    'before' => 'csrf',
-    "as" => "preorder.qty",
-    "uses" => "LandingController@configQty"
-]);
+    Route::post("/preorder/qty", [
+        'before' => 'csrf',
+        "as" => "preorder.qty",
+        "uses" => "LandingController@configQty"
+    ]);
 
-Route::post("/preorder/attr", [
-    'before' => 'csrf',
-    "as" => "preorder.attr",
-    "uses" => "LandingController@configAttr"
-]);
+    Route::post("/preorder/attr", [
+        'before' => 'csrf',
+        "as" => "preorder.attr",
+        "uses" => "LandingController@configAttr"
+    ]);
 
-Route::get("/preorder/remove", [
-    "before" => 'csrf',
-    "as" => "preorder.remove",
-    "uses" => "LandingController@removeItem"
-]);
+    Route::get("/preorder/remove", [
+        "before" => 'csrf',
+        "as" => "preorder.remove",
+        "uses" => "LandingController@removeItem"
+    ]);
 
-Route::get("/preorder/show", [
-    "before" => 'csrf',
-    "as" => "preorder.show",
-    "uses" => "LandingController@show"
-]);
+    Route::get("/preorder/show", [
+        "before" => 'csrf',
+        "as" => "preorder.show",
+        "uses" => "LandingController@show"
+    ]);
+});

@@ -31,9 +31,9 @@ return array(
     "date" => "The :attribute is not a valid date.",
     "date_format" => "The :attribute does not match the format :format.",
     "different" => "The :attribute and :other must be different.",
-    "digits" => "The :attribute must be :digits digits.",
+    "digits" => "El campo :attribute debe contener :digits digitos.",
     "digits_between" => "The :attribute must be between :min and :max digits.",
-    "email" => "The :attribute must be a valid email address.",
+    "email" => "El :attribute tiene un formato invalido.",
     "exists" => "The selected :attribute is invalid.",
     "image" => "The :attribute must be an image.",
     "in" => "The selected :attribute is invalid.",
@@ -55,7 +55,7 @@ return array(
     "not_in" => "The selected :attribute is invalid.",
     "numeric" => "The :attribute must be a number.",
     "regex" => "The :attribute format is invalid.",
-    "required" => "The :attribute field is required.",
+    "required" => "El campo :attribute es requerido.",
     "required_if" => "The :attribute field is required when :other is :value.",
     "required_with" => "The :attribute field is required when :values is present.",
     "required_with_all" => "The :attribute field is required when :values is present.",
@@ -88,6 +88,18 @@ return array(
         'category_name' => array(
             'unique' => 'El :attribute ya esta siendo utilizado',
         ),
+        'password' => array(
+            'required' => 'Por favor, ingresa tu :attribute',
+        ),
+        'mobile' => array(
+            'required' => 'Por favor, ingresa tu :attribute',
+        ),
+        'name' => array(
+            'required' => 'Por favor, ingresa tu :attribute',
+        ),
+        'id_user_type' => array(
+            'required' => 'Por favor, selecciona el :attribute',
+        )
     ),
     /*
       |--------------------------------------------------------------------------
@@ -100,6 +112,10 @@ return array(
       |
      */
     'attributes' => array(
-        'category_name' => '"Nombre de categor&iacute;a"'
+        'category_name' => 'Nombre de categor&iacute;a',
+        'password' => 'clave',
+        'mobile' => 'numero de celular',
+        'name' => 'nombre',
+        'id_user_type' => 'tipo de cuenta'
     ),
 );

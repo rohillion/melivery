@@ -3,8 +3,8 @@
     <?php echo View::make('head'); ?>
     <body class="presentation-bg">
 
-        <div><img width="150" class="center-block" src="/assets/clock.png" alt="Melivery Clock"/></div>
-        <div><img width="300" class="center-block" src="/assets/melivery.png" alt="Melivery"/></div>
+        <div><a href="//melivery<?php echo CommonEvents::get_tld()[1];?>" title="Melivery"><img width="150" class="center-block" src="/assets/clock.png" alt="Melivery Clock"/></a></div>
+        <div><a href="//melivery<?php echo CommonEvents::get_tld()[1];?>" title="Melivery"><img width="300" class="center-block" src="/assets/melivery.png" alt="Melivery"/></a></div>
 
         <div class="form-box" id="login-box">
 

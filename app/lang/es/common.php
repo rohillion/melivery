@@ -16,6 +16,7 @@ return array(
     "label" => array(
         "save" => "Guardar",
         "my_orders" => "Mis pedidos",
+        "total" => "Total",
     ),
     "action" => array(
         "create" => "Crear",
@@ -23,6 +24,7 @@ return array(
         "remove" => "Remover",
         "edit" => "Editar",
         "new" => "Nuevo",
+        "config" => "Configurar",
     ),
     "placeholder" => array(
         "name" => "Ingrese un nombre",

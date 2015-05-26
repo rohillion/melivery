@@ -17,7 +17,6 @@ class LandingController extends PreorderController {
 
     public function index($commerceName) {
         
-        
         $branchId = Input::get('branch');
 
         $commerce = $this->commerce->findByName($commerceName);

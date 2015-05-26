@@ -123,7 +123,23 @@ return array(
             "fail" => array(
                 "store" => "xxxx",
             ),
+            "empty" => array(
+                "history" => "No hay pedidos en el historial.",
+            )
         ),
+        "modal" => array(
+            "change_order_type" => array(
+                "title" => "Cambiar el tipo de entrega de este pedido",
+                "body" => "Este pedido es <strong>Para Retirar</strong> por mostrador y se cambiara a <strong>Delivery</strong>. Por favor, ingrese el monto con el que abonará el comensal, de lo contrario deje el campo en blanco.",
+                "label" => array(
+                    "paycash" => "Monto con el que se abonará:"
+                ),
+                "action" => array(
+                    "dismiss" => "Matener el tipo de entrega como está",
+                    "accept" => "Cambiar el tipo de entrega a Delivery"
+                ),
+            )
+        )
     ),
     "product" => array(
         "name" => array(
@@ -171,12 +187,11 @@ return array(
     ),
     "branch" => array(
         "name" => array(
-            "single" => "Punto de venta",
+            "single" => "Sucursal",
             "plural" => "Puntos de venta",
         ),
         "title" => array(
             "main_menu" => "Puntos de venta",
-            "create" => "Agregar una sucursal",
         ),
         "form" => array(
             "name" => "xxxx",
@@ -188,7 +203,7 @@ return array(
             ),
             "fail" => array(
                 "store" => "Ha ocurrido un error al intentar agregar la sucursal.",
-            ),
+            )
         ),
     ),
     "tag-name" => array(

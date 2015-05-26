@@ -16,6 +16,7 @@ return array(
     "label" => array(
         "save" => "Save",
         "my_orders" => "My orders",
+        "total" => "Total",
     ),
     "placeholder" => array(
         "name" => "Write a name",
@@ -26,6 +27,7 @@ return array(
         "remove" => "Remove",
         "edit" => "Edit",
         "new" => "New",
+        "config" => "Config",
     ),
     "messages" => array(
         "success" => array(

@@ -3,8 +3,8 @@
     <?php echo View::make('head'); ?>
     <body class="presentation-bg">
 
-        <div><img width="150" class="center-block" src="/assets/clock.png" alt="Melivery Clock"/></div>
-        <div><img width="300" class="center-block" src="/assets/melivery.png" alt="Melivery"/></div>
+        <div><a href="//melivery<?php echo CommonEvents::get_tld()[1];?>" title="Melivery"><img width="150" class="center-block" src="/assets/clock.png" alt="Melivery Clock"/></a></div>
+        <div><a href="//melivery<?php echo CommonEvents::get_tld()[1];?>" title="Melivery"><img width="300" class="center-block" src="/assets/melivery.png" alt="Melivery"/></a></div>
 
         <div class="form-box" id="login-box">
 
@@ -41,15 +41,15 @@
 
                     <div class="form-group">
                         <select name="account_type" class="form-control">
-                            <option <?php echo $nan; ?>>C&oacute;mo desea utilizar su cuenta?</option>
+                            <option <?php echo $nan; ?>>C&oacute;mo deseas utilizar tu cuenta?</option>
                             <option <?php echo $commercial; ?> value="commercial">Uso comercial: Quiero vender comida.</option>
                             <option <?php echo $individual; ?> value="individual">Uso particular: Quiero comprar comida.</option>
                         </select>
                     </div>         
                 </div>
                 <div class="footer">                                                               
-                    <button type="submit" class="btn bg-red btn-block">Create account</button>
-                    <a href="<?php echo URL::route('account.login'); ?>" class="text-center">Already have an account?</a>
+                    <button type="submit" class="btn bg-red btn-block">Crear cuenta</button>
+                    <a href="<?php echo URL::route('account.login'); ?>" class="text-center">Ya tienes una cuenta?</a><!--Already have an account?-->
                 </div>
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             </form>

@@ -9,7 +9,7 @@ foreach ($order->order_products as $order_product) {
     <div class="box box-<?php echo $order['status_id'] == Config::get('cons.order_status.done') ? 'success' : 'danger'; ?> order-helper-client">
         <div class="client-name"><?php echo $order['user']['name'] ?></div>
         <div class="order-change">
-            Total <strong>$<?php echo $order['total'] ?></strong><!-- TODO. Lang support -->
+            <?php echo Lang::get('common.label.total') ?> <strong>$<?php echo $order['total'] ?></strong>
         </div>
     </div>
 </div>

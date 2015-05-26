@@ -1,0 +1,16 @@
+/*Admin v1.0--*/
+html, body {
+    height: 100%;
+}
+html {
+    overflow: hidden;
+    padding-top: 50px;
+}
+
+body {
+    padding-top: 0;
+}
+
+body > .header {
+  position: fixed;
+}
