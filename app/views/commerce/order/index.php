@@ -10,8 +10,8 @@
                 <h3>
                     <?php echo Lang::get('segment.order.name.plural'); ?>
                     <!--<button id="togglePendingPanel" class="btn btn-success btn-flat pull-right" type="button">Comandas pendientes</button>-->
-                    <a id="toggleHistory" class="btn btn-link pull-right" data-toggle="tooltip" data-placement="auto" data-original-title="Historial" title="Historial">
-                        <i class="fa fa-history"></i>
+                    <a id="toggleHistory" class="btn btn-success btn-flat pull-right" title="Historial">
+                        <i class="fa fa-history"></i> Historial
                     </a>
                 </h3>
             </div>

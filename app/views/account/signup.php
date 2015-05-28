@@ -45,8 +45,10 @@
                             <option <?php echo $commercial; ?> value="commercial">Uso comercial: Quiero vender comida.</option>
                             <option <?php echo $individual; ?> value="individual">Uso particular: Quiero comprar comida.</option>
                         </select>
-                    </div>         
+                    </div>
+                    <p>Al registrarte estas aceptando nuestros <br><a href="<?php echo URL::route('account.tos');?>">T&eacute;rminos y Condiciones</a></p>
                 </div>
+                
                 <div class="footer">                                                               
                     <button type="submit" class="btn bg-red btn-block">Crear cuenta</button>
                     <a href="<?php echo URL::route('account.login'); ?>" class="text-center">Ya tienes una cuenta?</a><!--Already have an account?-->

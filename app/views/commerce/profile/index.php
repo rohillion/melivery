@@ -49,7 +49,9 @@
 
                                     <?php if (File::exists($coverPath)) { ?>
                                         <img title="COVER" alt="COVER" src="<?php echo $coverPath . '?cache=' . rand(1111, 9999) ?>"/>
-                                    <?php } ?>
+                                    <?php }else{ ?>
+                                        <img title="COVER" alt="COVER" src="<?php echo Config::get('cons.image.commerceCover.tmp') ?>"/>
+                                    <?php }?>
                                 </div>
 
                                 <div class="edit text-center">Editar</div>
@@ -68,7 +70,9 @@
 
                                     <?php if (File::exists($logoPath)) { ?>
                                         <img title="LOGO" alt="LOGO" src="<?php echo $logoPath . '?cache=' . rand(1111, 9999) ?>"/>
-                                    <?php } ?>
+                                    <?php }else{ ?>
+                                        <img title="LOGO" alt="LOGO" src="<?php echo Config::get('cons.image.commerceLogo.tmp') ?>"/>
+                                    <?php }?>
 
                                 </div>
 

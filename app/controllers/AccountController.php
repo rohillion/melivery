@@ -217,6 +217,10 @@ class AccountController extends BaseController {
                         ->withInput($input)
                         ->withErrors($this->settings->errors()->all());
     }
+    
+    public function tos() {
+        return View::make("account.tos");
+    }
 
     public function missingMethod($parameters = array()) {
         //

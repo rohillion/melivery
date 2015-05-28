@@ -22,10 +22,25 @@ body{
 }
 
 .navbar-nav>li>a:hover {
-    line-height: 26px;
-    font-weight: bold;
     color: #fff;
-    font-size: 16px;
+}
+
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>li>a:focus{
+    color: #fff;
+}
+
+.skin-red .navbar .nav > li > a:hover,
+.skin-red .navbar .nav > li > a:active,
+.skin-red .navbar .nav > li > a:focus,
+.skin-red .navbar .nav .open > a,
+.skin-red .navbar .nav .open > a:hover,
+.skin-red .navbar .nav .open > a:focus{
+    background: #c53216;
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: #999;
 }
 
 .badge{

@@ -29,6 +29,7 @@ return array(
             )
         ),
         'commerceCover' => array(
+            'tmp' => '/assets/tmp_bg.png',
             'path' => 'upload/commerce_image',
             'name' => 'cover.jpg',
             'size' => array(
@@ -37,6 +38,7 @@ return array(
             )
         ),
         'commerceLogo' => array(
+            'tmp' => '/assets/tmp_logo.png',
             'path' => 'upload/commerce_image',
             'name' => 'logo.jpg',
             'size' => array(

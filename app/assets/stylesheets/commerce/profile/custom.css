@@ -29,9 +29,14 @@
     left: 0;
     right: 0;
     bottom: 0;
-    line-height: 800%;
     background-color: #fff;
     opacity: 0;
+}
+#cover .edit{
+    line-height: 875%;
+}
+#logo .edit{
+    line-height: 755%;
 }
 
 #cover:hover .edit, #logo:hover .edit{

@@ -60,8 +60,8 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li role="presentation">
-                                    <a href="<?php echo URL::route('account.settings') ?>"><i class="fa fa-gear"></i> Settings</a><!--TODO. Lang Support-->
-                                    <a href="<?php echo URL::route('logout') ?>"><i class="fa fa-sign-out"></i> Sign out</a>
+                                    <a href="<?php echo URL::route('account.settings') ?>"><i class="fa fa-gear"></i> Opciones</a><!--TODO. Lang Support-->
+                                    <a href="<?php echo URL::route('logout') ?>"><i class="fa fa-sign-out"></i> Cerrar sesi&oacute;n</a>
                                 </li>
                             </ul>
                         </li>

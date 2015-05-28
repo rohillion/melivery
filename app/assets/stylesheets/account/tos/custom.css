@@ -1,0 +1,8 @@
+/*TOS v1.0--*/
+html,body{
+    height: 100%;
+}
+
+.box .box-header .box-title{
+    padding-left: 0;
+}

@@ -204,6 +204,40 @@ return array(
             ),
         ),
     ),
+    "settings" => array(
+        "name" => array(
+            "single" => "Opcion",
+            "plural" => "Opciones",
+        ),
+        "title" => array(
+            "main_menu" => "Opciones",
+        )
+    ),
+    "signup" => array(
+        "name" => array(
+            "plural" => "Registrarse",
+        )
+    ),
+    "login" => array(
+        "name" => array(
+            "plural" => "Iniciar sesión",
+        )
+    ),
+    "request" => array(
+        "name" => array(
+            "plural" => "Recuperar clave",
+        )
+    ),
+    "verification" => array(
+        "name" => array(
+            "plural" => "Verificar cuenta",
+        )
+    ),
+    "tos" => array(
+        "name" => array(
+            "plural" => "Terms of Service",
+        )
+    ),
     "tag-name" => array(
         "name" => "tag",
     ),

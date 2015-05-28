@@ -16,34 +16,35 @@ class LandingController extends PreorderController {
     }
 
     public function index($commerceName) {
-        
+
         $branchId = Input::get('branch');
 
         $commerce = $this->commerce->findByName($commerceName);
 
-        if (!is_null($commerce)) {
+        if (is_null($commerce))
+            return Redirect::to(Config::get('app.url'));
 
-            $branches = $this->branch->allByCommerceId($commerce->id);
 
-            if (!$branches->isEmpty()) {
+        $branches = $this->branch->allByCommerceId($commerce->id);
 
-                if (!$branchId)
-                    $branchId = $branches[0]->id;
+        if (!$branches->isEmpty()) {
 
-                $branch = $this->branch->find($branchId, ['*'], ['branchProducts.product.categories.subcategories', 'branchProducts.product.tags', 'branchProducts.prices.size'], ['commerce_id' => $commerce->id]);
+            if (!$branchId)
+                $branchId = $branches[0]->id;
 
-                foreach ($branch->branchProducts as $branchProduct) {
-                        $data['productByCategory'][$branchProduct->product->categories->category_name]['data'] = $branchProduct->product->categories;
-                        $data['productByCategory'][$branchProduct->product->categories->category_name]['products'][] = $branchProduct;
-                }
-                
-                if (!$branch)
-                    return Redirect::to('/' . $commerce->commerce_url);
+            $branch = $this->branch->find($branchId, ['*'], ['branchProducts.product.categories.subcategories', 'branchProducts.product.tags', 'branchProducts.prices.size'], ['commerce_id' => $commerce->id]);
 
-                $commerce->setRelations(['branch' => $branch]);
-
-                $data['branches'] = $branches;
+            foreach ($branch->branchProducts as $branchProduct) {
+                $data['productByCategory'][$branchProduct->product->categories->category_name]['data'] = $branchProduct->product->categories;
+                $data['productByCategory'][$branchProduct->product->categories->category_name]['products'][] = $branchProduct;
             }
+
+            if (!$branch)
+                return Redirect::to('/' . $commerce->commerce_url);
+
+            $commerce->setRelations(['branch' => $branch]);
+
+            $data['branches'] = $branches;
         }
 
         $data['commerce'] = $commerce;

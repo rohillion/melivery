@@ -514,6 +514,11 @@ Route::group(array('domain' => 'account.melivery' . $tld), function() {
         "as" => "logout",
         "uses" => "AccountController@logout"
     ]);
+    
+    Route::get("/tos", [
+        "as" => "account.tos",
+        "uses" => "AccountController@tos"
+    ]);
 });
 
 //MENU -------------------------------------------------------------

@@ -24,6 +24,8 @@ class MenuController extends BaseController {
     }
 
     public function index($category = NULL, $items = 10) {
+        
+        return Redirect::to(Config::get('app.url'));//TODO. Temporalmente no es posible buscar comida en el menu generico.
 
         // We define empty collections for the views in case no match
         $data = array(
