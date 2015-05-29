@@ -10,9 +10,9 @@
             <div class="parallax-group">
                 <?php
                 $coverPath = Config::get('cons.image.commerceCover.path') . '/' . $commerce->id . '/' . Config::get('cons.image.commerceCover.name');
-                $cover = File::exists($coverPath) ? 'style="background-image: url(' . $coverPath . '?cache=' . rand(1111, 9999) . ')"' : '';
+                $cover = File::exists($coverPath) ? $coverPath . '?cache=' . rand(1111, 9999) :  Config::get('cons.image.commerceCover.tmp');
                 ?>
-                <div class="cover-container" <?php echo $cover ?>></div>
+                <div class="cover-container" style="background-image: url(<?php echo $cover ?>)"></div>
             </div>
 
             <!-- Main content -->
@@ -62,37 +62,39 @@
                                     </div>
                                 <?php } ?>
 
-                                <div id="branch-select" class="pull-right">
-                                    <div href="#" id="branch-mask" class="filter-mask popover-trigger margin-less">
+                                <?php if (!is_null($commerce->branch)) { ?>
+                                    <div id="branch-select" class="pull-right">
+                                        <div href="#" id="branch-mask" class="filter-mask popover-trigger margin-less">
 
-                                        <div class="mask pull-left">
-                                            <?php echo $commerce->branch->street; ?>
-                                        </div>
+                                            <div class="mask pull-left">
+                                                <?php echo $commerce->branch->street; ?>
+                                            </div>
 
-                                        <div class="caret-wrapp pull-left">
-                                            <span class="caret"></span>
-                                        </div>
+                                            <div class="caret-wrapp pull-left">
+                                                <span class="caret"></span>
+                                            </div>
 
-                                        <div id="branch-list" class="popover-wrapper">
-                                            <ul class="list-group organized-list">
+                                            <div id="branch-list" class="popover-wrapper">
+                                                <ul class="list-group organized-list">
 
-                                                <span role="presentation" class="dropdown-header">Otras sucursales</span>
+                                                    <span role="presentation" class="dropdown-header">Otras sucursales</span>
 
-                                                <?php foreach ($branches as $branch) { ?>
-                                                    <?php if ($commerce->branch->id != $branch->id) { ?>
+                                                    <?php foreach ($branches as $branch) { ?>
+                                                        <?php if ($commerce->branch->id != $branch->id) { ?>
 
-                                                        <li class="list-group-item">
-                                                            <a class="branch-item" href="?branch=<?php echo $branch->id; ?>"><?php echo $branch->street; ?></a>
-                                                        </li>
+                                                            <li class="list-group-item">
+                                                                <a class="branch-item" href="?branch=<?php echo $branch->id; ?>"><?php echo $branch->street; ?></a>
+                                                            </li>
 
+                                                        <?php } ?>
                                                     <?php } ?>
-                                                <?php } ?>
 
-                                            </ul>
+                                                </ul>
+                                            </div>
+
                                         </div>
-
                                     </div>
-                                </div>
+                                <?php } ?>
 
                             </div>
 
@@ -254,12 +256,12 @@
 
                                 <?php } else { ?>
 
-
                                     <div class="well well-sm text-center">No hay productos disponibles en esta sucursal.</div>
-
-
                                 <?php } ?>
 
+                            <?php } else { ?>
+                                    
+                                    <div class="well well-sm text-center">Este comercio aun no ha configurado su men&uacute;.</div>
                             <?php } ?>
 
 

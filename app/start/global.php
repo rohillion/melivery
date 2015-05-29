@@ -56,10 +56,10 @@ App::error(function(Exception $exception, $code) {
             return Response::view('error.404', array(), 404);
 
         case 500:
-            return Response::view('error.503', array(), 503);
+            //return Response::view('error.503', array(), 503);
 
         default:
-            Log::error($exception);
+            //Log::error($exception);
             //return Response::view('error.default', array(), $code);TODO. default error page
     }
 });

@@ -26,7 +26,8 @@ var menu = {
 
                 menu.refreshBasket(res.basket, function () {
                     custom.adding = false;
-                    menu.popover();
+                    //menu.popover();
+                    custom.popover();
                 });
 
                 if (res.message.length > 0)
@@ -42,7 +43,8 @@ var menu = {
 
             main.run(btn.attr('href'), function (res) {
                 menu.refreshBasket(res.basket, function () {
-                    menu.popover();
+                    //menu.popover();
+                    custom.popover();
                 });
             });
 
@@ -58,7 +60,8 @@ var menu = {
                 'qty': qty.val()
             }, function (res) {
                 menu.refreshBasket(res.basket, function () {
-                    menu.popover();
+                    //menu.popover();
+                    custom.popover();
                 });
             });
 
@@ -70,10 +73,11 @@ var menu = {
                     configPopover = $('.order-body').find('.config-product[aria-describedby]');
 
             main.sendFormPost(form.attr('action'), form.serializeArray(), function (res) {
-                
+
                 configPopover.on('hidden.bs.popover', function () {
                     menu.refreshBasket(res.basket, function () {
-                        menu.popover();
+                        //menu.popover();
+                        custom.popover();
                     });
                 });
 
@@ -81,12 +85,12 @@ var menu = {
             });
 
         });
-
+        
         var path = location.pathname.match('/preorder/confirm') ? '?confirm=1' : '';
 
         main.run('/preorder/show' + path, function (res) {
             menu.refreshBasket(res.basket, function () {
-                menu.popover();
+                custom.popover();
             });
         });
     },
@@ -128,16 +132,6 @@ var menu = {
             html: true,
             content: $('#sort-list').html(),
             placement: 'bottom',
-            trigger: 'manual'
-        });
-
-        $(".config-product").popover({
-            html: true,
-            content: function () {
-                return $(this).next().html();
-            },
-            placement: 'right',
-            container: 'body',
             trigger: 'manual'
         });
 

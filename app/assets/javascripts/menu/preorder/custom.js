@@ -19,5 +19,16 @@ var custom = {
             
             input.closest('.radio-inline').find('.custom-pay').prop('checked',true);
         });
+    },
+    popover:function(){
+        $(".config-product").popover({
+            html: true,
+            content: function () {
+                return $(this).next().html();
+            },
+            placement: 'left',
+            container: 'body',
+            trigger: 'manual'
+        });
     }
 }
