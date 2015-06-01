@@ -7,5 +7,5 @@
   return array(
     'TWILIO_ACCOUNT_SID' => 'ACf15a01e7ffee40727dd27cfd4c765909',
     'TWILIO_AUTH_TOKEN' => '27e635e1f1da87bbebccc574322280ff',
-    'TWILIO_NUMBER' => '+353861800494'
+    'TWILIO_NUMBER' => '+12513334147'
   );

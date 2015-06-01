@@ -27,13 +27,13 @@
 
                     <table class="table table-condensed">
                         <tbody>
-                            <tr>
+                            <!--<tr>
                                 <th style="width: 10px">&nbsp;</th>
                                 <th>Producto</th>
                                 <th>Cant.</th>
                                 <th style="width: 40px">Precio</th>
                                 <th style="width: 10px"></th>
-                            </tr>
+                            </tr>-->
 
                             <?php $i = 1; ?>
                             <?php $total = NULL ?>
@@ -84,35 +84,34 @@
                                                 }
                                                 ?>
 
-                                                <?php foreach ($productAttributes as $attribute_type) { ?>
+                                                <form id="form-<?php echo $productIndex . $branchProduct->id ?>" method="post" action="<?php echo URL::route('preorder.attr') ?>">
 
-                                                    <?php
-                                                    $rules = 'data-rules="';
-                                                    $rules_viewport = NULL;
-                                                    if (isset($attribute_type['rules'])) {
+                                                    <?php foreach ($productAttributes as $attribute_type) { ?>
 
-                                                        foreach ($attribute_type['rules'] as $rule_type => $rule) {
-                                                            $rules .= $rule_type . '(' . $rule . '),';
-                                                            $rules_viewport .= '(Elija ' . $rule . '),';
+                                                        <?php
+                                                        $rules = 'data-rules="';
+                                                        $rules_viewport = NULL;
+                                                        if (isset($attribute_type['rules'])) {
+
+                                                            foreach ($attribute_type['rules'] as $rule_type => $rule) {
+                                                                $rules .= $rule_type . '(' . $rule . '),';
+                                                                $rules_viewport .= '(Elija ' . $rule . '),';
+                                                            }
+                                                            $rules = substr($rules, 0, -1);
+                                                            $rules_viewport = substr($rules_viewport, 0, -1);
                                                         }
-                                                        $rules = substr($rules, 0, -1);
-                                                        $rules_viewport = substr($rules_viewport, 0, -1);
-                                                    }
-                                                    ?>
+                                                        ?>
 
-                                                    <div <?php echo $rules . '"'; ?> class="panel panel-default config-panel <?php echo $attribute_type['attribute_type_name']; ?>">
+                                                        <div <?php echo $rules . '"'; ?> class="box box-solid config-panel <?php echo $attribute_type['attribute_type_name']; ?>">
 
-                                                        <div class="panel-heading">
-                                                            <?php echo Lang::get('segment.attribute_type.item.' . $attribute_type['attribute_type_name']) ?>
-                                                            <small class="rules-viewport"><?php echo $rules_viewport; ?></small>
-                                                        </div>
+                                                            <div class="box-header">
+                                                                <h4>
+                                                                    <?php echo Lang::get('segment.attribute_type.item.' . $attribute_type['attribute_type_name']) ?>
+                                                                    <small class="rules-viewport"><?php echo $rules_viewport; ?></small>
+                                                                </h4>
+                                                            </div>
 
-                                                        <div class="panel-body">
-                                                            <form id="form-<?php echo $productIndex . $branchProduct->id ?>" method="post" action="<?php echo URL::route('preorder.attr') ?>">
-
-                                                                <input name="branch" type="hidden" value="<?php echo $branchId ?>">
-                                                                <input name="item" type="hidden" value="<?php echo $productIndex ?>">
-
+                                                            <div class="box-body">
                                                                 <?php foreach ($attribute_type['attributes'] as $attribute) { ?>
 
                                                                     <label class="checkbox-inline">
@@ -125,18 +124,16 @@
                                                                         ?>
                                                                         <input <?php echo $checked; ?> name="attr[]" data-attr="attr-<?php echo $productIndex ?><?php echo $branchProduct->id ?><?php echo $attribute['id'] ?>" type="checkbox" value="<?php echo $attribute['id'] ?>" autocomplete="off" class="product-attr"/> <?php echo $attribute['attribute_name'] . (($attribute['aditional_price'] != NULL) ? ' +$' . $attribute['aditional_price'] : '') ?>
                                                                     </label>
-
                                                                 <?php } ?>
-                                                            </form>
+                                                            </div>
                                                         </div>
 
-                                                        <div class="panel-footer">
-                                                            <button class="aplyAttr btn btn-primary btn-sm" form="form-<?php echo $productIndex . $branchProduct->id ?>" type="button">Aplicar</button>
-                                                        </div>
+                                                    <?php } ?>
 
-                                                    </div>
-
-                                                <?php } ?>
+                                                    <input name="branch" type="hidden" value="<?php echo $branchId ?>">
+                                                    <input name="item" type="hidden" value="<?php echo $productIndex ?>">
+                                                    <button class="aplyAttr btn btn-primary btn-sm" form="form-<?php echo $productIndex . $branchProduct->id ?>" type="button">Aplicar</button>
+                                                </form>
                                             </div>
                                         <?php } ?>
                                     </td>
@@ -181,12 +178,10 @@
         <img class="bubble" src="/assets/bubble.png"/>
     </div>
 
-    <div class="order-body empty-basket">
-        <div class="box-footer">
-            <a class="btn btn-warning btn-block disabled" href="#">
-                <strong>Ordenar</strong>
-            </a>
-        </div>
+    <div class="box-footer">
+        <a class="btn btn-warning btn-block disabled" href="#">
+            <strong>Ordenar</strong>
+        </a>
     </div>
 
 <?php } ?>

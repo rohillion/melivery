@@ -174,8 +174,20 @@
 
 <?php } else { ?>
 
+    <div class="box-header">
+        <h3 class="box-title">Mi pedido</h3>
+    </div>
+
+    <div class="order-body">
+        <img class="bubble" src="/assets/bubble.png"/>
+    </div>
+
     <div class="order-body empty-basket">
-        Carrito
+        <div class="box-footer">
+            <a class="btn btn-warning btn-block disabled" href="#">
+                <strong>Ordenar</strong>
+            </a>
+        </div>
     </div>
 
 <?php } ?>

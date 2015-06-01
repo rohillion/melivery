@@ -89,7 +89,7 @@ class AccountController extends BaseController {
         if ($res) {
 
             return Redirect::route('account.verification')
-                            ->withSuccess(Lang::get('segment.attribute.message.success.store'))
+                            ->withSuccess(Lang::get('segment.signup.message.success.store'))
                             ->with('status', 'success');
         }
 
@@ -101,13 +101,10 @@ class AccountController extends BaseController {
 
     public function verification() {
 
-        $messageBag = new MessageBag(['sent' => Lang::get('account.sent'), 'resend' => Lang::get('account.resend')]);
+        $messageBag = new MessageBag(['sent' => Lang::get('segment.verification.message.success.sent'), 'resend' => Lang::get('segment.verification.message.success.resend')]);
 
         if (!Session::get('user.verification')) {
-
             $this->verification->sendVerification(Auth::user()->id);
-
-            $messageBag = new MessageBag(['sent' => Lang::get('account.resent'), 'resend' => Lang::get('account.resend')]);
         }
 
         $data['speech'] = $messageBag;

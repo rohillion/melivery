@@ -20,13 +20,21 @@ var custom = {
             input.closest('.radio-inline').find('.custom-pay').prop('checked',true);
         });
     },
-    popover:function(){
+    popover: function () {
         $(".config-product").popover({
             html: true,
             content: function () {
                 return $(this).next().html();
             },
-            placement: 'left',
+            //placement : 'auto right',
+            placement: function () {
+                var width = $(window).width();
+                if (width > 768){
+                    return 'left';
+                }else{
+                    return 'auto right';
+                }
+            },
             container: 'body',
             trigger: 'manual'
         });

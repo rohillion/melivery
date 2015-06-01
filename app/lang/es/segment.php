@@ -218,7 +218,15 @@ return array(
     "signup" => array(
         "name" => array(
             "plural" => "Registrarse",
-        )
+        ),
+        "message" => array(
+            "success" => array(
+                "store" => "Hemos enviado un código de verificación a su numero de móvil.",
+            ),
+            "fail" => array(
+                "store" => "Ha ocurrido un error. Por favor intentelo nuevamente.",
+            )
+        ),
     ),
     "login" => array(
         "name" => array(
@@ -233,7 +241,15 @@ return array(
     "verification" => array(
         "name" => array(
             "plural" => "Verificar cuenta",
-        )
+        ),
+        "message" => array(
+            "success" => array(
+                "store" => "Hemos enviado un código de verificación a su numero de móvil.",
+            ),
+            "fail" => array(
+                "store" => "Ha ocurrido un error. Por favor intentelo nuevamente.",
+            )
+        ),
     ),
     "tos" => array(
         "name" => array(

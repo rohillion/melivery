@@ -41,11 +41,13 @@ class AccountForm extends AbstractForm {
                     \Session::put('user.dashboard', 'customer');
                     break;
             }
-
+            
+            //check if is data in queue
             $queue = \CommonEvents::getLastAction();
-
-            if ($queue)
+            if ($queue) {
+                \CommonEvents::setLastAction(FALSE); //Delete last attempt action;
                 return \URL::action($queue['action']);
+            }
 
             return \URL::route(\Session::get('user.dashboard'));
         }

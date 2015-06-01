@@ -39,7 +39,7 @@ class PreorderController extends BaseController {
 
     public function store() {
 
-        $queue = CommonEvents::getLastAction();
+        /*$queue = CommonEvents::getLastAction();
         
         //check if queue data when came from login
         if ($queue && $queue['action'] == Route::getCurrentRoute()->getAction()['controller']) {
@@ -49,9 +49,9 @@ class PreorderController extends BaseController {
         } else {
 
             $payWith = Input::only('pay', 'amount');
-        }
+        }*/
 
-        $order = $this->preorder->process(Session::get('user.id'), Session::get('orders'), $payWith);
+        $order = $this->preorder->process(Session::get('user.id'), Session::get('orders'), Input::only('pay', 'amount'));
 
         if ($order) {
 

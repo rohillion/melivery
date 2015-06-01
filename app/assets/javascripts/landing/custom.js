@@ -6,6 +6,7 @@ var custom = {
         this.parallax();
         this.affixTopBar();
         this.scrollTo();
+        this.basket();
     },
     affixTopBar: function () {
 
@@ -80,15 +81,29 @@ var custom = {
             }
         });
     },
-    popover:function(){
+    popover: function () {
         $(".config-product").popover({
             html: true,
             content: function () {
                 return $(this).next().html();
             },
-            placement: 'right',
+            //placement : 'auto right',
+            placement: function () {
+                var width = $(window).width();
+                if (width > 768){
+                    return 'right';
+                }else{
+                    return 'auto right';
+                }
+            },
             container: 'body',
             trigger: 'manual'
+        });
+    },
+    basket: function () {
+        $(document).on('click', '#order-paper .box-header', function () {
+            console.log('pasa');
+            $(this).closest('#order-paper').toggleClass('shown');
         });
     }
 }

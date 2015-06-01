@@ -1,6 +1,6 @@
 <?php if (!is_null($orders)) { ?>
 
-    <div class="box-body order-body form-medium">
+    <div class="order-body">
 
         <?php foreach ($orders as $branchId => $commerce) { ?>
 
@@ -18,10 +18,10 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="address" class="col-xs-4 control-label">Productos:</label>
+                <div class="form-group" style="overflow: hidden;">
+                    <label for="address" class="hidden-xs col-xs-4 control-label">Productos:</label>
 
-                    <div class="col-xs-8 control-label">
+                    <div class="col-xs-12 control-label">
                         <table class="table table-condensed">
                             <tbody>
 
@@ -53,6 +53,7 @@
                                                 <div class="config-panel-layout">
 
                                                     <?php
+                                                    $productAttributes = NULL;
                                                     foreach ($branchProduct->product->attributes as $attribute) {
 
                                                         $productAttributes[$attribute->attribute_types->id]['attribute_type_name'] = $attribute->attribute_types->d_attribute_type;
@@ -73,59 +74,56 @@
                                                     }
                                                     ?>
 
-                                                    <?php foreach ($productAttributes as $attribute_type) { ?>
+                                                    <form id="form-<?php echo $productIndex . $branchProduct->id ?>" method="post" action="<?php echo URL::route('menu.preorder.attr') ?>?confirm=1">
 
-                                                        <?php
-                                                        $rules = 'data-rules="';
-                                                        $rules_viewport = NULL;
-                                                        if (isset($attribute_type['rules'])) {
+                                                        <?php foreach ($productAttributes as $attribute_type) { ?>
 
-                                                            foreach ($attribute_type['rules'] as $rule_type => $rule) {
-                                                                $rules .= $rule_type . '(' . $rule . '),';
-                                                                $rules_viewport .= '(Elija ' . $rule . '),';
+                                                            <?php
+                                                            $rules = 'data-rules="';
+                                                            $rules_viewport = NULL;
+                                                            if (isset($attribute_type['rules'])) {
+
+                                                                foreach ($attribute_type['rules'] as $rule_type => $rule) {
+                                                                    $rules .= $rule_type . '(' . $rule . '),';
+                                                                    $rules_viewport .= '(Elija ' . $rule . '),';
+                                                                }
+                                                                $rules = substr($rules, 0, -1);
+                                                                $rules_viewport = substr($rules_viewport, 0, -1);
                                                             }
-                                                            $rules = substr($rules, 0, -1);
-                                                            $rules_viewport = substr($rules_viewport, 0, -1);
-                                                        }
-                                                        ?>
+                                                            ?>
 
-                                                        <div <?php echo $rules . '"'; ?> class="panel panel-default config-panel <?php echo $attribute_type['attribute_type_name']; ?>">
+                                                            <div <?php echo $rules . '"'; ?> class="box box-solid config-panel <?php echo $attribute_type['attribute_type_name']; ?>">
 
-                                                            <div class="panel-heading">
-                                                                <?php echo Lang::get('segment.attribute_type.item.' . $attribute_type['attribute_type_name']) ?>
-                                                                <small class="rules-viewport"><?php echo $rules_viewport; ?></small>
-                                                            </div>
+                                                                <div class="box-header">
+                                                                    <h4>
+                                                                        <?php echo Lang::get('segment.attribute_type.item.' . $attribute_type['attribute_type_name']) ?>
+                                                                        <small class="rules-viewport"><?php echo $rules_viewport; ?></small>
+                                                                    </h4>
+                                                                </div>
 
-                                                            <div class="panel-body">
-                                                                <form id="form-<?php echo $productIndex . $branchProduct->id ?>" method="post" action="<?php echo URL::route('menu.preorder.attr') ?>?confirm=1">
-
-                                                                    <input name="branch" type="hidden" value="<?php echo $branchId ?>">
-                                                                    <input name="item" type="hidden" value="<?php echo $productIndex ?>">
-
+                                                                <div class="box-body">
                                                                     <?php foreach ($attribute_type['attributes'] as $attribute) { ?>
 
                                                                         <label class="checkbox-inline">
                                                                             <?php
                                                                             $checked = '';
-                                                                            if(!is_null($branchProduct->attr) && in_array($attribute['id'], $branchProduct->attr)){
-                                                                                $checked = "checked" ;
+                                                                            if (!is_null($branchProduct->attr) && in_array($attribute['id'], $branchProduct->attr)) {
+                                                                                $checked = "checked";
                                                                                 $total = $total + $attribute['aditional_price'];
                                                                             }
                                                                             ?>
-                                                                            <input <?php echo $checked;?> name="attr[]" data-attr="attr-<?php echo $productIndex ?><?php echo $branchProduct->id ?><?php echo $attribute['id'] ?>" type="checkbox" value="<?php echo $attribute['id'] ?>" autocomplete="off" class="product-attr"/> <?php echo $attribute['attribute_name'] . (($attribute['aditional_price']!= NULL)? ' +$'.$attribute['aditional_price'] : '') ?>
+                                                                            <input <?php echo $checked; ?> name="attr[]" data-attr="attr-<?php echo $productIndex ?><?php echo $branchProduct->id ?><?php echo $attribute['id'] ?>" type="checkbox" value="<?php echo $attribute['id'] ?>" autocomplete="off" class="product-attr"/> <?php echo $attribute['attribute_name'] . (($attribute['aditional_price'] != NULL) ? ' +$' . $attribute['aditional_price'] : '') ?>
                                                                         </label>
-
                                                                     <?php } ?>
-                                                                </form>
+                                                                </div>
                                                             </div>
 
-                                                            <div class="panel-footer">
-                                                                <button class="aplyAttr btn btn-primary btn-sm" form="form-<?php echo $productIndex . $branchProduct->id ?>" type="button">Aplicar</button>
-                                                            </div>
+                                                        <?php } ?>
 
-                                                        </div>
-
-                                                    <?php } ?>
+                                                        <input name="branch" type="hidden" value="<?php echo $branchId ?>">
+                                                        <input name="item" type="hidden" value="<?php echo $productIndex ?>">
+                                                        <button class="aplyAttr btn btn-primary btn-sm" form="form-<?php echo $productIndex . $branchProduct->id ?>" type="button">Aplicar</button>
+                                                    </form>
                                                 </div>
                                             <?php } ?>
                                         </td>
@@ -164,9 +162,9 @@
                             }
                             ?>
 
-                            <label for="address" class="col-xs-4 control-label">Paga con:</label>
+                            <label class="col-xs-12 col-sm-4 control-label">Paga con:</label>
 
-                            <div class="col-xs-8">
+                            <div class="col-xs-12 col-sm-8">
                                 <?php foreach ($pay as $p) { ?>
 
                                     <div class="radio-inline">
@@ -183,15 +181,24 @@
                                         <input style="position: inherit;" class="custom-pay" type="radio" name="pay[<?php echo $branchId ?>]" value="custom">
                                         otro
                                     </label>
-                                    <input style="width:inherit;display: inline-block;padding: 0px;" class="custom-amount" style="display:inline-block;" name="amount[<?php echo $branchId ?>]" type="text" placeholder="Monto">
+                                    <input style="width:inherit;display: inline-block;" class="custom-amount form-control" style="display:inline-block;" name="amount[<?php echo $branchId ?>]" type="text" placeholder="Monto">
                                 </div>
                             </div>
 
-                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                        </div>
+                    
+                    <span class="clearfix"></span>
 
+                        <div class="form-group">
+                            <label for="address" class="col-xs-12 col-sm-4">Direcci&oacute;n:</label>
+                            <div class="col-xs-12 col-sm-8">
+                                <input type="text" class="form-control"/>
+                            </div>
                         </div>
 
+
                     <?php } ?>
+                    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                 </form>
             </div>
 

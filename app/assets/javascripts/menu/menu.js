@@ -95,7 +95,6 @@ var menu = {
         });
     },
     refreshBasket: function (basket, callback) {
-
         $('#order-paper .box').empty().append(basket);
         callback();
     },

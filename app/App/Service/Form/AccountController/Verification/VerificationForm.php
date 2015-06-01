@@ -61,10 +61,17 @@ class VerificationForm extends AbstractForm {
             $user = $this->user->edit($user->id, $toEdit);
 
             \Session::forget('user.verification');
-            
+
             \Billing::createCustomer($user);
 
             $this->accountForm->setSession($user);
+
+            //check if is data in queue
+            $queue = \CommonEvents::getLastAction();
+            if ($queue) {
+                \CommonEvents::setLastAction(FALSE); //Delete last attempt action;
+                return \URL::action($queue['action']);
+            }
 
             return \URL::route(\Session::get('user.dashboard'));
         }

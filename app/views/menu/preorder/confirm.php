@@ -34,10 +34,10 @@
                 <?php } ?>
 
                 <!-- left column -->
-                <div class="col-xs-12">
+                <div class="col-xs-8 col-xs-offset-2 col-sm-12 col-sm-offset-0 col-md-8 col-md-offset-2">
 
-                    <div id="order-paper">
-                        <div class="box box-solid">
+                    <div id="order-paper" class="shown">
+                        <div class="sidebar-nav box box-solid">
                             <?php include 'basket.php'; ?>
                         </div>
                     </div>

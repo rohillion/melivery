@@ -10,7 +10,7 @@
             <div class="parallax-group">
                 <?php
                 $coverPath = Config::get('cons.image.commerceCover.path') . '/' . $commerce->id . '/' . Config::get('cons.image.commerceCover.name');
-                $cover = File::exists($coverPath) ? $coverPath . '?cache=' . rand(1111, 9999) :  Config::get('cons.image.commerceCover.tmp');
+                $cover = File::exists($coverPath) ? $coverPath . '?cache=' . rand(1111, 9999) : Config::get('cons.image.commerceCover.tmp');
                 ?>
                 <div class="cover-container" style="background-image: url(<?php echo $cover ?>)"></div>
             </div>
@@ -22,15 +22,51 @@
                     <div class="container">
                         <div id="filter-container" class="row">
 
-                            <div style="font-size: 28px;" class="col-xs-5 col-md-4 col-lg-3">
+                            <div class="col-xs-6 col-sm-5 col-md-4 col-lg-3 commerce-name">
                                 <?php echo $commerce->commerce_name; ?>
                             </div>
 
-                            <div class="filter-options col-xs-7 col-md-8 col-lg-9">
+                            <div class="filter-options col-xs-6 col-sm-7 col-md-8 col-lg-9">
+
+                                <?php if (!is_null($commerce->branch)) { ?>
+                                    <div id="branch-select" class="pull-left hidden-xs">
+                                        <div href="#" id="branch-mask" class="filter-mask <?php echo $branches->count() > 1 ? 'popover-trigger' : '' ?>">
+
+                                            <div class="mask pull-left">
+                                                <?php echo $commerce->branch->street; ?>
+                                            </div>
+
+                                            <?php if ($branches->count() > 1) { ?>
+
+                                                <div class="caret-wrapp pull-left">
+                                                    <span class="caret"></span>
+                                                </div>
+
+                                                <div id="branch-list" class="popover-wrapper">
+                                                    <ul class="list-group organized-list">
+
+                                                        <span role="presentation" class="dropdown-header">Otras sucursales</span>
+
+                                                        <?php foreach ($branches as $branch) { ?>
+                                                            <?php if ($commerce->branch->id != $branch->id) { ?>
+
+                                                                <li class="list-group-item">
+                                                                    <a class="branch-item" href="?branch=<?php echo $branch->id; ?>"><?php echo $branch->street; ?></a>
+                                                                </li>
+
+                                                            <?php } ?>
+                                                        <?php } ?>
+
+                                                    </ul>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                <?php } ?>
 
                                 <?php if (isset($productByCategory)) { ?>
-                                    <div id="category-select" class="select-mask pull-left">
-                                        <div href="#" id="category-mask" class="filter-mask popover-trigger">
+                                    <div id="category-select" class="select-mask pull-right">
+                                        <div href="#" id="category-mask" class="filter-mask popover-trigger margin-less">
 
                                             <div class="mask pull-left">
                                                 <?php echo array_values($productByCategory)[0]['data']->category_name ?>
@@ -62,40 +98,6 @@
                                     </div>
                                 <?php } ?>
 
-                                <?php if (!is_null($commerce->branch)) { ?>
-                                    <div id="branch-select" class="pull-right">
-                                        <div href="#" id="branch-mask" class="filter-mask popover-trigger margin-less">
-
-                                            <div class="mask pull-left">
-                                                <?php echo $commerce->branch->street; ?>
-                                            </div>
-
-                                            <div class="caret-wrapp pull-left">
-                                                <span class="caret"></span>
-                                            </div>
-
-                                            <div id="branch-list" class="popover-wrapper">
-                                                <ul class="list-group organized-list">
-
-                                                    <span role="presentation" class="dropdown-header">Otras sucursales</span>
-
-                                                    <?php foreach ($branches as $branch) { ?>
-                                                        <?php if ($commerce->branch->id != $branch->id) { ?>
-
-                                                            <li class="list-group-item">
-                                                                <a class="branch-item" href="?branch=<?php echo $branch->id; ?>"><?php echo $branch->street; ?></a>
-                                                            </li>
-
-                                                        <?php } ?>
-                                                    <?php } ?>
-
-                                                </ul>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                <?php } ?>
-
                             </div>
 
                         </div>
@@ -117,7 +119,7 @@
                         </div>
 
                         <!-- right column -->
-                        <div id="product-container" class="col-xs-7 col-md-8 col-lg-9">
+                        <div id="product-container" class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
 
                             <?php if (!is_null($commerce->branch)) { ?>
 
@@ -205,10 +207,10 @@
                                                                 <div class="caption">
 
                                                                     <div style="overflow: hidden;">
-                                                                        <h3 class="product-title truncate pull-left" title="<?php echo $branchProduct->product->tags->tag_name ?>"><?php echo $branchProduct->product->tags->tag_name ?></h3>
+                                                                        <h3 class="product-title pull-left" title="<?php echo $branchProduct->product->tags->tag_name ?>"><?php echo $branchProduct->product->tags->tag_name ?></h3>
                                                                         <h3 class="pull-right">
                                                                             <?php
-                                                                            echo $branchProduct->prices->count() > 1 ? 'Desde' : '';
+                                                                            //echo $branchProduct->prices->count() > 1 ? 'Desde' : '';
                                                                             echo ' $' . $branchProduct->prices[0]->price;
                                                                             ?>
                                                                         </h3>
@@ -260,8 +262,8 @@
                                 <?php } ?>
 
                             <?php } else { ?>
-                                    
-                                    <div class="well well-sm text-center">Este comercio aun no ha configurado su men&uacute;.</div>
+
+                                <div class="well well-sm text-center">Este comercio aun no ha configurado su men&uacute;.</div>
                             <?php } ?>
 
 

@@ -524,13 +524,14 @@ Route::group(array('domain' => 'account.melivery' . $tld), function() {
 //MENU -------------------------------------------------------------
 Route::group(array('domain' => 'menu.melivery' . $tld), function() {
 
-    Route::any("/preorder", [
+    Route::post("/preorder", [
         'before' => 'auth|verif|customer',
         "as" => "menu.preorder.store",
         "uses" => "PreorderController@store"
     ]);
 
     Route::get("/preorder/confirm", [
+        'before' => 'auth|verif|customer',
         "as" => "menu.preorder.confirm",
         "uses" => "PreorderController@confirm"
     ]);
