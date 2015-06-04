@@ -25,39 +25,13 @@ class CustomerForm extends AbstractForm {
      *
      * @return boolean
      */
-    public function all($columns = array('*'), $with = array()) {
-
-        return $this->customer->all($columns, $with);
-    }
-
-    /**
-     * Create an new customer
-     *
-     * @return boolean
-     */
     public function save(array $input) {
 
         if (!$this->valid($input)) {
             return false;
         }
 
-        //$input['tags'] = $this->processTags($input['tags']);
         return $this->customer->create($input);
-    }
-
-    /**
-     * Update an existing customer
-     *
-     * @return boolean
-     */
-    public function update($id, array $input) {
-
-        if (!$this->valid($input, $id)) {
-            return false;
-        }
-
-        //$input['tags'] = $this->processTags($input['tags']);
-        return $this->customer->edit($id, $input);
     }
     
     /**
@@ -73,26 +47,6 @@ class CustomerForm extends AbstractForm {
 
         //$input['tags'] = $this->processTags($input['tags']);
         return $this->customer->edit($id, $input);
-    }
-
-    /**
-     * Create an new customer
-     *
-     * @return boolean
-     */
-    public function changeStatus($id, array $input) {
-
-        return $this->customer->edit($id, $input);
-    }
-    
-    /**
-     * Create an new customer
-     *
-     * @return boolean
-     */
-    public function find($idCustomer, $columns = array('*'), $entities = array()) {
-
-        return $this->customer->find($idCustomer, $columns, $entities);
     }
 
 }

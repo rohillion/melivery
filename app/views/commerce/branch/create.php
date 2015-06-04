@@ -503,7 +503,6 @@
         <!-- Google Maps -->
         <script src="https://maps.googleapis.com/maps/api/js?libraries=drawing"></script>
 
-
         <?php echo View::make('footer'); ?>
     </body>
 </html>

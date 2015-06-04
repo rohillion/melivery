@@ -445,7 +445,6 @@ var custom = {
         });
 
         $('#address-modal').on('shown.bs.modal', function () {
-
             $(this).find('input:text')[0].focus();
         });
 

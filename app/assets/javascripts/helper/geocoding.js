@@ -35,7 +35,7 @@ var geocoding = {
     },
     /*******************************************************************************
      * searchLocation(address, city)
-     * Lets us retrieve the coordinates from a branch with the address and the city.
+     * Lets us retrieve the coordinates from an address with the address and the city.
      *******************************************************************************/
     searchLocation: function(address, city, state, callback) {
         
@@ -120,7 +120,7 @@ var geocoding = {
             } else if (status === google.maps.GeocoderStatus.ZERO_RESULTS) {
 
                 main.notify({
-                    'message': 'No hemos podido encontrar la ubicacion de la sucursal. Por favor, verifique que este correctamente escrito el nombre de la calle.',
+                    'message': 'No hemos podido encontrar la ubicacion. Por favor, verifique que este correctamente escrito el nombre de la calle y su altura.',
                     'time': 10000,
                     'status': 'error'
                 });

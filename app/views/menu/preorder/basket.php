@@ -216,47 +216,4 @@
         </button>
     </div>
 
-    <!-- Modal -->
-    <div id="address-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="addressModalLabel">Direcci&oacute;n de la sucursal</h4>
-                </div>
-
-                <div class="modal-body">
-
-                    <div class="form-group form-large clearfix row">
-
-                        <div class="col-xs-5">
-                            <input type="text" class="form-control" id="branchAddress" placeholder="Calle y altura">
-                        </div>
-
-                        <div class="col-xs-5 scrollable-dropdown-menu">
-                            <input type="text" class="form-control typeahead" id="branchCity" placeholder="Ciudad">
-                        </div>
-
-                        <div class="col-xs-2">
-                            <button id="searchBranchLocation" class="btn btn-primary btn-block" title="Buscar"><i class="fa fa-search"></i></button>
-                        </div>
-
-                    </div>
-
-                    <p id="not-found" class="bg-warning">No hemos podido encontrar la ubicaci&oacute;n exacta de la direcci&oacute;n que has ingresado. <br> Por favor, arrastra el indicador hasta donde se encuntra la sucursal.</p>
-                    <p id="found" class="bg-success">Hemos encontrado la ubicaci&oacute;n de la sucursal. En caso de no ser la correcta por favor, arrastra el indicador hasta la posici&oacute;n adecuada.</p>
-
-                    <div id="map-canvas" style="min-height: 315px;background-color: rgb(229, 227, 223);"></div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="custom.completeAddress()">Aplicar</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
 <?php } ?>

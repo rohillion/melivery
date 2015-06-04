@@ -4,6 +4,7 @@ use App\Repository\Product\ProductInterface;
 use App\Repository\Category\CategoryInterface;
 use App\Repository\Commerce\CommerceInterface;
 use App\Service\Form\Preorder\PreorderForm;
+use App\Service\Form\Customer\CustomerForm;
 
 class PreorderController extends BaseController {
 
@@ -11,12 +12,14 @@ class PreorderController extends BaseController {
     protected $category;
     protected $commerce;
     protected $preorder;
+    protected $customer;
 
-    public function __construct(ProductInterface $product, CategoryInterface $category, CommerceInterface $commerce, PreorderForm $preorder) {
+    public function __construct(ProductInterface $product, CategoryInterface $category, CommerceInterface $commerce, PreorderForm $preorder, CustomerForm $customer) {
         $this->product = $product;
         $this->category = $category;
         $this->commerce = $commerce;
         $this->preorder = $preorder;
+        $this->customer = $customer;
     }
 
     public function show() {
@@ -39,17 +42,17 @@ class PreorderController extends BaseController {
 
     public function store() {
 
-        /*$queue = CommonEvents::getLastAction();
-        
-        //check if queue data when came from login
-        if ($queue && $queue['action'] == Route::getCurrentRoute()->getAction()['controller']) {
+        /* $queue = CommonEvents::getLastAction();
 
-            CommonEvents::setLastAction(FALSE); //Delete last attempt action;
-            $payWith = $queue['post'];
-        } else {
+          //check if queue data when came from login
+          if ($queue && $queue['action'] == Route::getCurrentRoute()->getAction()['controller']) {
 
-            $payWith = Input::only('pay', 'amount');
-        }*/
+          CommonEvents::setLastAction(FALSE); //Delete last attempt action;
+          $payWith = $queue['post'];
+          } else {
+
+          $payWith = Input::only('pay', 'amount');
+          } */
 
         $order = $this->preorder->process(Session::get('user.id'), Session::get('orders'), Input::only('pay', 'amount'));
 
@@ -128,7 +131,7 @@ class PreorderController extends BaseController {
                     'basket' => $orders)
         );
     }
-    
+
     public function configAttr() {
 
         $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
@@ -177,6 +180,34 @@ class PreorderController extends BaseController {
                     'type' => 'success',
                     'message' => Lang::get('segment.product.message.success.remove'),
                     'basket' => $orders)
+        );
+    }
+
+    public function customer() {
+
+        $input = array(
+            'city_id' => Input::get('city'),
+            'user_id' => Session::get('user.id'),
+            'position' => Input::get('position')
+        );
+
+        $customer = $this->customer->save($input);
+
+        if ($customer) {
+            // Success!
+            return Response::json(array(
+                        'status' => TRUE,
+                        'type' => 'success',
+                        'message' => Lang::get('segment.customer.message.success.create'),
+                        'customer' => $customer)
+            );
+        }
+
+        // Error!
+        return Response::json(array(
+                    'status' => FALSE,
+                    'type' => 'error',
+                    'message' => $this->customer->errors()->all())
         );
     }
 

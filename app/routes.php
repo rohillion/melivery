@@ -581,6 +581,10 @@ Route::group(array('domain' => 'menu.melivery' . $tld), function() {
         "as" => "menu.products",
         "uses" => "MenuController@index"
     ]);
+    
+    Route::get("/ajax/city/find/", [
+        "uses" => "AjaxCityController@find"
+    ]);
 });
 
 Route::get("/", [
