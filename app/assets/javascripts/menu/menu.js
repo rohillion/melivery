@@ -83,7 +83,6 @@ var menu = {
 
                 configPopover.popover('hide');
             });
-
         });
         
         var path = location.pathname.match('/preorder/confirm') ? '?confirm=1' : '';

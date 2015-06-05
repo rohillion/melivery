@@ -91,17 +91,21 @@ var custom = {
     saveAddress: function (trigger) {
 
         if (geocoding.position) {
-            
+
             var data = {
-                residence:$('#userResidence').val(),
-                position:geocoding.position.toUrlValue(),
-                street:geocoding.street,
-                city:geocoding.cityId
+                residence: $('#userResidence').val(),
+                position: geocoding.position.toUrlValue(),
+                street: geocoding.street,
+                city: geocoding.cityId
             }
 
             main.sendFormPost(trigger.dataset.target, data, function (res) {
-                console.log(res);
-                $('#address-modal').modal('hide');
+                main.run('/preorder/show?confirm=1', function (res) {
+                    menu.refreshBasket(res.basket, function () {
+                        custom.popover();
+                        $('#address-modal').modal('hide');
+                    });
+                });
             });
 
         } else {

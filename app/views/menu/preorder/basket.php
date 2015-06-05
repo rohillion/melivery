@@ -149,6 +149,24 @@
 
                 <form id="pay" role="form" method="post" action="<?php echo URL::route('menu.preorder.store'); ?>">
 
+                    
+                    <div class="form-group" style="overflow:hidden;">
+                        <label for="address" class="col-xs-12 col-sm-4">Direcci&oacute;n:</label>
+                        <div class="col-xs-10 col-sm-7">
+                            <select class="form-control">
+                                <?php foreach ($addresses as $address) { ?>
+                                    <?php $selected = Cookie::get('position_id') == $address->id ? 'selected' : ''; ?>
+                                    <option <?php echo $selected; ?> value="<?php echo $address->id; ?>"><?php echo $address->floor_apt . ' ' . $address->street; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-xs-2 col-sm-1" style="padding-left:0;">
+                            <button type="button" data-toggle="modal" data-target="#address-modal" class="btn btn-flat btn-success" title="Agregar direcci&oacute;n"><i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                    
+                    <span class="clearfix"></span>
+                    
                     <div class="form-group" style="overflow:hidden;">
 
                         <?php
@@ -184,23 +202,6 @@
                             </div>
                         </div>
 
-                    </div>
-
-                    <span class="clearfix"></span>
-
-                    <div class="form-group" style="overflow:hidden;">
-                        <label for="address" class="col-xs-12 col-sm-4">Direcci&oacute;n:</label>
-                        <div class="col-xs-10 col-sm-7">
-                            <select class="form-control">
-                                <?php foreach ($addresses as $address) { ?>
-                                    <?php $selected = Cookie::get('position_id') == $address->id ? 'selected' : ''; ?>
-                                    <option <?php echo $selected; ?> value="<?php echo $address->id; ?>"><?php echo $address->floor_apt . ' ' . $address->street; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="col-xs-2 col-sm-1" style="padding-left:0;">
-                            <button type="button" data-toggle="modal" data-target="#address-modal" class="btn btn-flat btn-success" title="Agregar direcci&oacute;n"><i class="fa fa-plus"></i></button>
-                        </div>
                     </div>
                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                 </form>

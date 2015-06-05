@@ -27,14 +27,7 @@ class PreorderController extends BaseController {
 
     public function show() {
 
-        $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
-
-        $data['orders'] = $this->preorder->all(Session::get('orders'));
-        $data['addresses'] = $this->customer->all(['*'], [], ['user_id' => Session::get('user.id')]);
-
-        $view = View::make($viewPath, $data);
-
-        $orders = $view->render();
+        $orders = $this->render(Session::get('orders'));
         // Success!
         return Response::json(array(
                     'status' => TRUE,
@@ -86,17 +79,11 @@ class PreorderController extends BaseController {
 
     public function addItem() {
 
-        $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
-
         $basket = $this->preorder->add(Input::all());
 
         if ($basket) {
 
-            $data['orders'] = $this->preorder->all($basket);
-
-            $view = View::make($viewPath, $data);
-
-            $orders = $view->render();
+            $orders = $this->render($basket);
             // Success!
             return Response::json(array(
                         'status' => TRUE,
@@ -116,8 +103,6 @@ class PreorderController extends BaseController {
 
     public function configQty() {
 
-        $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
-
         $input = array(
             'branch' => Input::get('branch'),
             'item' => Input::get('item'),
@@ -125,12 +110,7 @@ class PreorderController extends BaseController {
         );
 
         $basket = $this->preorder->configQty($input);
-
-        $data['orders'] = $this->preorder->all($basket);
-
-        $view = View::make($viewPath, $data);
-
-        $orders = $view->render();
+        $orders = $this->render($basket);
         // Success!
         return Response::json(array(
                     'status' => TRUE,
@@ -142,8 +122,6 @@ class PreorderController extends BaseController {
 
     public function configAttr() {
 
-        $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
-
         $input = array(
             'branch' => Input::get('branch'),
             'item' => Input::get('item'),
@@ -151,12 +129,7 @@ class PreorderController extends BaseController {
         );
 
         $basket = $this->preorder->configAttr($input);
-
-        $data['orders'] = $this->preorder->all($basket);
-
-        $view = View::make($viewPath, $data);
-
-        $orders = $view->render();
+        $orders = $this->render($basket);
         // Success!
         return Response::json(array(
                     'status' => TRUE,
@@ -168,20 +141,13 @@ class PreorderController extends BaseController {
 
     public function removeItem() {
 
-        $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
-
         $input = array(
             'branch' => Input::get('branch'),
             'item' => Input::get('item')
         );
 
         $basket = $this->preorder->remove($input);
-
-        $data['orders'] = $this->preorder->all($basket);
-
-        $view = View::make($viewPath, $data);
-
-        $orders = $view->render();
+        $orders = $this->render($basket);
         // Success!
         return Response::json(array(
                     'status' => TRUE,
@@ -189,6 +155,15 @@ class PreorderController extends BaseController {
                     'message' => Lang::get('segment.product.message.success.remove'),
                     'basket' => $orders)
         );
+    }
+
+    private function render($basket) {
+
+        $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
+        $data['orders'] = $this->preorder->all($basket);
+        $data['addresses'] = $this->customer->all(['*'], [], ['user_id' => Session::get('user.id')]);
+        $view = View::make($viewPath, $data);
+        return $view->render();
     }
 
     public function customer() {
@@ -218,7 +193,6 @@ class PreorderController extends BaseController {
             $response->type = 'success';
             $response->message = Lang::get('segment.customer.message.success.create');
             $response->customer = $customer;
-            
             return $response;
         }
 
