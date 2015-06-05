@@ -148,60 +148,60 @@
                 </div>
 
                 <form id="pay" role="form" method="post" action="<?php echo URL::route('menu.preorder.store'); ?>">
-                    <?php if (Session::get('delivery')) { ?>
 
-                        <div class="form-group" style="overflow:hidden;">
+                    <div class="form-group" style="overflow:hidden;">
 
-                            <?php
-                            $pay = array($total);
+                        <?php
+                        $pay = array($total);
 
-                            $payWith = CommonEvents::payWith($total);
+                        $payWith = CommonEvents::payWith($total);
 
-                            if ($payWith) {
-                                $pay = array_merge($pay, $payWith);
-                            }
-                            ?>
+                        if ($payWith) {
+                            $pay = array_merge($pay, $payWith);
+                        }
+                        ?>
 
-                            <label class="col-xs-12 col-sm-4 control-label">Paga con:</label>
+                        <label class="col-xs-12 col-sm-4 control-label">Paga con:</label>
 
-                            <div class="col-xs-12 col-sm-8">
-                                <?php foreach ($pay as $p) { ?>
-
-                                    <div class="radio-inline">
-                                        <label>
-                                            <input style="position: inherit;" type="radio" name="pay[<?php echo $branchId ?>]" value="<?php echo $p ?>">
-                                            $<?php echo $p ?>
-                                        </label>
-                                    </div>
-
-                                <?php } ?>
+                        <div class="col-xs-12 col-sm-8">
+                            <?php foreach ($pay as $p) { ?>
 
                                 <div class="radio-inline">
                                     <label>
-                                        <input style="position: inherit;" class="custom-pay" type="radio" name="pay[<?php echo $branchId ?>]" value="custom">
-                                        otro
+                                        <input style="position: inherit;" type="radio" name="pay[<?php echo $branchId ?>]" value="<?php echo $p ?>">
+                                        $<?php echo $p ?>
                                     </label>
-                                    <input style="width:inherit;display: inline-block;" class="custom-amount form-control" style="display:inline-block;" name="amount[<?php echo $branchId ?>]" type="text" placeholder="Monto">
                                 </div>
-                            </div>
 
-                        </div>
+                            <?php } ?>
 
-                        <span class="clearfix"></span>
-
-                        <div class="form-group" style="overflow:hidden;">
-                            <label for="address" class="col-xs-12 col-sm-4">Direcci&oacute;n:</label>
-                            <div class="col-xs-10 col-sm-7">
-                                <select class="form-control">
-
-                                </select>
-                            </div>
-                            <div class="col-xs-2 col-sm-1" style="padding-left:0;">
-                                <button type="button" data-toggle="modal" data-target="#address-modal" class="btn btn-flat btn-success" title="Agregar direcci&oacute;n"><i class="fa fa-plus"></i></button>
+                            <div class="radio-inline">
+                                <label>
+                                    <input style="position: inherit;" class="custom-pay" type="radio" name="pay[<?php echo $branchId ?>]" value="custom">
+                                    otro
+                                </label>
+                                <input style="width:inherit;display: inline-block;" class="custom-amount form-control" style="display:inline-block;" name="amount[<?php echo $branchId ?>]" type="text" placeholder="Monto">
                             </div>
                         </div>
 
-                    <?php } ?>
+                    </div>
+
+                    <span class="clearfix"></span>
+
+                    <div class="form-group" style="overflow:hidden;">
+                        <label for="address" class="col-xs-12 col-sm-4">Direcci&oacute;n:</label>
+                        <div class="col-xs-10 col-sm-7">
+                            <select class="form-control">
+                                <?php foreach ($addresses as $address) { ?>
+                                    <?php $selected = Cookie::get('position_id') == $address->id ? 'selected' : ''; ?>
+                                    <option <?php echo $selected; ?> value="<?php echo $address->id; ?>"><?php echo $address->floor_apt . ' ' . $address->street; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-xs-2 col-sm-1" style="padding-left:0;">
+                            <button type="button" data-toggle="modal" data-target="#address-modal" class="btn btn-flat btn-success" title="Agregar direcci&oacute;n"><i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
                     <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                 </form>
             </div>

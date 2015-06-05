@@ -63,7 +63,7 @@
                         <div class="form-group form-medium clearfix row">
                         
                             <div class="col-xs-12 col-sm-3">
-                                <input type="text" class="form-control" id="userResidence" placeholder="Piso y Dpto">
+                                <input type="text" class="form-control" id="userResidence" placeholder="Piso N° y Dpto N°">
                             </div>
 
                             <div class="col-xs-12 col-sm-4">
@@ -94,7 +94,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" onclick="custom.saveAddress(this)" data-target="<?php echo URL::route('');?>">Guardar</button>
+                        <button type="button" class="btn btn-primary" onclick="custom.saveAddress(this)" data-target="<?php echo URL::route('menu.customer.add');?>">Guardar</button>
                     </div>
 
                 </div>

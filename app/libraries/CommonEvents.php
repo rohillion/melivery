@@ -159,5 +159,33 @@ Class CommonEvents {
     static function getRandomCode(){
         return str_shuffle(rand(100000, 999999));
     }
+    
+    static function createPositionCookie($position = false){
+        
+        if (isset($position['coords']) && $position['coords']) {
+
+            Session::put('delivery', TRUE);
+
+            $id = Cookie::forever('position_id', $position['id'], '/', Config::get('app.domain'));
+            $coords = Cookie::forever('position', str_replace(',', ' ', $position['coords']), '/', Config::get('app.domain'));
+            $address = Cookie::forever('address', $position['address'], '/', Config::get('app.domain'));
+            $city = Cookie::forever('city', $position['city'], '/', Config::get('app.domain'));
+            //$state = Cookie::forever('state', $position['state'], '/', Config::get('app.domain'));
+            
+            $response = Response::json(array('status' => TRUE));
+            
+            $response->headers->setCookie($id);
+            $response->headers->setCookie($coords);
+            $response->headers->setCookie($address);
+            $response->headers->setCookie($city);
+            //$response->headers->setCookie($state);
+            
+        } else {
+
+            $response = Response::json(array('status' => FALSE));
+        }
+
+        return $response;
+    }
 
 }

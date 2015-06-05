@@ -33,7 +33,7 @@ class CustomerForm extends AbstractForm {
 
         return $this->customer->create($input);
     }
-    
+
     /**
      * Update an existing customer
      *

@@ -13,8 +13,9 @@ class CustomerValidator extends LaravelValidator implements ValidableInterface {
      * @var array
      */
     protected $rules = array(
-        'street' => 'required',
-        'city_id' => 'required|numeric|exists:city,id',
+        'floor_apt' => 'max:30',
+        'street' => 'required|max:150',
+        'city_id' => 'required|numeric|exists:city,geonameid',
         'position' => 'required|max:255',
         'user_id' => 'required|exists:user,id',
     );

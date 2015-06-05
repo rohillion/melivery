@@ -14,7 +14,7 @@ class Customer extends Eloquent {
      * 
      * @var array 
      */
-    protected $fillable = array('address','phone','user_id');
+    protected $fillable = array('floor_apt','street','city_id','position','user_id');
 
     /**
      * User relationship

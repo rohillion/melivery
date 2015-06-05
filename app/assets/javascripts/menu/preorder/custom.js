@@ -93,20 +93,16 @@ var custom = {
         if (geocoding.position) {
             
             var data = {
-                position:geocoding.position,
+                residence:$('#userResidence').val(),
+                position:geocoding.position.toUrlValue(),
                 street:geocoding.street,
-                city:geocoding.cityId,
+                city:geocoding.cityId
             }
 
-            main.sendFormPost(trigger.dataset.target, data, function () {
-
+            main.sendFormPost(trigger.dataset.target, data, function (res) {
+                console.log(res);
+                $('#address-modal').modal('hide');
             });
-
-            $('#position').val(geocoding.position.toUrlValue());
-            $('#street').val(geocoding.street);
-            $('#city').val(geocoding.cityId);
-
-            $('#address-modal').modal('hide');
 
         } else {
 

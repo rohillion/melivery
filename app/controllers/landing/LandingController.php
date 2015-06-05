@@ -3,15 +3,17 @@
 use App\Repository\Product\ProductInterface;
 use App\Repository\Category\CategoryInterface;
 use App\Repository\Commerce\CommerceInterface;
+use App\Repository\Customer\CustomerInterface;
 use App\Service\Form\Preorder\PreorderForm;
 use App\Repository\Branch\BranchInterface;
+use App\Service\Form\Customer\CustomerForm;
 
 class LandingController extends PreorderController {
 
     protected $branch;
 
-    public function __construct(BranchInterface $branch, ProductInterface $product, CategoryInterface $category, CommerceInterface $commerce, PreorderForm $preorder) {
-        parent::__construct($product, $category, $commerce, $preorder);
+    public function __construct(BranchInterface $branch, ProductInterface $product, CategoryInterface $category, CommerceInterface $commerce, PreorderForm $preorder, CustomerInterface $customer, CustomerForm $customerForm) {
+        parent::__construct($product, $category, $commerce, $preorder, $customer, $customerForm);
         $this->branch = $branch;
     }
 

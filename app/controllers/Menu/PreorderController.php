@@ -3,6 +3,7 @@
 use App\Repository\Product\ProductInterface;
 use App\Repository\Category\CategoryInterface;
 use App\Repository\Commerce\CommerceInterface;
+use App\Repository\Customer\CustomerInterface;
 use App\Service\Form\Preorder\PreorderForm;
 use App\Service\Form\Customer\CustomerForm;
 
@@ -13,13 +14,15 @@ class PreorderController extends BaseController {
     protected $commerce;
     protected $preorder;
     protected $customer;
+    protected $customerForm;
 
-    public function __construct(ProductInterface $product, CategoryInterface $category, CommerceInterface $commerce, PreorderForm $preorder, CustomerForm $customer) {
+    public function __construct(ProductInterface $product, CategoryInterface $category, CommerceInterface $commerce, PreorderForm $preorder, CustomerInterface $customer, CustomerForm $customerForm) {
         $this->product = $product;
         $this->category = $category;
         $this->commerce = $commerce;
         $this->preorder = $preorder;
         $this->customer = $customer;
+        $this->customerForm = $customerForm;
     }
 
     public function show() {
@@ -27,6 +30,7 @@ class PreorderController extends BaseController {
         $viewPath = Input::get('confirm') ? 'menu.preorder.basket' : 'landing.basket';
 
         $data['orders'] = $this->preorder->all(Session::get('orders'));
+        $data['addresses'] = $this->customer->all(['*'], [], ['user_id' => Session::get('user.id')]);
 
         $view = View::make($viewPath, $data);
 
@@ -71,7 +75,11 @@ class PreorderController extends BaseController {
 
     public function confirm() {
 
+        /* echo '<pre>', var_dump(Cookie::get('position')), '</pre>';
+          exit; */
+
         $data['orders'] = $this->preorder->all(Session::get('orders'));
+        $data['addresses'] = $this->customer->all(['*'], [], ['user_id' => Session::get('user.id')]);
 
         return View::make('menu.preorder.confirm', $data);
     }
@@ -186,28 +194,39 @@ class PreorderController extends BaseController {
     public function customer() {
 
         $input = array(
+            'floor_apt' => Input::get('residence'),
             'city_id' => Input::get('city'),
             'user_id' => Session::get('user.id'),
-            'position' => Input::get('position')
+            'position' => Input::get('position'),
+            'street' => Input::get('street')
         );
 
-        $customer = $this->customer->save($input);
+        $customer = $this->customerForm->save($input);
 
         if ($customer) {
-            // Success!
-            return Response::json(array(
-                        'status' => TRUE,
-                        'type' => 'success',
-                        'message' => Lang::get('segment.customer.message.success.create'),
-                        'customer' => $customer)
+
+            $position = array(
+                'id' => $customer->id,
+                'coords' => $input['position'],
+                'address' => $input['street'],
+                'city' => $input['city_id'],
             );
+
+            // Success!
+            $response = \CommonEvents::createPositionCookie($position);
+            $response->status = TRUE;
+            $response->type = 'success';
+            $response->message = Lang::get('segment.customer.message.success.create');
+            $response->customer = $customer;
+            
+            return $response;
         }
 
         // Error!
         return Response::json(array(
                     'status' => FALSE,
                     'type' => 'error',
-                    'message' => $this->customer->errors()->all())
+                    'message' => $this->customerForm->errors()->all())
         );
     }
 

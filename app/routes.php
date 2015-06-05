@@ -570,6 +570,12 @@ Route::group(array('domain' => 'menu.melivery' . $tld), function() {
         "as" => "menu.preorder.show",
         "uses" => "PreorderController@show"
     ]);
+    
+    Route::post("/preorder/customer", [
+        'before' => 'csrf',
+        "as" => "menu.customer.add",
+        "uses" => "PreorderController@customer"
+    ]);
 
     Route::get("/delivery/{type}", [
         //"before" => 'csrf',
