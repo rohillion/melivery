@@ -8,7 +8,7 @@
 
         <div>
             Hola <?php echo 'rohillion@hotmail.com'; ?>.<br>
-            Ha llegado un pedido de <strong>Fulano De Tal</strong>. Por favor haga click <a href="<?php echo URL::route('commerce.commerce.order') ?>">aqu&iacute;</a> para verlo.<br/><br/>
+            Ha llegado un pedido de <strong>Fulano De Tal</strong>. Por favor haga click <a href="<?php echo URL::route('commerce.order') ?>">aqu&iacute;</a> para verlo.<br/><br/>
             Saludos cordiales.<br><br>
             Atte.<br>
             Melivery

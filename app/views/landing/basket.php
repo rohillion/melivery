@@ -20,6 +20,7 @@
                     </div>
                     <div class="pull-left info">
                         <p><?php echo $commerceOrder['commerce']->commerce_name; ?></p>
+                        <span>Sucursal <?php echo $commerceOrder['branch']->street; ?></span>
                     </div>
                 </div>
 

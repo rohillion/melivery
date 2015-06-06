@@ -14,12 +14,14 @@
             ?>
 
             <i data-toggle="tooltip" data-placement="auto" title="<?php echo $title ?>" class="fa fa-<?php echo $icon ?>"></i> 
-            <span class="client-name popover-trigger"><?php echo $order->user->name; ?></span>
+            <span <?php echo $order->delivery ? 'class="client-name popover-trigger"' : '' ?>><?php echo $order->user->name; ?></span>
 
-            <div class="hidden">
-                <div><i class="fa fa-phone"></i> <?php echo $order->user->customer->phone; ?></div>
-                <div><i class="fa fa-home"></i> <?php echo $order->user->customer->address; ?></div>
-            </div>
+            <?php if ($order->delivery) { ?>
+                <div class="hidden">
+                    <div><i class="fa fa-phone"></i> <?php echo $order->user->mobile; ?></div>
+                    <div><i class="fa fa-home"></i> <?php echo!is_null($order->user_address) ? $order->user_address->floor_apt . ' ' . $order->user_address->street : 'No proporcionado'; ?></div>
+                </div>
+            <?php } ?>
 
             <div class="time-order pull-right">
                 <span data-toggle="tooltip" data-placement="auto" title="Hora de entrada">
@@ -138,7 +140,7 @@
                 <button id="motives-<?php echo $order->id ?>" class="btn btn-link btn-sm btn-flat dropdown-toggle" data-toggle="dropdown" aria-expanded="true" type="button">No realizable <span class="caret"></span></button>
                 <ul class="dropdown-menu dropup" role="menu" aria-labelledby="motives-<?php echo $order->id ?>">
                     <?php foreach ($motives as $motive) { ?>
-                        <li role="presentation"><a class="rejectOrder" data-motiveid="<?php echo $motive->id ?>" data-orderid="<?php echo $order->id ?>" role="menuitem" tabindex="-1" href="#"><?php echo Lang::get('order.motives.'.$motive->motive_name.'.motive_description')?></a></li>
+                        <li role="presentation"><a class="rejectOrder" data-motiveid="<?php echo $motive->id ?>" data-orderid="<?php echo $order->id ?>" role="menuitem" tabindex="-1" href="#"><?php echo Lang::get('order.motives.' . $motive->motive_name . '.motive_description') ?></a></li>
                     <?php } ?>
                 </ul>
             </div><!-- /input-group -->

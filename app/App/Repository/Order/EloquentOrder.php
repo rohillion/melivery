@@ -11,7 +11,8 @@ class EloquentOrder extends RepositoryAbstract implements OrderInterface {
         return $this->entity
                         ->select('O.*', 'B.status_id', 'B.status_name', 'B.status_date')
                         ->from('order as O')
-                        ->with('user.customer')
+                        ->with('user')
+                        ->with('user_address')
                         ->with('branch')
                         ->with('branch_dealer')
                         ->with('cash')
@@ -56,7 +57,8 @@ class EloquentOrder extends RepositoryAbstract implements OrderInterface {
         return $this->entity
                         ->select('O.*', 'B.status_id', 'B.status_name', 'B.status_date')
                         ->from('order as O')
-                        ->with('user.customer')
+                        ->with('user')
+                        ->with('user_address')
                         ->with('branch_dealer')
                         ->with('cash')
                         ->with('order_products.branch_product.product.tags')
@@ -100,7 +102,8 @@ class EloquentOrder extends RepositoryAbstract implements OrderInterface {
         return $this->entity
                         ->select('O.*', 'B.status_id', 'B.status_name', 'B.status_date')
                         ->from('order as O')
-                        ->with('user.customer')
+                        ->with('user')
+                        ->with('user_address')
                         ->with('branch')
                         ->with('cash')
                         ->with('order_products.branch_product.product.tags.subcategories')

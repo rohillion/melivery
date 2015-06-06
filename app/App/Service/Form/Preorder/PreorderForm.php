@@ -60,7 +60,9 @@ class PreorderForm extends AbstractForm {
 
             foreach ($sessionOrders as $branch_id => $order) {
 
-                $orders[$branch_id]['commerce'] = $this->branch->find($branch_id, ['*'], ['commerce'])->commerce;
+                $branch = $this->branch->find($branch_id, ['*'], ['commerce']);
+                $orders[$branch_id]['commerce'] = $branch->commerce;
+                $orders[$branch_id]['branch'] = $branch;
 
                 foreach ($order as $productIndex => $branchProduct) {
 
@@ -92,7 +94,7 @@ class PreorderForm extends AbstractForm {
         return $orders;
     }
 
-    public function process($customer_id, $productsByBranch, $payCash) {
+    public function process($customer_id, $productsByBranch, $payCash, $address, $delivery) {
 
         if (!$productsByBranch) {
             $this->messageBag->add('error', 'No hay elementos en el pedido.'); //TODO. Soporte Lang.
@@ -107,10 +109,10 @@ class PreorderForm extends AbstractForm {
 
             //Order
 
-            $delivery = 0;
             $payCashAmount = NULL;
 
-            if (\Session::get('delivery')) {
+            if ($delivery) {
+                //if (\Session::get('delivery')) {
 
                 if (!isset($payCash['pay']) || !isset($payCash['pay'][$branchId])) {
                     $this->messageBag->add('error', 'Por favor indique con que monto se abonara el pedido.'); //TODO. Soporte Lang.
@@ -118,7 +120,6 @@ class PreorderForm extends AbstractForm {
                     return false;
                 }
 
-                $delivery = 1;
                 $payCashAmount = $payCash['pay'][$branchId] == 'custom' ? $payCash['amount'][$branchId] : $payCash['pay'][$branchId];
             }
 
@@ -126,7 +127,7 @@ class PreorderForm extends AbstractForm {
                 'branch_id' => $branchId,
                 'user_id' => $customer_id,
                 'delivery' => $delivery,
-                    //'paycash' => $payCashAmount
+                'user_address_id' => $address
             );
 
             $order = $this->order->save($orderInput);

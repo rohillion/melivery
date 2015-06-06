@@ -26,7 +26,7 @@ class CustomerForm extends AbstractForm {
      * @return boolean
      */
     public function save(array $input) {
-
+        
         if (!$this->valid($input)) {
             return false;
         }

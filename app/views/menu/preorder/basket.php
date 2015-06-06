@@ -15,6 +15,7 @@
                     </div>
                     <div class="pull-left info">
                         <p><?php echo $commerce['commerce']->commerce_name; ?></p>
+                        <span>Sucursal <?php echo $commerce['branch']->street; ?></span>
                     </div>
                 </div>
 
@@ -149,11 +150,36 @@
 
                 <form id="pay" role="form" method="post" action="<?php echo URL::route('menu.preorder.store'); ?>">
 
-                    
+
+                    <div class="form-group" style="overflow:hidden;">
+                        <label for="address" class="col-xs-12 col-sm-4">M&eacute;todo de entrega:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <?php if ($commerce['branch']->delivery) { ?>
+                                <div class="radio-inline">
+                                    <label>
+                                        <input style="position: inherit;" type="radio" name="delivery" value="1" checked="checked">
+                                        Delivery
+                                    </label>
+                                </div>
+                            <?php } ?>
+
+                            <?php if ($commerce['branch']->pickup) { ?>
+                                <div class="radio-inline">
+                                    <label>
+                                        <input style="position: inherit;" type="radio" name="delivery" value="0" <?php echo!$commerce['branch']->delivery ? 'checked="checked"' : '' ?> >
+                                        Paso a retirar
+                                    </label>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                    <span class="clearfix"></span>
+
                     <div class="form-group" style="overflow:hidden;">
                         <label for="address" class="col-xs-12 col-sm-4">Direcci&oacute;n:</label>
                         <div class="col-xs-10 col-sm-7">
-                            <select class="form-control">
+                            <select class="form-control" name="address">
                                 <?php foreach ($addresses as $address) { ?>
                                     <?php $selected = Cookie::get('position_id') == $address->id ? 'selected' : ''; ?>
                                     <option <?php echo $selected; ?> value="<?php echo $address->id; ?>"><?php echo $address->floor_apt . ' ' . $address->street; ?></option>
@@ -164,9 +190,9 @@
                             <button type="button" data-toggle="modal" data-target="#address-modal" class="btn btn-flat btn-success" title="Agregar direcci&oacute;n"><i class="fa fa-plus"></i></button>
                         </div>
                     </div>
-                    
+
                     <span class="clearfix"></span>
-                    
+
                     <div class="form-group" style="overflow:hidden;">
 
                         <?php

@@ -14,7 +14,7 @@ class Order extends Eloquent {
      * 
      * @var array 
      */
-    protected $fillable = array('branch_id','user_id','estimated','delivery','total');
+    protected $fillable = array('branch_id','user_id','estimated','delivery','total','user_address_id');
     
     /**
      * Branch relationship
@@ -63,6 +63,13 @@ class Order extends Eloquent {
      */
     public function cash() {
         return $this->hasOne('OrderCash', 'order_id');
+    }
+    
+    /**
+     * Customer relationship
+     */
+    public function user_address() {
+        return $this->hasOne('Customer', 'id', 'user_address_id');
     }
 
 }

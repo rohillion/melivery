@@ -39,24 +39,13 @@ class PreorderController extends BaseController {
 
     public function store() {
 
-        /* $queue = CommonEvents::getLastAction();
-
-          //check if queue data when came from login
-          if ($queue && $queue['action'] == Route::getCurrentRoute()->getAction()['controller']) {
-
-          CommonEvents::setLastAction(FALSE); //Delete last attempt action;
-          $payWith = $queue['post'];
-          } else {
-
-          $payWith = Input::only('pay', 'amount');
-          } */
-
-        $order = $this->preorder->process(Session::get('user.id'), Session::get('orders'), Input::only('pay', 'amount'));
+        $order = $this->preorder->process(Session::get('user.id'), Session::get('orders'), Input::only('pay', 'amount'), Input::get('address',0), Input::get('delivery'));
 
         if ($order) {
 
             // Success!
-            return Redirect::to(Request::server('HTTP_REFERER'))
+            return Redirect::route('customer')
+                            //return Redirect::to(Request::server('HTTP_REFERER'))
                             ->withSuccess(Lang::get('segment.order.message.success.save'))
                             ->with('status', 'success');
         }
