@@ -22,6 +22,22 @@ var custom = {
 
             input.closest('.radio-inline').find('.custom-pay').prop('checked', true);
         });
+
+        $(document).on('change', '[name="delivery"]', function () {
+
+            var addressGroup = $('.addressGroup'),
+                    amountGroup = $('.amountGroup');
+
+            console.log($('#pay').find('[name="delivery"]:checked').val());
+            
+            if ($('#pay').find('[name="delivery"]:checked').val() === '1') {
+                addressGroup.show();
+                amountGroup.show();
+            } else {
+                addressGroup.hide();
+                amountGroup.hide();
+            }
+        });
     },
     popover: function () {
         $(".config-product").popover({

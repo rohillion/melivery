@@ -176,7 +176,7 @@
 
                     <span class="clearfix"></span>
 
-                    <div class="form-group" style="overflow:hidden;">
+                    <div class="form-group addressGroup" style="overflow:hidden;">
                         <label for="address" class="col-xs-12 col-sm-4">Direcci&oacute;n:</label>
                         <div class="col-xs-10 col-sm-7">
                             <select class="form-control" name="address">
@@ -193,7 +193,7 @@
 
                     <span class="clearfix"></span>
 
-                    <div class="form-group" style="overflow:hidden;">
+                    <div class="form-group amountGroup" style="overflow:hidden;">
 
                         <?php
                         $pay = array($total);

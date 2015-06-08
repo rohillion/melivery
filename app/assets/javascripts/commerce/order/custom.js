@@ -53,7 +53,7 @@ var custom = {
 
                     pendingPanel.find('[data-id="' + res.order.id + '"]').addClass('archive');
 
-                    main.run('/order/' + res.order.id + '/card', function (res) {
+                    custom.retrieveCard(res.order.id, function (res) {
                         if (res.status) {
 
                             var noData = progressPanel.find('.no-data');
@@ -70,6 +70,7 @@ var custom = {
                             }, 200);
                         }
                     });
+
                 }
 
                 main.notify(res);
@@ -269,6 +270,24 @@ var custom = {
 
                                     custom.toggleDealerActionButtons();
                                     custom.attachDealerOrder(orderId, dealerId);
+                                    custom.retrieveCard(orderId, function (res) {
+                                        if (res.status) {
+
+                                            var newCard = $(res.orderCard);
+                                            newCard.removeClass('new-progress');
+
+                                            var oldCard = $($('#order-progress').find('[data-id="' + orderId + '"]'));
+
+                                            oldCard.after(newCard);
+                                            oldCard.remove();
+
+                                            setTimeout(function () {
+                                                custom.draggable();
+                                                main.tooltip();
+                                                custom.popover();
+                                            }, 200);
+                                        }
+                                    });
 
                                     $('#changeOrderType_cancel').off();
                                     $('#changeOrderTypeModal').modal('hide');
@@ -324,8 +343,13 @@ var custom = {
             }
         });
     },
+    retrieveCard: function (orderId, callback) {
+        main.run('/order/' + orderId + '/card', function (res) {
+            if(typeof callback == 'function')
+                callback(res);
+        });
+    },
     changeOrderType: function (orderId, callback) {
-
         main.sendForm('/order/' + orderId + '/type', $.param({
             'paycash': $('#changeOrderType_paycash').val()
         }), function (res) {
@@ -529,7 +553,7 @@ var custom = {
 
             if (!dealerBox.find('.dealer').length > 0)
                 nodata.show();
-            
+
             dealerBox.find('#dealerPanelModel').remove();
             addDealerButton.show();
         });
