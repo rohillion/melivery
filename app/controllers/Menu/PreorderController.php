@@ -57,9 +57,6 @@ class PreorderController extends BaseController {
 
     public function confirm() {
 
-        /* echo '<pre>', var_dump(Cookie::get('position')), '</pre>';
-          exit; */
-
         $data['orders'] = $this->preorder->all(Session::get('orders'));
         $data['addresses'] = $this->customer->all(['*'], [], ['user_id' => Session::get('user.id')]);
 

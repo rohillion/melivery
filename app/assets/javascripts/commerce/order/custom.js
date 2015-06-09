@@ -70,7 +70,6 @@ var custom = {
                             }, 200);
                         }
                     });
-
                 }
 
                 main.notify(res);
@@ -351,7 +350,9 @@ var custom = {
     },
     changeOrderType: function (orderId, callback) {
         main.sendForm('/order/' + orderId + '/type', $.param({
-            'paycash': $('#changeOrderType_paycash').val()
+            'paycash': $('#changeOrderType_paycash').val(),
+            'floor': $('#changeOrderType_floor').val(),
+            'street': $('#changeOrderType_street').val(),
         }), function (res) {
 
             if (res.status) {

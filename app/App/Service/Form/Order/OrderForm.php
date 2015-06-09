@@ -7,6 +7,7 @@ use App\Service\Validation\ValidableInterface;
 use App\Repository\Order\OrderInterface;
 use App\Repository\BranchDealer\BranchDealerInterface;
 use App\Service\Form\OrderCash\OrderCashForm;
+use App\Service\Form\Customer\CustomerForm;
 use App\Service\Form\AbstractForm;
 
 class OrderForm extends AbstractForm {
@@ -20,12 +21,14 @@ class OrderForm extends AbstractForm {
     protected $orderCashForm;
     protected $branchDealer;
     protected $messageBag;
+    protected $customerForm;
 
-    public function __construct(ValidableInterface $validator, OrderInterface $order, BranchDealerInterface $branchDealer, OrderCashForm $orderCashForm) {
+    public function __construct(ValidableInterface $validator, OrderInterface $order, BranchDealerInterface $branchDealer, OrderCashForm $orderCashForm, CustomerForm $customerForm) {
         parent::__construct($validator);
         $this->order = $order;
         $this->orderCashForm = $orderCashForm;
         $this->branchDealer = $branchDealer;
+        $this->customerForm = $customerForm;
         $this->messageBag = new MessageBag();
     }
 
@@ -144,14 +147,14 @@ class OrderForm extends AbstractForm {
             return false;
         }
 
-        $delivery = !$order->delivery;
-
         //Start transaction
         \DB::beginTransaction();
 
-        $order = $this->order->edit($order->id, array('delivery' => $delivery));
+        $order->delivery = !$order->delivery;
+        $order->save();
+        //$order = $this->order->edit($order->id, array('delivery' => $delivery));
 
-        if ($delivery) {
+        if ($order->delivery) {
 
             $payCashAmount = $input['paycash'] ? $input['paycash'] : $order->total;
 
@@ -169,6 +172,24 @@ class OrderForm extends AbstractForm {
                 \DB::rollback();
                 $this->validator->errors = $this->orderCashForm->errors();
                 return false;
+            }
+
+            if ($input['floor'] || $input['street']) {
+                $customerInput = array(
+                    'floor_apt' => $input['floor'],
+                    'user_id' => $order->user_id,
+                    'street' => $input['street']
+                );
+
+                $customer = $this->customerForm->save($customerInput);
+
+                if (!$customer) {
+                    \DB::rollback();
+                    $this->validator->errors = $this->customerForm->errors();
+                    return false;
+                }
+                
+                $this->order->edit($order->id, array('user_address_id' => $customer->id));
             }
         }
 

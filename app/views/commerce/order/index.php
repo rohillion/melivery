@@ -285,6 +285,20 @@
                                 <label for="changeOrderType_paycash" class="control-label"><?php echo Lang::get('segment.order.modal.change_order_type.label.paycash') ?></label>
                                 <input id="changeOrderType_paycash" class="form-control" type="text"/>
                             </div>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label for="changeOrderType_floor" class="control-label"><?php echo Lang::get('segment.order.modal.change_order_type.label.floor') ?></label>
+                                        <input id="changeOrderType_floor" class="form-control" type="text"/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="form-group">
+                                        <label for="changeOrderType_street" class="control-label"><?php echo Lang::get('segment.order.modal.change_order_type.label.street') ?></label>
+                                        <input id="changeOrderType_street" class="form-control" type="text"/>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">

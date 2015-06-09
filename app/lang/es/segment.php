@@ -130,9 +130,11 @@ return array(
         "modal" => array(
             "change_order_type" => array(
                 "title" => "Cambiar el tipo de entrega de este pedido",
-                "body" => "Este pedido es <strong>Para Retirar</strong> por mostrador y se cambiara a <strong>Delivery</strong>. Por favor, ingrese el monto con el que abonará el comensal, de lo contrario deje el campo en blanco.",
+                "body" => "Este pedido es <strong>Para Retirar</strong> y se cambiará a <strong>Delivery</strong>. Por favor, complete los datos del comensal, de lo contrario d&eacute;jelos en blanco.",
                 "label" => array(
-                    "paycash" => "Monto con el que se abonará:"
+                    "paycash" => "Monto con el que se abonará:",
+                    "floor" => "Piso y dpto:",
+                    "street" => "Calle y altura:"
                 ),
                 "action" => array(
                     "dismiss" => "Matener el tipo de entrega como está",

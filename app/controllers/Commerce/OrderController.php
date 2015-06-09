@@ -130,7 +130,9 @@ class OrderController extends BaseController {
 
         $input = array(
             'order_id' => $order_id,
-            'paycash' => Input::get('paycash')
+            'paycash' => Input::get('paycash'),
+            'floor' => Input::get('floor'),
+            'street' => Input::get('street'),
         );
 
         $order = $this->orderForm->changeType($input);
