@@ -33,16 +33,15 @@
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-                        <a class="navbar-brand" href="#home"><img alt="melivery" src="/assets/logo_clock.png"/></a> </div>
+                        <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>-->
+                        <a class="navbar-brand" href="#home"><img alt="melivery" src="/assets/logo_clock.png"/></a>
+                    </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#home" class="smoothScroll">Home</a></li>
-                            <li> <a href="#about" class="smoothScroll"> About</a></li>
-                            <li> <a href="#services" class="smoothScroll"> Services</a></li>
+                            <li><a href="<?php echo URL::route('account.login'); ?>">Iniciar sesi&oacute;n</a></li>
+                            <!--<li> <a href="#services" class="smoothScroll"> Services</a></li>
                             <li> <a href="#portfolio" class="smoothScroll"> Portfolio</a></li>
-                            <li> <a href="#team" class="smoothScroll"> Team</a></li>
-                            <li> <a href="#contact" class="smoothScroll"> Contact</a></li>
+                            <li> <a href="#team" class="smoothScroll"> Team</a></li>-->
                         </ul>
                     </div>
                     <!--/.nav-collapse --> 
@@ -59,16 +58,19 @@
                 <div>
                     <img width="300" class="center-block" src="/assets/melivery.png" alt="Melivery"/>
                 </div>
-                <h1>Tu comercio en internet en minutos</h1>
-                <p></p>
-                <br><br><br><br><br><br>
-                <a href="#portfolio" class="smoothScroll btn btn-lg btn-link">Enterate m&aacute;s</a>
+                <h1>Tu local de comidas en minutos.</h1>
+                <br><br>
+                <a href="<?php echo URL::route('account.signup'); ?>" class="btn btn-link btn-lg">Registrate</a>
+                <br><br><br>
+                <p>&oacute;</p>
+                <br>
+                <a href="#services" class="smoothScroll btn btn-lg btn-link">Enterate m&aacute;s</a>
             </header>
         </div>
         <!-- /headerwrap -->
 
         <!-- ==== ABOUT ==== -->
-        <div id="about" name="about">
+        <!-- <div id="about" name="about">
             <div class="container">
                 <div class="row white">
                     <h2 class="centered"></h2>
@@ -81,31 +83,32 @@
                         <p>Lorem ipsum dolor sit amet, quo meis audire placerat eu, te eos porro veniam. An everti maiorum detracto mea. Eu eos dicam voluptaria, erant bonorum albucius et per, ei sapientem accommodare est. Saepe dolorum constituam ei vel.</p>
                     </div>
                 </div>
-                <!-- row --> 
-            </div>
-        </div>
+        <!-- row 
+    </div>
+</div>--> 
         <!-- container --> 
 
         <!-- ==== SERVICES ==== -->
         <div id="services" name="services">
             <div class="container">
                 <div class="row">
-                    <h2 class="centered">OUR SERVICES</h2>
-                    <hr>
+                    <h2 class="centered"></h2>
+                    <br><br>
+                    <!--<hr>
                     <div class="col-lg-8 col-lg-offset-2">
                         <p class="large">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
-                    </div>
-                    <div class="col-lg-4 callout"> <i class="fa fa-desktop fa-3x"></i>
-                        <h3>Responsive Design</h3>
-                        <p>Erat imperdiet dissentias ea usu, alia aliquid corrumpit ea qui. Eu vim oratio conclusionemque, vel at errem nominavi delicatissimi.</p>
-                    </div>
+                    </div>-->
                     <div class="col-lg-4 callout"> <i class="fa fa-gears fa-3x"></i>
-                        <h3>Web Development</h3>
-                        <p>Erat imperdiet dissentias ea usu, alia aliquid corrumpit ea qui. Eu vim oratio conclusionemque, vel at errem nominavi delicatissimi.</p>
+                        <h3>Configur&aacute; tu local.</h3>
+                        <p>Pod&eacute;s configurar tus sucursales, el m&eacute;todo de entrega, la carta, tu &aacute;rea de cobertura y m&aacute;s!</p>
                     </div>
-                    <div class="col-lg-4 callout"> <i class="fa fa-dot-circle-o fa-3x"></i>
-                        <h3>Social Marketing</h3>
-                        <p>Erat imperdiet dissentias ea usu, alia aliquid corrumpit ea qui. Eu vim oratio conclusionemque, vel at errem nominavi delicatissimi.</p>
+                    <div class="col-lg-4 callout"> <i class="fa fa-clock-o fa-3x"></i>
+                        <h3>Pedidos en tiempo real.</h3>
+                        <p>Recib&iacute; pedidos al instante en tu panel de control. Acept&aacute; o cancel&aacute; pedidos sin tener que esperar a que tus clientes se decidan por tel&eacute;fono.</p>
+                    </div>
+                    <div class="col-lg-4 callout"> <i class="fa fa-money fa-3x"></i>
+                        <h3>Sin comisiones ni costos ocultos.</h3>
+                        <p>Guard&aacute; tu dinero! Tu esfuerzo es demasiado alto como para pagar comisiones absurdas.</p>
                     </div>
                 </div>
                 <!-- row --> 
@@ -117,10 +120,10 @@
         <div id="portfolio" name="portfolio">
             <div class="container">
                 <div class="row">
-                    <h2 class="centered">OUR PORTFOLIO</h2>
+                    <h2 class="centered">SOMOS BETA!</h2>
                     <hr>
                     <div class="col-lg-8 col-lg-offset-2 centered">
-                        <p class="large">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+                        <p class="large">Significa que estamos en nuestra versi&oacute;n de prueba. Por lo tanto los vendedores que se registren ahora obtienen automaticamente una cuenta GR&Aacute;TIS de por vida!.</p>
                     </div>
                 </div>
             </div>
@@ -131,10 +134,10 @@
         <div id="team" name="team">
             <div class="container">
                 <div class="row centered">
-                    <h2 class="centered">MEET OUR TEAM</h2>
-                    <hr>
+                    <!-- <h2 class="centered">MEET OUR TEAM</h2>
+                    <hr> -->
                     <div class="col-lg-8 col-lg-offset-2 centered">
-                        <p class="large">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+                        <a href="<?php echo URL::route('account.signup'); ?>" class="btn btn-flat btn-lg btn-danger">Registrate en 5 minutos</a>
                     </div>
                 </div>
             </div>
@@ -143,7 +146,7 @@
         <!-- container --> 
 
         <!-- ==== CONTACT ==== -->
-        <div id="contact" name="contact">
+        <!-- <div id="contact" name="contact">
             <div class="container">
                 <div class="row">
                     <h2 class="centered">CONTACT US</h2>
@@ -178,25 +181,21 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- form --> 
                     </div>
                 </div>
-                <!-- row --> 
 
             </div>
-        </div>
+        </div>-->
         <!-- container -->
 
         <div id="footerwrap">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-8"> <span class="copyright">Copyright &copy; 2015 Your Website Name. Design by <a href="http://www.templategarden.com" rel="nofollow">TemplateGarden</a></span> </div>
+                    <div class="col-md-8"> <span class="copyright">Copyright &copy; 2015 Melivery.</span> </div>
                     <div class="col-md-4">
                         <ul class="list-inline social-buttons">
-                            <li><a href="#"><i class="fa fa-twitter"></i></a> </li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a> </li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a> </li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a> </li>
+                            <li><a target="_blank" href="https://twitter.com/meliveryonline"><i class="fa fa-twitter"></i></a> </li>
+                            <li><a target="_blank" href="https://facebook.com/melivery"><i class="fa fa-facebook"></i></a> </li>
                         </ul>
                     </div>
                 </div>

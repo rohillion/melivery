@@ -512,7 +512,7 @@ ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li
 
 @media screen and (max-width:769px) {
     #headerwrap h1 {
-        font-size: 80px;
+        font-size: 24px;
     }
     #headerwrap p {
         font-size: 30px;
@@ -533,4 +533,8 @@ ul.social-buttons li a:hover, ul.social-buttons li a:focus, ul.social-buttons li
 .navbar-inverse{
     background-color: inherit;
     border: none;
+}
+
+.navbar-inverse .navbar-nav>li>a{
+    color:#fff;
 }
