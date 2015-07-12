@@ -9,7 +9,7 @@
                 "intervention/image": "2.*",
                 "pusher/pusher-php-server": "2.*",
                 "twilio/sdk": "4.1.*",
-                "laravel/cashier": "~3.0",
+                "laravel/cashier": "~2.0",
                 "andywer/js-localization": "dev-laravel-4.2"
 	},
 	"autoload": {
