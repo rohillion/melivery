@@ -10,7 +10,7 @@
                 "pusher/pusher-php-server": "2.*",
                 "twilio/sdk": "4.1.*",
                 "laravel/cashier": "~3.0",
-                "andywer/js-localization": "dev-master"
+                "andywer/js-localization": "dev-laravel-4.2"
 	},
 	"autoload": {
 		"classmap": [
