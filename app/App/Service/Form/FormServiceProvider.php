@@ -84,7 +84,7 @@ class FormServiceProvider extends ServiceProvider {
         $app->bind('App\Service\Form\User\UserForm', function($app) {
 
             return new UserForm(
-                    new UserValidator($app['validator']), $app->make('App\Repository\User\UserInterface')
+                    new UserValidator($app['validator']), $app->make('App\Repository\User\UserInterface'), $app->make('App\Repository\Country\CountryInterface')
             );
         });
 

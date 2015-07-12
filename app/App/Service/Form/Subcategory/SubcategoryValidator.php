@@ -13,7 +13,7 @@ class SubcategoryValidator extends LaravelValidator implements ValidableInterfac
      * @var array
      */
     protected $rules = array(
-        'subcategory_name' => 'required|max:50|unique:subcategory',
+        'subcategory_name' => 'required|max:50',
         'id_category' => 'required|numeric|exists:category,id'
     );
 

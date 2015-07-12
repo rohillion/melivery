@@ -11,3 +11,4 @@ Thumbs.db
 /public/upload/branch_image/*
 /public/upload/product_image/*
 /public/upload/product_image_tmp/*
+app/storage/logs/laravel.log

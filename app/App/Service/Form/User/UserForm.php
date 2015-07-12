@@ -4,6 +4,7 @@ namespace App\Service\Form\User;
 
 use App\Service\Validation\ValidableInterface;
 use App\Repository\User\UserInterface;
+use App\Repository\Country\CountryInterface;
 use App\Service\Form\AbstractForm;
 
 class UserForm extends AbstractForm {
@@ -14,10 +15,12 @@ class UserForm extends AbstractForm {
      * @var \App\Repository\User\UserInterface
      */
     protected $user;
+    protected $country;
 
-    public function __construct(ValidableInterface $validator, UserInterface $user) {
+    public function __construct(ValidableInterface $validator, UserInterface $user, CountryInterface $country) {
         parent::__construct($validator);
         $this->user = $user;
+        $this->country = $country;
     }
 
     /**
@@ -66,6 +69,8 @@ class UserForm extends AbstractForm {
                 $dashboard = 'customer';
                 break;
         }
+        
+        $input['country_id'] = $this->country->first(['*'],[],['country_code' => strtoupper(\Session::get('location.country'))])->id;
 
         if (!$this->valid($input)) {
             return false;

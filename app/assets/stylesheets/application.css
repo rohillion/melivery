@@ -10,6 +10,7 @@
  * but before any files alphabetically greater than 'application.css' 
  *
  *= require bootstrap.min.css
+ *= require bootstrap-tour/bootstrap-tour.min.css
  *= require font-awesome.min.css
  *= require AdminLTE.css
  *= require plugins/notify/ns-default.css

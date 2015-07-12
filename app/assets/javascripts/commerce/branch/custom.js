@@ -12,7 +12,7 @@ var custom = {
         this.delivery();
         this.pickup();
         this.formControl();
-
+        this.tour();
     },
     toggleClock: function () {
         var wrappers = $('.business-hours-control');
@@ -657,5 +657,61 @@ var custom = {
         $('.prev').on('click', function () {
             custom.formPrev($(this));
         });
+    },
+    tour: function () {
+        
+        var branchTour = new Tour({
+            storage: false,
+            steps: [
+                {
+                    element: "#address",
+                    //title: "",
+                    content: "Vamos a buscar la sucursal en el mapa.",
+                    placement: 'top',
+                    backdrop: true,
+                    reflex:true,
+                    next:-1
+                },
+                {
+                    element: "#brandUrlBox",
+                    title: "URL de tu comercio",
+                    content: "La URL de tu comercio es muy &uacute;til para que tus clientes accedan de manera facil a tu Men&uacute;.",
+                    placement: 'top',
+                    backdrop: true
+                },
+                {
+                    element: "#cover",
+                    title: "Encabezado de tu men&uacute;",
+                    content: "Pod&eacute;s agregar una imagen que te guste para alegrar tu men&uacute. Puede ser de algun plato, de tu negocio o lo que quieras!",
+                    placement: 'bottom',
+                    backdrop: true
+                },
+                {
+                    element: "#logo",
+                    title: "Logo de tu comercio",
+                    content: "Junto con el nombre, se mostrar&aacute; en los listados de Melivery.",
+                    placement: 'top',
+                    backdrop: true
+                },
+                {
+                    element: "#saveProfile",
+                    //title: "Logo de tu comercio",
+                    content: "Guarda los cambios.",
+                    placement: 'top',
+                    backdrop: true
+                }
+            ]});
+        
+        if (showBranchTour) {
+
+            /*$('#welcomeModal').modal('show');
+
+            $('#welcomeModal').on('hidden.bs.modal', function () {
+                branchTour.start();
+            });*/
+
+            branchTour.init();
+            branchTour.start();
+        }
     }
 }

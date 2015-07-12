@@ -50,7 +50,7 @@
                                             <div class="box-tools">
                                                 <!-- Single button -->
                                                 <div class="pull-right">
-                                                    <button type="button" class="btn btn-default popover-trigger">
+                                                    <button type="button" class="btn btn-default popover-trigger popover-attributes">
                                                         Action <span class="caret"></span>
                                                     </button>
                                                     <div class="hide">

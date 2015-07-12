@@ -12,6 +12,7 @@
 //
 //= require jquery-2.1.1.min.js
 //= require bootstrap.min.js
+//= require plugins/bootstrap-tour/bootstrap-tour.min.js
 //= require plugins/modernizr/modernizr.custom.js
 //= require plugins/notify/classie.js
 //= require plugins/notify/notificationFx.js

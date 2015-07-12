@@ -62,6 +62,12 @@
                                             <?php } ?>
                                         </div>
                                     </div>
+
+                                    <small>
+                                        <?php $methods = $commerce->branch->delivery ? 'Delivery -' : '' ?>
+                                        <?php $methods .= $commerce->branch->pickup ? ' Retira por sucursal -' : '' ?>
+                                        M&eacute;todos de entrega: <?php echo substr($methods, 0, -1); ?>
+                                    </small>
                                 <?php } ?>
 
                                 <?php if (isset($productByCategory)) { ?>
@@ -123,149 +129,155 @@
 
                             <?php if (!is_null($commerce->branch)) { ?>
 
-                                <?php if (!$commerce->branch->products->isEmpty()) { ?>
+                                <?php if ($commerce->branch->delivery || $commerce->branch->pickup) { ?>
 
-                                    <?php foreach ($productByCategory as $category) { ?>
+                                    <?php if (!$commerce->branch->products->isEmpty()) { ?>
+
+                                        <?php foreach ($productByCategory as $category) { ?>
 
 
-                                        <?php $i = 0; ?>
-                                        <?php $count = count($category['products']); ?>
-                                        <?php $even = is_int($count / 2); ?>
+                                            <?php $i = 0; ?>
+                                            <?php $count = count($category['products']); ?>
+                                            <?php $even = is_int($count / 2); ?>
 
-                                        <?php
-                                        if ($even) {
-                                            $lefties = $count % 3;
-                                        } else {
-                                            if (!is_int($count / 3)) {
+                                            <?php
+                                            if ($even) {
                                                 $lefties = $count % 3;
+                                            } else {
+                                                if (!is_int($count / 3)) {
+                                                    $lefties = $count % 3;
+                                                }
                                             }
-                                        }
-                                        ?>
+                                            ?>
 
-                                        <!-- Category wrapper -->
-                                        <div id="<?php echo str_replace(' ', '_', $category['data']->category_name); ?>">
+                                            <!-- Category wrapper -->
+                                            <div id="<?php echo str_replace(' ', '_', $category['data']->category_name); ?>">
 
-                                            <div class="page-header"><?php echo $category['data']->category_name ?></div>
+                                                <div class="page-header"><?php echo $category['data']->category_name ?></div>
 
-                                            <!-- 3 Products row -->
-                                            <div class="row">
+                                                <!-- 3 Products row -->
+                                                <div class="row">
 
-                                                <?php
-                                                foreach ($category['products'] as $branchProduct) {
+                                                    <?php
+                                                    foreach ($category['products'] as $branchProduct) {
 
-                                                    $cols = 'col-xs-12 col-md-6 col-lg-4';
+                                                        $cols = 'col-xs-12 col-md-6 col-lg-4';
 
-                                                    if ($count == 1) {
-                                                        $cols = 'col-xs-12 col-md-6';
-                                                    } elseif ($count == 2) {
-                                                        $cols = 'col-xs-12 col-md-6';
-                                                    } elseif ($count == 3) {
-                                                        if ($i == 3)
-                                                            $cols = 'col-xs-12 col-lg-4';
-                                                    } else {//mayor a 3
-                                                        if ($even) {
+                                                        if ($count == 1) {
+                                                            $cols = 'col-xs-12 col-md-6';
+                                                        } elseif ($count == 2) {
+                                                            $cols = 'col-xs-12 col-md-6';
+                                                        } elseif ($count == 3) {
+                                                            if ($i == 3)
+                                                                $cols = 'col-xs-12 col-lg-4';
+                                                        } else {//mayor a 3
+                                                            if ($even) {
 
-                                                            if ($count - $i <= $lefties) {
-                                                                if ($lefties > 1) {
-                                                                    $cols = 'col-xs-12 col-md-6 col-lg-6';
-                                                                } else {
-                                                                    $cols = 'col-xs-12 col-md-6 col-lg-6';
+                                                                if ($count - $i <= $lefties) {
+                                                                    if ($lefties > 1) {
+                                                                        $cols = 'col-xs-12 col-md-6 col-lg-6';
+                                                                    } else {
+                                                                        $cols = 'col-xs-12 col-md-6 col-lg-6';
+                                                                    }
                                                                 }
-                                                            }
-                                                        } elseif (isset($lefties)) {
+                                                            } elseif (isset($lefties)) {
 
-                                                            if ($count - $i <= $lefties) {
-                                                                if ($lefties > 1) {
-                                                                    $cols = 'col-xs-12 col-md-6 col-lg-6';
-                                                                    if ($count - $i === 1)
+                                                                if ($count - $i <= $lefties) {
+                                                                    if ($lefties > 1) {
+                                                                        $cols = 'col-xs-12 col-md-6 col-lg-6';
+                                                                        if ($count - $i === 1)
+                                                                            $cols = 'col-xs-12 col-md-12 col-lg-6';
+                                                                    } else {
                                                                         $cols = 'col-xs-12 col-md-12 col-lg-6';
-                                                                } else {
-                                                                    $cols = 'col-xs-12 col-md-12 col-lg-6';
+                                                                    }
                                                                 }
+                                                            } else {
+                                                                if ($count - $i === 1)
+                                                                    $cols = 'col-xs-12 col-md-12 col-lg-4';
                                                             }
-                                                        } else {
-                                                            if ($count - $i === 1)
-                                                                $cols = 'col-xs-12 col-md-12 col-lg-4';
                                                         }
-                                                    }
-                                                    ?>
+                                                        ?>
 
-                                                    <!-- left column -->
-                                                    <div class="<?php echo $cols; ?>">
+                                                        <!-- left column -->
+                                                        <div class="<?php echo $cols; ?>">
 
-                                                        <!-- general form elements -->
-                                                        <div id="p<?php echo $branchProduct->id ?>" class="box box-solid">
+                                                            <!-- general form elements -->
+                                                            <div id="p<?php echo $branchProduct->id ?>" class="box box-solid">
 
-                                                            <?php if ($branchProduct->product->image) { ?>
-                                                                <img alt="" src="<?php echo asset('upload/product_image/' . $branchProduct->product->image); ?>" style="width: 100%; display: block;">
-                                                            <?php } else { ?>
-                                                                <img data-src="holder.js/100%" alt="100%" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" style="width: 100%; display: block;">
-                                                            <?php } ?>
+                                                                <?php if ($branchProduct->product->image) { ?>
+                                                                    <img alt="" src="<?php echo asset('upload/product_image/' . $branchProduct->product->image); ?>" style="width: 100%; display: block;">
+                                                                <?php } else { ?>
+                                                                    <img data-src="holder.js/100%" alt="100%" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDIiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEyMSIgeT0iMTAwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjE1cHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjQyeDIwMDwvdGV4dD48L3N2Zz4=" style="width: 100%; display: block;">
+                                                                <?php } ?>
 
-                                                            <div class="box-body">
+                                                                <div class="box-body">
 
-                                                                <div class="caption">
+                                                                    <div class="caption">
 
-                                                                    <div style="overflow: hidden;">
-                                                                        <h3 class="product-title pull-left" title="<?php echo $branchProduct->product->tags->tag_name ?>"><?php echo $branchProduct->product->tags->tag_name ?></h3>
-                                                                        <h3 class="pull-right">
-                                                                            <?php
-                                                                            //echo $branchProduct->prices->count() > 1 ? 'Desde' : '';
-                                                                            echo ' $' . $branchProduct->prices[0]->price;
-                                                                            ?>
-                                                                        </h3>
+                                                                        <div style="overflow: hidden;">
+                                                                            <h3 class="product-title pull-left" title="<?php echo $branchProduct->product->tags->tag_name ?>"><?php echo $branchProduct->product->tags->tag_name ?></h3>
+                                                                            <h3 class="pull-right">
+                                                                                <?php
+                                                                                //echo $branchProduct->prices->count() > 1 ? 'Desde' : '';
+                                                                                echo ' $' . $branchProduct->prices[0]->price;
+                                                                                ?>
+                                                                            </h3>
+                                                                        </div>
+
                                                                     </div>
 
                                                                 </div>
 
-                                                            </div>
+                                                                <div class="box-footer">
+                                                                    <form method="post" action="<?php echo URL::route('preorder.add') ?>">
 
-                                                            <div class="box-footer">
-                                                                <form method="post" action="<?php echo URL::route('preorder.add') ?>">
+                                                                        <?php if ($branchProduct->prices->count() > 1) { ?>
+                                                                            <div class="dropup" style="position: relative;">
+                                                                                <button id="prices-<?php echo $branchProduct->id ?>" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true" type="button">Agregar <span class="caret"></span></button>
+                                                                                <ul class="dropdown-menu dropup" role="menu" aria-labelledby="prices-<?php echo $branchProduct->id ?>">
+                                                                                    <?php foreach ($branchProduct->prices as $price) { ?>
+                                                                                        <li role="presentation">
+                                                                                            <a class="addBasket" data-productid="<?php echo $branchProduct->id ?>" data-priceid="<?php echo $price->id ?>" role="menuitem" tabindex="-1" href="#"><?php echo $price->size->size_name . ' $' . $price->price ?></a>
+                                                                                        </li>
+                                                                                    <?php } ?>
+                                                                                </ul>
+                                                                            </div><!-- /input-group -->
+                                                                        <?php } else { ?>
+                                                                            <button data-productid="<?php echo $branchProduct->id ?>" data-priceid="<?php echo $branchProduct->prices[0]->id ?>" class="btn btn-primary btn-sm addBasket" type="button">Agregar</button>
+                                                                        <?php } ?>
 
-                                                                    <?php if ($branchProduct->prices->count() > 1) { ?>
-                                                                        <div class="dropup" style="position: relative;">
-                                                                            <button id="prices-<?php echo $branchProduct->id ?>" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="true" type="button">Agregar <span class="caret"></span></button>
-                                                                            <ul class="dropdown-menu dropup" role="menu" aria-labelledby="prices-<?php echo $branchProduct->id ?>">
-                                                                                <?php foreach ($branchProduct->prices as $price) { ?>
-                                                                                    <li role="presentation">
-                                                                                        <a class="addBasket" data-productid="<?php echo $branchProduct->id ?>" data-priceid="<?php echo $price->id ?>" role="menuitem" tabindex="-1" href="#"><?php echo $price->size->size_name . ' $' . $price->price ?></a>
-                                                                                    </li>
-                                                                                <?php } ?>
-                                                                            </ul>
-                                                                        </div><!-- /input-group -->
-                                                                    <?php } else { ?>
-                                                                        <button data-productid="<?php echo $branchProduct->id ?>" data-priceid="<?php echo $branchProduct->prices[0]->id ?>" class="btn btn-primary btn-sm addBasket" type="button">Agregar</button>
-                                                                    <?php } ?>
+                                                                    </form>
+                                                                </div>
 
-                                                                </form>
-                                                            </div>
+                                                            </div><!-- /.box -->
 
-                                                        </div><!-- /.box -->
+                                                        </div><!--/.col (left) -->
 
-                                                    </div><!--/.col (left) -->
+                                                        <?php $i++; ?>
 
-                                                    <?php $i++; ?>
+                                                    <?php } ?>
 
-                                                <?php } ?>
+                                                </div><!-- /.row (3 products row) -->
 
-                                            </div><!-- /.row (3 products row) -->
+                                            </div><!-- /(category wrapper) -->
 
-                                        </div><!-- /(category wrapper) -->
+                                        <?php } ?>
 
+
+                                    <?php } else { ?>
+
+                                        <div class="well well-sm text-center">No hay productos disponibles en esta sucursal.</div>
                                     <?php } ?>
-
 
                                 <?php } else { ?>
 
-                                    <div class="well well-sm text-center">No hay productos disponibles en esta sucursal.</div>
+                                    <div class="well well-sm text-center">Este comercio aun no ha configurado sus m&eacute;todos de entrega para esta sucursal.</div>
                                 <?php } ?>
 
                             <?php } else { ?>
 
                                 <div class="well well-sm text-center">Este comercio aun no ha configurado su men&uacute;.</div>
                             <?php } ?>
-
 
 
                         </div><!--/.col (left) -->

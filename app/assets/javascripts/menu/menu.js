@@ -28,6 +28,8 @@ var menu = {
                     custom.adding = false;
                     //menu.popover();
                     custom.popover();
+                    if(custom.toggleMethod)
+                        custom.toggleMethod();
                 });
 
                 if (res.message.length > 0)
@@ -45,6 +47,8 @@ var menu = {
                 menu.refreshBasket(res.basket, function () {
                     //menu.popover();
                     custom.popover();
+                    if(custom.toggleMethod)
+                        custom.toggleMethod();
                 });
             });
 
@@ -62,6 +66,8 @@ var menu = {
                 menu.refreshBasket(res.basket, function () {
                     //menu.popover();
                     custom.popover();
+                    if(custom.toggleMethod)
+                        custom.toggleMethod();
                 });
             });
 
@@ -78,6 +84,8 @@ var menu = {
                     menu.refreshBasket(res.basket, function () {
                         //menu.popover();
                         custom.popover();
+                        if(custom.toggleMethod)
+                            custom.toggleMethod();
                     });
                 });
 
@@ -90,6 +98,8 @@ var menu = {
         main.run('/preorder/show' + path, function (res) {
             menu.refreshBasket(res.basket, function () {
                 custom.popover();
+                if(custom.toggleMethod)
+                    custom.toggleMethod();
             });
         });
     },

@@ -14,7 +14,7 @@ class VerificationValidator extends LaravelValidator implements ValidableInterfa
      */
     protected $rules = array(
         //'email' => 'required|email',
-        'vcode' => 'required|digits:6'
+        'vcode' => 'required'
     );
 
 }

@@ -18,6 +18,7 @@ class UserValidator extends LaravelValidator implements ValidableInterface {
         "password" => "required|min:6",
         "id_user_type" => "required|numeric|exists:user_type,id",
         "id_commerce" => "numeric|exists:commerce,id",
+        "country_id" => "numeric|exists:country,id",
     );
 
 }

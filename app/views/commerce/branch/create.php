@@ -504,5 +504,9 @@
         <script src="https://maps.googleapis.com/maps/api/js?libraries=drawing"></script>
 
         <?php echo View::make('footer'); ?>
+        
+        <script type="text/javascript">
+            var showBranchTour = <?php echo Session::has('user.steps.2') ? 0 : 1 ?>;
+        </script>
     </body>
 </html>
