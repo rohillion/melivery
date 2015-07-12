@@ -37,6 +37,7 @@ $channel = $name == 'commerce' ? (Session::get('user.branch_id')? "branch_".Sess
     <title>Melivery - <?php echo (Request::segment(1)) ? Lang::get('segment.' . Request::segment(1) . '.name.plural') : 'Dashboard'; ?></title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta name="_token" content="<?php echo csrf_token() ?>" />
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
     <!-- bootstrap 3.0.2 -->
     <link href="/assets/application.css" rel="stylesheet" type="text/css" />
     <link href="/assets/<?php echo $name ?><?php echo $dir; ?>/bundle.css" rel="stylesheet" type="text/css" />
