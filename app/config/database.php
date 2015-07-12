@@ -48,10 +48,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => env('DB_HOST'),
-			'database'  => env('DB_NAME'),
-			'username'  => env('DB_USER'),
-			'password'  => env('DB_PASS'),
+			'host'      => $_ENV('DB_HOST'),
+			'database'  => $_ENV('DB_NAME'),
+			'username'  => $_ENV('DB_USER'),
+			'password'  => $_ENV('DB_PASS'),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
