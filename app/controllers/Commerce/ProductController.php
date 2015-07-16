@@ -46,11 +46,13 @@ class ProductController extends BaseController {
 
         $branch = $this->branch->find(Session::get('user.branch_id'), ['*'], ['branchProductsAll.product.categories.subcategories', 'branchProductsAll.product.tags', 'branchProductsAll.product.attributes.attribute_types', 'branchProductsAll.prices.size']);
 
-        foreach ($branch->branchProductsAll as $branchProduct) {
-            $data['productsByCategory'][$branchProduct->product->categories->category_name]['data'] = $branchProduct->product->categories;
-            $data['productsByCategory'][$branchProduct->product->categories->category_name]['branchProducts'][] = $branchProduct;
+        if (isset($branch->branchProductsAll)) {
+            foreach ($branch->branchProductsAll as $branchProduct) {
+                $data['productsByCategory'][$branchProduct->product->categories->category_name]['data'] = $branchProduct->product->categories;
+                $data['productsByCategory'][$branchProduct->product->categories->category_name]['branchProducts'][] = $branchProduct;
+            }
         }
-        
+
         return View::make("commerce.product.index", $data);
     }
 
@@ -61,16 +63,16 @@ class ProductController extends BaseController {
     public function view($branch_product_id = NULL) {
 
         $product = NULL;
-        
+
         if (!is_null($branch_product_id))
-            $product = $this->branchProduct->find($branch_product_id, ['*'], ['prices.size', 'product.tags', 'product.attributes','product.rules.rule_type'], ['branch_id' => Session::get('user.branch_id')]);
+            $product = $this->branchProduct->find($branch_product_id, ['*'], ['prices.size', 'product.tags', 'product.attributes', 'product.rules.rule_type'], ['branch_id' => Session::get('user.branch_id')]);
 
         // Success!
         return Response::json(array(
                     'status' => TRUE,
                     'type' => 'success',
                     'product' => $product
-                )
+                        )
         );
     }
 
@@ -79,7 +81,7 @@ class ProductController extends BaseController {
      * POST /product/category
      */
     public function store() {
-        
+
         $product = $this->branchProductForm->save(Input::all());
 
         if ($product) {
@@ -105,7 +107,7 @@ class ProductController extends BaseController {
      * POST /product/{id}
      */
     public function update($id) {
-        
+
         $product = $this->branchProductForm->update($id, Input::all());
 
         if ($product) {
@@ -125,13 +127,13 @@ class ProductController extends BaseController {
                     'message' => $this->branchProductForm->errors()->all())
         );
     }
-    
+
     /**
      * Edit product form processing
      * POST /product/{id}
      */
     public function changeStatus($id) {
-        
+
         $product = $this->branchProductForm->changeStatus($id);
 
         if ($product) {
@@ -177,7 +179,7 @@ class ProductController extends BaseController {
                     'message' => $this->productForm->errors()->all())
         );
     }
-    
+
     /**
      * Delete product form processing
      * DELETE /product
