@@ -352,7 +352,7 @@ var main = {
 
         input.intlTelInput({
             nationalMode: true,
-            utilsScript: "assets/plugins/intlTelInput/utils.js",
+            utilsScript: "assets/plugins/intlTelInput/utils.min.js",
             utilsScriptOnLoad: function () {
                 if (input.length > 0)
                     input.keyup();
