@@ -2,65 +2,18 @@
 function qa(a,b){for(var c=fa(a.e()),d=0;d<c.length;d++){var e=c[d],f=e.j;if(null!=b.c[f]){a.g&&delete a.g[e.j];var g=11==e.p||10==e.p;if(e.da)for(var e=w(b,f)||[],h=0;h<e.length;h++)oa(a,f,g?e[h].clone():e[h]);else e=w(b,f),g?(g=w(a,f))?qa(g,e):v(a,f,e.clone()):v(a,f,e)}}}k.clone=function(){var a=new this.constructor;a!=this&&(a.c={},a.g&&(a.g={}),qa(a,this));return a};
 function w(a,b){var c=a.c[b];if(null==c)return null;if(a.la){if(!(b in a.g)){var d=a.la,e=a.n[b];if(null!=c)if(e.da){for(var f=[],g=0;g<c.length;g++)f[g]=d.ca(e,c[g]);c=f}else c=d.ca(e,c);return a.g[b]=c}return a.g[b]}return c}function u(a,b,c){var d=w(a,b);return a.n[b].da?d[c||0]:d}
 function x(a,b){var c;if(null!=a.c[b])c=u(a,b,void 0);else a:{c=a.n[b];if(void 0===c.w){var d=c.na;if(d===Boolean)c.w=!1;else if(d===Number)c.w=0;else if(d===String)c.w=c.ia?"0":"";else{c=new d;break a}}c=c.w}return c}function y(a,b){return a.n[b].da?null!=a.c[b]?a.c[b].length:0:null!=a.c[b]?1:0}function v(a,b,c){a.c[b]=c;a.g&&(a.g[b]=c)}function oa(a,b,c){a.c[b]||(a.c[b]=[]);a.c[b].push(c);a.g&&delete a.g[b]}function pa(a,b){delete a.c[b];a.g&&delete a.g[b]}
-function t(a,b){var c=[],d=b[0],e;for(e in b)0!=e&&c.push(new ga(0,e,b[e]));return new ea(a,d,c)};/*
+function t(a,b){var c=[],d=b[0],e;for(e in b)0!=e&&c.push(new ga(0,e,b[e]));return new ea(a,d,c)};
 
- Protocol Buffer 2 Copyright 2008 Google Inc.
- All other code copyright its respective owners.
- Copyright (C) 2010 The Libphonenumber Authors
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-*/
 function z(){r.call(this)}var A;p(z,r);function C(){r.call(this)}var D;p(C,r);function E(){r.call(this)}var F;p(E,r);E.prototype.ra=function(){return u(this,10)};E.prototype.l=function(){return x(this,10)};E.prototype.ba=function(a){v(this,10,a)};
 z.prototype.e=function(){A||(A=t(z,{0:{name:"NumberFormat",ja:"i18n.phonenumbers.NumberFormat"},1:{name:"pattern",required:!0,a:9,type:String},2:{name:"format",required:!0,a:9,type:String},3:{name:"leading_digits_pattern",pa:!0,a:9,type:String},4:{name:"national_prefix_formatting_rule",a:9,type:String},6:{name:"national_prefix_optional_when_formatting",a:8,type:Boolean},5:{name:"domestic_carrier_code_formatting_rule",a:9,type:String}}));return A};z.ctor=z;z.ctor.e=z.prototype.e;
 C.prototype.e=function(){D||(D=t(C,{0:{name:"PhoneNumberDesc",ja:"i18n.phonenumbers.PhoneNumberDesc"},2:{name:"national_number_pattern",a:9,type:String},3:{name:"possible_number_pattern",a:9,type:String},6:{name:"example_number",a:9,type:String},7:{name:"national_number_matcher_data",a:12,type:String},8:{name:"possible_number_matcher_data",a:12,type:String}}));return D};C.ctor=C;C.ctor.e=C.prototype.e;
 E.prototype.e=function(){F||(F=t(E,{0:{name:"PhoneMetadata",ja:"i18n.phonenumbers.PhoneMetadata"},1:{name:"general_desc",a:11,type:C},2:{name:"fixed_line",a:11,type:C},3:{name:"mobile",a:11,type:C},4:{name:"toll_free",a:11,type:C},5:{name:"premium_rate",a:11,type:C},6:{name:"shared_cost",a:11,type:C},7:{name:"personal_number",a:11,type:C},8:{name:"voip",a:11,type:C},21:{name:"pager",a:11,type:C},25:{name:"uan",a:11,type:C},27:{name:"emergency",a:11,type:C},28:{name:"voicemail",a:11,type:C},24:{name:"no_international_dialling",
 a:11,type:C},9:{name:"id",required:!0,a:9,type:String},10:{name:"country_code",a:5,type:Number},11:{name:"international_prefix",a:9,type:String},17:{name:"preferred_international_prefix",a:9,type:String},12:{name:"national_prefix",a:9,type:String},13:{name:"preferred_extn_prefix",a:9,type:String},15:{name:"national_prefix_for_parsing",a:9,type:String},16:{name:"national_prefix_transform_rule",a:9,type:String},18:{name:"same_mobile_and_fixed_line_pattern",a:8,defaultValue:!1,type:Boolean},19:{name:"number_format",
-pa:!0,a:11,type:z},20:{name:"intl_number_format",pa:!0,a:11,type:z},22:{name:"main_country_for_code",a:8,defaultValue:!1,type:Boolean},23:{name:"leading_digits",a:9,type:String},26:{name:"leading_zero_possible",a:8,defaultValue:!1,type:Boolean}}));return F};E.ctor=E;E.ctor.e=E.prototype.e;/*
+pa:!0,a:11,type:z},20:{name:"intl_number_format",pa:!0,a:11,type:z},22:{name:"main_country_for_code",a:8,defaultValue:!1,type:Boolean},23:{name:"leading_digits",a:9,type:String},26:{name:"leading_zero_possible",a:8,defaultValue:!1,type:Boolean}}));return F};E.ctor=E;E.ctor.e=E.prototype.e;
 
- Protocol Buffer 2 Copyright 2008 Google Inc.
- All other code copyright its respective owners.
- Copyright (C) 2010 The Libphonenumber Authors
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-*/
 function G(){r.call(this)}var H;p(G,r);G.prototype.ra=function(){return u(this,1)};G.prototype.l=function(){return x(this,1)};G.prototype.ba=function(a){v(this,1,a)};G.prototype.getExtension=function(){return u(this,3)};var ra={Ca:1,Ba:5,Aa:10,za:20};
 G.prototype.e=function(){H||(H=t(G,{0:{name:"PhoneNumber",ja:"i18n.phonenumbers.PhoneNumber"},1:{name:"country_code",required:!0,a:5,type:Number},2:{name:"national_number",required:!0,a:4,type:Number},3:{name:"extension",a:9,type:String},4:{name:"italian_leading_zero",a:8,type:Boolean},8:{name:"number_of_leading_zeros",a:5,defaultValue:1,type:Number},5:{name:"raw_input",a:9,type:String},6:{name:"country_code_source",a:14,defaultValue:1,type:ra},7:{name:"preferred_domestic_carrier_code",a:9,type:String}}));
-return H};G.ctor=G;G.ctor.e=G.prototype.e;function I(){}I.prototype.$=function(a){new a.ta;throw Error("Unimplemented");};I.prototype.ca=function(a,b){if(11==a.p||10==a.p)return b instanceof r?b:this.$(a.na.e(),b);if(14==a.p||!a.ia)return b;var c=a.na;if(c===String){if("number"==typeof b)return String(b)}else if(c===Number&&"string"==typeof b&&("Infinity"===b||"-Infinity"===b||"NaN"===b||/^-?[0-9]+$/.test(b)))return Number(b);return b};function J(){}p(J,I);J.prototype.$=function(a,b){var c=new a.ta;c.la=this;c.c=b;c.g={};return c};function K(){}p(K,J);K.prototype.ya=!1;K.prototype.ca=function(a,b){return 8==a.p?!!b:I.prototype.ca.apply(this,arguments)};K.prototype.$=function(a,b){var c=b;if(this.ya){var c=[],d;for(d in b)c[parseInt(d,10)+1]=b[d]}return K.xa.$.call(this,a,c)};/*
-
- Copyright (C) 2010 The Libphonenumber Authors
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-*/
+return H};G.ctor=G;G.ctor.e=G.prototype.e;function I(){}I.prototype.$=function(a){new a.ta;throw Error("Unimplemented");};I.prototype.ca=function(a,b){if(11==a.p||10==a.p)return b instanceof r?b:this.$(a.na.e(),b);if(14==a.p||!a.ia)return b;var c=a.na;if(c===String){if("number"==typeof b)return String(b)}else if(c===Number&&"string"==typeof b&&("Infinity"===b||"-Infinity"===b||"NaN"===b||/^-?[0-9]+$/.test(b)))return Number(b);return b};function J(){}p(J,I);J.prototype.$=function(a,b){var c=new a.ta;c.la=this;c.c=b;c.g={};return c};function K(){}p(K,J);K.prototype.ya=!1;K.prototype.ca=function(a,b){return 8==a.p?!!b:I.prototype.ca.apply(this,arguments)};K.prototype.$=function(a,b){var c=b;if(this.ya){var c=[],d;for(d in b)c[parseInt(d,10)+1]=b[d]}return K.xa.$.call(this,a,c)};
 var L={54:["AR"],55:["BR"],595:["PY"],598:["UY"]},sa={AR:[,[,,"11\\d{8}|[2368]\\d{9}|9\\d{10}","\\d{6,11}"],[,,"11\\d{8}|(?:2(?:2(?:[013]\\d|2[13-79]|4[1-6]|5[2457]|6[124-8]|7[1-4]|8[13-6]|9[1267])|3(?:1[467]|2[03-6]|3[13-8]|[49][2-6]|5[2-8]|[067]\\d)|4(?:7[3-8]|9\\d)|6(?:[01346]\\d|2[24-6]|5[15-8])|80\\d|9(?:[0124789]\\d|3[1-6]|5[234]|6[2-46]))|3(?:3(?:2[79]|6\\d|8[2578])|4(?:[78]\\d|0[0124-9]|[1-35]\\d|4[24-7]|6[02-9]|9[123678])|5(?:[138]\\d|2[1245]|4[1-9]|6[2-4]|7[1-6])|6[24]\\d|7(?:[0469]\\d|1[1568]|2[013-9]|3[145]|5[14-8]|7[2-57]|8[0-24-9])|8(?:[013578]\\d|2[15-7]|4[13-6]|6[1-357-9]|9[124]))|670\\d)\\d{6}",
 "\\d{6,10}",,,"1123456789"],[,,"675\\d{7}|9(?:11[2-9]\\d{7}|(?:2(?:2[013]|3[067]|49|6[01346]|80|9[147-9])|3(?:36|4[12358]|5[138]|6[24]|7[069]|8[013578]))[2-9]\\d{6}|\\d{4}[2-9]\\d{5})","\\d{6,11}",,,"91123456789"],[,,"800\\d{7}","\\d{10}",,,"8001234567"],[,,"60[04579]\\d{7}","\\d{10}",,,"6001234567"],[,,"NA","NA"],[,,"NA","NA"],[,,"NA","NA"],"AR",54,"00","0",,,"0?(?:(11|2(?:2(?:02?|[13]|2[13-79]|4[1-6]|5[2457]|6[124-8]|7[1-4]|8[13-6]|9[1267])|3(?:02?|1[467]|2[03-6]|3[13-8]|[49][2-6]|5[2-8]|[67])|4(?:7[3-578]|9)|6(?:[0136]|2[24-6]|4[6-8]?|5[15-8])|80|9(?:0[1-3]|[19]|2\\d|3[1-6]|4[02568]?|5[2-4]|6[2-46]|72?|8[23]?))|3(?:3(?:2[79]|6|8[2578])|4(?:0[0-24-9]|[12]|3[5-8]?|4[24-7]|5[4-68]?|6[02-9]|7[126]|8[2379]?|9[1-36-8])|5(?:1|2[1245]|3[237]?|4[1-46-9]|6[2-4]|7[1-6]|8[2-5]?)|6[24]|7(?:[069]|1[1568]|2[15]|3[145]|4[13]|5[14-8]|7[2-57]|8[126])|8(?:[01]|2[15-7]|3[2578]?|4[13-6]|5[4-8]?|6[1-357-9]|7[36-8]?|8[5-8]?|9[124])))?15)?",
 "9$1",,,[[,"([68]\\d{2})(\\d{3})(\\d{4})","$1-$2-$3",["[68]"],"0$1","",0],[,"(\\d{2})(\\d{4})","$1-$2",["[2-9]"],"$1","",0],[,"(\\d{3})(\\d{4})","$1-$2",["[2-9]"],"$1","",0],[,"(\\d{4})(\\d{4})","$1-$2",["[2-9]"],"$1","",0],[,"(9)(11)(\\d{4})(\\d{4})","$2 15-$3-$4",["911"],"0$1","",0],[,"(9)(\\d{3})(\\d{3})(\\d{4})","$2 15-$3-$4",["9(?:2[234689]|3[3-8])","9(?:2(?:2[013]|3[067]|49|6[01346]|80|9[147-9])|3(?:36|4[1-358]|5[138]|6[24]|7[069]|8[013578]))","9(?:2(?:2(?:0[013-9]|[13])|3(?:0[013-9]|[67])|49|6(?:[0136]|4[0-59])|8|9(?:[19]|44|7[013-9]|8[14]))|3(?:36|4(?:[12]|[358]4)|5(?:1|3[0-24-689]|8[46])|6|7[069]|8(?:[01]|34|[578][45])))"],
@@ -75,21 +28,6 @@ var L={54:["AR"],55:["BR"],595:["PY"],598:["UY"]},sa={AR:[,[,,"11\\d{8}|[2368]\\
 ["[2-8][1-9]"],"($1)","",0]],,[,,"NA","NA"],,,[,,"NA","NA"],[,,"[2-9]0\\d{4,7}","\\d{6,9}",,,"201234567"],,,[,,"NA","NA"]], UY:[,[,,"[2489]\\d{6,7}","\\d{7,8}"],[,
 ,"2\\d{7}|4[2-7]\\d{6}","\\d{7,8}",,,"21231234"],[,,"9[1-9]\\d{6}","\\d{8}",,,"94231234"],[,,"80[05]\\d{4}","\\d{7}",,,"8001234"],[,,"90[0-8]\\d{4}","\\d{7}",,,"9001234"],[,,"NA","NA"],[,,"NA","NA"],[,,"NA","NA"],"UY",598,"0(?:1[3-9]\\d|0)","0"," int. ",,"0",,"00",,[[,"(\\d{4})(\\d{4})","$1 $2",["[24]"],"","",0],[,"(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["9[1-9]"],"0$1","",0],[,"(\\d{3})(\\d{4})","$1 $2",["[89]0"],"0$1","",0]],,[,,"NA","NA"],,,[,,"NA","NA"],[,,"NA","NA"],,,[,,"NA","NA"]]};
 
-/*
- Copyright (C) 2010 The Libphonenumber Authors.
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-*/
 function M(){this.ua={}}M.r=function(){return M.sa?M.sa:M.sa=new M};
 var N={0:"0",1:"1",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9","\uff10":"0","\uff11":"1","\uff12":"2","\uff13":"3","\uff14":"4","\uff15":"5","\uff16":"6","\uff17":"7","\uff18":"8","\uff19":"9","\u0660":"0","\u0661":"1","\u0662":"2","\u0663":"3","\u0664":"4","\u0665":"5","\u0666":"6","\u0667":"7","\u0668":"8","\u0669":"9","\u06f0":"0","\u06f1":"1","\u06f2":"2","\u06f3":"3","\u06f4":"4","\u06f5":"5","\u06f6":"6","\u06f7":"7","\u06f8":"8","\u06f9":"9"},ta={0:"0",1:"1",2:"2",3:"3",4:"4",5:"5",6:"6",
 7:"7",8:"8",9:"9","\uff10":"0","\uff11":"1","\uff12":"2","\uff13":"3","\uff14":"4","\uff15":"5","\uff16":"6","\uff17":"7","\uff18":"8","\uff19":"9","\u0660":"0","\u0661":"1","\u0662":"2","\u0663":"3","\u0664":"4","\u0665":"5","\u0666":"6","\u0667":"7","\u0668":"8","\u0669":"9","\u06f0":"0","\u06f1":"1","\u06f2":"2","\u06f3":"3","\u06f4":"4","\u06f5":"5","\u06f6":"6","\u06f7":"7","\u06f8":"8","\u06f9":"9",A:"2",B:"2",C:"2",D:"3",E:"3",F:"3",G:"4",H:"4",I:"4",J:"5",K:"5",L:"5",M:"6",N:"6",O:"6",P:"7",
@@ -110,22 +48,8 @@ M.prototype.parse=function(a,b){return Qa(this,a,b,!1)};function Y(a,b,c){if(!R(
 function Qa(a,b,c,d){if(null==b)throw"The string supplied did not seem to be a phone number";if(250<b.length)throw"The string supplied is too long to be a phone number";var e=new q,f=b.indexOf(";phone-context=");if(0<f){var g=f+15;if("+"==b.charAt(g)){var h=b.indexOf(";",g);0<h?e.append(b.substring(g,h)):e.append(b.substring(g))}g=b.indexOf("tel:");e.append(b.substring(0<=g?g+4:0,f))}else e.append(Ea(b));f=e.toString();g=f.indexOf(";isub=");0<g&&(e.clear(),e.append(f.substring(0,g)));if(!Fa(e.toString()))throw"The string supplied did not seem to be a phone number";
 f=e.toString();if(!(R(c)||null!=f&&0<f.length&&O.test(f)))throw"Invalid country calling code";f=new G;d&&v(f,5,b);a:{b=e.toString();g=b.search(Aa);if(0<=g&&Fa(b.substring(0,g)))for(var h=b.match(Aa),l=h.length,m=1;m<l;++m)if(null!=h[m]&&0<h[m].length){e.clear();e.append(b.substring(0,g));b=h[m];break a}b=""}0<b.length&&v(f,3,b);g=V(a,c);b=new q;h=0;l=e.toString();try{h=Oa(l,g,b,d,f)}catch(B){if("Invalid country calling code"==B&&O.test(l)){if(l=l.replace(O,""),h=Oa(l,g,b,d,f),0==h)throw B;}else throw B;
 }0!=h?(e=U(h),e!=c&&(g=T(a,h,e))):(Ha(e),b.append(e.toString()),null!=c?(h=g.l(),f.ba(h)):d&&pa(f,6));if(2>b.f.length)throw"The string supplied is too short to be a phone number";null!=g&&(a=new q,c=new q(b.toString()),Pa(c,g,a),e=c.toString(),g=u(g,1),g=x(g,3),2!=Ma(g,e)&&(b=c,d&&v(f,7,a.toString())));d=b.toString();a=d.length;if(2>a)throw"The string supplied is too short to be a phone number";if(17<a)throw"The string supplied is too long to be a phone number";if(1<d.length&&"0"==d.charAt(0)){v(f,
-4,!0);for(a=1;a<d.length-1&&"0"==d.charAt(a);)a++;1!=a&&v(f,8,a)}v(f,2,parseInt(d,10));return f}function P(a,b){var c="string"==typeof a?b.match("^(?:"+a+")$"):b.match(a);return c&&c[0].length==b.length?!0:!1};/*
+4,!0);for(a=1;a<d.length-1&&"0"==d.charAt(a);)a++;1!=a&&v(f,8,a)}v(f,2,parseInt(d,10));return f}function P(a,b){var c="string"==typeof a?b.match("^(?:"+a+")$"):b.match(a);return c&&c[0].length==b.length?!0:!1};
 
- Copyright (C) 2010 The Libphonenumber Authors.
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
-*/
 function Ra(a){this.qa="\u2008";this.fa=new RegExp(this.qa);this.ga="";this.q=new q;this.v="";this.k=new q;this.u=new q;this.m=!0;this.aa=this.s=this.ka=!1;this.oa=M.r();this.t=0;this.d=new q;this.ea=!1;this.o="";this.b=new q;this.h=[];this.ha=a;this.va=this.i=Sa(this,this.ha)}var Ta=new E;v(Ta,11,"NA");
 var Ua=/\[([^\[\]])*\]/g,Va=/\d(?=[^,}][^,}])/g,Wa=RegExp("^[-x\u2010-\u2015\u2212\u30fc\uff0d-\uff0f \u00a0\u00ad\u200b\u2060\u3000()\uff08\uff09\uff3b\uff3d.\\[\\]/~\u2053\u223c\uff5e]*(\\$\\d[-x\u2010-\u2015\u2212\u30fc\uff0d-\uff0f \u00a0\u00ad\u200b\u2060\u3000()\uff08\uff09\uff3b\uff3d.\\[\\]/~\u2053\u223c\uff5e]*)+$"),Xa=/[- ]/;function Sa(a,b){var c=R(b)?La(a.oa,b):0,c=V(a.oa,U(c));return null!=c?c:Ta}
 function Ya(a){for(var b=a.h.length,c=0;c<b;++c){var d=a.h[c],e=x(d,1);if(a.v==e)return!1;var f;f=a;var g=d,h=x(g,1);if(-1!=h.indexOf("|"))f=!1;else{h=h.replace(Ua,"\\d");h=h.replace(Va,"\\d");f.q.clear();var l;l=f;var g=x(g,2),m="999999999999999".match(h)[0];m.length<l.b.f.length?l="":(h=m.replace(new RegExp(h,"g"),g),l=h=h.replace(RegExp("9","g"),l.qa));0<l.length?(f.q.append(l),f=!0):f=!1}if(f)return a.v=e,a.ea=Xa.test(u(d,4)),a.t=0,!0}return a.m=!1}
