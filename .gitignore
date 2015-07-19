@@ -8,7 +8,9 @@ composer.lock
 .DS_Store
 Thumbs.db
 /nbproject/*
-/app/storage/*
+/app/storage/cache/*
+/app/storage/session/*
+/app/storage/logs/*
 /public/upload/branch_image/*
 /public/upload/product_image/*
 /public/upload/product_image_tmp/*
