@@ -106,9 +106,9 @@ class EloquentOrder extends RepositoryAbstract implements OrderInterface {
                         ->with('user_address')
                         ->with('branch')
                         ->with('cash')
-                        ->with('order_products.branch_product.product.tags.subcategories')
+                        ->with('order_products.branch_product.product.tags')
                         ->with('order_products.attributes_order_product.attributes')
-                        ->with('order_products.branch_product_price')
+                        ->with('order_products.branch_product_price.size')
                         ->join(\DB::raw(
                                         '(
                                             SELECT OS.order_id, OS.status_id, OS.created_at as status_date, Z.last_status AS last_status, S.status_name, M.motive_name, OSM.observations

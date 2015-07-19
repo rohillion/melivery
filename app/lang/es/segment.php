@@ -83,7 +83,7 @@ return array(
     "dashboard" => array(
         "name" => array(
             "single" => "Panel de control",
-            "plural" => "xxxx",
+            "plural" => "Dashboard",
         ),
         "title" => array(
             "add" => "xxxx",

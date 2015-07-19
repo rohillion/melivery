@@ -9,10 +9,6 @@
             <div class="container">
                 <h3>
                     <span class="section-title"><?php echo Lang::get('segment.order.name.plural') . ' realizados'; ?></span>
-
-                    <!-- <a id="addProduct" href="#productForm" class="pull-right btn btn-success btn-flat" data-loading-text="Cargando..." data-close-text="Cerrar" data-cancel-text="Cancelar"><!-- TODO. Lang 
-                    <?php echo Lang::get('common.action.add') . ' ' . Lang::get('segment.product.name.single'); ?>
-                    </a>-->
                 </h3>
             </div>
         </section>
@@ -39,11 +35,11 @@
                     </div>
                 <?php } ?>
 
-                <!-- left column -->
+                <!--
                 <div class="col-xs-4" >
-                    <div class="page-header">Lista de cosas</div><!-- TODO. Lang -->
+                    <div class="page-header">Lista de cosas</div>
                     <div id="scrollControl" data-spy="affix" data-offset-top="90">
-                        <!-- general form elements -->
+
                         <div class="box box-solid">
 
                             <ul class="list-group nav">
@@ -55,14 +51,14 @@
                                 </li>
 
                             </ul>
-                        </div><!-- /.box -->
+                        </div>
 
-                    </div><!--/.col (left) -->
+                    </div>
 
-                </div>
+                </div> -->
 
                 <!-- right column -->
-                <div class="col-xs-8">
+                <div class="col-xs-12 col-sm-8 col-sm-offset-2">
 
                     <?php if (!empty($orders)) { ?>
 

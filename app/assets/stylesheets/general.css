@@ -39,7 +39,16 @@ body{
     background: #c53216;
 }
 
-.navbar-default .navbar-nav>li>a {
+.dropdown-menu > li > a:hover{
+    background: #f9f9f9;
+    color:#000;
+}
+
+.skin-red .navbar .nav .dropdown-menu a  {
+    color: #000;
+}
+
+.navbar-default .navbar-nav>li>a  {
     color: #999;
 }
 

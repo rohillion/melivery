@@ -12,6 +12,9 @@
  */
 $tld = CommonEvents::get_tld()[1];
 
+if ($tld === '.com')//TODO. Cuando haya soporte para otros paises, agregar banderas en vez de redireccionar a Ar.
+    return Redirect::to('http://melivery.' . getenv('APP_ENV') ? 'dev' : 'com' . '.ar');
+
 /* Route::group(array('domain' => 'admin.melivery'.$tld, "before" => "auth|admin"), function() {
   return Redirect::intended();
   }); */
@@ -514,7 +517,7 @@ Route::group(array('domain' => 'account.melivery' . $tld), function() {
         "as" => "logout",
         "uses" => "AccountController@logout"
     ]);
-    
+
     Route::get("/tos", [
         "as" => "account.tos",
         "uses" => "AccountController@tos"
@@ -570,7 +573,7 @@ Route::group(array('domain' => 'menu.melivery' . $tld), function() {
         "as" => "menu.preorder.show",
         "uses" => "PreorderController@show"
     ]);
-    
+
     Route::post("/preorder/customer", [
         'before' => 'csrf',
         "as" => "menu.customer.add",
@@ -587,7 +590,7 @@ Route::group(array('domain' => 'menu.melivery' . $tld), function() {
         "as" => "menu.products",
         "uses" => "MenuController@index"
     ]);
-    
+
     Route::get("/ajax/city/find/", [
         "uses" => "AjaxCityController@find"
     ]);
