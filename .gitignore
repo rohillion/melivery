@@ -14,3 +14,4 @@ app/config/twilio.php
 /public/upload/product_image/*
 /public/upload/product_image_tmp/*
 /public/upload/commerce_image/*
+app/config/twilio.php
