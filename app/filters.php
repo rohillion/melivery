@@ -12,7 +12,7 @@
  */
 
 App::before(function($request) {
-    
+
     $host = CommonEvents::get_tld()[0]; //melivery.com.xx
     // Setup domain configuration
     Config::set('app.url', 'http://' . $host);
@@ -23,28 +23,28 @@ App::before(function($request) {
 
         CommonEvents::setLocation();
     }
-    
-    /*if($_SERVER['REQUEST_METHOD']=== 'OPTIONS'){
-        $statusCode = 204;
-        
-        $headers = [
-            'Acces-Control-Allow-Origin' => 'http://melivery.dev.ar',
-            'Access-Control-Allow-Methods'=>'GET, POST, OPTIONS',
-            'Access-Control-Allow-Headers'=>'Origin, Content-Type, Accept, Authorization, X-Requested-With',
-            'Acces-Control-Allow-Credentials'=>'true'
-        ];
-        
-        return Response::make(null,$statusCode,$headers);
-    }*/
+
+    /* if($_SERVER['REQUEST_METHOD']=== 'OPTIONS'){
+      $statusCode = 204;
+
+      $headers = [
+      'Acces-Control-Allow-Origin' => 'http://melivery.dev.ar',
+      'Access-Control-Allow-Methods'=>'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers'=>'Origin, Content-Type, Accept, Authorization, X-Requested-With',
+      'Acces-Control-Allow-Credentials'=>'true'
+      ];
+
+      return Response::make(null,$statusCode,$headers);
+      } */
 });
 
 
 App::after(function($request, $response) {
-    /*$response->headers->set('Acces-Control-Allow-Origin','http://melivery.dev.ar');
-    $response->headers->set('Access-Control-Allow-Headers','Origin, Content-Type, Accept, Authorization, X-Requested-With');
-    $response->headers->set('Access-Control-Allow-Methods','GET','POST','OPTIONS');
-    $response->headers->set('Acces-Control-Allow-Credentials','true');
-    return $response;*/
+    /* $response->headers->set('Acces-Control-Allow-Origin','http://melivery.dev.ar');
+      $response->headers->set('Access-Control-Allow-Headers','Origin, Content-Type, Accept, Authorization, X-Requested-With');
+      $response->headers->set('Access-Control-Allow-Methods','GET','POST','OPTIONS');
+      $response->headers->set('Acces-Control-Allow-Credentials','true');
+      return $response; */
 });
 
 /*
@@ -63,7 +63,7 @@ Route::filter('auth', function($route) {
         if (Request::ajax()) {
             return Response::make('Unauthorized', 401);
         } else {
-            CommonEvents::setLastAction($route,Input::all());
+            CommonEvents::setLastAction($route, Input::all());
             return Redirect::route('account.login');
         }
     }
@@ -117,7 +117,7 @@ Route::filter('verif', function() {
  */
 
 Route::filter('commerce_name', function() {
-    $step = Session::get('user.steps.'.Config::get('cons.steps.commerce_name.id'));
+    $step = Session::get('user.steps.' . Config::get('cons.steps.commerce_name.id'));
     if (!$step || $step['done'] != 1)
         return Redirect::route('commerce.profile');
 });
@@ -133,7 +133,7 @@ Route::filter('commerce_name', function() {
  */
 
 Route::filter('branch_create', function() {
-    $step = Session::get('user.steps.'.Config::get('cons.steps.branch_create.id'));
+    $step = Session::get('user.steps.' . Config::get('cons.steps.branch_create.id'));
     if (!$step || $step['done'] != 1)
         return Redirect::route('commerce.branch.create');
 });
@@ -149,7 +149,7 @@ Route::filter('branch_create', function() {
  */
 
 Route::filter('queue', function($route) {
-    CommonEvents::setLastAction($route,Input::all());
+    CommonEvents::setLastAction($route, Input::all());
 });
 
 /*
@@ -211,13 +211,20 @@ Route::filter('customer', function() {
   |
  */
 
-/*Route::filter('csrf', function() {
-    if (Session::token() != Input::get('_token')) {
-        throw new Illuminate\Session\TokenMismatchException;
-    }
-});*/
+/* Route::filter('csrf', function() {
+  if (Session::token() != Input::get('_token')) {
+  throw new Illuminate\Session\TokenMismatchException;
+  }
+  }); */
 Route::filter('csrf', function() {
     $token = Request::ajax() ? Request::header('X-CSRF-Token') : Input::get('_token');
     if (Session::token() != $token)
         throw new Illuminate\Session\TokenMismatchException;
+});
+
+Route::filter('isCountry', function() {
+    if (!CommonEvents::isCountry()){//TODO. Cuando haya soporte para otros paises, agregar banderas en vez de redireccionar a Ar.
+        $to = getenv('APP_ENV') ? 'dev' : 'com';
+        return Redirect::to('http://melivery.' . $to . '.ar');
+    }
 });
