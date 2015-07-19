@@ -8,8 +8,8 @@ composer.lock
 .DS_Store
 Thumbs.db
 /nbproject/*
-/app/storage/cache/asset-pipeline
+/app/storage/*
 /public/upload/branch_image/*
 /public/upload/product_image/*
 /public/upload/product_image_tmp/*
-app/storage/logs/laravel.log
+/public/upload/commerce_image/*
