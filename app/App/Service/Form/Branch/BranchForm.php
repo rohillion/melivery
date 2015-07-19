@@ -8,6 +8,7 @@ use App\Service\Form\BranchOpening\BranchOpeningForm;
 use App\Service\Form\BranchPhone\BranchPhoneForm;
 use App\Service\Form\BranchArea\BranchAreaForm;
 use App\Service\Form\BranchDealer\BranchDealerForm;
+use App\Repository\BranchUser\BranchUserInterface;
 use App\Service\Form\BranchUser\BranchUserForm;
 use App\Repository\Product\ProductInterface;
 use App\Service\Form\User\UserForm;
@@ -28,11 +29,12 @@ class BranchForm extends AbstractForm {
     protected $branchArea;
     protected $branchDealer;
     protected $branchUser;
+    protected $branchUserForm;
     protected $product;
     protected $userForm;
     protected $messageBag;
 
-    public function __construct(ValidableInterface $validator, BranchInterface $branch, BranchOpeningForm $branchOpening, BranchPhoneForm $branchPhone, BranchAreaForm $branchArea, BranchDealerForm $branchDealer, ProductInterface $product, BranchUserForm $branchUser, UserForm $userForm) {
+    public function __construct(ValidableInterface $validator, BranchInterface $branch, BranchOpeningForm $branchOpening, BranchPhoneForm $branchPhone, BranchAreaForm $branchArea, BranchDealerForm $branchDealer, ProductInterface $product, BranchUserForm $branchUserForm, UserForm $userForm, BranchUserInterface $branchUser) {
         parent::__construct($validator);
         $this->branch = $branch;
         $this->branchOpening = $branchOpening;
@@ -40,6 +42,7 @@ class BranchForm extends AbstractForm {
         $this->branchArea = $branchArea;
         $this->branchDealer = $branchDealer;
         $this->branchUser = $branchUser;
+        $this->branchUserForm = $branchUserForm;
         $this->product = $product;
         $this->userForm = $userForm;
         $this->messageBag = new MessageBag();
@@ -93,11 +96,11 @@ class BranchForm extends AbstractForm {
         }
 
         // Branch Admin User--------
-        $branchUser = $this->branchUser->save($branch, \Session::get('user.id'));
+        $branchUserForm = $this->branchUserForm->save($branch, \Session::get('user.id'));
 
-        if (!$branchUser) {
+        if (!$branchUserForm) {
             \DB::rollback();
-            $this->validator->errors = $this->branchUser->errors();
+            $this->validator->errors = $this->branchUserForm->errors();
             return false;
         }
 
@@ -191,8 +194,15 @@ class BranchForm extends AbstractForm {
         if ($this->branch->destroy($id)) {
 
             $branches = $this->branch->all(['*'], [], ['commerce_id' => $commerceId]);
-            if ($branches->isEmpty())
+            if ($branches->isEmpty()) {
+                // if no branches undone config steps and forget current branch session --------
                 $this->userForm->undoneStep(\Session::get('user.id'), \Config::get('cons.steps.branch_create.id'));
+                \Session::forget('user.branch_id');
+            } else if ($id == \Session::get('user.branch_id')) {
+                // If deleted branch is the current one then reset the current branch --------
+                $branchUser = $this->branchUser->first(['*'], [], ['user_id' => \Session::get('user.id')]);
+                $this->branchUserForm->setCurrent($branchUser->id);
+            }
 
             $directoryPhotoPath = public_path() . '/upload/branch_image/';
 
