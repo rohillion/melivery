@@ -368,7 +368,7 @@ var custom = {
         });
 
     },
-    cityTypeahead: function() {
+    cityTypeahead: function () {
 
 
         // constructs the suggestion engine
@@ -377,9 +377,9 @@ var custom = {
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             remote: {
                 url: '../ajax/city/find?query=%QUERY',
-                filter: function(cities) {
+                filter: function (cities) {
                     // Map the remote source JSON array to a JavaScript array
-                    return $.map(cities.cities, function(city) {
+                    return $.map(cities.cities, function (city) {
                         return {id: city.geonameid, name: city.name, asciiname: city.asciiname, state_name: city.state.state_name, state_asciiname: city.state.state_asciiname};
                     });
                 }
@@ -408,7 +408,7 @@ var custom = {
                 suggestion: Handlebars.compile('<p><strong>{{name}}</strong> – {{state_name}}</p>')
             }
 
-        }).on('typeahead:selected', function(event, obj) {
+        }).on('typeahead:selected', function (event, obj) {
             geocoding.cityId = obj.id;
             geocoding.city = obj.asciiname;
             geocoding.state = obj.state_asciiname;
@@ -659,18 +659,18 @@ var custom = {
         });
     },
     tour: function () {
-        
-        var branchTour = new Tour({
+
+        var branchCreateTour = new Tour({
             storage: false,
+            template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><div class='btn-group'> <button class='btn btn-sm btn-default disabled' data-role='prev'>« Anterior</button><button class='btn btn-sm btn-default disabled' data-role='next'>Siguiente »</button></div><button class='btn btn-sm btn-default' data-role='end'>Terminar tour</button></div></div>",
             steps: [
                 {
                     element: "#address",
-                    //title: "",
                     content: "Vamos a buscar la sucursal en el mapa.",
                     placement: 'top',
                     backdrop: true,
-                    reflex:true,
-                    next:-1
+                    reflex: true,
+                    next: -1
                 },
                 {
                     element: "#brandUrlBox",
@@ -701,17 +701,43 @@ var custom = {
                     backdrop: true
                 }
             ]});
+
+        if (showBranchCreateTour) {
+            branchCreateTour.init();
+            branchCreateTour.start();
+        }
+
+        var branchConfigTour = new Tour({
+            storage: false,
+            template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><div class='btn-group'> <button class='btn btn-sm btn-default disabled' data-role='prev'>« Anterior</button><button class='btn btn-sm btn-default disabled' data-role='next'>Siguiente »</button></div><button class='btn btn-sm btn-default' data-role='end'>Terminar tour</button></div></div>",
+            steps: [
+                /*{
+                    element: "#address",
+                    content: "Vamos a buscar la sucursal en el mapa.",
+                    placement: 'top',
+                    backdrop: true,
+                    reflex: true,
+                    next: -1
+                },*/
+                {
+                    element: '#branchPickUp .switch-checkbox',
+                    placement: 'left',
+                    title:'Entrega en sucursal.',
+                    content: "Podes habilitar o deshabilitar esta opcion cuando quieras.",
+                    backdrop: true,
+                    reflex: true,
+                },{
+                    element: '#branchPickUpNext',
+                    placement: 'left',
+                    content: "Configuremos el delivery!",
+                    backdrop: false,
+                    reflex: true,
+                }
+            ]});
         
-        if (showBranchTour) {
-
-            /*$('#welcomeModal').modal('show');
-
-            $('#welcomeModal').on('hidden.bs.modal', function () {
-                branchTour.start();
-            });*/
-
-            branchTour.init();
-            branchTour.start();
+        if (!showBranchCreateTour && showBranchConfigTour && main.getUrlParameter('step') === '2') {
+            branchConfigTour.init();
+            branchConfigTour.start();
         }
     }
 }

@@ -144,7 +144,7 @@
                             <div class="box-footer clearfix">
                                 <div class="col-xs-12 text-right">
                                     <button class="btn btn-default btn-lg prev" type="button">Atr&aacute;s</button>
-                                    <button class="btn btn-default btn-lg next" form="branchPickUp" type="button">Siguiente</button>
+                                    <button id="branchPickUpNext" class="btn btn-default btn-lg next" form="branchPickUp" type="button">Siguiente</button>
                                 </div>
                             </div>
                         </div>
@@ -506,7 +506,8 @@
         <?php echo View::make('footer'); ?>
         
         <script type="text/javascript">
-            var showBranchTour = <?php echo Session::has('user.steps.2') ? 0 : 1 ?>;
+            var showBranchCreateTour = <?php echo Session::has('user.steps.2') ? 0 : 1 ?>;
+            var showBranchConfigTour = <?php echo Session::has('user.steps.3') ? 0 : 1 ?>;
         </script>
     </body>
 </html>

@@ -64,6 +64,7 @@ var custom = {
         
         var profileTour = new Tour({
             storage: false,
+            template:"<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><div class='btn-group'> <button class='btn btn-sm btn-default disabled' data-role='prev'>« Anterior</button><button class='btn btn-sm btn-default disabled' data-role='next'>Siguiente »</button></div><button class='btn btn-sm btn-default' data-role='end'>Terminar tour</button></div></div>",
             steps: [
                 {
                     element: "#commerceName",
