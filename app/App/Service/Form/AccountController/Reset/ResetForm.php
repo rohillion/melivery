@@ -37,7 +37,7 @@ class ResetForm extends AbstractForm {
             case \Password::INVALID_PASSWORD:
             case \Password::INVALID_TOKEN:
             case \Password::INVALID_USER:
-                $this->messageBag->add('error', $response); //TODO. Soporte Lang.
+                $this->messageBag->add('error', \Lang::get($response)); //TODO. Soporte Lang.
                 $this->validator->errors = $this->messageBag;
                 $res = false;
                 break;
