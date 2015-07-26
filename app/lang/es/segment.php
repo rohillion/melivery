@@ -240,6 +240,11 @@ return array(
             "plural" => "Recuperar clave",
         )
     ),
+    "reset" => array(
+        "name" => array(
+            "plural" => "Recuperar clave",
+        )
+    ),
     "verification" => array(
         "name" => array(
             "plural" => "Verificar cuenta",

@@ -34,7 +34,7 @@ return array(
     "digits" => "El campo :attribute debe contener :digits digitos.",
     "digits_between" => "The :attribute must be between :min and :max digits.",
     "email" => "El :attribute tiene un formato invalido.",
-    "exists" => "The selected :attribute is invalid.",
+    "exists" => "El campo :attribute es invalido.",
     "image" => "The :attribute must be an image.",
     "in" => "The selected :attribute is invalid.",
     "integer" => "The :attribute must be an integer.",
@@ -94,6 +94,7 @@ return array(
         ),
         'mobile' => array(
             'required' => 'Por favor, ingresa tu :attribute',
+            'exists' => 'Por favor, asegurate de que el :attribute ingresado es el tuyo',
         ),
         'name' => array(
             'required' => 'Por favor, ingresa tu :attribute',

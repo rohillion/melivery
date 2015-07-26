@@ -143,12 +143,12 @@ class AccountController extends BaseController {
         if ($request) {
 
             return Redirect::route("account.reset")
-                            ->withInput($input)
+                            ->withInput()
                             ->withSuccess('Hemos enviado el codigo de recuperacion de clave.');
         }
 
         return Redirect::route("account.request")
-                        ->withInput($input)
+                        ->withInput()
                         ->withErrors($this->request->errors()->all());
     }
 
@@ -169,7 +169,7 @@ class AccountController extends BaseController {
 
 
         return Redirect::route("account.reset")
-                        ->withInput($input)
+                        ->withInput()
                         ->withErrors($this->reset->errors()->all());
     }
 
@@ -195,7 +195,7 @@ class AccountController extends BaseController {
 
 
         return Redirect::route("account.settings")
-                        ->withInput($input)
+                        ->withInput()
                         ->withErrors($this->settings->errors()->all());
     }
 
