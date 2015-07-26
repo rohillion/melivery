@@ -19,6 +19,7 @@ class ResetForm extends AbstractForm {
 
     public function save($input) {
 
+        $this->validator->rules['mobile'] = "required|mobile_".\Session::get('location.country')."|exists:user,mobile";
         if (!$this->valid($input))
             return false;
 

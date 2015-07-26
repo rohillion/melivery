@@ -39,7 +39,7 @@
                 <div class="footer">                                                               
                     <button type="submit" class="btn bg-red btn-block">Guardar clave</button>
                 </div>
-                <input type="hidden" name="mobile" value="+353874689450<?php //echo Input::old('mobile'); ?>">
+                <input type="hidden" name="mobile" value="<?php echo Input::old('mobile'); ?>">
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             </form>
         </div>
