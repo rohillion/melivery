@@ -12,9 +12,9 @@ class UserValidator extends LaravelValidator implements ValidableInterface {
      *
      * @var array
      */
-    protected $rules = array(
+    public $rules = array(
         "name" => "required|max:50|alpha_spaces",
-        "mobile" => "required|max:30|unique:user,mobile",
+        //"mobile" => "required|max:30|unique:user,mobile",
         "password" => "required|min:6",
         "id_user_type" => "required|numeric|exists:user_type,id",
         "id_commerce" => "numeric|exists:commerce,id",

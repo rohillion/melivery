@@ -37,6 +37,8 @@ class RequestForm extends AbstractForm {
     
     public function remind($input) {
         
+        $this->validator->rules['mobile'] = "required|mobile_".\Session::get('location.country')."|exists:user,mobile";
+        
         if (!$this->valid($input))
             return false;
 

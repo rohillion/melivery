@@ -12,8 +12,6 @@ class RequestValidator extends LaravelValidator implements ValidableInterface {
      *
      * @var array
      */
-    protected $rules = array(
-        'mobile' => 'required|mobileIE|exists:user,mobile'
-    );
+    public $rules = array();
 
 }

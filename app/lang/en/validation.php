@@ -71,6 +71,7 @@ return array(
     "unique" => "The :attribute has already been taken.",
     "url" => "The :attribute format is invalid.",
     "time" => "The :attribute format is invalid.",
+    "mobile_ar" => "Por favor, asegurate de ingresar el :attribute con el area (Ej. 011) y sin el prefijo 15.",
     /*
       |--------------------------------------------------------------------------
       | Custom Validation Language Lines

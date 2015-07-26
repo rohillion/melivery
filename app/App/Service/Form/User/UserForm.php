@@ -72,6 +72,7 @@ class UserForm extends AbstractForm {
         
         $input['country_id'] = $this->country->first(['*'],[],['country_code' => strtoupper(\Session::get('location.country'))])->id;
 
+        $this->validator->rules['mobile'] = "required|mobile_".\Session::get('location.country')."|unique:user,mobile";
         if (!$this->valid($input)) {
             return false;
         }

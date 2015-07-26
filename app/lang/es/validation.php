@@ -71,6 +71,7 @@ return array(
     "unique" => "The :attribute has already been taken.",
     "url" => "The :attribute format is invalid.",
     "time" => "El formato :attribute ingresado no es valido",
+    "mobile_ar" => "Por favor, asegurate de ingresar el :attribute con el area (Ej. 011) y sin el prefijo 15.",
     /*
       |--------------------------------------------------------------------------
       | Custom Validation Language Lines
@@ -116,6 +117,6 @@ return array(
         'password' => 'clave',
         'mobile' => 'numero de celular',
         'name' => 'nombre',
-        'id_user_type' => 'tipo de cuenta'
+        'id_user_type' => 'tipo de cuenta',
     ),
 );
