@@ -27,7 +27,7 @@
             <form action="<?php echo URL::route('account.request') ?>" method="post">
                 <div class="body">
                     <div class="form-group">
-                        <input type="text" class="form-control mobileFormat" placeholder="<?php echo Config::get('cons.mobile.'.Session::get('location.country')); ?>" value="<?php echo Input::old('mobile'); ?>" data-code="<?php echo Session::get('location.country'); ?>"/>
+                        <input name="mobile_region" type="text" class="form-control mobileFormat" placeholder="<?php echo Config::get('cons.mobile.'.Session::get('location.country')); ?>" value="<?php echo Input::old('mobile_region'); ?>" data-code="<?php echo Session::get('location.country'); ?>"/>
                         <input name="mobile" type="hidden"/>
                     </div>    
                 </div>
